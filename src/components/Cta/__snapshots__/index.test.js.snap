@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CtaButton /> renders without crashing 1`] = `
+<button
+  className="Cta__CtaButton-sc-1qsmnol-1 cCysrS"
+  onClick={[Function]}
+>
+  Create Team
+</button>
+`;
+
+exports[`<CtaButton /> when secondary prop is passed renders without crashing 1`] = `
+<button
+  className="Cta__CtaButton-sc-1qsmnol-1 ktamHp"
+  onClick={[Function]}
+>
+  Create Team
+</button>
+`;
+
+exports[`<CtaButton /> when small prop is passed renders without crashing 1`] = `
+<button
+  className="Cta__CtaButton-sc-1qsmnol-1 dXhrin"
+  onClick={[Function]}
+>
+  Create Team
+</button>
+`;
+
+exports[`<CtaInternalLink /> renders without crashing 1`] = `
+<a
+  className="Cta__CtaInternalLink-sc-1qsmnol-0 isVVbW"
+  href="/dashboard"
+  onClick={[Function]}
+>
+  Dashboard
+</a>
+`;
+
+exports[`<CtaInternalLink /> when secondary prop is passed renders without crashing 1`] = `
+<a
+  className="Cta__CtaInternalLink-sc-1qsmnol-0 kEdUQK"
+  href="/dashboard"
+  onClick={[Function]}
+  secondary={true}
+>
+  Dashboard
+</a>
+`;
+
+exports[`<CtaInternalLink /> when small prop is passed renders without crashing 1`] = `
+<a
+  className="Cta__CtaInternalLink-sc-1qsmnol-0 hEZUSK"
+  href="/dashboard"
+  onClick={[Function]}
+  small={true}
+>
+  Dashboard
+</a>
+`;

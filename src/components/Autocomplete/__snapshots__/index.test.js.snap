@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Autocomplete /> renders without crashing 1`] = `
+<div
+  className="Autocomplete-sc-18qws42-1 jEZDkd"
+>
+  <div
+    className="Autocomplete__AutocompleteDropdown-sc-18qws42-0 exSuOy"
+  >
+    <span>
+      Item 1
+    </span>
+    <span>
+      Item 2
+    </span>
+  </div>
+</div>
+`;

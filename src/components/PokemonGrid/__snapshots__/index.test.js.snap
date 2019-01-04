@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PokemonGrid /> renders without crashing 1`] = `
+<div
+  className="PokemonGrid-griwyh-0 lnIMTc"
+>
+  <div>
+    Pokemon 1
+  </div>
+  <div>
+    Pokemon 2
+  </div>
+</div>
+`;

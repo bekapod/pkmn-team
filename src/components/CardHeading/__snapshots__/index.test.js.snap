@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CardHeading /> can render a different heading type 1`] = `
+<h1
+  className="CardHeading-esgf7h-0 hqHCZd"
+>
+  Heading 1
+</h1>
+`;
+
+exports[`<CardHeading /> renders without crashing 1`] = `
+<h2
+  className="CardHeading-esgf7h-0 hqHCZd"
+>
+  Heading Default
+</h2>
+`;

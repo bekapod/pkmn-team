@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<InlineList /> renders without crashing 1`] = `
+<ul
+  className="InlineList-bwsyp4-0 bKIwJu"
+>
+  <li>
+    Item 1
+  </li>
+  <li>
+    Item 2
+  </li>
+</ul>
+`;

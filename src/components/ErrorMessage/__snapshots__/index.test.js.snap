@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[` 1`] = `
+<div
+  className="ErrorMessage__StyledError-sc-1q305d-0 cnWPsI"
+  role="alert"
+>
+  <span>
+    This is an error in a span
+  </span>
+</div>
+`;
+
+exports[` 2`] = `
+<div
+  className="ErrorMessage__StyledError-sc-1q305d-0 cnWPsI"
+  role="alert"
+>
+  <div>
+    This is an error in a component
+  </div>
+</div>
+`;
+
+exports[`<ErrorMessage /> when text is passed renders without crashing 1`] = `
+<div
+  className="ErrorMessage__StyledError-sc-1q305d-0 cnWPsI"
+  role="alert"
+>
+  This is an error
+</div>
+`;
