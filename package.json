@@ -32,6 +32,19 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "@types/dateformat": "^3.0.0",
+    "@types/jest": "^23.3.11",
+    "@types/node": "^10.12.18",
+    "@types/ramda": "^0.25.46",
+    "@types/react": "^16.7.18",
+    "@types/react-dom": "^16.0.11",
+    "@types/react-redux": "^6.0.12",
+    "@types/react-router-dom": "^4.3.1",
+    "@types/react-test-renderer": "^16.0.3",
+    "@types/redux-actions": "^2.3.1",
+    "@types/redux-mock-store": "^1.0.0",
+    "@types/styled-components": "^4.1.4",
+    "@types/uuid": "^3.4.4",
     "babel-plugin-styled-components": "^1.10.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^3.3.0",
@@ -45,6 +58,7 @@
     "react-test-renderer": "^16.7.0",
     "react-testing-library": "^5.4.4",
     "redux-mock-store": "^1.5.3",
+    "typescript": "^3.2.2",
     "waait": "^1.0.2"
   }
 }
