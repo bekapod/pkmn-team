@@ -1,0 +1,704 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TeamBuilder /> renders without crashing when user has 6 members in their team 1`] = `
+Array [
+  <h1
+    className="Heading-b3adig-0 jwQDLL"
+  >
+    Create a Team
+  </h1>,
+  <div
+    className="SectionContainer-xjlkvu-0 jZbaLj"
+  >
+    <div
+      className="CenteredRow-f3rx2f-0 hfFVle"
+    >
+      <input
+        aria-label="Choose a team name"
+        className="TextInput-sc-149814h-0 GiantInput-sc-1mhmfj5-0 CEtIK"
+        onChange={[Function]}
+        placeholder="Choose a team name"
+      />
+    </div>
+    <div
+      className="CenteredRow-f3rx2f-0 hNpdbY"
+    >
+      <div
+        className="PokemonGrid-e9f4xh-0 kJjjoa"
+      >
+        <article
+          className="Card__CardWrapper-sc-3o7tcb-0 bTjMad"
+        >
+          <header
+            className="Card__CardHeader-sc-3o7tcb-1 flPQNJ"
+          >
+            <h2
+              className="CardHeading-mmeo34-0 ebVIiR"
+            >
+              #4 Charmander
+            </h2>
+          </header>
+          <div
+            className="Card__CardContent-sc-3o7tcb-2 PokemonCard__PokemonCardContent-cna285-0 fAfsVy"
+          >
+            <img
+              alt="charmander sprite"
+              className="PokemonCard__PokemonCardSprite-cna285-1 kzqAzL"
+              src="/sprites/4.png"
+            />
+            <ul
+              className="InlineList-sc-1dn69qz-0 YzWxJ"
+            >
+              <li>
+                <span
+                  className="TypeTag-sc-1dttu8y-0 QKQcU"
+                  type="FIRE"
+                >
+                  FIRE
+                </span>
+              </li>
+            </ul>
+            <div
+              className="PokemonCard__PokemonCardActions-cna285-2 kULEFY"
+            >
+              <button
+                className="Cta__CtaButton-h8nk1r-1 byScVe"
+                onClick={[Function]}
+              >
+                Remove charmander from team
+              </button>
+            </div>
+          </div>
+        </article>
+        <article
+          className="Card__CardWrapper-sc-3o7tcb-0 bTjMad"
+        >
+          <header
+            className="Card__CardHeader-sc-3o7tcb-1 bHjeqI"
+          >
+            <h2
+              className="CardHeading-mmeo34-0 ebVIiR"
+            >
+              #25 Pikachu
+            </h2>
+          </header>
+          <div
+            className="Card__CardContent-sc-3o7tcb-2 PokemonCard__PokemonCardContent-cna285-0 fAfsVy"
+          >
+            <img
+              alt="pikachu sprite"
+              className="PokemonCard__PokemonCardSprite-cna285-1 kzqAzL"
+              src="/sprites/25.png"
+            />
+            <ul
+              className="InlineList-sc-1dn69qz-0 YzWxJ"
+            >
+              <li>
+                <span
+                  className="TypeTag-sc-1dttu8y-0 byzsso"
+                  type="ELECTRIC"
+                >
+                  ELECTRIC
+                </span>
+              </li>
+            </ul>
+            <div
+              className="PokemonCard__PokemonCardActions-cna285-2 kULEFY"
+            >
+              <button
+                className="Cta__CtaButton-h8nk1r-1 byScVe"
+                onClick={[Function]}
+              >
+                Remove pikachu from team
+              </button>
+            </div>
+          </div>
+        </article>
+        <article
+          className="Card__CardWrapper-sc-3o7tcb-0 bTjMad"
+        >
+          <header
+            className="Card__CardHeader-sc-3o7tcb-1 cYdkeB"
+          >
+            <h2
+              className="CardHeading-mmeo34-0 ebVIiR"
+            >
+              #93 Haunter
+            </h2>
+          </header>
+          <div
+            className="Card__CardContent-sc-3o7tcb-2 PokemonCard__PokemonCardContent-cna285-0 fAfsVy"
+          >
+            <img
+              alt="haunter sprite"
+              className="PokemonCard__PokemonCardSprite-cna285-1 kzqAzL"
+              src="/sprites/93.png"
+            />
+            <ul
+              className="InlineList-sc-1dn69qz-0 YzWxJ"
+            >
+              <li>
+                <span
+                  className="TypeTag-sc-1dttu8y-0 hPYoBY"
+                  type="GHOST"
+                >
+                  GHOST
+                </span>
+              </li>
+              <li>
+                <span
+                  className="TypeTag-sc-1dttu8y-0 jjNEEF"
+                  type="POISON"
+                >
+                  POISON
+                </span>
+              </li>
+            </ul>
+            <div
+              className="PokemonCard__PokemonCardActions-cna285-2 kULEFY"
+            >
+              <button
+                className="Cta__CtaButton-h8nk1r-1 byScVe"
+                onClick={[Function]}
+              >
+                Remove haunter from team
+              </button>
+            </div>
+          </div>
+        </article>
+        <article
+          className="Card__CardWrapper-sc-3o7tcb-0 bTjMad"
+        >
+          <header
+            className="Card__CardHeader-sc-3o7tcb-1 flPQNJ"
+          >
+            <h2
+              className="CardHeading-mmeo34-0 ebVIiR"
+            >
+              #4 Charmander
+            </h2>
+          </header>
+          <div
+            className="Card__CardContent-sc-3o7tcb-2 PokemonCard__PokemonCardContent-cna285-0 fAfsVy"
+          >
+            <img
+              alt="charmander sprite"
+              className="PokemonCard__PokemonCardSprite-cna285-1 kzqAzL"
+              src="/sprites/4.png"
+            />
+            <ul
+              className="InlineList-sc-1dn69qz-0 YzWxJ"
+            >
+              <li>
+                <span
+                  className="TypeTag-sc-1dttu8y-0 QKQcU"
+                  type="FIRE"
+                >
+                  FIRE
+                </span>
+              </li>
+            </ul>
+            <div
+              className="PokemonCard__PokemonCardActions-cna285-2 kULEFY"
+            >
+              <button
+                className="Cta__CtaButton-h8nk1r-1 byScVe"
+                onClick={[Function]}
+              >
+                Remove charmander from team
+              </button>
+            </div>
+          </div>
+        </article>
+        <article
+          className="Card__CardWrapper-sc-3o7tcb-0 bTjMad"
+        >
+          <header
+            className="Card__CardHeader-sc-3o7tcb-1 bHjeqI"
+          >
+            <h2
+              className="CardHeading-mmeo34-0 ebVIiR"
+            >
+              #25 Pikachu
+            </h2>
+          </header>
+          <div
+            className="Card__CardContent-sc-3o7tcb-2 PokemonCard__PokemonCardContent-cna285-0 fAfsVy"
+          >
+            <img
+              alt="pikachu sprite"
+              className="PokemonCard__PokemonCardSprite-cna285-1 kzqAzL"
+              src="/sprites/25.png"
+            />
+            <ul
+              className="InlineList-sc-1dn69qz-0 YzWxJ"
+            >
+              <li>
+                <span
+                  className="TypeTag-sc-1dttu8y-0 byzsso"
+                  type="ELECTRIC"
+                >
+                  ELECTRIC
+                </span>
+              </li>
+            </ul>
+            <div
+              className="PokemonCard__PokemonCardActions-cna285-2 kULEFY"
+            >
+              <button
+                className="Cta__CtaButton-h8nk1r-1 byScVe"
+                onClick={[Function]}
+              >
+                Remove pikachu from team
+              </button>
+            </div>
+          </div>
+        </article>
+        <article
+          className="Card__CardWrapper-sc-3o7tcb-0 bTjMad"
+        >
+          <header
+            className="Card__CardHeader-sc-3o7tcb-1 cYdkeB"
+          >
+            <h2
+              className="CardHeading-mmeo34-0 ebVIiR"
+            >
+              #93 Haunter
+            </h2>
+          </header>
+          <div
+            className="Card__CardContent-sc-3o7tcb-2 PokemonCard__PokemonCardContent-cna285-0 fAfsVy"
+          >
+            <img
+              alt="haunter sprite"
+              className="PokemonCard__PokemonCardSprite-cna285-1 kzqAzL"
+              src="/sprites/93.png"
+            />
+            <ul
+              className="InlineList-sc-1dn69qz-0 YzWxJ"
+            >
+              <li>
+                <span
+                  className="TypeTag-sc-1dttu8y-0 hPYoBY"
+                  type="GHOST"
+                >
+                  GHOST
+                </span>
+              </li>
+              <li>
+                <span
+                  className="TypeTag-sc-1dttu8y-0 jjNEEF"
+                  type="POISON"
+                >
+                  POISON
+                </span>
+              </li>
+            </ul>
+            <div
+              className="PokemonCard__PokemonCardActions-cna285-2 kULEFY"
+            >
+              <button
+                className="Cta__CtaButton-h8nk1r-1 byScVe"
+                onClick={[Function]}
+              >
+                Remove haunter from team
+              </button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+    <div
+      className="CenteredRow-f3rx2f-0 hNpdbY"
+    >
+      <button
+        className="Cta__CtaButton-h8nk1r-1 jGepGh"
+        onClick={[Function]}
+      >
+        Create this team!
+      </button>
+    </div>
+  </div>,
+]
+`;
+
+exports[`<TeamBuilder /> renders without crashing when user has less than 6 members in their team 1`] = `
+Array [
+  <h1
+    className="Heading-b3adig-0 jwQDLL"
+  >
+    Create a Team
+  </h1>,
+  <div
+    className="SectionContainer-xjlkvu-0 jZbaLj"
+  >
+    <div
+      className="CenteredRow-f3rx2f-0 hfFVle"
+    >
+      <input
+        aria-label="Choose a team name"
+        className="TextInput-sc-149814h-0 GiantInput-sc-1mhmfj5-0 CEtIK"
+        onChange={[Function]}
+        placeholder="Choose a team name"
+      />
+    </div>
+    <div
+      className="CenteredRow-f3rx2f-0 hNpdbY"
+    >
+      <div>
+        <div
+          aria-expanded={false}
+          aria-haspopup="listbox"
+          aria-labelledby="downshift-2-label"
+          aria-owns={null}
+          className="Autocomplete-sc-1wak8g9-1 cILwaC"
+          role="combobox"
+        >
+          <input
+            aria-activedescendant={null}
+            aria-autocomplete="list"
+            aria-controls={null}
+            aria-labelledby="downshift-2-label"
+            autoComplete="off"
+            className="TextInput-sc-149814h-0 GiantInput-sc-1mhmfj5-0 CEtIK"
+            id="downshift-2-input"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onKeyDown={[Function]}
+            placeholder="Choose a Pokemon"
+            value=""
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      className="CenteredRow-f3rx2f-0 hNpdbY"
+    >
+      <div
+        className="PokemonGrid-e9f4xh-0 kJjjoa"
+      >
+        <article
+          className="Card__CardWrapper-sc-3o7tcb-0 bTjMad"
+        >
+          <header
+            className="Card__CardHeader-sc-3o7tcb-1 flPQNJ"
+          >
+            <h2
+              className="CardHeading-mmeo34-0 ebVIiR"
+            >
+              #4 Charmander
+            </h2>
+          </header>
+          <div
+            className="Card__CardContent-sc-3o7tcb-2 PokemonCard__PokemonCardContent-cna285-0 fAfsVy"
+          >
+            <img
+              alt="charmander sprite"
+              className="PokemonCard__PokemonCardSprite-cna285-1 kzqAzL"
+              src="/sprites/4.png"
+            />
+            <ul
+              className="InlineList-sc-1dn69qz-0 YzWxJ"
+            >
+              <li>
+                <span
+                  className="TypeTag-sc-1dttu8y-0 QKQcU"
+                  type="FIRE"
+                >
+                  FIRE
+                </span>
+              </li>
+            </ul>
+            <div
+              className="PokemonCard__PokemonCardActions-cna285-2 kULEFY"
+            >
+              <button
+                className="Cta__CtaButton-h8nk1r-1 byScVe"
+                onClick={[Function]}
+              >
+                Remove charmander from team
+              </button>
+            </div>
+          </div>
+        </article>
+        <article
+          className="Card__CardWrapper-sc-3o7tcb-0 bTjMad"
+        >
+          <header
+            className="Card__CardHeader-sc-3o7tcb-1 bHjeqI"
+          >
+            <h2
+              className="CardHeading-mmeo34-0 ebVIiR"
+            >
+              #25 Pikachu
+            </h2>
+          </header>
+          <div
+            className="Card__CardContent-sc-3o7tcb-2 PokemonCard__PokemonCardContent-cna285-0 fAfsVy"
+          >
+            <img
+              alt="pikachu sprite"
+              className="PokemonCard__PokemonCardSprite-cna285-1 kzqAzL"
+              src="/sprites/25.png"
+            />
+            <ul
+              className="InlineList-sc-1dn69qz-0 YzWxJ"
+            >
+              <li>
+                <span
+                  className="TypeTag-sc-1dttu8y-0 byzsso"
+                  type="ELECTRIC"
+                >
+                  ELECTRIC
+                </span>
+              </li>
+            </ul>
+            <div
+              className="PokemonCard__PokemonCardActions-cna285-2 kULEFY"
+            >
+              <button
+                className="Cta__CtaButton-h8nk1r-1 byScVe"
+                onClick={[Function]}
+              >
+                Remove pikachu from team
+              </button>
+            </div>
+          </div>
+        </article>
+        <article
+          className="Card__CardWrapper-sc-3o7tcb-0 bTjMad"
+        >
+          <header
+            className="Card__CardHeader-sc-3o7tcb-1 cYdkeB"
+          >
+            <h2
+              className="CardHeading-mmeo34-0 ebVIiR"
+            >
+              #93 Haunter
+            </h2>
+          </header>
+          <div
+            className="Card__CardContent-sc-3o7tcb-2 PokemonCard__PokemonCardContent-cna285-0 fAfsVy"
+          >
+            <img
+              alt="haunter sprite"
+              className="PokemonCard__PokemonCardSprite-cna285-1 kzqAzL"
+              src="/sprites/93.png"
+            />
+            <ul
+              className="InlineList-sc-1dn69qz-0 YzWxJ"
+            >
+              <li>
+                <span
+                  className="TypeTag-sc-1dttu8y-0 hPYoBY"
+                  type="GHOST"
+                >
+                  GHOST
+                </span>
+              </li>
+              <li>
+                <span
+                  className="TypeTag-sc-1dttu8y-0 jjNEEF"
+                  type="POISON"
+                >
+                  POISON
+                </span>
+              </li>
+            </ul>
+            <div
+              className="PokemonCard__PokemonCardActions-cna285-2 kULEFY"
+            >
+              <button
+                className="Cta__CtaButton-h8nk1r-1 byScVe"
+                onClick={[Function]}
+              >
+                Remove haunter from team
+              </button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+    <div
+      className="CenteredRow-f3rx2f-0 hNpdbY"
+    >
+      <button
+        className="Cta__CtaButton-h8nk1r-1 jGepGh"
+        onClick={[Function]}
+      >
+        Create this team!
+      </button>
+    </div>
+  </div>,
+]
+`;
+
+exports[`<TeamBuilder /> renders without crashing when user has selected a search result 1`] = `
+Array [
+  <h1
+    className="Heading-b3adig-0 jwQDLL"
+  >
+    Create a Team
+  </h1>,
+  <div
+    className="SectionContainer-xjlkvu-0 jZbaLj"
+  >
+    <div
+      className="CenteredRow-f3rx2f-0 hfFVle"
+    >
+      <input
+        aria-label="Choose a team name"
+        className="TextInput-sc-149814h-0 GiantInput-sc-1mhmfj5-0 CEtIK"
+        onChange={[Function]}
+        placeholder="Choose a team name"
+      />
+    </div>
+    <div
+      className="CenteredRow-f3rx2f-0 hNpdbY"
+    >
+      <div>
+        <div
+          aria-expanded={false}
+          aria-haspopup="listbox"
+          aria-labelledby="downshift-3-label"
+          aria-owns={null}
+          className="Autocomplete-sc-1wak8g9-1 cILwaC"
+          role="combobox"
+        >
+          <input
+            aria-activedescendant={null}
+            aria-autocomplete="list"
+            aria-controls={null}
+            aria-labelledby="downshift-3-label"
+            autoComplete="off"
+            className="TextInput-sc-149814h-0 GiantInput-sc-1mhmfj5-0 CEtIK"
+            id="downshift-3-input"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onKeyDown={[Function]}
+            placeholder="Choose a Pokemon"
+            value=""
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      className="CenteredRow-f3rx2f-0 hNpdbY"
+    >
+      <button
+        className="Cta__CtaButton-h8nk1r-1 xiPHX"
+        onClick={[Function]}
+      >
+        Add charmander to your team
+      </button>
+    </div>
+  </div>,
+]
+`;
+
+exports[`<TeamBuilder /> renders without crashing when user has set a team name 1`] = `
+Array [
+  <h1
+    className="Heading-b3adig-0 jwQDLL"
+  >
+    Create a Team
+  </h1>,
+  <div
+    className="SectionContainer-xjlkvu-0 jZbaLj"
+  >
+    <div
+      className="CenteredRow-f3rx2f-0 hfFVle"
+    >
+      <input
+        aria-label="Choose a team name"
+        className="TextInput-sc-149814h-0 GiantInput-sc-1mhmfj5-0 CEtIK"
+        defaultValue="My Team"
+        onChange={[Function]}
+        placeholder="Choose a team name"
+      />
+    </div>
+    <div
+      className="CenteredRow-f3rx2f-0 hNpdbY"
+    >
+      <div>
+        <div
+          aria-expanded={false}
+          aria-haspopup="listbox"
+          aria-labelledby="downshift-1-label"
+          aria-owns={null}
+          className="Autocomplete-sc-1wak8g9-1 cILwaC"
+          role="combobox"
+        >
+          <input
+            aria-activedescendant={null}
+            aria-autocomplete="list"
+            aria-controls={null}
+            aria-labelledby="downshift-1-label"
+            autoComplete="off"
+            className="TextInput-sc-149814h-0 GiantInput-sc-1mhmfj5-0 CEtIK"
+            id="downshift-1-input"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onKeyDown={[Function]}
+            placeholder="Choose a Pokemon"
+            value=""
+          />
+        </div>
+      </div>
+    </div>
+  </div>,
+]
+`;
+
+exports[`<TeamBuilder /> renders without crashing with empty state 1`] = `
+Array [
+  <h1
+    className="Heading-b3adig-0 jwQDLL"
+  >
+    Create a Team
+  </h1>,
+  <div
+    className="SectionContainer-xjlkvu-0 jZbaLj"
+  >
+    <div
+      className="CenteredRow-f3rx2f-0 hfFVle"
+    >
+      <input
+        aria-label="Choose a team name"
+        className="TextInput-sc-149814h-0 GiantInput-sc-1mhmfj5-0 CEtIK"
+        onChange={[Function]}
+        placeholder="Choose a team name"
+      />
+    </div>
+    <div
+      className="CenteredRow-f3rx2f-0 hNpdbY"
+    >
+      <div>
+        <div
+          aria-expanded={false}
+          aria-haspopup="listbox"
+          aria-labelledby="downshift-0-label"
+          aria-owns={null}
+          className="Autocomplete-sc-1wak8g9-1 cILwaC"
+          role="combobox"
+        >
+          <input
+            aria-activedescendant={null}
+            aria-autocomplete="list"
+            aria-controls={null}
+            aria-labelledby="downshift-0-label"
+            autoComplete="off"
+            className="TextInput-sc-149814h-0 GiantInput-sc-1mhmfj5-0 CEtIK"
+            id="downshift-0-input"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onKeyDown={[Function]}
+            placeholder="Choose a Pokemon"
+            value=""
+          />
+        </div>
+      </div>
+    </div>
+  </div>,
+]
+`;
