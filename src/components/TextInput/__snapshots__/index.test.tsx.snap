@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TextInput /> renders without crashing 1`] = `
+<input
+  className="TextInput-sc-149814h-0 kOVbBA"
+  placeholder="Text Input"
+  type="text"
+/>
+`;
+
+exports[`<TextInput /> renders without crashing when invalid 1`] = `
+<input
+  className="TextInput-sc-149814h-0 gghhmx"
+  placeholder="Text Input"
+  type="text"
+/>
+`;
