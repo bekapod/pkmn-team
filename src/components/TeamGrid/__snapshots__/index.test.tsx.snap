@@ -1,0 +1,162 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TeamGrid /> renders without crashing 1`] = `
+<div
+  className="TeamGrid__CardGrid-sc-12cfyys-0 dpqImA"
+>
+  <article
+    className="Card__CardWrapper-sc-3o7tcb-0 bTjMad"
+  >
+    <header
+      className="Card__CardHeader-sc-3o7tcb-1 bHjeqI"
+    >
+      <h2
+        className="CardHeading-mmeo34-0 ebVIiR"
+      >
+        Pikachu Team
+      </h2>
+    </header>
+    <div
+      className="Card__CardContent-sc-3o7tcb-2 fDtTnd"
+    >
+      <div
+        className="CardMeta__CardMetaWrapper-yqfxft-0 kTYlws"
+      >
+        <div
+          className="CardMeta__CardMetaItem-yqfxft-1 hPoDTe"
+        >
+          <span
+            className="CardMeta__CardMetaLabel-yqfxft-2 hiNCFT"
+          >
+            Pkmn
+          </span>
+          <span
+            className="CardMeta__CardMetaValue-yqfxft-3 jqYdyo"
+          >
+            1
+          </span>
+        </div>
+        <div
+          className="CardMeta__CardMetaItem-yqfxft-1 hPoDTe"
+        >
+          <span
+            className="CardMeta__CardMetaLabel-yqfxft-2 hiNCFT"
+          >
+            Created
+          </span>
+          <span
+            className="CardMeta__CardMetaValue-yqfxft-3 jqYdyo"
+          >
+            8/6/18
+          </span>
+        </div>
+      </div>
+      <div
+        className="PokemonLine__Row-sc-1qiwepa-0 dAGLvI"
+      >
+        <img
+          alt="pikachu sprite"
+          className="PokemonLine__RowImage-sc-1qiwepa-1 hUcFnr"
+          src="/sprites/25.png"
+        />
+        <div>
+          <div
+            className="PokemonLine__RowTitle-sc-1qiwepa-2 edSfRl"
+          >
+            #25 Pikachu
+          </div>
+          <ul
+            className="InlineList-sc-1dn69qz-0 YzWxJ"
+          >
+            <li>
+              <span
+                className="TypeTag-sc-1dttu8y-0 byzsso"
+                type="ELECTRIC"
+              >
+                ELECTRIC
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </article>
+  <article
+    className="Card__CardWrapper-sc-3o7tcb-0 bTjMad"
+  >
+    <header
+      className="Card__CardHeader-sc-3o7tcb-1 bHjeqI"
+    >
+      <h2
+        className="CardHeading-mmeo34-0 ebVIiR"
+      >
+        Pikachu Team
+      </h2>
+    </header>
+    <div
+      className="Card__CardContent-sc-3o7tcb-2 fDtTnd"
+    >
+      <div
+        className="CardMeta__CardMetaWrapper-yqfxft-0 kTYlws"
+      >
+        <div
+          className="CardMeta__CardMetaItem-yqfxft-1 hPoDTe"
+        >
+          <span
+            className="CardMeta__CardMetaLabel-yqfxft-2 hiNCFT"
+          >
+            Pkmn
+          </span>
+          <span
+            className="CardMeta__CardMetaValue-yqfxft-3 jqYdyo"
+          >
+            1
+          </span>
+        </div>
+        <div
+          className="CardMeta__CardMetaItem-yqfxft-1 hPoDTe"
+        >
+          <span
+            className="CardMeta__CardMetaLabel-yqfxft-2 hiNCFT"
+          >
+            Created
+          </span>
+          <span
+            className="CardMeta__CardMetaValue-yqfxft-3 jqYdyo"
+          >
+            8/6/18
+          </span>
+        </div>
+      </div>
+      <div
+        className="PokemonLine__Row-sc-1qiwepa-0 dAGLvI"
+      >
+        <img
+          alt="pikachu sprite"
+          className="PokemonLine__RowImage-sc-1qiwepa-1 hUcFnr"
+          src="/sprites/25.png"
+        />
+        <div>
+          <div
+            className="PokemonLine__RowTitle-sc-1qiwepa-2 edSfRl"
+          >
+            #25 Pikachu
+          </div>
+          <ul
+            className="InlineList-sc-1dn69qz-0 YzWxJ"
+          >
+            <li>
+              <span
+                className="TypeTag-sc-1dttu8y-0 byzsso"
+                type="ELECTRIC"
+              >
+                ELECTRIC
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </article>
+</div>
+`;
