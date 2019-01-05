@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TypeTag /> renders without crashing with ELECTRIC type 1`] = `
+<span
+  className="TypeTag-sc-1dttu8y-0 byzsso"
+  type="ELECTRIC"
+>
+  ELECTRIC
+</span>
+`;
+
+exports[`<TypeTag /> renders without crashing with PSYCHIC type 1`] = `
+<span
+  className="TypeTag-sc-1dttu8y-0 hSnHTZ"
+  type="PSYCHIC"
+>
+  PSYCHIC
+</span>
+`;
