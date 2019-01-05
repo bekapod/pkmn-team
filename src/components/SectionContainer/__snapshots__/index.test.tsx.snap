@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SectionContainer /> renders without crashing 1`] = `
+<div
+  className="SectionContainer-xjlkvu-0 jZbaLj"
+>
+  A section of content
+</div>
+`;

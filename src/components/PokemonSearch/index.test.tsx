@@ -125,5 +125,6 @@ describe("<PokemonSearch />", () => {
     fireEvent.click(getByTestId("autocomplete-result-93"));
 
     expect(setCurrentSearchPokemon).toBeCalledTimes(1);
+    expect(setCurrentSearchPokemon).toBeCalledWith(pokemon[2]);
   });
 });
