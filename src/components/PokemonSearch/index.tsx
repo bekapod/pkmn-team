@@ -10,15 +10,10 @@ import PokemonLine from "../PokemonLine";
 
 interface IProps {
   pokemon: IPokemon[];
-  currentSearchPokemon?: IPokemon;
   setCurrentSearchPokemon: (pokemon: IPokemon) => void;
 }
 
-const PokemonSearch = ({
-  pokemon,
-  currentSearchPokemon,
-  setCurrentSearchPokemon
-}: IProps) => {
+const PokemonSearch = ({ pokemon, setCurrentSearchPokemon }: IProps) => {
   const onChange = (selectedPkmn: IPokemon) =>
     setCurrentSearchPokemon(selectedPkmn);
   const itemToString = (pkmn: IPokemon) => capitalizePokemonName(pkmn);
@@ -49,6 +44,7 @@ const PokemonSearch = ({
                   )
                   .map((pkmn, index) => (
                     <div
+                      data-testid={`autocomplete-result-${pkmn.pokedexId}`}
                       {...getItemProps({
                         index,
                         item: pkmn,

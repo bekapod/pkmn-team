@@ -221,7 +221,6 @@ class TeamBuilder extends Component<IProps, IState> {
             <CenteredRow key="Search form">
               <PokemonSearch
                 pokemon={pokemon}
-                currentSearchPokemon={teamBuilderCurrentSearchPokemon}
                 setCurrentSearchPokemon={setCurrentSearchPokemon}
               />
             </CenteredRow>,
