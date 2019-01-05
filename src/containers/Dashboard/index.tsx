@@ -1,8 +1,7 @@
 import React from "react";
 import { Query } from "react-apollo";
-import { getAllTeams } from "../../queries/team";
 import Dashboard from "../../components/Dashboard";
-import { Team } from "../../types";
+import { getAllTeams } from "../../queries/team";
 
 const DashboardContainer = () => (
   <Query query={getAllTeams}>

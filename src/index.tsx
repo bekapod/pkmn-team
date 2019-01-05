@@ -1,18 +1,18 @@
-import React, { Fragment } from "react";
-import { render } from "react-dom";
-import { BrowserRouter } from "react-router-dom";
-import { Provider } from "react-redux";
-import ApolloClient from "apollo-client";
-import { ApolloProvider } from "react-apollo";
 import { InMemoryCache } from "apollo-cache-inmemory";
+import ApolloClient from "apollo-client";
 import { HttpLink } from "apollo-link-http";
-import { createGlobalStyle } from "styled-components/macro";
 import { normalize, selection } from "polished";
-import App from "./App"
-import configureStore from "./store";
-import * as serviceWorker from "./serviceWorker";
+import React, { Fragment } from "react";
+import { ApolloProvider } from "react-apollo";
+import { render } from "react-dom";
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import { createGlobalStyle } from "styled-components/macro";
+import App from "./App";
 import * as variables from "./helpers/variables";
 import { lineHeight } from "./helpers/verticalRhythm";
+import * as serviceWorker from "./serviceWorker";
+import configureStore from "./store";
 
 const GlobalStyle = createGlobalStyle`
   ${normalize()}
@@ -34,8 +34,8 @@ const GlobalStyle = createGlobalStyle`
   }
 
   ${selection({
-    color: variables.colors.grayDark,
-    "background-color": variables.colors.selection
+    "background-color": variables.colors.selection,
+    color: variables.colors.grayDark
   })}
 
   h1 {
@@ -62,11 +62,11 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const client = new ApolloClient({
+  cache: new InMemoryCache().restore((window as any).__APOLLO_STATE__),
+  connectToDevTools: true,
   link: new HttpLink({
     uri: process.env.REACT_APP_API_URL
-  }),
-  connectToDevTools: true,
-  cache: new InMemoryCache().restore((window as any).__APOLLO_STATE__)
+  })
 });
 
 render(

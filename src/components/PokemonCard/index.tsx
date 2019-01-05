@@ -1,18 +1,18 @@
 import React, { ReactNode, ReactNodeArray } from "react";
 import styled from "styled-components/macro";
-import { CardWrapper, CardHeader, CardContent } from "../Card";
+import { formatPokemonName, sortTypes } from "../../helpers/general";
+import * as variables from "../../helpers/variables";
+import { IPokemon, Type } from "../../types";
+import { CardContent, CardHeader, CardWrapper } from "../Card";
 import CardHeading from "../CardHeading";
 import InlineList from "../InlineList";
 import TypeTag from "../TypeTag";
-import { formatPokemonName, sortTypes } from "../../helpers/general";
-import * as variables from "../../helpers/variables";
-import { Pokemon, Type } from "../../types";
 
-type Props = {
-  memberId?: string,
-  pokemon: Pokemon,
-  renderCardActions?: () => ReactNode | ReactNodeArray
-};
+interface IProps {
+  memberId?: string;
+  pokemon: IPokemon;
+  renderCardActions?: () => ReactNode | ReactNodeArray;
+}
 
 const PokemonCardContent = styled(CardContent)`
   padding: ${variables.spacing.lg}px 0;
@@ -27,7 +27,7 @@ const PokemonCardActions = styled.div`
   margin-top: ${variables.spacing.lg}px;
 `;
 
-const PokemonCard = ({ memberId, pokemon, renderCardActions }: Props) => {
+const PokemonCard = ({ memberId, pokemon, renderCardActions }: IProps) => {
   const { pokedexId, types = [], name, sprite } = pokemon;
 
   return (

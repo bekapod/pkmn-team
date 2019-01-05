@@ -1,40 +1,44 @@
+import { applySpec } from "ramda";
 import React, { PureComponent } from "react";
-import { Query, Mutation, QueryResult, OperationVariables, MutationResult } from "react-apollo";
-import { bindActionCreators, Dispatch } from "redux";
+import {
+  Mutation,
+  MutationResult,
+  OperationVariables,
+  Query,
+  QueryResult
+} from "react-apollo";
 import { connect } from "react-redux";
-import { applySpec, propOr, compose } from "ramda";
-import { getAllPokemon } from "../../queries/pokemon";
-import { createTeam } from "../../mutations/team";
+import { bindActionCreators, Dispatch } from "redux";
 import * as teamBuilderActions from "../../actions/teamBuilder";
-import * as teamBuilderSelectors from "../../selectors/teamBuilder";
 import TeamBuilder from "../../components/TeamBuilder";
-import { Pokemon, TeamMember, Team } from "../../types";;
+import { createTeam } from "../../mutations/team";
+import { getAllPokemon } from "../../queries/pokemon";
+import * as teamBuilderSelectors from "../../selectors/teamBuilder";
+import { IPokemon, ITeam, ITeamMember } from "../../types";
 
-type Props = {
-  addPokemonToTeam: (_: TeamMember) => void;
+interface IProps {
+  addPokemonToTeam: (_: ITeamMember) => void;
   removePokemonFromTeam: (_: { id: string }) => void;
-  setCurrentSearchPokemon: (_: Pokemon) => void;
+  setCurrentSearchPokemon: (_: IPokemon) => void;
   setTeamName: (_: string) => void;
   teamBuilderName?: string;
-  teamBuilderMembers: { [key: string]: TeamMember };
-  teamBuilderCurrentSearchPokemon?: Pokemon;
-};
+  teamBuilderMembers: { [key: string]: ITeamMember };
+  teamBuilderCurrentSearchPokemon?: IPokemon;
+}
 
-type QueryProps = QueryResult<{ allPokemon: Pokemon[]; }, OperationVariables>
-type MutationProps = MutationResult<{ createTeam: Team; }>
+type QueryProps = QueryResult<{ allPokemon: IPokemon[] }, OperationVariables>;
+type MutationProps = MutationResult<{ createTeam: ITeam }>;
 
-class TeamBuilderContainer extends PureComponent<Props> {
-  static defaultProps = {
-    teamBuilderName: undefined,
-    teamBuilderCurrentSearchPokemon: undefined
-  };
-
-  render() {
+class TeamBuilderContainer extends PureComponent<IProps> {
+  public render() {
     return (
       <Mutation mutation={createTeam}>
-        {(createTeamMutation, { data: mutationData /* , loading, error */ }: MutationProps) => (
+        {(
+          createTeamMutation,
+          { data: mutationData /* , loading, error */ }: MutationProps
+        ) => (
           <Query query={getAllPokemon}>
-            {({ data: queryData /* , loading, error */ }: QueryProps) => (
+            {({ data: queryData /* , loading, error */ }: QueryProps) =>
               queryData && (
                 <TeamBuilder
                   {...this.props}
@@ -43,7 +47,7 @@ class TeamBuilderContainer extends PureComponent<Props> {
                   createdTeamId={mutationData && mutationData.createTeam.id}
                 />
               )
-            )}
+            }
           </Query>
         )}
       </Mutation>
@@ -52,10 +56,10 @@ class TeamBuilderContainer extends PureComponent<Props> {
 }
 
 const mapStateToProps = applySpec({
-  teamBuilderName: teamBuilderSelectors.getTeamBuilderName,
-  teamBuilderMembers: teamBuilderSelectors.getTeamBuilderMembers,
   teamBuilderCurrentSearchPokemon:
-    teamBuilderSelectors.getTeamBuilderCurrentSearchPokemon
+    teamBuilderSelectors.getTeamBuilderCurrentSearchPokemon,
+  teamBuilderMembers: teamBuilderSelectors.getTeamBuilderMembers,
+  teamBuilderName: teamBuilderSelectors.getTeamBuilderName
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>

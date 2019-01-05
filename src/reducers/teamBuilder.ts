@@ -1,25 +1,24 @@
-import { handleActions, combineActions, Action } from "redux-actions";
-import { compose, assoc, clone, dissoc } from "ramda";
+import { Action, combineActions, handleActions } from "redux-actions";
 import {
-  setTeamName,
-  setCurrentSearchPokemon,
   addPokemonToTeam,
-  removePokemonFromTeam
+  removePokemonFromTeam,
+  setCurrentSearchPokemon,
+  setTeamName
 } from "../actions/teamBuilder";
-import { TeamBuilderState, TeamMember, Team } from "../types";
+import { ITeamBuilderState, ITeamMember } from "../types";
 
-const initialState: TeamBuilderState = {
-  name: undefined,
+const initialState: ITeamBuilderState = {
+  currentSearchPokemon: undefined,
   members: {},
-  currentSearchPokemon: undefined
+  name: undefined
 };
 
-type Payload = any
+type Payload = any;
 
 export default handleActions(
   {
     [combineActions(setTeamName).toString()]: (
-      state: TeamBuilderState,
+      state: ITeamBuilderState,
       action: Action<Payload>
     ) => ({
       ...state,
@@ -27,7 +26,7 @@ export default handleActions(
     }),
 
     [combineActions(addPokemonToTeam).toString()]: (
-      state: TeamBuilderState,
+      state: ITeamBuilderState,
       action: Action<Payload>
     ) => ({
       ...state,
@@ -38,20 +37,23 @@ export default handleActions(
     }),
 
     [combineActions(removePokemonFromTeam).toString()]: (
-      state: TeamBuilderState,
+      state: ITeamBuilderState,
       action: Action<Payload>
     ) => ({
       ...state,
-      members: Object.keys(state.members).reduce((members: { [key: string]: TeamMember }, id: string) => {
-        if (id !== action.payload.id) {
-          members[id] = state.members[id]
-        }
-        return members
-      }, {})
+      members: Object.keys(state.members).reduce(
+        (members: { [key: string]: ITeamMember }, id: string) => {
+          if (id !== action.payload.id) {
+            members[id] = state.members[id];
+          }
+          return members;
+        },
+        {}
+      )
     }),
 
     [combineActions(setCurrentSearchPokemon).toString()]: (
-      state: TeamBuilderState,
+      state: ITeamBuilderState,
       action: Action<Payload>
     ) => ({
       ...state,

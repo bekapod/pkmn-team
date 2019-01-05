@@ -1,14 +1,14 @@
 import React from "react";
-import renderer from "react-test-renderer";
 import { MemoryRouter } from "react-router-dom";
+// tslint:disable-next-line:no-implicit-dependencies
+import renderer from "react-test-renderer";
 import Dashboard from ".";
-import { Team } from "../../types"
+import { ITeam } from "../../types";
 
-const mockData: Team[] = [
+const mockData: ITeam[] = [
   {
-    id: "1",
-    name: "Team 1",
     createdAt: "2018-06-08T21:15:14.723Z",
+    id: "1",
     members: [
       {
         id: "1",
@@ -30,12 +30,12 @@ const mockData: Team[] = [
           types: ["ELECTRIC"]
         }
       }
-    ]
+    ],
+    name: "Team 1"
   },
   {
-    id: "2",
-    name: "Team 2",
     createdAt: "2018-06-08T21:15:14.723Z",
+    id: "2",
     members: [
       {
         id: "1",
@@ -67,7 +67,8 @@ const mockData: Team[] = [
           types: ["GHOST", "POISON"]
         }
       }
-    ]
+    ],
+    name: "Team 2"
   }
 ];
 
@@ -86,7 +87,7 @@ describe("<Dashboard />", () => {
     it("renders correctly", () => {
       const tree = renderer.create(
         <MemoryRouter initialEntries={["/"]}>
-          <Dashboard loading />
+          <Dashboard loading={true} />
         </MemoryRouter>
       );
 

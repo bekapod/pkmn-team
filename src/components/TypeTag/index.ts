@@ -1,12 +1,12 @@
 import styled from "styled-components/macro";
+import { getTypeColor } from "../../helpers/general";
 import * as variables from "../../helpers/variables";
 import { lineHeight } from "../../helpers/verticalRhythm";
-import { getTypeColor } from "../../helpers/general";
 import { Type } from "../../types";
 
-type Props = {
-  type: Type
-};
+interface IProps {
+  type: Type;
+}
 
 const TypeTag = styled.span`
   padding: 0 ${variables.spacing.xs}px;
@@ -17,7 +17,7 @@ const TypeTag = styled.span`
   text-shadow: 0 1px 0px ${variables.colors.grayDarker},
     1px 0 0px ${variables.colors.grayDark};
   text-transform: uppercase;
-  background-color: ${({ type }: Props) => getTypeColor(type)};
+  background-color: ${({ type }: IProps) => getTypeColor(type)};
   border-radius: ${variables.sizes.borderRadiusSm}px 0;
 `;
 

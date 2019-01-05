@@ -1,8 +1,10 @@
 import React from "react";
-import renderer from "react-test-renderer";
-import { render, fireEvent } from "react-testing-library";
 import { MemoryRouter } from "react-router-dom";
-import { CtaInternalLink, CtaButton } from ".";
+// tslint:disable-next-line:no-implicit-dependencies
+import renderer from "react-test-renderer";
+// tslint:disable-next-line:no-implicit-dependencies
+import { fireEvent, render } from "react-testing-library";
+import { CtaButton, CtaInternalLink } from ".";
 
 describe("<CtaInternalLink />", () => {
   it("renders without crashing", () => {
@@ -19,7 +21,7 @@ describe("<CtaInternalLink />", () => {
     it("renders without crashing", () => {
       const tree = renderer.create(
         <MemoryRouter initialEntries={["/"]}>
-          <CtaInternalLink to="/dashboard" secondary>
+          <CtaInternalLink to="/dashboard" secondary={true}>
             Dashboard
           </CtaInternalLink>
         </MemoryRouter>
@@ -33,7 +35,7 @@ describe("<CtaInternalLink />", () => {
     it("renders without crashing", () => {
       const tree = renderer.create(
         <MemoryRouter initialEntries={["/"]}>
-          <CtaInternalLink to="/dashboard" small>
+          <CtaInternalLink to="/dashboard" small={true}>
             Dashboard
           </CtaInternalLink>
         </MemoryRouter>
@@ -46,8 +48,9 @@ describe("<CtaInternalLink />", () => {
 
 describe("<CtaButton />", () => {
   it("renders without crashing", () => {
+    const onClick = () => null;
     const tree = renderer.create(
-      <CtaButton onClick={() => {}}>Create Team</CtaButton>
+      <CtaButton onClick={onClick}>Create Team</CtaButton>
     );
 
     expect(tree.toJSON()).toMatchSnapshot();
@@ -66,8 +69,9 @@ describe("<CtaButton />", () => {
 
   describe("when secondary prop is passed", () => {
     it("renders without crashing", () => {
+      const onClick = () => null;
       const tree = renderer.create(
-        <CtaButton secondary onClick={() => {}}>
+        <CtaButton secondary={true} onClick={onClick}>
           Create Team
         </CtaButton>
       );
@@ -78,8 +82,9 @@ describe("<CtaButton />", () => {
 
   describe("when small prop is passed", () => {
     it("renders without crashing", () => {
+      const onClick = () => null;
       const tree = renderer.create(
-        <CtaButton small onClick={() => {}}>
+        <CtaButton small={true} onClick={onClick}>
           Create Team
         </CtaButton>
       );

@@ -1,7 +1,7 @@
 import styled from "styled-components/macro";
-import TextInput from "../TextInput";
 import * as variables from "../../helpers/variables";
 import { lineHeight } from "../../helpers/verticalRhythm";
+import TextInput from "../TextInput";
 
 const GiantInput = styled(TextInput)`
   width: 600px;

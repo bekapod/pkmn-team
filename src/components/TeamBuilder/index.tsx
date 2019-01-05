@@ -1,61 +1,69 @@
-import React, { Fragment, Component, ChangeEvent } from "react";
-import { Redirect } from "react-router-dom";
 import {
+  anyPass,
+  equals,
+  gt,
+  isEmpty,
+  isNil,
+  keys,
+  length,
+  lensProp,
+  lt,
+  not,
+  or,
   prop,
   propOr,
-  anyPass,
-  isNil,
-  isEmpty,
-  length,
-  keys,
-  gt,
-  lt,
-  set,
-  lensProp,
-  or,
-  equals,
-  not
+  set
 } from "ramda";
-import Heading from "../Heading";
-import SectionContainer from "../SectionContainer";
-import CenteredRow from "../CenteredRow";
-import PokemonSearch from "../PokemonSearch";
-import GiantInput from "../GiantInput";
-import { CtaButton } from "../Cta";
-import PokemonGrid from "../PokemonGrid";
-import PokemonCard from "../PokemonCard";
-import ErrorMessage from "../ErrorMessage";
-import withScrollToTop from "../../hocs/withScrollToTop";
+import React, { ChangeEvent, Component, Fragment } from "react";
+import { Redirect } from "react-router-dom";
 import { getUniqueId } from "../../helpers/general";
-import { Pokemon, TeamMember } from "../../types";
+import withScrollToTop from "../../hocs/withScrollToTop";
+import { IPokemon, ITeamMember } from "../../types";
+import CenteredRow from "../CenteredRow";
+import { CtaButton } from "../Cta";
+import ErrorMessage from "../ErrorMessage";
+import GiantInput from "../GiantInput";
+import Heading from "../Heading";
+import PokemonCard from "../PokemonCard";
+import PokemonGrid from "../PokemonGrid";
+import PokemonSearch from "../PokemonSearch";
+import SectionContainer from "../SectionContainer";
 
-type Props = {
-  pokemon: Pokemon[],
-  createdTeamId?: string,
-  createTeamMutation: (mutation: {
-    variables: {
-      name: string,
-      pokedexIds: Array<number>
+interface IProps {
+  pokemon: IPokemon[];
+  createdTeamId?: string;
+  createTeamMutation: (
+    mutation: {
+      variables: {
+        name: string;
+        pokedexIds: number[];
+      };
     }
-  }) => void,
-  setTeamName: (name: string) => void,
-  setCurrentSearchPokemon: (pokemon: Pokemon) => void,
-  addPokemonToTeam: (member: TeamMember) => void,
-  removePokemonFromTeam: (member: { id: string }) => void,
-  teamBuilderName?: string,
-  teamBuilderCurrentSearchPokemon?: Pokemon,
-  teamBuilderMembers?: { [key: string]: TeamMember },
-  scrollToTop?: () => void
-};
+  ) => void;
+  setTeamName: (name: string) => void;
+  setCurrentSearchPokemon: (pokemon: IPokemon) => void;
+  addPokemonToTeam: (member: ITeamMember) => void;
+  removePokemonFromTeam: (member: { id: string }) => void;
+  teamBuilderName?: string;
+  teamBuilderCurrentSearchPokemon?: IPokemon;
+  teamBuilderMembers?: { [key: string]: ITeamMember };
+  scrollToTop?: () => void;
+}
 
-type State = {
-  isValid: boolean,
-  isTouched: boolean,
-  errors: { [key: string]: string }
-};
+interface IState {
+  isValid: boolean;
+  isTouched: boolean;
+  errors: { [key: string]: string };
+}
 
-class TeamBuilder extends Component<Props, State> {
-  constructor(props: Props) {
+class TeamBuilder extends Component<IProps, IState> {
+  public state = {
+    errors: {},
+    isTouched: false,
+    isValid: false
+  };
+
+  constructor(props: IProps) {
     super(props);
 
     this.handleTeamNameChange = this.handleTeamNameChange.bind(this);
@@ -64,28 +72,22 @@ class TeamBuilder extends Component<Props, State> {
     this.validate = this.validate.bind(this);
   }
 
-  state = {
-    isTouched: false,
-    isValid: false,
-    errors: {}
-  };
-
-  componentDidMount() {
+  public componentDidMount() {
     this.validate();
   }
 
-  shouldComponentUpdate(nextProps: Props, nextState: State) {
+  public shouldComponentUpdate(nextProps: IProps, nextState: IState) {
     return or(
       not(equals(this.state, nextState)),
       not(equals(this.props, nextProps))
     );
   }
 
-  componentDidUpdate() {
+  public componentDidUpdate() {
     this.validate();
   }
 
-  handleTeamNameChange(e: ChangeEvent<HTMLInputElement>) {
+  public handleTeamNameChange(e: ChangeEvent<HTMLInputElement>) {
     if (e.target instanceof HTMLInputElement) {
       this.props.setTeamName(e.target.value);
 
@@ -95,7 +97,7 @@ class TeamBuilder extends Component<Props, State> {
     }
   }
 
-  handleAddPokemonToTeam() {
+  public handleAddPokemonToTeam() {
     if (this.props.teamBuilderCurrentSearchPokemon) {
       this.props.addPokemonToTeam({
         id: getUniqueId(),
@@ -108,13 +110,13 @@ class TeamBuilder extends Component<Props, State> {
     }
   }
 
-  handleRemovePokemonFromTeam(memberId: string) {
+  public handleRemovePokemonFromTeam(memberId: string) {
     return () => {
       this.props.removePokemonFromTeam({ id: memberId });
     };
   }
 
-  handleCreateTeam() {
+  public handleCreateTeam() {
     const {
       createTeamMutation,
       teamBuilderName,
@@ -133,12 +135,12 @@ class TeamBuilder extends Component<Props, State> {
           })
         }
       });
-    } else {
-      this.props.scrollToTop && this.props.scrollToTop();
+    } else if (this.props.scrollToTop) {
+      this.props.scrollToTop();
     }
   }
 
-  validate(options: { setTouched?: boolean } = {}) {
+  public validate(options: { setTouched?: boolean } = {}) {
     const { teamBuilderName, teamBuilderMembers } = this.props;
     const nameError = lensProp("name");
     const membersError = lensProp("members");
@@ -185,7 +187,7 @@ class TeamBuilder extends Component<Props, State> {
     }
   }
 
-  render() {
+  public render() {
     const {
       pokemon,
       setCurrentSearchPokemon,
@@ -209,7 +211,7 @@ class TeamBuilder extends Component<Props, State> {
       <Fragment>
         <Heading>Create a Team</Heading>
         <SectionContainer>
-          <CenteredRow stackVertically>
+          <CenteredRow stackVertically={true}>
             <GiantInput
               aria-label="Choose a team name"
               placeholder="Choose a team name"
@@ -231,7 +233,10 @@ class TeamBuilder extends Component<Props, State> {
             </CenteredRow>,
             currentSearchPokemonName && (
               <CenteredRow key="Add member button">
-                <CtaButton secondary onClick={this.handleAddPokemonToTeam}>
+                <CtaButton
+                  secondary={true}
+                  onClick={this.handleAddPokemonToTeam}
+                >
                   {`Add ${currentSearchPokemonName} to your team`}
                 </CtaButton>
               </CenteredRow>
@@ -241,25 +246,27 @@ class TeamBuilder extends Component<Props, State> {
           {gt(numberOfMembersInTeam, 0) && [
             <CenteredRow key="Team members">
               <PokemonGrid>
-                {teamBuilderMembers && Object.keys(teamBuilderMembers).map(id => {
-                  const { pokemon: pkmn } = teamBuilderMembers[id];
-                  return (
-                    <PokemonCard
-                      key={id}
-                      memberId={id}
-                      pokemon={pkmn}
-                      renderCardActions={() => (
-                        <CtaButton
-                          secondary
-                          small
-                          onClick={this.handleRemovePokemonFromTeam(id)}
-                        >
-                          {`Remove ${pkmn.name} from team`}
-                        </CtaButton>
-                      )}
-                    />
-                  );
-                })}
+                {teamBuilderMembers &&
+                  Object.keys(teamBuilderMembers).map(id => {
+                    const { pokemon: pkmn } = teamBuilderMembers[id];
+                    const renderCardActions = () => (
+                      <CtaButton
+                        secondary={true}
+                        small={true}
+                        onClick={this.handleRemovePokemonFromTeam(id)}
+                      >
+                        {`Remove ${pkmn.name} from team`}
+                      </CtaButton>
+                    );
+                    return (
+                      <PokemonCard
+                        key={id}
+                        memberId={id}
+                        pokemon={pkmn}
+                        renderCardActions={renderCardActions}
+                      />
+                    );
+                  })}
               </PokemonGrid>
             </CenteredRow>,
             <CenteredRow key="Create button">

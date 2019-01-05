@@ -2,7 +2,7 @@ import { combineReducers } from "redux";
 import teamBuilder from "./teamBuilder";
 
 const reducers = combineReducers({
-  teamBuilder: <any>teamBuilder
+  teamBuilder: teamBuilder as any
 });
 
 export default reducers;

@@ -1,4 +1,5 @@
 import React from "react";
+// tslint:disable-next-line:no-implicit-dependencies
 import renderer from "react-test-renderer";
 import PokemonCard from ".";
 
@@ -40,6 +41,9 @@ describe("<PokemonCard />", () => {
 
   describe("when a renderCardActions function is passed", () => {
     it("renders the card actions", () => {
+      const renderCardActions = () => (
+        <div>Card actions that should be rendered</div>
+      );
       const tree = renderer.create(
         <PokemonCard
           pokemon={{
@@ -49,9 +53,7 @@ describe("<PokemonCard />", () => {
             sprite: "25.png",
             types: ["ELECTRIC"]
           }}
-          renderCardActions={() => (
-            <div>Card actions that should be rendered</div>
-          )}
+          renderCardActions={renderCardActions}
         />
       );
 

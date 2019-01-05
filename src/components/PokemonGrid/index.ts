@@ -1,6 +1,6 @@
 import styled from "styled-components/macro";
-import * as variables from "../../helpers/variables";
 import { media } from "../../helpers/media";
+import * as variables from "../../helpers/variables";
 
 const PokemonGrid = styled.div`
   display: grid;

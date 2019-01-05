@@ -1,6 +1,7 @@
 import React from "react";
+// tslint:disable-next-line:no-implicit-dependencies
 import renderer from "react-test-renderer";
-import { CardWrapper, CardHeader, CardContent } from ".";
+import { CardContent, CardHeader, CardWrapper } from ".";
 
 describe("Card components", () => {
   it("renders without crashing", () => {

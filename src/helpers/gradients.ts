@@ -1,22 +1,11 @@
-import {
-  compose,
-  divide,
-  multiply,
-  identity,
-  inc,
-  join,
-  flatten,
-  append,
-  prepend,
-  unapply
-} from "ramda";
-import { percentage, getTypeColor, sortTypes } from "./general";
+import { compose, divide, inc, join, multiply } from "ramda";
 import { Type } from "../types";
+import { getTypeColor, percentage, sortTypes } from "./general";
 
 const getColourStopCss = (type: Type, position: number) =>
   `${getTypeColor(type)} ${position}%`;
 
-export const getTypeGradient = (types: Array<Type>) => {
+export const getTypeGradient = (types: Type[]) => {
   const colourWidth = divide(100, types.length);
   const getColourStop = compose(
     percentage,
@@ -25,12 +14,11 @@ export const getTypeGradient = (types: Array<Type>) => {
 
   const gradientString: string = compose(
     join(", "),
-    (types: Type[]) => (
-      types.flatMap((type: Type, index: number) => [
+    (ts: Type[]) =>
+      ts.flatMap((type: Type, index: number) => [
         getColourStopCss(type, getColourStop(index)),
         getColourStopCss(type, getColourStop(inc(index)))
-      ])
-    ),
+      ]),
     sortTypes
   )(types);
 

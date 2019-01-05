@@ -1,20 +1,20 @@
 import React, { PureComponent } from "react";
 import styled from "styled-components/macro";
-import TypeTag from "../TypeTag";
-import InlineList from "../InlineList";
+import { formatPokemonName, sortTypes } from "../../helpers/general";
 import { getTypeGradient } from "../../helpers/gradients";
 import * as variables from "../../helpers/variables";
-import { sortTypes, formatPokemonName } from "../../helpers/general";
-import { Pokemon, Type } from "../../types";
+import { IPokemon, Type } from "../../types";
+import InlineList from "../InlineList";
+import TypeTag from "../TypeTag";
 
-type Props = {
-  pokemon: Pokemon,
-  outdent: number
-};
+interface IProps {
+  pokemon: IPokemon;
+  outdent: number;
+}
 
-type RowProps = {
-  outdent: number,
-  types: Type[]
+interface IRowProps {
+  outdent: number;
+  types: Type[];
 }
 
 const Row = styled.div`
@@ -28,11 +28,11 @@ const Row = styled.div`
     content: "";
     position: absolute;
     top: calc(${variables.spacing.sm}px / 2 * -1);
-    left: ${({ outdent }: RowProps) => `-${outdent}px`};
+    left: ${({ outdent }: IRowProps) => `-${outdent}px`};
     display: block;
-    width: ${({ outdent }: RowProps) => `calc(100% + (${outdent}px * 2))`};
+    width: ${({ outdent }: IRowProps) => `calc(100% + (${outdent}px * 2))`};
     height: ${variables.spacing.sm}px;
-    background-image: ${({ types }: RowProps) => getTypeGradient(types)};
+    background-image: ${({ types }: IRowProps) => getTypeGradient(types)};
   }
 `;
 
@@ -46,13 +46,13 @@ const RowTitle = styled.div`
   font-weight: 700;
 `;
 
-class PokemonLine extends PureComponent<Props> {
-  static defaultProps = {
-    pokemon: {},
-    outdent: 0
+class PokemonLine extends PureComponent<IProps> {
+  public static defaultProps = {
+    outdent: 0,
+    pokemon: {}
   };
 
-  render() {
+  public render() {
     const { pokemon, outdent } = this.props;
     const { pokedexId, name, types = [], sprite } = pokemon;
 

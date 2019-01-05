@@ -2,12 +2,12 @@ import React, { ReactNode, ReactNodeArray } from "react";
 import styled from "styled-components/macro";
 import * as variables from "../../helpers/variables";
 
-type Props = {
-  headingType?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6",
-  children: ReactNode | ReactNodeArray
-};
+interface IProps {
+  headingType?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+  children: ReactNode | ReactNodeArray;
+}
 
-const CardHeading = styled(({ headingType = "h2", ...props }: Props) =>
+const CardHeading = styled(({ headingType = "h2", ...props }: IProps) =>
   React.createElement(headingType, props)
 )`
   overflow: hidden;

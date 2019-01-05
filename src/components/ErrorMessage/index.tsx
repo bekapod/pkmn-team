@@ -1,10 +1,10 @@
-import React, { ReactNodeArray, ReactNode } from "react";
+import React, { ReactNode, ReactNodeArray } from "react";
 import styled from "styled-components/macro";
 import * as variables from "../../helpers/variables";
 
-type Props = {
-  children: ReactNode | ReactNodeArray
-};
+interface IProps {
+  children: ReactNode | ReactNodeArray;
+}
 
 const StyledError = styled.div`
   color: ${variables.colors.error};
@@ -16,7 +16,7 @@ const StyledError = styled.div`
   }
 `;
 
-const ErrorMessage = ({ children }: Props) => (
+const ErrorMessage = ({ children }: IProps) => (
   <StyledError role="alert">{children}</StyledError>
 );
 

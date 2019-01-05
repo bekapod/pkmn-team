@@ -1,6 +1,7 @@
+// tslint:disable-next-line:no-implicit-dependencies
 import configureMockStore from "redux-mock-store";
+import { IPokemon, ITeamMember } from "../types";
 import * as actions from "./teamBuilder";
-import { TeamMember, Pokemon } from "../types";
 
 describe("Team builder actions", () => {
   const mockStore = configureMockStore();
@@ -22,14 +23,14 @@ describe("Team builder actions", () => {
 
   describe("addPokemonToTeam", () => {
     it("dispatches with team member", () => {
-      const payload: TeamMember = {
+      const payload: ITeamMember = {
         id: "1",
         pokemon: {
           id: "1",
-          pokedexId: 25,
           name: "Pikachu",
-          types: ["ELECTRIC"],
-          sprite: "pikachu.png"
+          pokedexId: 25,
+          sprite: "pikachu.png",
+          types: ["ELECTRIC"]
         }
       };
       const expectedActions = [
@@ -57,12 +58,12 @@ describe("Team builder actions", () => {
 
   describe("setCurrentSearchPokemon", () => {
     it("dispatches with pokemon", () => {
-      const payload: Pokemon = {
+      const payload: IPokemon = {
         id: "1",
-        pokedexId: 25,
         name: "Pikachu",
-        types: ["ELECTRIC"],
-        sprite: "pikachu.png"
+        pokedexId: 25,
+        sprite: "pikachu.png",
+        types: ["ELECTRIC"]
       };
       const expectedActions = [
         { type: "team_builder/set_current_search_pokemon", payload }

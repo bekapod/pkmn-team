@@ -3,13 +3,13 @@ import styled from "styled-components/macro";
 import * as variables from "../../helpers/variables";
 import { lineHeight } from "../../helpers/verticalRhythm";
 
-type Props = {
-  id: string,
-  items: {
-    label: string,
-    value: string | number
-  }[]
-};
+interface IProps {
+  id: string;
+  items: Array<{
+    label: string;
+    value: string | number;
+  }>;
+}
 
 const CardMetaWrapper = styled.div`
   display: flex;
@@ -57,7 +57,7 @@ const CardMetaValue = styled.span`
   line-height: ${lineHeight("md")};
 `;
 
-const CardMeta = ({ id, items = [] }: Props) => (
+const CardMeta = ({ id, items = [] }: IProps) => (
   <CardMetaWrapper>
     {items.map(({ label, value }) => (
       <CardMetaItem key={`Team: ${id}, Label: ${label}`}>

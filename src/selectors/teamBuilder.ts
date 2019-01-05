@@ -1,20 +1,24 @@
 import { prop } from "ramda";
 import { createSelector, ParametricSelector } from "reselect";
-import { State, TeamBuilderState, Pokemon, TeamMember, Team } from "../types";
+import { IState, ITeamBuilderState } from "../types";
 
-export const getTeamBuilder: ParametricSelector<State, any, TeamBuilderState> = prop("teamBuilder");
+export const getTeamBuilder: ParametricSelector<
+  IState,
+  any,
+  ITeamBuilderState
+> = prop("teamBuilder");
 
 export const getTeamBuilderName = createSelector(
   getTeamBuilder,
-  (teamBuilder) => prop("name", teamBuilder)
+  teamBuilder => prop("name", teamBuilder)
 );
 
 export const getTeamBuilderMembers = createSelector(
   getTeamBuilder,
-  (teamBuilder) => prop("members", teamBuilder)
+  teamBuilder => prop("members", teamBuilder)
 );
 
 export const getTeamBuilderCurrentSearchPokemon = createSelector(
   getTeamBuilder,
-  (teamBuilder) => prop("currentSearchPokemon", teamBuilder)
+  teamBuilder => prop("currentSearchPokemon", teamBuilder)
 );

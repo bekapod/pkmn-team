@@ -1,20 +1,21 @@
-import React from "react";
-import { compose, map, flatten, prop, propOr, length } from "ramda";
 import dateFormat from "dateformat";
-import { CardWrapper, CardHeader, CardContent } from "../Card";
+import { length, prop } from "ramda";
+import React from "react";
+import * as variables from "../../helpers/variables";
+import { IPokemon, ITeam } from "../../types";
+import { CardContent, CardHeader, CardWrapper } from "../Card";
 import CardHeading from "../CardHeading";
 import CardMeta from "../CardMeta";
 import PokemonLine from "../PokemonLine";
-import * as variables from "../../helpers/variables";
-import { Team, Pokemon, Type } from "../../types";
 
-const getAllTypes = (pokemon: Pokemon[]) => pokemon.flatMap((pkmn) => pkmn.types)
+const getAllTypes = (pokemon: IPokemon[]) =>
+  pokemon.flatMap(pkmn => pkmn.types);
 
-type Props = {
-  team: Team
-};
+interface IProps {
+  team: ITeam;
+}
 
-const TeamCard = ({ team: { id, name, members, createdAt } }: Props) => {
+const TeamCard = ({ team: { id, name, members, createdAt } }: IProps) => {
   const pokemon = members.map(member => prop("pokemon", member));
 
   return (

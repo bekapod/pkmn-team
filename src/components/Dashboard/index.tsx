@@ -1,18 +1,18 @@
 import React, { Fragment } from "react";
-import TeamCard from "../TeamCard";
+import { ITeam } from "../../types";
+import CenteredRow from "../CenteredRow";
+import { CtaInternalLink } from "../Cta";
 import Heading from "../Heading";
 import SectionContainer from "../SectionContainer";
-import CenteredRow from "../CenteredRow";
+import TeamCard from "../TeamCard";
 import TeamGrid from "../TeamGrid";
-import { CtaInternalLink } from "../Cta";
-import { Team } from "../../types";
 
-type Props = {
-  teams?: Array<Team>,
-  loading?: boolean
-};
+interface IProps {
+  teams?: ITeam[];
+  loading?: boolean;
+}
 
-const Dashboard = ({ teams, loading }: Props) => (
+const Dashboard = ({ teams, loading }: IProps) => (
   <Fragment>
     <Heading>My Teams</Heading>
     <SectionContainer>

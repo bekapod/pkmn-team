@@ -1,5 +1,5 @@
 import { createAction } from "redux-actions";
-import { Pokemon, TeamMember } from "../types";
+import { IPokemon, ITeamMember } from "../types";
 
 export const setTeamName = createAction(
   "team_builder/set_team_name",
@@ -7,7 +7,7 @@ export const setTeamName = createAction(
 );
 export const addPokemonToTeam = createAction(
   "team_builder/add_pokemon_to_team",
-  (member: TeamMember) => member
+  (member: ITeamMember) => member
 );
 export const removePokemonFromTeam = createAction(
   "team_builder/remove_pokemon_from_team",
@@ -15,5 +15,5 @@ export const removePokemonFromTeam = createAction(
 );
 export const setCurrentSearchPokemon = createAction(
   "team_builder/set_current_search_pokemon",
-  (pokemon: Pokemon) => pokemon
+  (pokemon: IPokemon) => pokemon
 );

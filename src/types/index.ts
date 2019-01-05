@@ -20,32 +20,32 @@ export type Type =
   | "UNKNOWN"
   | "SHADOW";
 
-export type Pokemon = {
+export interface IPokemon {
   id: string;
   pokedexId: number;
   name: string;
   types: Type[];
   sprite: string;
-};
+}
 
-export type TeamMember = {
+export interface ITeamMember {
   id: string;
-  pokemon: Pokemon;
-};
+  pokemon: IPokemon;
+}
 
-export type Team = {
+export interface ITeam {
   id: string;
   name: string;
-  members: Array<TeamMember>;
+  members: ITeamMember[];
   createdAt: string;
-};
+}
 
-export type TeamBuilderState = {
+export interface ITeamBuilderState {
   name?: string;
-  members: { [key: string]: TeamMember };
-  currentSearchPokemon?: Pokemon;
-};
+  members: { [key: string]: ITeamMember };
+  currentSearchPokemon?: IPokemon;
+}
 
-export type State = {
-  teamBuilder: TeamBuilderState;
-};
+export interface IState {
+  teamBuilder: ITeamBuilderState;
+}
