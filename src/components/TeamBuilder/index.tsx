@@ -82,13 +82,11 @@ class TeamBuilder extends Component<IProps, IState> {
   }
 
   public handleTeamNameChange(e: ChangeEvent<HTMLInputElement>) {
-    if (e.target instanceof HTMLInputElement) {
-      this.props.setTeamName(e.target.value);
+    this.props.setTeamName(e.target.value);
 
-      this.setState(() => ({
-        isTouched: true
-      }));
-    }
+    this.setState(() => ({
+      isTouched: true
+    }));
   }
 
   public handleAddPokemonToTeam() {
