@@ -3,10 +3,14 @@ import { MemoryRouter } from "react-router-dom";
 // tslint:disable-next-line:no-implicit-dependencies
 import renderer from "react-test-renderer";
 // tslint:disable-next-line:no-implicit-dependencies
-import { fireEvent, render } from "react-testing-library";
+import { cleanup, fireEvent, render } from "react-testing-library";
 import { CtaButton, CtaInternalLink } from ".";
 
 describe("<CtaInternalLink />", () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   it("renders without crashing", () => {
     const tree = renderer.create(
       <MemoryRouter initialEntries={["/"]}>
