@@ -1,4 +1,3 @@
-import { applySpec } from "ramda";
 import React, { PureComponent } from "react";
 import {
   Mutation,
@@ -14,7 +13,7 @@ import TeamBuilder from "../../components/TeamBuilder";
 import { createTeam } from "../../mutations/team";
 import { getAllPokemon } from "../../queries/pokemon";
 import * as teamBuilderSelectors from "../../selectors/teamBuilder";
-import { IPokemon, ITeam, ITeamMember } from "../../types";
+import { IPokemon, IState, ITeam, ITeamMember } from "../../types";
 
 interface IProps {
   addPokemonToTeam: (_: ITeamMember) => void;
@@ -55,11 +54,13 @@ class TeamBuilderContainer extends PureComponent<IProps> {
   }
 }
 
-const mapStateToProps = applySpec({
-  teamBuilderCurrentSearchPokemon:
-    teamBuilderSelectors.getTeamBuilderCurrentSearchPokemon,
-  teamBuilderMembers: teamBuilderSelectors.getTeamBuilderMembers,
-  teamBuilderName: teamBuilderSelectors.getTeamBuilderName
+const mapStateToProps = (state: IState, props: any) => ({
+  teamBuilderCurrentSearchPokemon: teamBuilderSelectors.getTeamBuilderCurrentSearchPokemon(
+    state,
+    props
+  ),
+  teamBuilderMembers: teamBuilderSelectors.getTeamBuilderMembers(state, props),
+  teamBuilderName: teamBuilderSelectors.getTeamBuilderName(state, props)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>

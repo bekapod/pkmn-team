@@ -5,15 +5,12 @@ import {
   isEmpty,
   isNil,
   keys,
-  length,
-  lensProp,
   lt,
-  not,
-  or,
   prop,
   propOr,
-  set
-} from "ramda";
+  set,
+  unset
+} from "lodash/fp";
 import React, { ChangeEvent, Component, Fragment } from "react";
 import { Redirect } from "react-router-dom";
 import { getUniqueId } from "../../helpers/general";
@@ -77,10 +74,7 @@ class TeamBuilder extends Component<IProps, IState> {
   }
 
   public shouldComponentUpdate(nextProps: IProps, nextState: IState) {
-    return or(
-      not(equals(this.state, nextState)),
-      not(equals(this.props, nextProps))
-    );
+    return !equals(this.state, nextState) || !equals(this.props, nextProps);
   }
 
   public componentDidUpdate() {
@@ -142,8 +136,6 @@ class TeamBuilder extends Component<IProps, IState> {
 
   public validate(options: { setTouched?: boolean } = {}) {
     const { teamBuilderName, teamBuilderMembers } = this.props;
-    const nameError = lensProp("name");
-    const membersError = lensProp("members");
     const isInvalid = anyPass([isEmpty, isNil]);
 
     if (options.setTouched) {
@@ -152,7 +144,7 @@ class TeamBuilder extends Component<IProps, IState> {
       }));
     }
 
-    if (or(isInvalid(teamBuilderName), isInvalid(teamBuilderMembers))) {
+    if (isInvalid(teamBuilderName) || isInvalid(teamBuilderMembers)) {
       this.setState(() => ({
         isValid: false
       }));
@@ -164,25 +156,27 @@ class TeamBuilder extends Component<IProps, IState> {
 
     if (isInvalid(teamBuilderName)) {
       this.setState(state => ({
-        errors: set(nameError, "Team name is required", state.errors)
+        errors: {
+          ...state.errors,
+          name: "Team name is required"
+        }
       }));
     } else {
       this.setState(state => ({
-        errors: set(nameError, undefined, state.errors)
+        errors: unset("name", { ...state.errors })
       }));
     }
 
     if (isInvalid(teamBuilderMembers)) {
       this.setState(state => ({
-        errors: set(
-          membersError,
-          "Your team must have some pokemon",
-          state.errors
-        )
+        errors: {
+          ...state.errors,
+          members: "Your team must have some pokemon"
+        }
       }));
     } else {
       this.setState(state => ({
-        errors: set(membersError, undefined, state.errors)
+        errors: unset("members", { ...state.errors })
       }));
     }
   }
@@ -199,7 +193,7 @@ class TeamBuilder extends Component<IProps, IState> {
     const currentSearchPokemonName =
       teamBuilderCurrentSearchPokemon &&
       prop("name", teamBuilderCurrentSearchPokemon);
-    const numberOfMembersInTeam = length(keys(teamBuilderMembers));
+    const numberOfMembersInTeam = keys(teamBuilderMembers).length;
     const nameErrorMessage = propOr(undefined, "name", this.state.errors);
     const nameHasError = this.state.isTouched && !!nameErrorMessage;
 

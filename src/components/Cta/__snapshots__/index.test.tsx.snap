@@ -2,7 +2,7 @@
 
 exports[`<CtaButton /> renders without crashing 1`] = `
 <button
-  className="Cta__CtaButton-sc-1qsmnol-1 cCysrS"
+  className="Cta__CtaButton-h8nk1r-1 jGepGh"
   onClick={[Function]}
 >
   Create Team
@@ -11,7 +11,7 @@ exports[`<CtaButton /> renders without crashing 1`] = `
 
 exports[`<CtaButton /> when secondary prop is passed renders without crashing 1`] = `
 <button
-  className="Cta__CtaButton-sc-1qsmnol-1 ktamHp"
+  className="Cta__CtaButton-h8nk1r-1 xiPHX"
   onClick={[Function]}
 >
   Create Team
@@ -20,7 +20,7 @@ exports[`<CtaButton /> when secondary prop is passed renders without crashing 1`
 
 exports[`<CtaButton /> when small prop is passed renders without crashing 1`] = `
 <button
-  className="Cta__CtaButton-sc-1qsmnol-1 dXhrin"
+  className="Cta__CtaButton-h8nk1r-1 eZsTTf"
   onClick={[Function]}
 >
   Create Team
@@ -29,7 +29,7 @@ exports[`<CtaButton /> when small prop is passed renders without crashing 1`] = 
 
 exports[`<CtaInternalLink /> renders without crashing 1`] = `
 <a
-  className="Cta__CtaInternalLink-sc-1qsmnol-0 isVVbW"
+  className="Cta__CtaInternalLink-h8nk1r-0 jNQDYG"
   href="/dashboard"
   onClick={[Function]}
 >
@@ -39,7 +39,7 @@ exports[`<CtaInternalLink /> renders without crashing 1`] = `
 
 exports[`<CtaInternalLink /> when secondary prop is passed renders without crashing 1`] = `
 <a
-  className="Cta__CtaInternalLink-sc-1qsmnol-0 kEdUQK"
+  className="Cta__CtaInternalLink-h8nk1r-0 dRNexZ"
   href="/dashboard"
   onClick={[Function]}
   secondary={true}
@@ -50,7 +50,7 @@ exports[`<CtaInternalLink /> when secondary prop is passed renders without crash
 
 exports[`<CtaInternalLink /> when small prop is passed renders without crashing 1`] = `
 <a
-  className="Cta__CtaInternalLink-sc-1qsmnol-0 hEZUSK"
+  className="Cta__CtaInternalLink-h8nk1r-0 kBeNCv"
   href="/dashboard"
   onClick={[Function]}
   small={true}

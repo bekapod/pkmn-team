@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CardMeta /> renders without crashing 1`] = `
+<div
+  className="CardMeta__CardMetaWrapper-yqfxft-0 kTYlws"
+>
+  <div
+    className="CardMeta__CardMetaItem-yqfxft-1 hPoDTe"
+  >
+    <span
+      className="CardMeta__CardMetaLabel-yqfxft-2 hiNCFT"
+    >
+      Item 1
+    </span>
+    <span
+      className="CardMeta__CardMetaValue-yqfxft-3 jqYdyo"
+    >
+      Value 1
+    </span>
+  </div>
+  <div
+    className="CardMeta__CardMetaItem-yqfxft-1 hPoDTe"
+  >
+    <span
+      className="CardMeta__CardMetaLabel-yqfxft-2 hiNCFT"
+    >
+      Item 2
+    </span>
+    <span
+      className="CardMeta__CardMetaValue-yqfxft-3 jqYdyo"
+    >
+      2
+    </span>
+  </div>
+</div>
+`;

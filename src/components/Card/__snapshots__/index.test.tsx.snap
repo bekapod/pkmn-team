@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Card components renders without crashing 1`] = `
+<article
+  className="Card__CardWrapper-sc-3o7tcb-0 bTjMad"
+>
+  <header
+    className="Card__CardHeader-sc-3o7tcb-1 dklHtH"
+  >
+    Heading
+  </header>
+  <div
+    className="Card__CardContent-sc-3o7tcb-2 fDtTnd"
+  >
+    Content
+  </div>
+</article>
+`;

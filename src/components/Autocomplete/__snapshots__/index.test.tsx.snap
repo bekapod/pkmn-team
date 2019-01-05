@@ -2,10 +2,10 @@
 
 exports[`<Autocomplete /> renders without crashing 1`] = `
 <div
-  className="Autocomplete-sc-18qws42-1 jEZDkd"
+  className="Autocomplete-sc-1wak8g9-1 cILwaC"
 >
   <div
-    className="Autocomplete__AutocompleteDropdown-sc-18qws42-0 exSuOy"
+    className="Autocomplete__AutocompleteDropdown-sc-1wak8g9-0 dKOLFs"
   >
     <span>
       Item 1

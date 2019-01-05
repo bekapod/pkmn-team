@@ -1,4 +1,4 @@
-import { prop } from "ramda";
+import { get } from "lodash/fp";
 import { createSelector, ParametricSelector } from "reselect";
 import { IState, ITeamBuilderState } from "../types";
 
@@ -6,19 +6,19 @@ export const getTeamBuilder: ParametricSelector<
   IState,
   any,
   ITeamBuilderState
-> = prop("teamBuilder");
+> = get("teamBuilder");
 
 export const getTeamBuilderName = createSelector(
   getTeamBuilder,
-  teamBuilder => prop("name", teamBuilder)
+  teamBuilder => get("name", teamBuilder)
 );
 
 export const getTeamBuilderMembers = createSelector(
   getTeamBuilder,
-  teamBuilder => prop("members", teamBuilder)
+  teamBuilder => get("members", teamBuilder)
 );
 
 export const getTeamBuilderCurrentSearchPokemon = createSelector(
   getTeamBuilder,
-  teamBuilder => prop("currentSearchPokemon", teamBuilder)
+  teamBuilder => get("currentSearchPokemon", teamBuilder)
 );

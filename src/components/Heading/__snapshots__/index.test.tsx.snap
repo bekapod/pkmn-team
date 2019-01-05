@@ -2,7 +2,7 @@
 
 exports[`<Heading /> renders without crashing 1`] = `
 <h1
-  className="Heading-sc-1a24dwr-0 eiJqiJ"
+  className="Heading-b3adig-0 jwQDLL"
 >
   This is a heading
 </h1>

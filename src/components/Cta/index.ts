@@ -1,4 +1,4 @@
-import { always, cond, not, T } from "ramda";
+import { always, cond, T } from "lodash/fp";
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components/macro";
 import { radialIn } from "../../helpers/animations";
@@ -9,6 +9,8 @@ interface IProps {
   secondary?: boolean;
   small?: boolean;
 }
+
+const not = (value: any) => !value;
 
 const styles = css`
   margin: 0;

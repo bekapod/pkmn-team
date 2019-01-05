@@ -1,5 +1,5 @@
 import Downshift from "downshift";
-import { toLower } from "ramda";
+import { toLower } from "lodash/fp";
 import React from "react";
 import { capitalizePokemonName } from "../../helpers/general";
 import * as variables from "../../helpers/variables";
@@ -24,13 +24,7 @@ const PokemonSearch = ({
   const itemToString = (pkmn: IPokemon) => capitalizePokemonName(pkmn);
   return (
     <div>
-      <Downshift
-        onChange={onChange}
-        inputValue={
-          currentSearchPokemon && capitalizePokemonName(currentSearchPokemon)
-        }
-        itemToString={itemToString}
-      >
+      <Downshift onChange={onChange} itemToString={itemToString}>
         {({
           getRootProps,
           getInputProps,

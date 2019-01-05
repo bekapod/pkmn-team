@@ -2,7 +2,7 @@
 
 exports[` 1`] = `
 <div
-  className="ErrorMessage__StyledError-sc-1q305d-0 cnWPsI"
+  className="ErrorMessage__StyledError-sc-11kho77-0 mbCQE"
   role="alert"
 >
   <span>
@@ -13,7 +13,7 @@ exports[` 1`] = `
 
 exports[` 2`] = `
 <div
-  className="ErrorMessage__StyledError-sc-1q305d-0 cnWPsI"
+  className="ErrorMessage__StyledError-sc-11kho77-0 mbCQE"
   role="alert"
 >
   <div>
@@ -24,7 +24,7 @@ exports[` 2`] = `
 
 exports[`<ErrorMessage /> when text is passed renders without crashing 1`] = `
 <div
-  className="ErrorMessage__StyledError-sc-1q305d-0 cnWPsI"
+  className="ErrorMessage__StyledError-sc-11kho77-0 mbCQE"
   role="alert"
 >
   This is an error

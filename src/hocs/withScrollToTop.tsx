@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from "react";
+import React, { PureComponent } from "react";
 
 // tslint:disable-next-line:no-empty-interface
 interface IProps {}

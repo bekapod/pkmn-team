@@ -2,7 +2,7 @@
 
 exports[`<CenteredRow /> renders without crashing 1`] = `
 <div
-  className="CenteredRow-sc-1446zpg-0 dFcFNQ"
+  className="CenteredRow-f3rx2f-0 hNpdbY"
 >
   <span>
     Child 1
@@ -15,7 +15,7 @@ exports[`<CenteredRow /> renders without crashing 1`] = `
 
 exports[`<CenteredRow /> renders without crashing when stackVertically is passed 1`] = `
 <div
-  className="CenteredRow-sc-1446zpg-0 bqMlyu"
+  className="CenteredRow-f3rx2f-0 hfFVle"
 >
   <span>
     Child 1

@@ -1,9 +1,19 @@
-import { compose, divide, inc, join, multiply } from "ramda";
+import {
+  add,
+  compose,
+  divide,
+  flatMap,
+  flatten,
+  join,
+  map,
+  multiply
+} from "lodash/fp";
 import { Type } from "../types";
 import { getTypeColor, percentage, sortTypes } from "./general";
 
-const getColourStopCss = (type: Type, position: number) =>
-  `${getTypeColor(type)} ${position}%`;
+const getColourStopCss = (type: Type, position: number) => {
+  return `${getTypeColor(type)} ${position}%`;
+};
 
 export const getTypeGradient = (types: Type[]) => {
   const colourWidth = divide(100, types.length);
@@ -11,14 +21,18 @@ export const getTypeGradient = (types: Type[]) => {
     percentage,
     multiply(colourWidth)
   );
+  let index = 0; // flatMap doesn't seem to have any knowledge of the array index...
 
   const gradientString: string = compose(
     join(", "),
-    (ts: Type[]) =>
-      ts.flatMap((type: Type, index: number) => [
+    flatMap((type: Type) => {
+      const colourStops = [
         getColourStopCss(type, getColourStop(index)),
-        getColourStopCss(type, getColourStop(inc(index)))
-      ]),
+        getColourStopCss(type, getColourStop(add(1, index)))
+      ];
+      index = add(1, index);
+      return colourStops;
+    }),
     sortTypes
   )(types);
 

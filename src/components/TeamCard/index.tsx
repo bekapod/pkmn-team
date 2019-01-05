@@ -1,22 +1,23 @@
 import dateFormat from "dateformat";
-import { length, prop } from "ramda";
+import { compose, flatMap, get, isNil, map, reject } from "lodash/fp";
 import React from "react";
 import * as variables from "../../helpers/variables";
-import { IPokemon, ITeam } from "../../types";
+import { IPokemon, ITeam, Type } from "../../types";
 import { CardContent, CardHeader, CardWrapper } from "../Card";
 import CardHeading from "../CardHeading";
 import CardMeta from "../CardMeta";
 import PokemonLine from "../PokemonLine";
 
-const getAllTypes = (pokemon: IPokemon[]) =>
-  pokemon.flatMap(pkmn => pkmn.types);
+const getAllTypes = flatMap(get("types"));
 
 interface IProps {
   team: ITeam;
 }
 
 const TeamCard = ({ team: { id, name, members, createdAt } }: IProps) => {
-  const pokemon = members.map(member => prop("pokemon", member));
+  const pokemon: IPokemon[] = compose([reject(isNil), map(get("pokemon"))])(
+    members
+  );
 
   return (
     <CardWrapper>
@@ -28,7 +29,7 @@ const TeamCard = ({ team: { id, name, members, createdAt } }: IProps) => {
         <CardMeta
           id={id}
           items={[
-            { label: "Pkmn", value: length(members) },
+            { label: "Pkmn", value: members.length },
             { label: "Created", value: dateFormat(createdAt, "d/m/yy") }
           ]}
         />

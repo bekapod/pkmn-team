@@ -2,7 +2,7 @@
 
 exports[`<GiantInput /> renders without crashing 1`] = `
 <input
-  className="TextInput-sc-17mm9lu-0 GiantInput-sc-1xpf4pb-0 dwkaeV"
+  className="TextInput-sc-149814h-0 GiantInput-sc-1mhmfj5-0 CEtIK"
   type="text"
 />
 `;

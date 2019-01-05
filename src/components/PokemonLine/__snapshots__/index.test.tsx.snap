@@ -1,0 +1,102 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PokemonLine /> renders without crashing 1`] = `
+<div
+  className="PokemonLine__Row-sc-1qiwepa-0 bfuspP"
+>
+  <img
+    alt="pikachu sprite"
+    className="PokemonLine__RowImage-sc-1qiwepa-1 hUcFnr"
+    src="/sprites/25.png"
+  />
+  <div>
+    <div
+      className="PokemonLine__RowTitle-sc-1qiwepa-2 edSfRl"
+    >
+      #25 Pikachu
+    </div>
+    <ul
+      className="InlineList-sc-1dn69qz-0 YzWxJ"
+    >
+      <li>
+        <span
+          className="TypeTag-sc-1dttu8y-0 byzsso"
+          type="ELECTRIC"
+        >
+          ELECTRIC
+        </span>
+      </li>
+    </ul>
+  </div>
+</div>
+`;
+
+exports[`<PokemonLine /> when a pokemon with more than one type is passed renders all types 1`] = `
+<div
+  className="PokemonLine__Row-sc-1qiwepa-0 jeunMf"
+>
+  <img
+    alt="bulbasaur sprite"
+    className="PokemonLine__RowImage-sc-1qiwepa-1 hUcFnr"
+    src="/sprites/1.png"
+  />
+  <div>
+    <div
+      className="PokemonLine__RowTitle-sc-1qiwepa-2 edSfRl"
+    >
+      #1 Bulbasaur
+    </div>
+    <ul
+      className="InlineList-sc-1dn69qz-0 YzWxJ"
+    >
+      <li>
+        <span
+          className="TypeTag-sc-1dttu8y-0 jHkiSl"
+          type="GRASS"
+        >
+          GRASS
+        </span>
+      </li>
+      <li>
+        <span
+          className="TypeTag-sc-1dttu8y-0 jjNEEF"
+          type="POISON"
+        >
+          POISON
+        </span>
+      </li>
+    </ul>
+  </div>
+</div>
+`;
+
+exports[`<PokemonLine /> when outdent is passed renders without crashing 1`] = `
+<div
+  className="PokemonLine__Row-sc-1qiwepa-0 iQKIEU"
+>
+  <img
+    alt="pikachu sprite"
+    className="PokemonLine__RowImage-sc-1qiwepa-1 hUcFnr"
+    src="/sprites/25.png"
+  />
+  <div>
+    <div
+      className="PokemonLine__RowTitle-sc-1qiwepa-2 edSfRl"
+    >
+      #25 Pikachu
+    </div>
+    <ul
+      className="InlineList-sc-1dn69qz-0 YzWxJ"
+    >
+      <li>
+        <span
+          className="TypeTag-sc-1dttu8y-0 byzsso"
+          type="ELECTRIC"
+        >
+          ELECTRIC
+        </span>
+      </li>
+    </ul>
+  </div>
+</div>
+`;
