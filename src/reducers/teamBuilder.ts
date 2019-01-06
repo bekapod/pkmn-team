@@ -7,7 +7,7 @@ import {
 } from "../actions/teamBuilder";
 import { ITeamBuilderState, ITeamMember } from "../types";
 
-const initialState: ITeamBuilderState = {
+export const initialState: ITeamBuilderState = {
   currentSearchPokemon: undefined,
   members: {},
   name: undefined
