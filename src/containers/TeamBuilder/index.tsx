@@ -1,3 +1,4 @@
+import { getOr } from "lodash/fp";
 import React, { PureComponent } from "react";
 import {
   Mutation,
@@ -9,6 +10,7 @@ import {
 import { connect } from "react-redux";
 import { bindActionCreators, Dispatch } from "redux";
 import * as teamBuilderActions from "../../actions/teamBuilder";
+import Page from "../../components/Page";
 import TeamBuilder from "../../components/TeamBuilder";
 import { createTeam } from "../../mutations/team";
 import { getAllPokemon } from "../../queries/pokemon";
@@ -37,16 +39,16 @@ class TeamBuilderContainer extends PureComponent<IProps> {
           { data: mutationData /* , loading, error */ }: MutationProps
         ) => (
           <Query query={getAllPokemon}>
-            {({ data: queryData /* , loading, error */ }: QueryProps) =>
-              queryData && (
+            {({ data: queryData, loading, error }: QueryProps) => (
+              <Page title="Create a Team" loading={loading} error={error}>
                 <TeamBuilder
                   {...this.props}
-                  pokemon={queryData.allPokemon}
+                  pokemon={getOr([], "allPokemon", queryData)}
                   createTeamMutation={createTeamMutation}
                   createdTeamId={mutationData && mutationData.createTeam.id}
                 />
-              )
-            }
+              </Page>
+            )}
           </Query>
         )}
       </Mutation>

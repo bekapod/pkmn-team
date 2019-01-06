@@ -58,7 +58,8 @@ export const spacing = {
   lg: 33,
   md: 16.5,
   sm: 8.25,
-  xs: 4.125
+  xs: 4.125,
+  xxs: 2.0625
 };
 
 export const gutters = {

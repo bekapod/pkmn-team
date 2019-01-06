@@ -1,3 +1,5 @@
+import { keyframes } from "styled-components/macro";
+
 export const radialIn = `
   transform: perspective(1px) translateZ(0);
   box-shadow: 0 0 1px rgba(0, 0, 0, 0);
@@ -25,5 +27,22 @@ export const radialIn = `
   &:focus::before,
   &:active::before {
     transform: scale(0);
+  }
+`;
+
+export const pulseFade = keyframes`
+  from {
+    opacity: 0.5;
+    transform: scale3d(1, 1, 1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+
+  to {
+    opacity: 0.5;
+    transform: scale3d(1, 1, 1);
   }
 `;

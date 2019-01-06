@@ -69,7 +69,6 @@ const mocks: ReadonlyArray<MockedResponse> = [
           {
             createdAt: "2018-06-08T23:06:11.936Z",
             id: "cji6kxx7gp5n80a96mgw7gc45",
-            loading: false,
             members: [
               {
                 id: "cji6kxx7hp5n90a96r5rpx50u",
@@ -231,7 +230,7 @@ describe("<App />", () => {
     expect(tree.toJSON()).toMatchSnapshot();
   });
 
-  it("renders create a team form", () => {
+  it("renders create a team form", async () => {
     const tree = renderer.create(
       <Provider store={mockStore({})}>
         <MockedProvider mocks={mocks} addTypename={false}>
@@ -241,6 +240,8 @@ describe("<App />", () => {
         </MockedProvider>
       </Provider>
     );
+
+    await wait(0);
 
     expect(tree.toJSON()).toMatchSnapshot();
   });

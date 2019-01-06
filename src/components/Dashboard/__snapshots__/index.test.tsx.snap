@@ -2,336 +2,293 @@
 
 exports[`<Dashboard /> renders all teams with associated pokemon 1`] = `
 Array [
-  <h1
-    className="Heading-b3adig-0 jwQDLL"
-  >
-    My Teams
-  </h1>,
   <div
-    className="SectionContainer-xjlkvu-0 jZbaLj"
+    className="CenteredRow-f3rx2f-0 hNpdbY"
   >
-    <div
-      className="CenteredRow-f3rx2f-0 hNpdbY"
+    <a
+      className="Cta__CtaInternalLink-h8nk1r-0 jNQDYG"
+      href="/team/create/"
+      onClick={[Function]}
     >
-      <a
-        className="Cta__CtaInternalLink-h8nk1r-0 jNQDYG"
-        href="/team/create/"
-        onClick={[Function]}
-      >
-        Create a team
-      </a>
-    </div>
-    <div
-      className="TeamGrid__CardGrid-sc-12cfyys-0 dpqImA"
+      Create a team
+    </a>
+  </div>,
+  <div
+    className="TeamGrid__CardGrid-sc-12cfyys-0 dpqImA"
+  >
+    <article
+      className="Card__CardWrapper-sc-3o7tcb-0 bTjMad"
     >
-      <article
-        className="Card__CardWrapper-sc-3o7tcb-0 bTjMad"
+      <header
+        className="Card__CardHeader-sc-3o7tcb-1 cHrjuj"
       >
-        <header
-          className="Card__CardHeader-sc-3o7tcb-1 cHrjuj"
+        <h2
+          className="CardHeading-mmeo34-0 ebVIiR"
         >
-          <h2
-            className="CardHeading-mmeo34-0 ebVIiR"
-          >
-            Team 1
-          </h2>
-        </header>
+          Team 1
+        </h2>
+      </header>
+      <div
+        className="Card__CardContent-sc-3o7tcb-2 fDtTnd"
+      >
         <div
-          className="Card__CardContent-sc-3o7tcb-2 fDtTnd"
+          className="CardMeta__CardMetaWrapper-yqfxft-0 kTYlws"
         >
           <div
-            className="CardMeta__CardMetaWrapper-yqfxft-0 kTYlws"
+            className="CardMeta__CardMetaItem-yqfxft-1 hPoDTe"
           >
-            <div
-              className="CardMeta__CardMetaItem-yqfxft-1 hPoDTe"
+            <span
+              className="CardMeta__CardMetaLabel-yqfxft-2 hiNCFT"
             >
-              <span
-                className="CardMeta__CardMetaLabel-yqfxft-2 hiNCFT"
-              >
-                Pkmn
-              </span>
-              <span
-                className="CardMeta__CardMetaValue-yqfxft-3 jqYdyo"
-              >
-                2
-              </span>
-            </div>
-            <div
-              className="CardMeta__CardMetaItem-yqfxft-1 hPoDTe"
+              Pkmn
+            </span>
+            <span
+              className="CardMeta__CardMetaValue-yqfxft-3 jqYdyo"
             >
-              <span
-                className="CardMeta__CardMetaLabel-yqfxft-2 hiNCFT"
-              >
-                Created
-              </span>
-              <span
-                className="CardMeta__CardMetaValue-yqfxft-3 jqYdyo"
-              >
-                8/6/18
-              </span>
-            </div>
+              2
+            </span>
           </div>
           <div
-            className="PokemonLine__Row-sc-1qiwepa-0 kdjbDA"
+            className="CardMeta__CardMetaItem-yqfxft-1 hPoDTe"
           >
-            <img
-              alt="bulbasaur sprite"
-              className="PokemonLine__RowImage-sc-1qiwepa-1 hUcFnr"
-              src="/sprites/1.png"
-            />
-            <div>
-              <div
-                className="PokemonLine__RowTitle-sc-1qiwepa-2 edSfRl"
-              >
-                #1 Bulbasaur
-              </div>
-              <ul
-                className="InlineList-sc-1dn69qz-0 YzWxJ"
-              >
-                <li>
-                  <span
-                    className="TypeTag-sc-1dttu8y-0 jHkiSl"
-                    type="GRASS"
-                  >
-                    GRASS
-                  </span>
-                </li>
-                <li>
-                  <span
-                    className="TypeTag-sc-1dttu8y-0 jjNEEF"
-                    type="POISON"
-                  >
-                    POISON
-                  </span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div
-            className="PokemonLine__Row-sc-1qiwepa-0 dAGLvI"
-          >
-            <img
-              alt="pikachu sprite"
-              className="PokemonLine__RowImage-sc-1qiwepa-1 hUcFnr"
-              src="/sprites/25.png"
-            />
-            <div>
-              <div
-                className="PokemonLine__RowTitle-sc-1qiwepa-2 edSfRl"
-              >
-                #25 Pikachu
-              </div>
-              <ul
-                className="InlineList-sc-1dn69qz-0 YzWxJ"
-              >
-                <li>
-                  <span
-                    className="TypeTag-sc-1dttu8y-0 byzsso"
-                    type="ELECTRIC"
-                  >
-                    ELECTRIC
-                  </span>
-                </li>
-              </ul>
-            </div>
+            <span
+              className="CardMeta__CardMetaLabel-yqfxft-2 hiNCFT"
+            >
+              Created
+            </span>
+            <span
+              className="CardMeta__CardMetaValue-yqfxft-3 jqYdyo"
+            >
+              8/6/18
+            </span>
           </div>
         </div>
-      </article>
-      <article
-        className="Card__CardWrapper-sc-3o7tcb-0 bTjMad"
-      >
-        <header
-          className="Card__CardHeader-sc-3o7tcb-1 luajU"
-        >
-          <h2
-            className="CardHeading-mmeo34-0 ebVIiR"
-          >
-            Team 2
-          </h2>
-        </header>
         <div
-          className="Card__CardContent-sc-3o7tcb-2 fDtTnd"
+          className="PokemonLine__Row-sc-1qiwepa-0 kdjbDA"
         >
-          <div
-            className="CardMeta__CardMetaWrapper-yqfxft-0 kTYlws"
-          >
+          <img
+            alt="bulbasaur sprite"
+            className="PokemonLine__RowImage-sc-1qiwepa-1 hUcFnr"
+            src="/sprites/1.png"
+          />
+          <div>
             <div
-              className="CardMeta__CardMetaItem-yqfxft-1 hPoDTe"
+              className="PokemonLine__RowTitle-sc-1qiwepa-2 edSfRl"
             >
-              <span
-                className="CardMeta__CardMetaLabel-yqfxft-2 hiNCFT"
-              >
-                Pkmn
-              </span>
-              <span
-                className="CardMeta__CardMetaValue-yqfxft-3 jqYdyo"
-              >
-                3
-              </span>
+              #1 Bulbasaur
             </div>
-            <div
-              className="CardMeta__CardMetaItem-yqfxft-1 hPoDTe"
+            <ul
+              className="InlineList-sc-1dn69qz-0 YzWxJ"
             >
-              <span
-                className="CardMeta__CardMetaLabel-yqfxft-2 hiNCFT"
-              >
-                Created
-              </span>
-              <span
-                className="CardMeta__CardMetaValue-yqfxft-3 jqYdyo"
-              >
-                8/6/18
-              </span>
-            </div>
-          </div>
-          <div
-            className="PokemonLine__Row-sc-1qiwepa-0 pbtXk"
-          >
-            <img
-              alt="charmander sprite"
-              className="PokemonLine__RowImage-sc-1qiwepa-1 hUcFnr"
-              src="/sprites/4.png"
-            />
-            <div>
-              <div
-                className="PokemonLine__RowTitle-sc-1qiwepa-2 edSfRl"
-              >
-                #4 Charmander
-              </div>
-              <ul
-                className="InlineList-sc-1dn69qz-0 YzWxJ"
-              >
-                <li>
-                  <span
-                    className="TypeTag-sc-1dttu8y-0 QKQcU"
-                    type="FIRE"
-                  >
-                    FIRE
-                  </span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div
-            className="PokemonLine__Row-sc-1qiwepa-0 dAGLvI"
-          >
-            <img
-              alt="pikachu sprite"
-              className="PokemonLine__RowImage-sc-1qiwepa-1 hUcFnr"
-              src="/sprites/25.png"
-            />
-            <div>
-              <div
-                className="PokemonLine__RowTitle-sc-1qiwepa-2 edSfRl"
-              >
-                #25 Pikachu
-              </div>
-              <ul
-                className="InlineList-sc-1dn69qz-0 YzWxJ"
-              >
-                <li>
-                  <span
-                    className="TypeTag-sc-1dttu8y-0 byzsso"
-                    type="ELECTRIC"
-                  >
-                    ELECTRIC
-                  </span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div
-            className="PokemonLine__Row-sc-1qiwepa-0 IOTuc"
-          >
-            <img
-              alt="haunter sprite"
-              className="PokemonLine__RowImage-sc-1qiwepa-1 hUcFnr"
-              src="/sprites/93.png"
-            />
-            <div>
-              <div
-                className="PokemonLine__RowTitle-sc-1qiwepa-2 edSfRl"
-              >
-                #93 Haunter
-              </div>
-              <ul
-                className="InlineList-sc-1dn69qz-0 YzWxJ"
-              >
-                <li>
-                  <span
-                    className="TypeTag-sc-1dttu8y-0 hPYoBY"
-                    type="GHOST"
-                  >
-                    GHOST
-                  </span>
-                </li>
-                <li>
-                  <span
-                    className="TypeTag-sc-1dttu8y-0 jjNEEF"
-                    type="POISON"
-                  >
-                    POISON
-                  </span>
-                </li>
-              </ul>
-            </div>
+              <li>
+                <span
+                  className="TypeTag-sc-1dttu8y-0 jHkiSl"
+                  type="GRASS"
+                >
+                  GRASS
+                </span>
+              </li>
+              <li>
+                <span
+                  className="TypeTag-sc-1dttu8y-0 jjNEEF"
+                  type="POISON"
+                >
+                  POISON
+                </span>
+              </li>
+            </ul>
           </div>
         </div>
-      </article>
-    </div>
+        <div
+          className="PokemonLine__Row-sc-1qiwepa-0 dAGLvI"
+        >
+          <img
+            alt="pikachu sprite"
+            className="PokemonLine__RowImage-sc-1qiwepa-1 hUcFnr"
+            src="/sprites/25.png"
+          />
+          <div>
+            <div
+              className="PokemonLine__RowTitle-sc-1qiwepa-2 edSfRl"
+            >
+              #25 Pikachu
+            </div>
+            <ul
+              className="InlineList-sc-1dn69qz-0 YzWxJ"
+            >
+              <li>
+                <span
+                  className="TypeTag-sc-1dttu8y-0 byzsso"
+                  type="ELECTRIC"
+                >
+                  ELECTRIC
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+    <article
+      className="Card__CardWrapper-sc-3o7tcb-0 bTjMad"
+    >
+      <header
+        className="Card__CardHeader-sc-3o7tcb-1 luajU"
+      >
+        <h2
+          className="CardHeading-mmeo34-0 ebVIiR"
+        >
+          Team 2
+        </h2>
+      </header>
+      <div
+        className="Card__CardContent-sc-3o7tcb-2 fDtTnd"
+      >
+        <div
+          className="CardMeta__CardMetaWrapper-yqfxft-0 kTYlws"
+        >
+          <div
+            className="CardMeta__CardMetaItem-yqfxft-1 hPoDTe"
+          >
+            <span
+              className="CardMeta__CardMetaLabel-yqfxft-2 hiNCFT"
+            >
+              Pkmn
+            </span>
+            <span
+              className="CardMeta__CardMetaValue-yqfxft-3 jqYdyo"
+            >
+              3
+            </span>
+          </div>
+          <div
+            className="CardMeta__CardMetaItem-yqfxft-1 hPoDTe"
+          >
+            <span
+              className="CardMeta__CardMetaLabel-yqfxft-2 hiNCFT"
+            >
+              Created
+            </span>
+            <span
+              className="CardMeta__CardMetaValue-yqfxft-3 jqYdyo"
+            >
+              8/6/18
+            </span>
+          </div>
+        </div>
+        <div
+          className="PokemonLine__Row-sc-1qiwepa-0 pbtXk"
+        >
+          <img
+            alt="charmander sprite"
+            className="PokemonLine__RowImage-sc-1qiwepa-1 hUcFnr"
+            src="/sprites/4.png"
+          />
+          <div>
+            <div
+              className="PokemonLine__RowTitle-sc-1qiwepa-2 edSfRl"
+            >
+              #4 Charmander
+            </div>
+            <ul
+              className="InlineList-sc-1dn69qz-0 YzWxJ"
+            >
+              <li>
+                <span
+                  className="TypeTag-sc-1dttu8y-0 QKQcU"
+                  type="FIRE"
+                >
+                  FIRE
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          className="PokemonLine__Row-sc-1qiwepa-0 dAGLvI"
+        >
+          <img
+            alt="pikachu sprite"
+            className="PokemonLine__RowImage-sc-1qiwepa-1 hUcFnr"
+            src="/sprites/25.png"
+          />
+          <div>
+            <div
+              className="PokemonLine__RowTitle-sc-1qiwepa-2 edSfRl"
+            >
+              #25 Pikachu
+            </div>
+            <ul
+              className="InlineList-sc-1dn69qz-0 YzWxJ"
+            >
+              <li>
+                <span
+                  className="TypeTag-sc-1dttu8y-0 byzsso"
+                  type="ELECTRIC"
+                >
+                  ELECTRIC
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          className="PokemonLine__Row-sc-1qiwepa-0 IOTuc"
+        >
+          <img
+            alt="haunter sprite"
+            className="PokemonLine__RowImage-sc-1qiwepa-1 hUcFnr"
+            src="/sprites/93.png"
+          />
+          <div>
+            <div
+              className="PokemonLine__RowTitle-sc-1qiwepa-2 edSfRl"
+            >
+              #93 Haunter
+            </div>
+            <ul
+              className="InlineList-sc-1dn69qz-0 YzWxJ"
+            >
+              <li>
+                <span
+                  className="TypeTag-sc-1dttu8y-0 hPYoBY"
+                  type="GHOST"
+                >
+                  GHOST
+                </span>
+              </li>
+              <li>
+                <span
+                  className="TypeTag-sc-1dttu8y-0 jjNEEF"
+                  type="POISON"
+                >
+                  POISON
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
   </div>,
 ]
 `;
 
 exports[`<Dashboard /> when dashboard has no data renders correctly 1`] = `
 Array [
-  <h1
-    className="Heading-b3adig-0 jwQDLL"
-  >
-    My Teams
-  </h1>,
   <div
-    className="SectionContainer-xjlkvu-0 jZbaLj"
+    className="CenteredRow-f3rx2f-0 hNpdbY"
   >
-    <div
-      className="CenteredRow-f3rx2f-0 hNpdbY"
+    <a
+      className="Cta__CtaInternalLink-h8nk1r-0 jNQDYG"
+      href="/team/create/"
+      onClick={[Function]}
     >
-      <a
-        className="Cta__CtaInternalLink-h8nk1r-0 jNQDYG"
-        href="/team/create/"
-        onClick={[Function]}
-      >
-        Create a team
-      </a>
-    </div>
-    <div
-      className="TeamGrid__CardGrid-sc-12cfyys-0 dpqImA"
-    />
+      Create a team
+    </a>
   </div>,
-]
-`;
-
-exports[`<Dashboard /> when dashboard is loading renders correctly 1`] = `
-Array [
-  <h1
-    className="Heading-b3adig-0 jwQDLL"
-  >
-    My Teams
-  </h1>,
   <div
-    className="SectionContainer-xjlkvu-0 jZbaLj"
-  >
-    <div
-      className="CenteredRow-f3rx2f-0 hNpdbY"
-    >
-      <a
-        className="Cta__CtaInternalLink-h8nk1r-0 jNQDYG"
-        href="/team/create/"
-        onClick={[Function]}
-      >
-        Create a team
-      </a>
-    </div>
-  </div>,
+    className="TeamGrid__CardGrid-sc-12cfyys-0 dpqImA"
+  />,
 ]
 `;

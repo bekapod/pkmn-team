@@ -8,7 +8,9 @@ Array [
     Create a Team
   </h1>,
   <div
+    aria-live="assertive"
     className="SectionContainer-xjlkvu-0 jZbaLj"
+    role="alert"
   >
     <div
       className="CenteredRow-f3rx2f-0 hfFVle"
@@ -61,7 +63,9 @@ Array [
     My Teams
   </h1>,
   <div
+    aria-live="assertive"
     className="SectionContainer-xjlkvu-0 jZbaLj"
+    role="alert"
   >
     <div
       className="CenteredRow-f3rx2f-0 hNpdbY"

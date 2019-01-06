@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Page /> renders error message 1`] = `
+Array [
+  <h1
+    className="Heading-b3adig-0 jwQDLL"
+  >
+    My Page
+  </h1>,
+  <div
+    aria-live="assertive"
+    className="SectionContainer-xjlkvu-0 jZbaLj"
+    role="alert"
+  >
+    <div
+      className="ErrorMessage__StyledError-sc-11kho77-0 DzHRJ"
+      role="alert"
+    >
+      Error message.
+    </div>
+  </div>,
+]
+`;
+
+exports[`<Page /> renders loading icon 1`] = `
+Array [
+  <h1
+    className="Heading-b3adig-0 jwQDLL"
+  >
+    My Page
+  </h1>,
+  <div
+    aria-live="assertive"
+    className="SectionContainer-xjlkvu-0 jZbaLj"
+    role="alert"
+  >
+    <div
+      className="LoadingIcon__Styled-sc-1njdtjv-0 gEufFU"
+    >
+      Loading
+    </div>
+  </div>,
+]
+`;
+
+exports[`<Page /> renders regular content 1`] = `
+Array [
+  <h1
+    className="Heading-b3adig-0 jwQDLL"
+  >
+    My Page
+  </h1>,
+  <div
+    aria-live="assertive"
+    className="SectionContainer-xjlkvu-0 jZbaLj"
+    role="alert"
+  >
+    <div>
+      Test Content
+    </div>
+  </div>,
+]
+`;

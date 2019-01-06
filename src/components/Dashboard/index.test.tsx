@@ -83,18 +83,6 @@ describe("<Dashboard />", () => {
     expect(tree.toJSON()).toMatchSnapshot();
   });
 
-  describe("when dashboard is loading", () => {
-    it("renders correctly", () => {
-      const tree = renderer.create(
-        <MemoryRouter initialEntries={["/"]}>
-          <Dashboard loading={true} />
-        </MemoryRouter>
-      );
-
-      expect(tree.toJSON()).toMatchSnapshot();
-    });
-  });
-
   describe("when dashboard has no data", () => {
     it("renders correctly", () => {
       const tree = renderer.create(

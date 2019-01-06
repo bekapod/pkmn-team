@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LoadingIcon /> renders without crashing 1`] = `
+<div
+  className="LoadingIcon__Styled-sc-1njdtjv-0 gEufFU"
+>
+  Loading
+</div>
+`;

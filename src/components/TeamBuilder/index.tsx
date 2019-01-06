@@ -19,11 +19,9 @@ import CenteredRow from "../CenteredRow";
 import { CtaButton } from "../Cta";
 import ErrorMessage from "../ErrorMessage";
 import GiantInput from "../GiantInput";
-import Heading from "../Heading";
 import PokemonCard from "../PokemonCard";
 import PokemonGrid from "../PokemonGrid";
 import PokemonSearch from "../PokemonSearch";
-import SectionContainer from "../SectionContainer";
 
 interface IProps {
   pokemon: IPokemon[];
@@ -200,72 +198,66 @@ class TeamBuilder extends Component<IProps, IState> {
 
     return (
       <Fragment>
-        <Heading>Create a Team</Heading>
-        <SectionContainer>
-          <CenteredRow stackVertically={true}>
-            <GiantInput
-              aria-label="Choose a team name"
-              placeholder="Choose a team name"
-              onChange={this.handleTeamNameChange}
-              defaultValue={teamBuilderName}
-              isInvalid={nameHasError}
+        <CenteredRow stackVertically={true}>
+          <GiantInput
+            aria-label="Choose a team name"
+            placeholder="Choose a team name"
+            onChange={this.handleTeamNameChange}
+            defaultValue={teamBuilderName}
+            isInvalid={nameHasError}
+          />
+          {this.state.isTouched && nameHasError && nameErrorMessage && (
+            <ErrorMessage>{nameErrorMessage}</ErrorMessage>
+          )}
+        </CenteredRow>
+        {lt(numberOfMembersInTeam, 6) && [
+          <CenteredRow key="Search form">
+            <PokemonSearch
+              pokemon={pokemon}
+              setCurrentSearchPokemon={setCurrentSearchPokemon}
             />
-            {this.state.isTouched && nameHasError && nameErrorMessage && (
-              <ErrorMessage>{nameErrorMessage}</ErrorMessage>
-            )}
-          </CenteredRow>
-          {lt(numberOfMembersInTeam, 6) && [
-            <CenteredRow key="Search form">
-              <PokemonSearch
-                pokemon={pokemon}
-                setCurrentSearchPokemon={setCurrentSearchPokemon}
-              />
-            </CenteredRow>,
-            currentSearchPokemonName && (
-              <CenteredRow key="Add member button">
-                <CtaButton
-                  secondary={true}
-                  onClick={this.handleAddPokemonToTeam}
-                >
-                  {`Add ${currentSearchPokemonName} to your team`}
-                </CtaButton>
-              </CenteredRow>
-            )
-          ]}
-
-          {gt(numberOfMembersInTeam, 0) && [
-            <CenteredRow key="Team members">
-              <PokemonGrid>
-                {teamBuilderMembers &&
-                  Object.keys(teamBuilderMembers).map(id => {
-                    const { pokemon: pkmn } = teamBuilderMembers[id];
-                    const renderCardActions = () => (
-                      <CtaButton
-                        secondary={true}
-                        small={true}
-                        onClick={this.handleRemovePokemonFromTeam(id)}
-                      >
-                        {`Remove ${pkmn.name} from team`}
-                      </CtaButton>
-                    );
-                    return (
-                      <PokemonCard
-                        key={id}
-                        memberId={id}
-                        pokemon={pkmn}
-                        renderCardActions={renderCardActions}
-                      />
-                    );
-                  })}
-              </PokemonGrid>
-            </CenteredRow>,
-            <CenteredRow key="Create button">
-              <CtaButton onClick={this.handleCreateTeam}>
-                Create this team!
+          </CenteredRow>,
+          currentSearchPokemonName && (
+            <CenteredRow key="Add member button">
+              <CtaButton secondary={true} onClick={this.handleAddPokemonToTeam}>
+                {`Add ${currentSearchPokemonName} to your team`}
               </CtaButton>
             </CenteredRow>
-          ]}
-        </SectionContainer>
+          )
+        ]}
+
+        {gt(numberOfMembersInTeam, 0) && [
+          <CenteredRow key="Team members">
+            <PokemonGrid>
+              {teamBuilderMembers &&
+                Object.keys(teamBuilderMembers).map(id => {
+                  const { pokemon: pkmn } = teamBuilderMembers[id];
+                  const renderCardActions = () => (
+                    <CtaButton
+                      secondary={true}
+                      small={true}
+                      onClick={this.handleRemovePokemonFromTeam(id)}
+                    >
+                      {`Remove ${pkmn.name} from team`}
+                    </CtaButton>
+                  );
+                  return (
+                    <PokemonCard
+                      key={id}
+                      memberId={id}
+                      pokemon={pkmn}
+                      renderCardActions={renderCardActions}
+                    />
+                  );
+                })}
+            </PokemonGrid>
+          </CenteredRow>,
+          <CenteredRow key="Create button">
+            <CtaButton onClick={this.handleCreateTeam}>
+              Create this team!
+            </CtaButton>
+          </CenteredRow>
+        ]}
       </Fragment>
     );
   }

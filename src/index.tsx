@@ -14,7 +14,7 @@ import { lineHeight } from "./helpers/verticalRhythm";
 import * as serviceWorker from "./serviceWorker";
 import configureStore from "./store";
 
-const GlobalStyle = createGlobalStyle`
+export const GlobalStyle = createGlobalStyle`
   ${normalize()}
 
   *,
@@ -24,6 +24,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   html {
+    overflow-x: hidden;
     color: ${variables.colors.grayDark};
     font-family: ${variables.fonts.base};
     font-size: ${variables.fontSizes.base}px;

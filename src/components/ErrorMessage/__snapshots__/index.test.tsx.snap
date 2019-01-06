@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[` 1`] = `
+exports[`<ErrorMessage /> when a html element is passed renders without crashing 1`] = `
 <div
-  className="ErrorMessage__StyledError-sc-11kho77-0 mbCQE"
+  className="ErrorMessage__StyledError-sc-11kho77-0 cUudsG"
   role="alert"
 >
   <span>
@@ -11,9 +11,9 @@ exports[` 1`] = `
 </div>
 `;
 
-exports[` 2`] = `
+exports[`<ErrorMessage /> when a react component is passed renders without crashing 1`] = `
 <div
-  className="ErrorMessage__StyledError-sc-11kho77-0 mbCQE"
+  className="ErrorMessage__StyledError-sc-11kho77-0 cUudsG"
   role="alert"
 >
   <div>
@@ -22,9 +22,18 @@ exports[` 2`] = `
 </div>
 `;
 
+exports[`<ErrorMessage /> when isBig prop is passed renders without crashing 1`] = `
+<div
+  className="ErrorMessage__StyledError-sc-11kho77-0 DzHRJ"
+  role="alert"
+>
+  This is an error
+</div>
+`;
+
 exports[`<ErrorMessage /> when text is passed renders without crashing 1`] = `
 <div
-  className="ErrorMessage__StyledError-sc-11kho77-0 mbCQE"
+  className="ErrorMessage__StyledError-sc-11kho77-0 cUudsG"
   role="alert"
 >
   This is an error
