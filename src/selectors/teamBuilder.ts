@@ -1,24 +1,19 @@
 import { get } from "lodash/fp";
-import { createSelector, ParametricSelector } from "reselect";
-import { IState, ITeamBuilderState } from "../types";
+import { createSelector } from "reselect";
 
-export const getTeamBuilder: ParametricSelector<
-  IState,
-  any,
-  ITeamBuilderState
-> = get("teamBuilder");
+export const getTeamBuilder = get("teamBuilder");
 
 export const getTeamBuilderName = createSelector(
   getTeamBuilder,
-  teamBuilder => get("name", teamBuilder)
+  get("name")
 );
 
 export const getTeamBuilderMembers = createSelector(
   getTeamBuilder,
-  teamBuilder => get("members", teamBuilder)
+  get("members")
 );
 
 export const getTeamBuilderCurrentSearchPokemon = createSelector(
   getTeamBuilder,
-  teamBuilder => get("currentSearchPokemon", teamBuilder)
+  get("currentSearchPokemon")
 );

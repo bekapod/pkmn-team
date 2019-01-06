@@ -41,6 +41,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
               {
                 id: "cji6gz8gwhbln0a96q7wmx9zj",
                 pokemon: {
+                  id: "7",
                   name: "squirtle",
                   pokedexId: 7,
                   sprite: "7.png",
@@ -50,6 +51,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
               {
                 id: "cji6gz8gwhblo0a96wgoki379",
                 pokemon: {
+                  id: "25",
                   name: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
@@ -67,6 +69,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
               {
                 id: "cji6kxx7hp5n90a96r5rpx50u",
                 pokemon: {
+                  id: "25",
                   name: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
@@ -76,6 +79,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
               {
                 id: "cji6kxx7hp5na0a96hb6e0643",
                 pokemon: {
+                  id: "25",
                   name: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
@@ -85,6 +89,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
               {
                 id: "cji6kxx7hp5nb0a9629wdve5s",
                 pokemon: {
+                  id: "25",
                   name: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
@@ -94,6 +99,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
               {
                 id: "cji6kxx7hp5nc0a969th9ll1f",
                 pokemon: {
+                  id: "25",
                   name: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
@@ -103,6 +109,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
               {
                 id: "cji6kxx7hp5nd0a968aj6f6qj",
                 pokemon: {
+                  id: "25",
                   name: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
@@ -112,6 +119,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
               {
                 id: "cji6kxx7hp5ne0a964tf72wol",
                 pokemon: {
+                  id: "25",
                   name: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
@@ -128,6 +136,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
               {
                 id: "cji6kzy8pprbr0a967jhcik0n",
                 pokemon: {
+                  id: "25",
                   name: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
@@ -137,6 +146,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
               {
                 id: "cji6kzy8pprbs0a96349zeq46",
                 pokemon: {
+                  id: "25",
                   name: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
@@ -146,6 +156,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
               {
                 id: "cji6kzy8pprbt0a96v5isjwvt",
                 pokemon: {
+                  id: "25",
                   name: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",

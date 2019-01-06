@@ -8,7 +8,6 @@ import {
   lt,
   prop,
   propOr,
-  set,
   unset
 } from "lodash/fp";
 import React, { ChangeEvent, Component, Fragment } from "react";

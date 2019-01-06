@@ -21,6 +21,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
       data: {
         allPokemon: [
           {
+            id: "25",
             name: "pikachu",
             pokedexId: 25,
             sprite: "25.png",

@@ -2,7 +2,7 @@ import dateFormat from "dateformat";
 import { compose, flatMap, get, isNil, map, reject } from "lodash/fp";
 import React from "react";
 import * as variables from "../../helpers/variables";
-import { IPokemon, ITeam, Type } from "../../types";
+import { IPokemon, ITeam } from "../../types";
 import { CardContent, CardHeader, CardWrapper } from "../Card";
 import CardHeading from "../CardHeading";
 import CardMeta from "../CardMeta";

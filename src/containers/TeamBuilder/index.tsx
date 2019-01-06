@@ -54,13 +54,12 @@ class TeamBuilderContainer extends PureComponent<IProps> {
   }
 }
 
-const mapStateToProps = (state: IState, props: any) => ({
+const mapStateToProps = (state: IState) => ({
   teamBuilderCurrentSearchPokemon: teamBuilderSelectors.getTeamBuilderCurrentSearchPokemon(
-    state,
-    props
+    state
   ),
-  teamBuilderMembers: teamBuilderSelectors.getTeamBuilderMembers(state, props),
-  teamBuilderName: teamBuilderSelectors.getTeamBuilderName(state, props)
+  teamBuilderMembers: teamBuilderSelectors.getTeamBuilderMembers(state),
+  teamBuilderName: teamBuilderSelectors.getTeamBuilderName(state)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>

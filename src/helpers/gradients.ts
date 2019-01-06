@@ -1,13 +1,4 @@
-import {
-  add,
-  compose,
-  divide,
-  flatMap,
-  flatten,
-  join,
-  map,
-  multiply
-} from "lodash/fp";
+import { add, compose, divide, flatMap, join, multiply } from "lodash/fp";
 import { Type } from "../types";
 import { getTypeColor, percentage, sortTypes } from "./general";
 
