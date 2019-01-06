@@ -54,7 +54,7 @@ class PokemonLine extends PureComponent<IProps> {
 
   public render() {
     const { pokemon, outdent } = this.props;
-    const { pokedexId, name, types = [], sprite } = pokemon;
+    const { pokedexId, name, types, sprite } = pokemon;
 
     return (
       <Row types={types} outdent={outdent}>

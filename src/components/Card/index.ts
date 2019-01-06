@@ -19,8 +19,7 @@ export const CardHeader = styled.header`
     2px 1px 0px ${variables.colors.grayDark},
     2px 3px 0px ${variables.colors.grayDarker},
     3px 2px 0px ${variables.colors.grayDark};
-  background-image: ${({ types = [] }: { types: Type[] }) =>
-    getTypeGradient(types)};
+  background-image: ${({ types }: { types: Type[] }) => getTypeGradient(types)};
   border-radius: ${variables.sizes.borderRadius}px 0 0 0;
 `;
 

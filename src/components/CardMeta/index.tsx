@@ -5,7 +5,7 @@ import { lineHeight } from "../../helpers/verticalRhythm";
 
 interface IProps {
   id: string;
-  items: Array<{
+  items?: Array<{
     label: string;
     value: string | number;
   }>;

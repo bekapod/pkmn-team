@@ -28,7 +28,7 @@ const PokemonCardActions = styled.div`
 `;
 
 const PokemonCard = ({ memberId, pokemon, renderCardActions }: IProps) => {
-  const { pokedexId, types = [], name, sprite } = pokemon;
+  const { pokedexId, types, name, sprite } = pokemon;
 
   return (
     <CardWrapper>

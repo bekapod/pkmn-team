@@ -17,4 +17,10 @@ describe("<CardMeta />", () => {
 
     expect(tree.toJSON()).toMatchSnapshot();
   });
+
+  it("renders no items without crashing", () => {
+    const tree = renderer.create(<CardMeta id="1" />);
+
+    expect(tree.toJSON()).toMatchSnapshot();
+  });
 });

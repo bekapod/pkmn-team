@@ -32,6 +32,16 @@
     "eject": "react-scripts eject",
     "lint": "tslint --project ."
   },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx,js,jsx}",
+      "!<rootDir>/node_modules/",
+      "!<rootDir>/src/index.tsx",
+      "!<rootDir>/src/serviceWorker.ts",
+      "!<rootDir>/src/store.ts",
+      "!<rootDir>/src/reducers/index.ts"
+    ]
+  },
   "devDependencies": {
     "@types/dateformat": "^3.0.0",
     "@types/jest": "^23.3.11",

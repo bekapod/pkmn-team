@@ -107,7 +107,7 @@ describe("<PokemonSearch />", () => {
 
   it("calls setCurrentSearchPokemon when user clicks a pokemon result", () => {
     const setCurrentSearchPokemon = jest.fn();
-    const { getByPlaceholderText, getByTestId, getByText } = render(
+    const { getByPlaceholderText, getByTestId } = render(
       <PokemonSearch
         pokemon={pokemon}
         setCurrentSearchPokemon={setCurrentSearchPokemon}
