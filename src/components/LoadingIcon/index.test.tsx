@@ -1,12 +1,18 @@
 import React from "react";
 // tslint:disable-next-line:no-implicit-dependencies
-import renderer from "react-test-renderer";
+import { render } from "react-testing-library";
 import LoadingIcon from ".";
 
 describe("<LoadingIcon />", () => {
-  it("renders without crashing", () => {
-    const tree = renderer.create(<LoadingIcon />);
+  it("renders loading text", () => {
+    const { queryByText } = render(<LoadingIcon />);
 
-    expect(tree.toJSON()).toMatchSnapshot();
+    expect(queryByText(/Loading/)).toBeTruthy();
+  });
+
+  it("renders spinner variant", () => {
+    const { queryByTestId } = render(<LoadingIcon spinner={true} />);
+
+    expect(queryByTestId("loading-spinner")).toBeTruthy();
   });
 });

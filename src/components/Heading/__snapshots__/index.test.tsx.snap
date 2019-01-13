@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`<Heading /> renders without crashing 1`] = `
-<h1
-  className="Heading-b3adig-0 jwQDLL"
->
-  This is a heading
-</h1>
-`;

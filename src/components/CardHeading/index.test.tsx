@@ -1,20 +1,20 @@
 import React from "react";
 // tslint:disable-next-line:no-implicit-dependencies
-import renderer from "react-test-renderer";
+import { render } from "react-testing-library";
 import CardHeading from ".";
 
 describe("<CardHeading />", () => {
-  it("renders without crashing", () => {
-    const tree = renderer.create(<CardHeading>Heading Default</CardHeading>);
+  it("renders a h2 by default", () => {
+    const { getByText } = render(<CardHeading>Heading Default</CardHeading>);
 
-    expect(tree.toJSON()).toMatchSnapshot();
+    expect(getByText(/Heading Default/).tagName).toBe("H2");
   });
 
   it("can render a different heading type", () => {
-    const tree = renderer.create(
+    const { getByText } = render(
       <CardHeading headingType="h1">Heading 1</CardHeading>
     );
 
-    expect(tree.toJSON()).toMatchSnapshot();
+    expect(getByText(/Heading 1/).tagName).toBe("H1");
   });
 });

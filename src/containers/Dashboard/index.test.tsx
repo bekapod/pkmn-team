@@ -2,7 +2,7 @@ import React from "react";
 import { MockedProvider, MockedResponse } from "react-apollo/test-utils";
 import { MemoryRouter } from "react-router-dom";
 // tslint:disable-next-line:no-implicit-dependencies
-import renderer from "react-test-renderer";
+import { render } from "react-testing-library";
 // tslint:disable-next-line:no-implicit-dependencies
 import wait from "waait";
 import DashboardContainer from ".";
@@ -173,8 +173,8 @@ const mocks: ReadonlyArray<MockedResponse> = [
 ];
 
 describe("<DashboardContainer />", () => {
-  it("renders without crashing", async () => {
-    const tree = renderer.create(
+  it("renders with correct title and number of team members", async () => {
+    const { queryByText, getAllByTestId } = render(
       <MockedProvider mocks={mocks} addTypename={false}>
         <MemoryRouter initialEntries={["/"]}>
           <DashboardContainer />
@@ -184,6 +184,7 @@ describe("<DashboardContainer />", () => {
 
     await wait(0);
 
-    expect(tree.toJSON()).toMatchSnapshot();
+    expect(queryByText(/My Teams/)).toBeTruthy();
+    expect(getAllByTestId(/team-link-(\w+)/)).toHaveLength(3);
   });
 });

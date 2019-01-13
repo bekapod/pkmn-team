@@ -30,6 +30,17 @@ export const radialIn = `
   }
 `;
 
+export const zoomIn = `
+  transition-property: transform;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-out;
+
+  &:hover,
+  &:focus {
+    transform: scale(1.05);
+  }
+`;
+
 export const pulseFade = keyframes`
   from {
     opacity: 0.5;
@@ -44,5 +55,15 @@ export const pulseFade = keyframes`
   to {
     opacity: 0.5;
     transform: scale3d(1, 1, 1);
+  }
+`;
+
+export const spin = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
   }
 `;

@@ -1,6 +1,7 @@
 import { InMemoryCache } from "apollo-cache-inmemory";
 import ApolloClient from "apollo-client";
-import { HttpLink } from "apollo-link-http";
+import { createHttpLink } from "apollo-link-http";
+import ApolloLinkTimeout from "apollo-link-timeout";
 import { normalize, selection } from "polished";
 import React, { Fragment } from "react";
 import { ApolloProvider } from "react-apollo";
@@ -62,12 +63,16 @@ export const GlobalStyle = createGlobalStyle`
   }
 `;
 
+const httpLink = createHttpLink({
+  uri: process.env.REACT_APP_API_URL
+});
+
+const timeoutLink = new ApolloLinkTimeout(10000);
+
 const client = new ApolloClient({
   cache: new InMemoryCache().restore((window as any).__APOLLO_STATE__),
   connectToDevTools: true,
-  link: new HttpLink({
-    uri: process.env.REACT_APP_API_URL
-  })
+  link: timeoutLink.concat(httpLink)
 });
 
 render(

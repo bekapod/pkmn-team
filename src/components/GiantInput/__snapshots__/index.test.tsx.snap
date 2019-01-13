@@ -1,8 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`<GiantInput /> renders without crashing 1`] = `
-<input
-  className="TextInput-sc-149814h-0 GiantInput-sc-1mhmfj5-0 CEtIK"
-  type="text"
-/>
-`;

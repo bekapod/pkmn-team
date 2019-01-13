@@ -58,7 +58,7 @@ const CardMetaValue = styled.span`
 `;
 
 const CardMeta = ({ id, items = [] }: IProps) => (
-  <CardMetaWrapper>
+  <CardMetaWrapper data-testid={`card-meta-${id}`}>
     {items.map(({ label, value }) => (
       <CardMetaItem key={`Team: ${id}, Label: ${label}`}>
         <CardMetaLabel>{label}</CardMetaLabel>

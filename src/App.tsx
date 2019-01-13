@@ -7,6 +7,7 @@ const App = () => (
   <Switch>
     <Route exact={true} path="/" component={DashboardContainer} />
     <Route path="/team/create/" component={TeamBuilderContainer} />
+    <Route path="/team/edit/:teamId" component={TeamBuilderContainer} />
   </Switch>
 );
 

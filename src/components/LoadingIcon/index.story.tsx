@@ -3,4 +3,6 @@ import { storiesOf } from "@storybook/react";
 import React from "react";
 import LoadingIcon from ".";
 
-storiesOf("LoadingIcon", module).add("default", () => <LoadingIcon />);
+storiesOf("LoadingIcon", module)
+  .add("default", () => <LoadingIcon />)
+  .add("spinner", () => <LoadingIcon spinner={true} />);

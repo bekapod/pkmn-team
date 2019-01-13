@@ -1,8 +1,6 @@
 import React from "react";
 // tslint:disable-next-line:no-implicit-dependencies
-import renderer from "react-test-renderer";
-// tslint:disable-next-line:no-implicit-dependencies
-import { cleanup, fireEvent, render } from "react-testing-library";
+import { fireEvent, render } from "react-testing-library";
 import PokemonSearch from ".";
 import { IPokemon } from "../../types";
 
@@ -31,20 +29,16 @@ describe("<PokemonSearch />", () => {
     }
   ];
 
-  afterEach(() => {
-    cleanup();
-  });
-
-  it("renders without crashing", () => {
+  it("renders search input", () => {
     const setCurrentSearchPokemon = () => null;
-    const tree = renderer.create(
+    const { queryByPlaceholderText } = render(
       <PokemonSearch
         pokemon={pokemon}
         setCurrentSearchPokemon={setCurrentSearchPokemon}
       />
     );
 
-    expect(tree.toJSON()).toMatchSnapshot();
+    expect(queryByPlaceholderText(/Choose a Pokemon/)).toBeTruthy();
   });
 
   it("shows list of matching pokemon when user begins to search", () => {

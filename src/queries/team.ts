@@ -18,3 +18,22 @@ export const getAllTeams = gql`
     }
   }
 `;
+
+export const getTeamById = gql`
+  query($id: ID!) {
+    teamById(id: $id) {
+      id
+      name
+      createdAt
+      members {
+        id
+        pokemon {
+          pokedexId
+          name
+          types
+          sprite
+        }
+      }
+    }
+  }
+`;

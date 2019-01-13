@@ -1,11 +1,11 @@
 import React from "react";
 // tslint:disable-next-line:no-implicit-dependencies
-import renderer from "react-test-renderer";
+import { render } from "react-testing-library";
 import Autocomplete, { AutocompleteDropdown } from ".";
 
 describe("<Autocomplete />", () => {
-  it("renders without crashing", () => {
-    const tree = renderer.create(
+  it("renders all children", () => {
+    const { getByText } = render(
       <Autocomplete>
         <AutocompleteDropdown>
           <span>Item 1</span>
@@ -14,6 +14,7 @@ describe("<Autocomplete />", () => {
       </Autocomplete>
     );
 
-    expect(tree.toJSON()).toMatchSnapshot();
+    expect(getByText(/Item 1/)).toBeTruthy();
+    expect(getByText(/Item 2/)).toBeTruthy();
   });
 });

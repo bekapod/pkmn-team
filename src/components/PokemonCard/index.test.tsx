@@ -1,11 +1,11 @@
 import React from "react";
 // tslint:disable-next-line:no-implicit-dependencies
-import renderer from "react-test-renderer";
+import { render } from "react-testing-library";
 import PokemonCard from ".";
 
 describe("<PokemonCard />", () => {
-  it("renders without crashing", () => {
-    const tree = renderer.create(
+  it("renders pokemon name and types", () => {
+    const { queryByText } = render(
       <PokemonCard
         pokemon={{
           id: "25",
@@ -17,12 +17,13 @@ describe("<PokemonCard />", () => {
       />
     );
 
-    expect(tree.toJSON()).toMatchSnapshot();
+    expect(queryByText(/#25 Pikachu/)).toBeTruthy();
+    expect(queryByText(/Electric/i)).toBeTruthy();
   });
 
   describe("when pokemon is part of a team (has a member id)", () => {
-    it("renders without crashing", () => {
-      const tree = renderer.create(
+    it("renders pokemon name and types", () => {
+      const { queryByText } = render(
         <PokemonCard
           memberId="7"
           pokemon={{
@@ -35,7 +36,8 @@ describe("<PokemonCard />", () => {
         />
       );
 
-      expect(tree.toJSON()).toMatchSnapshot();
+      expect(queryByText(/#25 Pikachu/)).toBeTruthy();
+      expect(queryByText(/Electric/i)).toBeTruthy();
     });
   });
 
@@ -44,7 +46,7 @@ describe("<PokemonCard />", () => {
       const renderCardActions = () => (
         <div>Card actions that should be rendered</div>
       );
-      const tree = renderer.create(
+      const { queryByText } = render(
         <PokemonCard
           pokemon={{
             id: "25",
@@ -57,13 +59,13 @@ describe("<PokemonCard />", () => {
         />
       );
 
-      expect(tree.toJSON()).toMatchSnapshot();
+      expect(queryByText(/Card actions that should be rendered/)).toBeTruthy();
     });
   });
 
   describe("when a pokemon with more than one type is passed", () => {
     it("renders all types", () => {
-      const tree = renderer.create(
+      const { queryByText } = render(
         <PokemonCard
           pokemon={{
             id: "25",
@@ -75,7 +77,8 @@ describe("<PokemonCard />", () => {
         />
       );
 
-      expect(tree.toJSON()).toMatchSnapshot();
+      expect(queryByText(/Poison/i)).toBeTruthy();
+      expect(queryByText(/Grass/i)).toBeTruthy();
     });
   });
 });

@@ -31,7 +31,7 @@ const PokemonCard = ({ memberId, pokemon, renderCardActions }: IProps) => {
   const { pokedexId, types, name, sprite } = pokemon;
 
   return (
-    <CardWrapper>
+    <CardWrapper data-testid={`pokemon-${pokemon.id}`}>
       <CardHeader types={types}>
         <CardHeading>{formatPokemonName(pokemon)}</CardHeading>
       </CardHeader>

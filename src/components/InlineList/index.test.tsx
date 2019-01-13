@@ -1,17 +1,18 @@
 import React from "react";
 // tslint:disable-next-line:no-implicit-dependencies
-import renderer from "react-test-renderer";
+import { render } from "react-testing-library";
 import InlineList from ".";
 
 describe("<InlineList />", () => {
-  it("renders without crashing", () => {
-    const tree = renderer.create(
+  it("renders children", () => {
+    const { queryByText } = render(
       <InlineList>
         <li>Item 1</li>
         <li>Item 2</li>
       </InlineList>
     );
 
-    expect(tree.toJSON()).toMatchSnapshot();
+    expect(queryByText(/Item 1/)).toBeTruthy();
+    expect(queryByText(/Item 2/)).toBeTruthy();
   });
 });

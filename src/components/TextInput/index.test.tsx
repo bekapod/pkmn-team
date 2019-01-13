@@ -1,22 +1,26 @@
 import React from "react";
 // tslint:disable-next-line:no-implicit-dependencies
-import renderer from "react-test-renderer";
+import { render } from "react-testing-library";
 import TextInput from "./";
 
 describe("<TextInput />", () => {
-  it("renders without crashing", () => {
-    const tree = renderer.create(
+  it("renders with correct attributes", () => {
+    const { getByPlaceholderText } = render(
       <TextInput type="text" placeholder="Text Input" />
     );
 
-    expect(tree.toJSON()).toMatchSnapshot();
+    expect(getByPlaceholderText(/Text Input/).getAttribute("type")).toBe(
+      "text"
+    );
   });
 
-  it("renders without crashing when invalid", () => {
-    const tree = renderer.create(
+  it("renders with correct attributes when invalid", () => {
+    const { getByPlaceholderText } = render(
       <TextInput type="text" placeholder="Text Input" isInvalid={true} />
     );
 
-    expect(tree.toJSON()).toMatchSnapshot();
+    expect(getByPlaceholderText(/Text Input/).getAttribute("type")).toBe(
+      "text"
+    );
   });
 });

@@ -1,6 +1,7 @@
+import { ApolloError } from "apollo-client";
 import {
   anyPass,
-  equals,
+  getOr,
   gt,
   isEmpty,
   isNil,
@@ -8,24 +9,29 @@ import {
   lt,
   prop,
   propOr,
+  set,
   unset
 } from "lodash/fp";
 import React, { ChangeEvent, Component, Fragment } from "react";
 import { Redirect } from "react-router-dom";
 import { getUniqueId } from "../../helpers/general";
 import withScrollToTop from "../../hocs/withScrollToTop";
-import { IPokemon, ITeamMember } from "../../types";
+import { IPokemon, ITeam, ITeamMember } from "../../types";
 import CenteredRow from "../CenteredRow";
 import { CtaButton } from "../Cta";
 import ErrorMessage from "../ErrorMessage";
 import GiantInput from "../GiantInput";
+import LoadingIcon from "../LoadingIcon";
 import PokemonCard from "../PokemonCard";
 import PokemonGrid from "../PokemonGrid";
 import PokemonSearch from "../PokemonSearch";
 
 interface IProps {
+  team?: ITeam;
   pokemon: IPokemon[];
   createdTeamId?: string;
+  loading?: boolean;
+  error?: ApolloError;
   createTeamMutation: (
     mutation: {
       variables: {
@@ -34,7 +40,17 @@ interface IProps {
       };
     }
   ) => void;
+  updateTeamMutation: (
+    mutation: {
+      variables: {
+        id: string;
+        name: string;
+        pokedexIds: number[];
+      };
+    }
+  ) => void;
   setTeamName: (name: string) => void;
+  setTeamMembers: (members: ITeamMember[]) => void;
   setCurrentSearchPokemon: (pokemon: IPokemon) => void;
   addPokemonToTeam: (member: ITeamMember) => void;
   removePokemonFromTeam: (member: { id: string }) => void;
@@ -50,7 +66,60 @@ interface IState {
   errors: { [key: string]: string };
 }
 
+const validate = (
+  props: IProps,
+  state: IState,
+  options: { setTouched?: boolean } = {}
+) => {
+  const { teamBuilderName, teamBuilderMembers } = props;
+  const isInvalid = anyPass([isEmpty, isNil]);
+  let updatedState = { ...state };
+
+  if (options.setTouched) {
+    updatedState = set("isTouched", true, updatedState);
+  }
+
+  updatedState =
+    isInvalid(teamBuilderName) || isInvalid(teamBuilderMembers)
+      ? set("isValid", false, updatedState)
+      : set("isValid", true, updatedState);
+
+  if (isInvalid(teamBuilderName)) {
+    updatedState = set(
+      "errors",
+      { ...updatedState.errors, name: "Team name is required" },
+      updatedState
+    );
+  } else {
+    updatedState = set(
+      "errors",
+      unset("name", updatedState.errors),
+      updatedState
+    );
+  }
+
+  if (isInvalid(teamBuilderMembers)) {
+    updatedState = set(
+      "errors",
+      { ...updatedState.errors, members: "Your team must have some pokemon" },
+      updatedState
+    );
+  } else {
+    updatedState = set(
+      "errors",
+      unset("members", updatedState.errors),
+      updatedState
+    );
+  }
+
+  return updatedState;
+};
+
 class TeamBuilder extends Component<IProps, IState> {
+  public static getDerivedStateFromProps(props: IProps, state: IState) {
+    return validate(props, state);
+  }
+
   public state = {
     errors: {},
     isTouched: false,
@@ -62,24 +131,22 @@ class TeamBuilder extends Component<IProps, IState> {
 
     this.handleTeamNameChange = this.handleTeamNameChange.bind(this);
     this.handleAddPokemonToTeam = this.handleAddPokemonToTeam.bind(this);
-    this.handleCreateTeam = this.handleCreateTeam.bind(this);
-    this.validate = this.validate.bind(this);
-  }
+    this.handleUpsertTeam = this.handleUpsertTeam.bind(this);
 
-  public componentDidMount() {
-    this.validate();
-  }
-
-  public shouldComponentUpdate(nextProps: IProps, nextState: IState) {
-    return !equals(this.state, nextState) || !equals(this.props, nextProps);
-  }
-
-  public componentDidUpdate() {
-    this.validate();
+    if (props.team) {
+      const { name, members } = props.team;
+      props.setTeamName(name);
+      props.setTeamMembers(members);
+    } else {
+      props.setTeamName("");
+      props.setTeamMembers([]);
+    }
   }
 
   public handleTeamNameChange(e: ChangeEvent<HTMLInputElement>) {
-    this.props.setTeamName(e.target.value);
+    const { value } = e.target;
+
+    this.props.setTeamName(value);
 
     this.setState(() => ({
       isTouched: true
@@ -105,85 +172,55 @@ class TeamBuilder extends Component<IProps, IState> {
     };
   }
 
-  public handleCreateTeam() {
+  public handleUpsertTeam() {
     const {
+      team,
       createTeamMutation,
+      updateTeamMutation,
       teamBuilderName,
       teamBuilderMembers
     } = this.props;
-
-    this.validate({ setTouched: true });
+    const teamId = getOr(undefined, "id", team);
 
     if (this.state.isValid && teamBuilderName && teamBuilderMembers) {
-      createTeamMutation({
-        variables: {
-          name: teamBuilderName,
-          pokedexIds: keys(teamBuilderMembers).map(key => {
-            const { pokemon } = teamBuilderMembers[key];
-            return prop("pokedexId", pokemon);
-          })
-        }
+      const pokedexIds = keys(teamBuilderMembers).map(key => {
+        const { pokemon } = teamBuilderMembers[key];
+        return prop("pokedexId", pokemon);
       });
+
+      if (teamId) {
+        updateTeamMutation({
+          variables: {
+            id: teamId,
+            name: teamBuilderName,
+            pokedexIds
+          }
+        });
+      } else {
+        createTeamMutation({
+          variables: {
+            name: teamBuilderName,
+            pokedexIds
+          }
+        });
+      }
     } else if (this.props.scrollToTop) {
+      this.setState({ isTouched: true });
       this.props.scrollToTop();
-    }
-  }
-
-  public validate(options: { setTouched?: boolean } = {}) {
-    const { teamBuilderName, teamBuilderMembers } = this.props;
-    const isInvalid = anyPass([isEmpty, isNil]);
-
-    if (options.setTouched) {
-      this.setState(() => ({
-        isTouched: true
-      }));
-    }
-
-    if (isInvalid(teamBuilderName) || isInvalid(teamBuilderMembers)) {
-      this.setState(() => ({
-        isValid: false
-      }));
-    } else {
-      this.setState(() => ({
-        isValid: true
-      }));
-    }
-
-    if (isInvalid(teamBuilderName)) {
-      this.setState(state => ({
-        errors: {
-          ...state.errors,
-          name: "Team name is required"
-        }
-      }));
-    } else {
-      this.setState(state => ({
-        errors: unset("name", { ...state.errors })
-      }));
-    }
-
-    if (isInvalid(teamBuilderMembers)) {
-      this.setState(state => ({
-        errors: {
-          ...state.errors,
-          members: "Your team must have some pokemon"
-        }
-      }));
-    } else {
-      this.setState(state => ({
-        errors: unset("members", { ...state.errors })
-      }));
     }
   }
 
   public render() {
     const {
+      team,
       pokemon,
       setCurrentSearchPokemon,
       teamBuilderCurrentSearchPokemon,
       teamBuilderMembers,
       teamBuilderName,
-      createdTeamId
+      createdTeamId,
+      loading,
+      error
     } = this.props;
     const currentSearchPokemonName =
       teamBuilderCurrentSearchPokemon &&
@@ -203,13 +240,14 @@ class TeamBuilder extends Component<IProps, IState> {
             aria-label="Choose a team name"
             placeholder="Choose a team name"
             onChange={this.handleTeamNameChange}
-            defaultValue={teamBuilderName}
+            value={teamBuilderName}
             isInvalid={nameHasError}
           />
           {this.state.isTouched && nameHasError && nameErrorMessage && (
             <ErrorMessage>{nameErrorMessage}</ErrorMessage>
           )}
         </CenteredRow>
+
         {lt(numberOfMembersInTeam, 6) && [
           <CenteredRow key="Search form">
             <PokemonSearch
@@ -252,11 +290,22 @@ class TeamBuilder extends Component<IProps, IState> {
                 })}
             </PokemonGrid>
           </CenteredRow>,
-          <CenteredRow key="Create button">
-            <CtaButton onClick={this.handleCreateTeam}>
-              Create this team!
-            </CtaButton>
-          </CenteredRow>
+          !!error && (
+            <CenteredRow key="Error">
+              <ErrorMessage>{error.message}</ErrorMessage>
+            </CenteredRow>
+          ),
+          loading && !error ? (
+            <CenteredRow key="Loading">
+              <LoadingIcon spinner={true} />
+            </CenteredRow>
+          ) : (
+            <CenteredRow key={team ? "Save button" : "Create button"}>
+              <CtaButton onClick={this.handleUpsertTeam}>
+                {team ? "Save team" : "Create this team!"}
+              </CtaButton>
+            </CenteredRow>
+          )
         ]}
       </Fragment>
     );

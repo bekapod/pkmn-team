@@ -41,7 +41,7 @@ export interface ITeam {
 }
 
 export interface ITeamBuilderState {
-  name?: string;
+  name: string;
   members: { [key: string]: ITeamMember };
   currentSearchPokemon?: IPokemon;
 }

@@ -1,12 +1,12 @@
 import React from "react";
 // tslint:disable-next-line:no-implicit-dependencies
-import renderer from "react-test-renderer";
+import { render } from "react-testing-library";
 import Heading from ".";
 
 describe("<Heading />", () => {
-  it("renders without crashing", () => {
-    const tree = renderer.create(<Heading>This is a heading</Heading>);
+  it("renders an h1 with children", () => {
+    const { getByText } = render(<Heading>This is a heading</Heading>);
 
-    expect(tree.toJSON()).toMatchSnapshot();
+    expect(getByText(/This is a heading/).tagName).toBe("H1");
   });
 });

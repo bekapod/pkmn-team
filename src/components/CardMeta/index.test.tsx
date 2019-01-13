@@ -1,11 +1,11 @@
 import React from "react";
 // tslint:disable-next-line:no-implicit-dependencies
-import renderer from "react-test-renderer";
+import { render } from "react-testing-library";
 import CardMeta from ".";
 
 describe("<CardMeta />", () => {
-  it("renders without crashing", () => {
-    const tree = renderer.create(
+  it("renders list of items", () => {
+    const { queryByText } = render(
       <CardMeta
         id="1"
         items={[
@@ -15,12 +15,15 @@ describe("<CardMeta />", () => {
       />
     );
 
-    expect(tree.toJSON()).toMatchSnapshot();
+    expect(queryByText(/Item 1/)).toBeTruthy();
+    expect(queryByText(/Value 1/)).toBeTruthy();
+    expect(queryByText(/Item 2/)).toBeTruthy();
+    expect(queryByText(/2/)).toBeTruthy();
   });
 
-  it("renders no items without crashing", () => {
-    const tree = renderer.create(<CardMeta id="1" />);
+  it("doesn't render any items if none are passed in", () => {
+    const { getByTestId } = render(<CardMeta id="1" />);
 
-    expect(tree.toJSON()).toMatchSnapshot();
+    expect(getByTestId("card-meta-1").children).toHaveLength(0);
   });
 });

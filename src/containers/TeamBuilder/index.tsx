@@ -1,5 +1,6 @@
 import { getOr } from "lodash/fp";
 import React, { PureComponent } from "react";
+import { adopt } from "react-adopt";
 import {
   Mutation,
   MutationResult,
@@ -12,8 +13,9 @@ import { bindActionCreators, Dispatch } from "redux";
 import * as teamBuilderActions from "../../actions/teamBuilder";
 import Page from "../../components/Page";
 import TeamBuilder from "../../components/TeamBuilder";
-import { createTeam } from "../../mutations/team";
+import { createTeam, updateTeam } from "../../mutations/team";
 import { getAllPokemon } from "../../queries/pokemon";
+import { getTeamById } from "../../queries/team";
 import * as teamBuilderSelectors from "../../selectors/teamBuilder";
 import { IPokemon, IState, ITeam, ITeamMember } from "../../types";
 
@@ -22,36 +24,123 @@ interface IProps {
   removePokemonFromTeam: (_: { id: string }) => void;
   setCurrentSearchPokemon: (_: IPokemon) => void;
   setTeamName: (_: string) => void;
+  setTeamMembers: (_: ITeamMember[]) => void;
   teamBuilderName?: string;
   teamBuilderMembers: { [key: string]: ITeamMember };
   teamBuilderCurrentSearchPokemon?: IPokemon;
+  match?: { params: { teamId?: string } };
 }
 
-type QueryProps = QueryResult<{ allPokemon: IPokemon[] }, OperationVariables>;
-type MutationProps = MutationResult<{ createTeam: ITeam }>;
+interface IQueryProps {
+  createTeamMutation: {
+    mutation: (
+      mutation: {
+        variables: {
+          name: string;
+          pokedexIds: number[];
+        };
+      }
+    ) => void;
+    result: MutationResult<{ createTeam: ITeam }>;
+  };
+  updateTeamMutation: {
+    mutation: (
+      mutation: {
+        variables: {
+          id: string;
+          name: string;
+          pokedexIds: number[];
+        };
+      }
+    ) => void;
+    result: MutationResult<{ updateTeam: ITeam }>;
+  };
+  getAllPokemonQuery: QueryResult<
+    { allPokemon: IPokemon[] },
+    OperationVariables
+  >;
+  getTeamQuery?: QueryResult<{ teamById: ITeam }, OperationVariables>;
+}
+
+const mutations = {
+  createTeamMutation: ({ render }: any) => (
+    <Mutation mutation={createTeam}>
+      {(mutation, result) => render({ mutation, result })}
+    </Mutation>
+  ),
+  updateTeamMutation: ({ render }: any) => (
+    <Mutation mutation={updateTeam}>
+      {(mutation, result) => render({ mutation, result })}
+    </Mutation>
+  )
+};
+
+const queries = {
+  getAllPokemonQuery: ({ render }: any) => (
+    <Query query={getAllPokemon}>{render}</Query>
+  ),
+  getTeamQuery: ({ teamId, render }: any) =>
+    teamId ? (
+      <Query query={getTeamById} variables={{ id: teamId }}>
+        {render}
+      </Query>
+    ) : (
+      render()
+    )
+};
+
+const WithQueriesAndMutations = adopt({ ...queries, ...mutations });
 
 class TeamBuilderContainer extends PureComponent<IProps> {
   public render() {
+    const teamId = getOr(null, "match.params.teamId", this.props);
+
     return (
-      <Mutation mutation={createTeam}>
-        {(
-          createTeamMutation,
-          { data: mutationData /* , loading, error */ }: MutationProps
-        ) => (
-          <Query query={getAllPokemon}>
-            {({ data: queryData, loading, error }: QueryProps) => (
-              <Page title="Create a Team" loading={loading} error={error}>
-                <TeamBuilder
-                  {...this.props}
-                  pokemon={getOr([], "allPokemon", queryData)}
-                  createTeamMutation={createTeamMutation}
-                  createdTeamId={mutationData && mutationData.createTeam.id}
-                />
-              </Page>
-            )}
-          </Query>
-        )}
-      </Mutation>
+      <WithQueriesAndMutations teamId={teamId}>
+        {({
+          createTeamMutation: {
+            mutation: createTeamMutation,
+            result: {
+              data: createdTeam,
+              loading: createTeamLoading,
+              error: createTeamError
+            }
+          },
+          updateTeamMutation: {
+            mutation: updateTeamMutation,
+            result: { loading: updateTeamLoading, error: updateTeamError }
+          },
+          getAllPokemonQuery: {
+            data: allPokemonData,
+            loading: allPokemonLoading,
+            error: allPokemonError
+          },
+          getTeamQuery
+        }: IQueryProps) => {
+          const team = getOr(undefined, "data.teamById", getTeamQuery);
+
+          return (
+            <Page
+              title={team ? "Edit Team" : "Create a Team"}
+              loading={
+                allPokemonLoading || getOr(false, "loading", getTeamQuery)
+              }
+              error={allPokemonError || getOr(undefined, "error", getTeamQuery)}
+            >
+              <TeamBuilder
+                {...this.props}
+                team={team}
+                pokemon={getOr([], "allPokemon", allPokemonData)}
+                createTeamMutation={createTeamMutation}
+                updateTeamMutation={updateTeamMutation}
+                createdTeamId={createdTeam && createdTeam.createTeam.id}
+                loading={createTeamLoading || updateTeamLoading}
+                error={createTeamError || updateTeamError}
+              />
+            </Page>
+          );
+        }}
+      </WithQueriesAndMutations>
     );
   }
 }

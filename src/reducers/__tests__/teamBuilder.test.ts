@@ -2,12 +2,36 @@ import {
   addPokemonToTeam,
   removePokemonFromTeam,
   setCurrentSearchPokemon,
+  setTeamMembers,
   setTeamName
 } from "../../actions/teamBuilder";
 import { IPokemon, ITeamBuilderState, ITeamMember } from "../../types";
 import reducer, { initialState } from "../teamBuilder";
 
 describe("Team builder reducer", () => {
+  describe("setTeamMembers", () => {
+    it("sets the team members", () => {
+      const teamMembers: ITeamMember[] = [
+        {
+          id: "1",
+          pokemon: {
+            id: "1",
+            name: "bulbasaur",
+            pokedexId: 1,
+            sprite: "bulbasaur.png",
+            types: ["GRASS", "POISON"]
+          }
+        }
+      ];
+      expect(reducer(initialState, setTeamMembers(teamMembers) as any)).toEqual(
+        {
+          ...initialState,
+          members: { "1": teamMembers[0] }
+        }
+      );
+    });
+  });
+
   describe("setTeamName", () => {
     it("sets the team name", () => {
       expect(reducer(initialState, setTeamName("My Team") as any)).toEqual({

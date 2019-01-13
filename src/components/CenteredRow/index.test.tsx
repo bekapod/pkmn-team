@@ -1,28 +1,32 @@
 import React from "react";
 // tslint:disable-next-line:no-implicit-dependencies
-import renderer from "react-test-renderer";
+import { render } from "react-testing-library";
 import CenteredRow from ".";
 
 describe("<CenteredRow />", () => {
-  it("renders without crashing", () => {
-    const tree = renderer.create(
+  it("renders all children", () => {
+    const { queryByText } = render(
       <CenteredRow>
         <span>Child 1</span>
         <span>Child 2</span>
       </CenteredRow>
     );
 
-    expect(tree.toJSON()).toMatchSnapshot();
+    expect(queryByText(/Child 1/)).toBeTruthy();
+    expect(queryByText(/Child 2/)).toBeTruthy();
   });
 
-  it("renders without crashing when stackVertically is passed", () => {
-    const tree = renderer.create(
-      <CenteredRow stackVertically={true}>
-        <span>Child 1</span>
-        <span>Child 2</span>
-      </CenteredRow>
-    );
+  describe("with stackVertically prop", () => {
+    it("renders all children", () => {
+      const { queryByText } = render(
+        <CenteredRow stackVertically={true}>
+          <span>Child 1</span>
+          <span>Child 2</span>
+        </CenteredRow>
+      );
 
-    expect(tree.toJSON()).toMatchSnapshot();
+      expect(queryByText(/Child 1/)).toBeTruthy();
+      expect(queryByText(/Child 2/)).toBeTruthy();
+    });
   });
 });

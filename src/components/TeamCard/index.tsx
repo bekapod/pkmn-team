@@ -3,7 +3,7 @@ import { compose, flatMap, get, isNil, map, reject } from "lodash/fp";
 import React from "react";
 import * as variables from "../../helpers/variables";
 import { IPokemon, ITeam } from "../../types";
-import { CardContent, CardHeader, CardWrapper } from "../Card";
+import { CardContent, CardHeader, CardLink, CardWrapper } from "../Card";
 import CardHeading from "../CardHeading";
 import CardMeta from "../CardMeta";
 import PokemonLine from "../PokemonLine";
@@ -20,29 +20,31 @@ const TeamCard = ({ team: { id, name, members, createdAt } }: IProps) => {
   );
 
   return (
-    <CardWrapper>
-      <CardHeader types={getAllTypes(pokemon)}>
-        <CardHeading>{name}</CardHeading>
-      </CardHeader>
+    <CardLink to={`/team/edit/${id}`} data-testid={`team-link-${id}`}>
+      <CardWrapper>
+        <CardHeader types={getAllTypes(pokemon)}>
+          <CardHeading>{name}</CardHeading>
+        </CardHeader>
 
-      <CardContent>
-        <CardMeta
-          id={id}
-          items={[
-            { label: "Pkmn", value: members.length },
-            { label: "Created", value: dateFormat(createdAt, "d/m/yy") }
-          ]}
-        />
-
-        {members.map(({ id: memberId, pokemon: memberPkmn }) => (
-          <PokemonLine
-            key={`Team Member: ${memberId}`}
-            pokemon={memberPkmn}
-            outdent={variables.spacing.sm}
+        <CardContent>
+          <CardMeta
+            id={id}
+            items={[
+              { label: "Pkmn", value: members.length },
+              { label: "Created", value: dateFormat(createdAt, "d/m/yy") }
+            ]}
           />
-        ))}
-      </CardContent>
-    </CardWrapper>
+
+          {members.map(({ id: memberId, pokemon: memberPkmn }) => (
+            <PokemonLine
+              key={`Team Member: ${memberId}`}
+              pokemon={memberPkmn}
+              outdent={variables.spacing.sm}
+            />
+          ))}
+        </CardContent>
+      </CardWrapper>
+    </CardLink>
   );
 };
 

@@ -1,17 +1,18 @@
 import React from "react";
 // tslint:disable-next-line:no-implicit-dependencies
-import renderer from "react-test-renderer";
+import { render } from "react-testing-library";
 import PokemonGrid from ".";
 
 describe("<PokemonGrid />", () => {
-  it("renders without crashing", () => {
-    const tree = renderer.create(
+  it("renders children", () => {
+    const { queryByText } = render(
       <PokemonGrid>
         <div>Pokemon 1</div>
         <div>Pokemon 2</div>
       </PokemonGrid>
     );
 
-    expect(tree.toJSON()).toMatchSnapshot();
+    expect(queryByText(/Pokemon 1/)).toBeTruthy();
+    expect(queryByText(/Pokemon 2/)).toBeTruthy();
   });
 });

@@ -1,4 +1,6 @@
+import { LocationDescriptor } from "history";
 import { always, cond, T } from "lodash/fp";
+import React from "react";
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components/macro";
 import { radialIn } from "../../helpers/animations";
@@ -10,9 +12,14 @@ interface IProps {
   small?: boolean;
 }
 
+interface ILinkProps extends IProps {
+  to: LocationDescriptor<any>;
+}
+
 const not = (value: any) => !value;
 
 const styles = css`
+  display: block;
   margin: 0;
   padding: ${({ small }: IProps) =>
     cond([
@@ -47,7 +54,9 @@ const styles = css`
   }
 `;
 
-export const CtaInternalLink = styled(Link)`
+export const CtaInternalLink = styled(
+  ({ secondary, small, ...props }: ILinkProps) => <Link {...props} />
+)`
   ${styles};
 `;
 

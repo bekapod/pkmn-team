@@ -1,18 +1,18 @@
 import React from "react";
 // tslint:disable-next-line:no-implicit-dependencies
-import renderer from "react-test-renderer";
+import { render } from "react-testing-library";
 import TypeTag from "./";
 
 describe("<TypeTag />", () => {
-  it("renders without crashing with ELECTRIC type", () => {
-    const tree = renderer.create(<TypeTag type="ELECTRIC">ELECTRIC</TypeTag>);
+  it("renders with ELECTRIC type", () => {
+    const { queryByText } = render(<TypeTag type="ELECTRIC">ELECTRIC</TypeTag>);
 
-    expect(tree.toJSON()).toMatchSnapshot();
+    expect(queryByText(/Electric/i)).toBeTruthy();
   });
 
-  it("renders without crashing with PSYCHIC type", () => {
-    const tree = renderer.create(<TypeTag type="PSYCHIC">PSYCHIC</TypeTag>);
+  it("renders with PSYCHIC type", () => {
+    const { queryByText } = render(<TypeTag type="PSYCHIC">PSYCHIC</TypeTag>);
 
-    expect(tree.toJSON()).toMatchSnapshot();
+    expect(queryByText(/Psychic/i)).toBeTruthy();
   });
 });

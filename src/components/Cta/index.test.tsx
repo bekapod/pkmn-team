@@ -1,63 +1,69 @@
 import React from "react";
-import { MemoryRouter } from "react-router-dom";
 // tslint:disable-next-line:no-implicit-dependencies
-import renderer from "react-test-renderer";
-// tslint:disable-next-line:no-implicit-dependencies
-import { cleanup, fireEvent, render } from "react-testing-library";
+import { fireEvent, render } from "react-testing-library";
 import { CtaButton, CtaInternalLink } from ".";
+import { renderWithRouter } from "../../helpers/testUtils";
 
 describe("<CtaInternalLink />", () => {
-  afterEach(() => {
-    cleanup();
-  });
-
-  it("renders without crashing", () => {
-    const tree = renderer.create(
-      <MemoryRouter initialEntries={["/"]}>
-        <CtaInternalLink to="/dashboard">Dashboard</CtaInternalLink>
-      </MemoryRouter>
+  it("renders a link", () => {
+    const { getByText } = renderWithRouter(
+      <CtaInternalLink to="/dashboard">Dashboard</CtaInternalLink>
     );
 
-    expect(tree.toJSON()).toMatchSnapshot();
+    expect(getByText(/Dashboard/).tagName).toBe("A");
+  });
+
+  describe("when user has clicked the link", () => {
+    it("directs user to correct page", () => {
+      const { getByText, history } = renderWithRouter(
+        <CtaInternalLink to="/dashboard">Dashboard</CtaInternalLink>
+      );
+
+      expect(
+        history.entries.find(entry => entry.pathname === "/dashboard")
+      ).toBeFalsy();
+
+      fireEvent.click(getByText(/Dashboard/));
+
+      expect(
+        history.entries.find(entry => entry.pathname === "/dashboard")
+      ).toBeTruthy();
+    });
   });
 
   describe("when secondary prop is passed", () => {
-    it("renders without crashing", () => {
-      const tree = renderer.create(
-        <MemoryRouter initialEntries={["/"]}>
-          <CtaInternalLink to="/dashboard" secondary={true}>
-            Dashboard
-          </CtaInternalLink>
-        </MemoryRouter>
+    it("renders a link", () => {
+      const { getByText } = renderWithRouter(
+        <CtaInternalLink to="/dashboard" secondary={true}>
+          Dashboard
+        </CtaInternalLink>
       );
 
-      expect(tree.toJSON()).toMatchSnapshot();
+      expect(getByText(/Dashboard/).tagName).toBe("A");
     });
   });
 
   describe("when small prop is passed", () => {
-    it("renders without crashing", () => {
-      const tree = renderer.create(
-        <MemoryRouter initialEntries={["/"]}>
-          <CtaInternalLink to="/dashboard" small={true}>
-            Dashboard
-          </CtaInternalLink>
-        </MemoryRouter>
+    it("renders a link", () => {
+      const { getByText } = renderWithRouter(
+        <CtaInternalLink to="/dashboard" small={true}>
+          Dashboard
+        </CtaInternalLink>
       );
 
-      expect(tree.toJSON()).toMatchSnapshot();
+      expect(getByText(/Dashboard/).tagName).toBe("A");
     });
   });
 });
 
 describe("<CtaButton />", () => {
-  it("renders without crashing", () => {
+  it("renders a button", () => {
     const onClick = () => null;
-    const tree = renderer.create(
+    const { getByText } = render(
       <CtaButton onClick={onClick}>Create Team</CtaButton>
     );
 
-    expect(tree.toJSON()).toMatchSnapshot();
+    expect(getByText(/Create Team/).tagName).toBe("BUTTON");
   });
 
   it("calls onClick", () => {
@@ -72,28 +78,28 @@ describe("<CtaButton />", () => {
   });
 
   describe("when secondary prop is passed", () => {
-    it("renders without crashing", () => {
+    it("renders a button", () => {
       const onClick = () => null;
-      const tree = renderer.create(
+      const { getByText } = render(
         <CtaButton secondary={true} onClick={onClick}>
           Create Team
         </CtaButton>
       );
 
-      expect(tree.toJSON()).toMatchSnapshot();
+      expect(getByText(/Create Team/).tagName).toBe("BUTTON");
     });
   });
 
   describe("when small prop is passed", () => {
-    it("renders without crashing", () => {
+    it("renders a button", () => {
       const onClick = () => null;
-      const tree = renderer.create(
+      const { getByText } = render(
         <CtaButton small={true} onClick={onClick}>
           Create Team
         </CtaButton>
       );
 
-      expect(tree.toJSON()).toMatchSnapshot();
+      expect(getByText(/Create Team/).tagName).toBe("BUTTON");
     });
   });
 });

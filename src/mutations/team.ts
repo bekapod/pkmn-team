@@ -7,3 +7,11 @@ export const createTeam = gql`
     }
   }
 `;
+
+export const updateTeam = gql`
+  mutation($id: ID!, $name: String!, $pokedexIds: [Int!]!) {
+    updateTeam(id: $id, name: $name, pokedexIds: $pokedexIds) {
+      id
+    }
+  }
+`;

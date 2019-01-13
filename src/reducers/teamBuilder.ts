@@ -3,6 +3,7 @@ import {
   addPokemonToTeam,
   removePokemonFromTeam,
   setCurrentSearchPokemon,
+  setTeamMembers,
   setTeamName
 } from "../actions/teamBuilder";
 import { ITeamBuilderState, ITeamMember } from "../types";
@@ -10,7 +11,7 @@ import { ITeamBuilderState, ITeamMember } from "../types";
 export const initialState: ITeamBuilderState = {
   currentSearchPokemon: undefined,
   members: {},
-  name: undefined
+  name: ""
 };
 
 type Payload = any;
@@ -23,6 +24,20 @@ export default handleActions(
     ) => ({
       ...state,
       name: action.payload
+    }),
+
+    [combineActions(setTeamMembers).toString()]: (
+      state: ITeamBuilderState,
+      action: Action<Payload>
+    ) => ({
+      ...state,
+      members: action.payload.reduce(
+        (acc: { [key: string]: ITeamMember }, curr: ITeamMember) => {
+          acc[curr.id] = curr;
+          return acc;
+        },
+        {}
+      )
     }),
 
     [combineActions(addPokemonToTeam).toString()]: (

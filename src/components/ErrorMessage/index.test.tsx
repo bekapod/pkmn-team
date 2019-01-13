@@ -1,51 +1,51 @@
 import React from "react";
 // tslint:disable-next-line:no-implicit-dependencies
-import renderer from "react-test-renderer";
+import { render } from "react-testing-library";
 import ErrorMessage from ".";
 
 describe("<ErrorMessage />", () => {
   describe("when text is passed", () => {
-    it("renders without crashing", () => {
-      const tree = renderer.create(
+    it("renders child as string", () => {
+      const { getByText } = render(
         <ErrorMessage>This is an error</ErrorMessage>
       );
 
-      expect(tree.toJSON()).toMatchSnapshot();
+      expect(getByText(/This is an error/).getAttribute("role")).toBe("alert");
     });
   });
 
   describe("when a html element is passed", () => {
-    it("renders without crashing", () => {
-      const tree = renderer.create(
+    it("renders the html element", () => {
+      const { getByText } = render(
         <ErrorMessage>
           <span>This is an error in a span</span>
         </ErrorMessage>
       );
 
-      expect(tree.toJSON()).toMatchSnapshot();
+      expect(getByText(/This is an error in a span/).tagName).toBe("SPAN");
     });
   });
 
   describe("when a react component is passed", () => {
-    it("renders without crashing", () => {
+    it("renders as per component", () => {
       const Component = () => <div>This is an error in a component</div>;
-      const tree = renderer.create(
+      const { getByText } = render(
         <ErrorMessage>
           <Component />
         </ErrorMessage>
       );
 
-      expect(tree.toJSON()).toMatchSnapshot();
+      expect(getByText(/This is an error in a component/).tagName).toBe("DIV");
     });
   });
 
   describe("when isBig prop is passed", () => {
-    it("renders without crashing", () => {
-      const tree = renderer.create(
+    it("renders child as a string", () => {
+      const { queryByText } = render(
         <ErrorMessage isBig={true}>This is an error</ErrorMessage>
       );
 
-      expect(tree.toJSON()).toMatchSnapshot();
+      expect(queryByText(/This is an error/)).toBeTruthy();
     });
   });
 });

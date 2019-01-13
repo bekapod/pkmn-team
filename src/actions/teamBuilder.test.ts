@@ -21,6 +21,40 @@ describe("Team builder actions", () => {
     });
   });
 
+  describe("setTeamMembers", () => {
+    it("dispatches with no team members", () => {
+      const payload: ITeamMember[] = [];
+      const expectedActions = [
+        { type: "team_builder/set_team_members", payload }
+      ];
+
+      store.dispatch(actions.setTeamMembers(payload));
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+
+    it("dispatches with team members", () => {
+      const payload: ITeamMember[] = [
+        {
+          id: "1",
+          pokemon: {
+            id: "1",
+            name: "Pikachu",
+            pokedexId: 25,
+            sprite: "pikachu.png",
+            types: ["ELECTRIC"]
+          }
+        }
+      ];
+
+      const expectedActions = [
+        { type: "team_builder/set_team_members", payload }
+      ];
+
+      store.dispatch(actions.setTeamMembers(payload));
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+
   describe("addPokemonToTeam", () => {
     it("dispatches with team member", () => {
       const payload: ITeamMember = {

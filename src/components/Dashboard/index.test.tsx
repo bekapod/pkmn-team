@@ -1,7 +1,8 @@
+import { flatten } from "lodash/fp";
 import React from "react";
 import { MemoryRouter } from "react-router-dom";
 // tslint:disable-next-line:no-implicit-dependencies
-import renderer from "react-test-renderer";
+import { render } from "react-testing-library";
 import Dashboard from ".";
 import { ITeam } from "../../types";
 
@@ -74,24 +75,36 @@ const mockData: ITeam[] = [
 
 describe("<Dashboard />", () => {
   it("renders all teams with associated pokemon", () => {
-    const tree = renderer.create(
+    const { queryByText } = render(
       <MemoryRouter initialEntries={["/"]}>
         <Dashboard teams={mockData} />
       </MemoryRouter>
     );
 
-    expect(tree.toJSON()).toMatchSnapshot();
+    const expectedTeams = mockData.map(team => team.name);
+    const expectedPokemon = flatten(
+      mockData.map(team => team.members.map(member => member.pokemon.name))
+    );
+
+    expect(queryByText(/Create a team/)).toBeTruthy();
+    expectedTeams.forEach(teamName =>
+      expect(queryByText(teamName)).toBeTruthy()
+    );
+    expectedPokemon.forEach(pokemonName =>
+      expect(queryByText(new RegExp(pokemonName, "i"))).toBeTruthy()
+    );
   });
 
   describe("when dashboard has no data", () => {
     it("renders correctly", () => {
-      const tree = renderer.create(
+      const { queryAllByTestId, queryByText } = render(
         <MemoryRouter initialEntries={["/"]}>
           <Dashboard teams={[]} />
         </MemoryRouter>
       );
 
-      expect(tree.toJSON()).toMatchSnapshot();
+      expect(queryByText(/Create a team/)).toBeTruthy();
+      expect(queryAllByTestId(/team-(\w+)/)).toHaveLength(0);
     });
   });
 });

@@ -1,11 +1,20 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components/macro";
+import { zoomIn } from "../../helpers/animations";
 import { getTypeGradient } from "../../helpers/gradients";
 import * as variables from "../../helpers/variables";
 import { Type } from "../../types";
 
+export const CardLink = styled(Link)`
+  ${zoomIn}
+  color: initial;
+  text-decoration: none;
+`;
+
 export const CardWrapper = styled.article`
   display: flex;
   flex-direction: column;
+  height: 100%;
 `;
 
 export const CardHeader = styled.header`
