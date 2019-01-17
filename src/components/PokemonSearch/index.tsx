@@ -13,60 +13,76 @@ interface IProps {
   setCurrentSearchPokemon: (pokemon: IPokemon) => void;
 }
 
+const stateReducer = (state: any, changes: any) => {
+  console.log(changes);
+  switch (changes.type) {
+    case Downshift.stateChangeTypes.clickItem:
+    case Downshift.stateChangeTypes.mouseUp:
+    case Downshift.stateChangeTypes.keyDownEnter:
+    case Downshift.stateChangeTypes.keyDownEscape:
+      return {
+        ...changes,
+        inputValue: state.inputValue
+      };
+    default:
+      return changes;
+  }
+};
+
 const PokemonSearch = ({ pokemon, setCurrentSearchPokemon }: IProps) => {
-  const onChange = (selectedPkmn: IPokemon) =>
-    setCurrentSearchPokemon(selectedPkmn);
   const itemToString = (pkmn: IPokemon) => capitalizePokemonName(pkmn);
+
   return (
-    <div>
-      <Downshift onChange={onChange} itemToString={itemToString}>
-        {({
-          getRootProps,
-          getInputProps,
-          getItemProps,
-          isOpen,
-          inputValue,
-          highlightedIndex,
-          selectedItem
-        }) => (
-          <Autocomplete {...getRootProps()}>
-            <GiantInput
-              {...getInputProps()}
-              arial-label="Choose a Pokemon"
-              placeholder="Choose a Pokemon"
-            />
-            {isOpen ? (
-              <AutocompleteDropdown>
-                {pokemon
-                  .filter(
-                    pkmn =>
-                      !inputValue || pkmn.name.includes(toLower(inputValue))
-                  )
-                  .map((pkmn, index) => (
-                    <div
-                      data-testid={`autocomplete-result-${pkmn.pokedexId}`}
-                      {...getItemProps({
-                        index,
-                        item: pkmn,
-                        key: pkmn.pokedexId,
-                        style: {
-                          backgroundColor:
-                            highlightedIndex === index
-                              ? variables.colors.grayLight
-                              : variables.colors.white,
-                          fontWeight: selectedItem === pkmn ? "bold" : "normal"
-                        }
-                      })}
-                    >
-                      <PokemonLine pokemon={pkmn} />
-                    </div>
-                  ))}
-              </AutocompleteDropdown>
-            ) : null}
-          </Autocomplete>
-        )}
-      </Downshift>
-    </div>
+    <Downshift
+      itemToString={itemToString}
+      defaultIsOpen={true}
+      stateReducer={stateReducer}
+      onChange={setCurrentSearchPokemon}
+    >
+      {({
+        getRootProps,
+        getInputProps,
+        getMenuProps,
+        getItemProps,
+        isOpen,
+        inputValue,
+        highlightedIndex
+      }) => (
+        <Autocomplete {...getRootProps()}>
+          <GiantInput
+            {...getInputProps()}
+            arial-label="Find a Pokemon"
+            placeholder="Find a Pokemon"
+          />
+          {isOpen ? (
+            <AutocompleteDropdown {...getMenuProps()}>
+              {pokemon
+                .filter(
+                  pkmn => !inputValue || pkmn.name.includes(toLower(inputValue))
+                )
+                .map((pkmn, index) => (
+                  <div
+                    data-testid={`autocomplete-result-${pkmn.pokedexId}`}
+                    {...getItemProps({
+                      index,
+                      item: pkmn,
+                      key: pkmn.pokedexId,
+                      style: {
+                        backgroundColor:
+                          highlightedIndex === index
+                            ? variables.colors.grayLight
+                            : variables.colors.white
+                      }
+                    })}
+                  >
+                    <PokemonLine pokemon={pkmn} />
+                  </div>
+                ))}
+            </AutocompleteDropdown>
+          ) : null}
+        </Autocomplete>
+      )}
+    </Downshift>
   );
 };
 

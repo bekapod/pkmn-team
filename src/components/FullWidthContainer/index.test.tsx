@@ -1,12 +1,12 @@
 import React from "react";
 // tslint:disable-next-line:no-implicit-dependencies
 import { render } from "react-testing-library";
-import SectionContainer from ".";
+import FullWidthContainer from ".";
 
-describe("<SectionContainer />", () => {
+describe("<FullWidthContainer />", () => {
   it("renders children", () => {
     const { queryByText } = render(
-      <SectionContainer>A section of content</SectionContainer>
+      <FullWidthContainer>A section of content</FullWidthContainer>
     );
 
     expect(queryByText(/A section of content/)).toBeTruthy();

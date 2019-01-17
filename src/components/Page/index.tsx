@@ -1,9 +1,9 @@
 import { ApolloError } from "apollo-client";
 import React, { Fragment, ReactNode, ReactNodeArray } from "react";
 import ErrorMessage from "../ErrorMessage";
+import FullWidthContainer from "../FullWidthContainer";
 import Heading from "../Heading";
 import LoadingIcon from "../LoadingIcon";
-import SectionContainer from "../SectionContainer";
 
 interface IProps {
   title: string;
@@ -15,13 +15,13 @@ interface IProps {
 const Page = ({ title, loading, error, children }: IProps) => (
   <Fragment>
     <Heading>{title}</Heading>
-    <SectionContainer role="alert" aria-live="assertive">
+    <FullWidthContainer role="alert" aria-live="assertive">
       {loading ? <LoadingIcon /> : null}
       {!loading && error ? (
         <ErrorMessage isBig={true}>{error.message}</ErrorMessage>
       ) : null}
       {!loading && !error ? children : null}
-    </SectionContainer>
+    </FullWidthContainer>
   </Fragment>
 );
 

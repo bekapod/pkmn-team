@@ -1,19 +1,25 @@
 import { ApolloError } from "apollo-client";
 import {
   anyPass,
+  first,
+  get,
   getOr,
   gt,
   isEmpty,
   isNil,
   keys,
   lt,
+  map,
   prop,
   propOr,
   set,
-  unset
+  size,
+  unset,
+  values
 } from "lodash/fp";
-import React, { ChangeEvent, Component, Fragment } from "react";
+import React, { ChangeEvent, Component } from "react";
 import { Redirect } from "react-router-dom";
+import { compose } from "redux";
 import { getUniqueId } from "../../helpers/general";
 import withScrollToTop from "../../hocs/withScrollToTop";
 import { IPokemon, ITeam, ITeamMember } from "../../types";
@@ -23,8 +29,10 @@ import ErrorMessage from "../ErrorMessage";
 import GiantInput from "../GiantInput";
 import LoadingIcon from "../LoadingIcon";
 import PokemonCard from "../PokemonCard";
-import PokemonGrid from "../PokemonGrid";
+import PokemonLine from "../PokemonLine";
 import PokemonSearch from "../PokemonSearch";
+import Tabs from "../Tabs";
+import { TabBar, TabContent, TabItem } from "./styled";
 
 interface IProps {
   team?: ITeam;
@@ -153,22 +161,24 @@ class TeamBuilder extends Component<IProps, IState> {
     }));
   }
 
-  public handleAddPokemonToTeam() {
-    if (this.props.teamBuilderCurrentSearchPokemon) {
-      this.props.addPokemonToTeam({
-        id: getUniqueId(),
-        pokemon: this.props.teamBuilderCurrentSearchPokemon
-      });
+  public handleAddPokemonToTeam(pokemon: IPokemon) {
+    this.props.addPokemonToTeam({
+      id: getUniqueId(),
+      pokemon
+    });
 
-      this.setState(() => ({
-        isTouched: true
-      }));
-    }
+    this.setState(() => ({
+      isTouched: true
+    }));
   }
 
   public handleRemovePokemonFromTeam(memberId: string) {
     return () => {
       this.props.removePokemonFromTeam({ id: memberId });
+
+      this.setState(() => ({
+        isTouched: true
+      }));
     };
   }
 
@@ -214,18 +224,13 @@ class TeamBuilder extends Component<IProps, IState> {
     const {
       team,
       pokemon,
-      setCurrentSearchPokemon,
-      teamBuilderCurrentSearchPokemon,
       teamBuilderMembers,
       teamBuilderName,
       createdTeamId,
       loading,
-      error
+      error,
+      setCurrentSearchPokemon
     } = this.props;
-    const currentSearchPokemonName =
-      teamBuilderCurrentSearchPokemon &&
-      prop("name", teamBuilderCurrentSearchPokemon);
-    const numberOfMembersInTeam = keys(teamBuilderMembers).length;
     const nameErrorMessage = propOr(undefined, "name", this.state.errors);
     const nameHasError = this.state.isTouched && !!nameErrorMessage;
 
@@ -234,7 +239,7 @@ class TeamBuilder extends Component<IProps, IState> {
     }
 
     return (
-      <Fragment>
+      <>
         <CenteredRow stackVertically={true}>
           <GiantInput
             aria-label="Choose a team name"
@@ -243,71 +248,93 @@ class TeamBuilder extends Component<IProps, IState> {
             value={teamBuilderName}
             isInvalid={nameHasError}
           />
+
           {this.state.isTouched && nameHasError && nameErrorMessage && (
             <ErrorMessage>{nameErrorMessage}</ErrorMessage>
           )}
+
+          {gt(size(teamBuilderMembers), 0) && [
+            !!error && (
+              <CenteredRow key="Error">
+                <ErrorMessage>{error.message}</ErrorMessage>
+              </CenteredRow>
+            ),
+            loading && !error ? (
+              <CenteredRow key="Loading">
+                <LoadingIcon spinner={true} />
+              </CenteredRow>
+            ) : (
+              <CenteredRow key={team ? "Save button" : "Create button"}>
+                <CtaButton onClick={this.handleUpsertTeam}>
+                  {team ? "Save team" : "Create this team!"}
+                </CtaButton>
+              </CenteredRow>
+            )
+          ]}
         </CenteredRow>
 
-        {lt(numberOfMembersInTeam, 6) && [
-          <CenteredRow key="Search form">
-            <PokemonSearch
-              pokemon={pokemon}
-              setCurrentSearchPokemon={setCurrentSearchPokemon}
-            />
-          </CenteredRow>,
-          currentSearchPokemonName && (
-            <CenteredRow key="Add member button">
-              <CtaButton secondary={true} onClick={this.handleAddPokemonToTeam}>
-                {`Add ${currentSearchPokemonName} to your team`}
-              </CtaButton>
-            </CenteredRow>
-          )
-        ]}
+        <Tabs
+          selectedItem={compose(
+            get("id"),
+            first,
+            values
+          )(teamBuilderMembers)}
+        >
+          {({ getTabItemProps, getTabContentProps }) => {
+            const addPokemonTabItemProps = getTabItemProps("add-pokemon");
+            const addPokemonTabContentProps = getTabContentProps("add-pokemon");
 
-        {gt(numberOfMembersInTeam, 0) && [
-          <CenteredRow key="Team members">
-            <PokemonGrid>
-              {teamBuilderMembers &&
-                Object.keys(teamBuilderMembers).map(id => {
-                  const { pokemon: pkmn } = teamBuilderMembers[id];
-                  const renderCardActions = () => (
-                    <CtaButton
-                      secondary={true}
-                      small={true}
-                      onClick={this.handleRemovePokemonFromTeam(id)}
+            return (
+              <>
+                <TabBar>
+                  {map(({ id, pokemon: pkmn }) => {
+                    const tabItemProps = getTabItemProps(id);
+                    return (
+                      <TabItem {...tabItemProps} key={id}>
+                        <PokemonLine pokemon={pkmn} />
+                      </TabItem>
+                    );
+                  })(teamBuilderMembers)}
+
+                  {lt(size(teamBuilderMembers), 6) ? (
+                    <TabItem
+                      {...addPokemonTabItemProps}
+                      key={"Add new Pokemon"}
                     >
-                      {`Remove ${pkmn.name} from team`}
-                    </CtaButton>
-                  );
+                      +
+                    </TabItem>
+                  ) : null}
+                </TabBar>
+
+                {map(({ id, pokemon: pkmn }) => {
+                  const tabContentProps = getTabContentProps(id);
                   return (
-                    <PokemonCard
-                      key={id}
-                      memberId={id}
-                      pokemon={pkmn}
-                      renderCardActions={renderCardActions}
-                    />
+                    <TabContent {...tabContentProps} key={id}>
+                      <PokemonCard
+                        memberId={id}
+                        pokemon={pkmn}
+                        isSquared={true}
+                      />
+                    </TabContent>
                   );
-                })}
-            </PokemonGrid>
-          </CenteredRow>,
-          !!error && (
-            <CenteredRow key="Error">
-              <ErrorMessage>{error.message}</ErrorMessage>
-            </CenteredRow>
-          ),
-          loading && !error ? (
-            <CenteredRow key="Loading">
-              <LoadingIcon spinner={true} />
-            </CenteredRow>
-          ) : (
-            <CenteredRow key={team ? "Save button" : "Create button"}>
-              <CtaButton onClick={this.handleUpsertTeam}>
-                {team ? "Save team" : "Create this team!"}
-              </CtaButton>
-            </CenteredRow>
-          )
-        ]}
-      </Fragment>
+                })(teamBuilderMembers)}
+
+                {lt(size(teamBuilderMembers), 6) ? (
+                  <TabContent
+                    {...addPokemonTabContentProps}
+                    key="Pokemon search"
+                  >
+                    <PokemonSearch
+                      pokemon={pokemon}
+                      setCurrentSearchPokemon={setCurrentSearchPokemon}
+                    />
+                  </TabContent>
+                ) : null}
+              </>
+            );
+          }}
+        </Tabs>
+      </>
     );
   }
 }
