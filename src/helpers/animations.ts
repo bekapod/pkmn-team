@@ -1,12 +1,17 @@
 import { keyframes } from "styled-components/macro";
 
+export const baseTransition = `
+  transition-duration: 0.3s;
+  transition-timing-function: ease-out;
+`;
+
 export const radialIn = `
   transform: perspective(1px) translateZ(0);
   box-shadow: 0 0 1px rgba(0, 0, 0, 0);
   position: relative;
   overflow: hidden;
   transition-property: color;
-  transition-duration: 0.5s;
+  ${baseTransition}
 
   &::before {
     content: "";
@@ -19,8 +24,7 @@ export const radialIn = `
     border-radius: 100%;
     transform: scale(2);
     transition-property: transform;
-    transition-duration: 0.3s;
-    transition-timing-function: ease-out;
+    ${baseTransition}
   }
 
   &:hover::before,
@@ -32,8 +36,7 @@ export const radialIn = `
 
 export const zoomIn = `
   transition-property: transform;
-  transition-duration: 0.3s;
-  transition-timing-function: ease-out;
+  ${baseTransition}
 
   &:hover,
   &:focus {

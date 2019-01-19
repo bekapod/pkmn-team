@@ -2,6 +2,7 @@ import { compose, first, get, lt, map, size } from "lodash/fp";
 import React, { PureComponent } from "react";
 import styled from "styled-components/macro";
 import PokemonSearch from "../../containers/PokemonSearch";
+import { baseTransition } from "../../helpers/animations";
 import { getUniqueId } from "../../helpers/general";
 import * as variables from "../../helpers/variables";
 import { IPokemon, ITeamMember } from "../../types";
@@ -15,6 +16,53 @@ interface IProps {
   addPokemonToTeam: (member: ITeamMember) => void;
   removePokemonFromTeam: (member: { id: string }) => void;
 }
+
+const AddButton = styled.span`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: ${variables.colors.white};
+  font-size: ${variables.fontSizes.xxl}px;
+  font-weight: 700;
+  line-height: 0;
+  background: linear-gradient(
+    to bottom,
+    ${variables.colors.primaryDark} 0%,
+    ${variables.colors.primaryDark} 41%,
+    ${variables.colors.grayDarker} 41%,
+    ${variables.colors.grayDarker} 59%,
+    ${variables.colors.white} 59%,
+    ${variables.colors.white} 100%
+  );
+
+  [aria-selected="true"] > & {
+    background: linear-gradient(
+      to bottom,
+      ${variables.colors.primary} 0%,
+      ${variables.colors.primary} 41%,
+      ${variables.colors.grayDarker} 41%,
+      ${variables.colors.grayDarker} 59%,
+      ${variables.colors.white} 59%,
+      ${variables.colors.white} 100%
+    );
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: -1;
+    transform: translate(-50%, -50%);
+    display: block;
+    width: 1em;
+    height: 1em;
+    background-color: ${variables.colors.grayDarker};
+    border-radius: 50%;
+  }
+`;
 
 interface ITabItemProps {
   "aria-selected": boolean;
@@ -39,6 +87,25 @@ const TabItem = styled.div`
     props["aria-selected"]
       ? variables.colors.white
       : variables.colors.grayDark};
+  cursor: pointer;
+
+  &[data-add-button] {
+    background-color: ${variables.colors.white};
+  }
+
+  > * {
+    ${baseTransition}
+    background-color: inherit;
+    transition-property: transform;
+    will-change: transform;
+  }
+
+  &:hover,
+  &:focus {
+    > * {
+      transform: translateY(-${variables.spacing.md}px);
+    }
+  }
 `;
 
 const TabContent = styled.div`
@@ -110,8 +177,11 @@ class TeamView extends PureComponent<IProps> {
                     {...addPokemonTabItemProps}
                     key={"Add new Pokemon"}
                     data-testid="tab-item-add-pokemon"
+                    data-add-button={true}
                   >
-                    +
+                    <AddButton aria-label="Add new pokemon to team">
+                      +
+                    </AddButton>
                   </TabItem>
                 ) : null}
               </TabBar>
