@@ -5,35 +5,13 @@ import { MemoryRouter } from "react-router-dom";
 // tslint:disable-next-line:no-implicit-dependencies
 import { render } from "react-testing-library";
 // tslint:disable-next-line:no-implicit-dependencies
-// tslint:disable-next-line:no-implicit-dependencies
 import wait from "waait";
 import TeamBuilderContainer from ".";
 import { createTeam, updateTeam } from "../../mutations/team";
-import { getAllPokemon } from "../../queries/pokemon";
 import { getTeamById } from "../../queries/team";
 import configureStore from "../../store";
 
 const mocks: ReadonlyArray<MockedResponse> = [
-  {
-    request: {
-      query: getAllPokemon
-    },
-    result: {
-      data: {
-        allPokemon: [
-          {
-            id: "25",
-            name: "pikachu",
-            pokedexId: 25,
-            sprite: "25.png",
-            types: ["ELECTRIC"]
-          }
-        ]
-      },
-      loading: false
-    }
-  },
-
   {
     request: {
       query: createTeam,
@@ -80,7 +58,7 @@ describe("<TeamBuilderContainer />", () => {
 
     await wait(0);
 
-    expect(queryByPlaceholderText(/Choose a Pokemon/)).toBeTruthy();
+    expect(queryByPlaceholderText(/Find by name/)).toBeTruthy();
   });
 
   it("renders team edit form", async () => {
@@ -145,7 +123,7 @@ describe("<TeamBuilderContainer />", () => {
         }
       }
     ];
-    const team = mocksWithTeam[3].result.data.teamById;
+    const team = mocksWithTeam[2].result.data.teamById;
     const { queryByDisplayValue, queryAllByTestId, queryByText } = render(
       <Provider store={configureStore({})}>
         <MockedProvider mocks={mocksWithTeam} addTypename={false}>

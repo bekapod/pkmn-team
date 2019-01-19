@@ -1,42 +1,19 @@
 import { ApolloError } from "apollo-client";
-import {
-  anyPass,
-  first,
-  get,
-  getOr,
-  gt,
-  isEmpty,
-  isNil,
-  keys,
-  lt,
-  map,
-  prop,
-  propOr,
-  set,
-  size,
-  unset,
-  values
-} from "lodash/fp";
+import { get, getOr, gt, propOr, size } from "lodash/fp";
 import React, { ChangeEvent, Component } from "react";
 import { Redirect } from "react-router-dom";
-import { compose } from "redux";
-import { getUniqueId } from "../../helpers/general";
+import TeamView from "../../containers/TeamView";
 import withScrollToTop from "../../hocs/withScrollToTop";
-import { IPokemon, ITeam, ITeamMember } from "../../types";
+import { ITeam, ITeamMember } from "../../types";
 import CenteredRow from "../CenteredRow";
 import { CtaButton } from "../Cta";
 import ErrorMessage from "../ErrorMessage";
 import GiantInput from "../GiantInput";
 import LoadingIcon from "../LoadingIcon";
-import PokemonCard from "../PokemonCard";
-import PokemonLine from "../PokemonLine";
-import PokemonSearch from "../PokemonSearch";
-import Tabs from "../Tabs";
-import { TabBar, TabContent, TabItem } from "./styled";
+import { validate } from "./helpers";
 
 interface IProps {
   team?: ITeam;
-  pokemon: IPokemon[];
   createdTeamId?: string;
   loading?: boolean;
   error?: ApolloError;
@@ -59,12 +36,8 @@ interface IProps {
   ) => void;
   setTeamName: (name: string) => void;
   setTeamMembers: (members: ITeamMember[]) => void;
-  setCurrentSearchPokemon: (pokemon: IPokemon) => void;
-  addPokemonToTeam: (member: ITeamMember) => void;
-  removePokemonFromTeam: (member: { id: string }) => void;
   teamBuilderName?: string;
-  teamBuilderCurrentSearchPokemon?: IPokemon;
-  teamBuilderMembers?: { [key: string]: ITeamMember };
+  teamBuilderMembers?: ITeamMember[];
   scrollToTop?: () => void;
 }
 
@@ -74,58 +47,10 @@ interface IState {
   errors: { [key: string]: string };
 }
 
-const validate = (
-  props: IProps,
-  state: IState,
-  options: { setTouched?: boolean } = {}
-) => {
-  const { teamBuilderName, teamBuilderMembers } = props;
-  const isInvalid = anyPass([isEmpty, isNil]);
-  let updatedState = { ...state };
-
-  if (options.setTouched) {
-    updatedState = set("isTouched", true, updatedState);
-  }
-
-  updatedState =
-    isInvalid(teamBuilderName) || isInvalid(teamBuilderMembers)
-      ? set("isValid", false, updatedState)
-      : set("isValid", true, updatedState);
-
-  if (isInvalid(teamBuilderName)) {
-    updatedState = set(
-      "errors",
-      { ...updatedState.errors, name: "Team name is required" },
-      updatedState
-    );
-  } else {
-    updatedState = set(
-      "errors",
-      unset("name", updatedState.errors),
-      updatedState
-    );
-  }
-
-  if (isInvalid(teamBuilderMembers)) {
-    updatedState = set(
-      "errors",
-      { ...updatedState.errors, members: "Your team must have some pokemon" },
-      updatedState
-    );
-  } else {
-    updatedState = set(
-      "errors",
-      unset("members", updatedState.errors),
-      updatedState
-    );
-  }
-
-  return updatedState;
-};
-
 class TeamBuilder extends Component<IProps, IState> {
   public static getDerivedStateFromProps(props: IProps, state: IState) {
-    return validate(props, state);
+    const { teamBuilderName, teamBuilderMembers } = props;
+    return validate({ teamBuilderName, teamBuilderMembers }, state);
   }
 
   public state = {
@@ -138,7 +63,6 @@ class TeamBuilder extends Component<IProps, IState> {
     super(props);
 
     this.handleTeamNameChange = this.handleTeamNameChange.bind(this);
-    this.handleAddPokemonToTeam = this.handleAddPokemonToTeam.bind(this);
     this.handleUpsertTeam = this.handleUpsertTeam.bind(this);
 
     if (props.team) {
@@ -161,27 +85,6 @@ class TeamBuilder extends Component<IProps, IState> {
     }));
   }
 
-  public handleAddPokemonToTeam(pokemon: IPokemon) {
-    this.props.addPokemonToTeam({
-      id: getUniqueId(),
-      pokemon
-    });
-
-    this.setState(() => ({
-      isTouched: true
-    }));
-  }
-
-  public handleRemovePokemonFromTeam(memberId: string) {
-    return () => {
-      this.props.removePokemonFromTeam({ id: memberId });
-
-      this.setState(() => ({
-        isTouched: true
-      }));
-    };
-  }
-
   public handleUpsertTeam() {
     const {
       team,
@@ -193,10 +96,7 @@ class TeamBuilder extends Component<IProps, IState> {
     const teamId = getOr(undefined, "id", team);
 
     if (this.state.isValid && teamBuilderName && teamBuilderMembers) {
-      const pokedexIds = keys(teamBuilderMembers).map(key => {
-        const { pokemon } = teamBuilderMembers[key];
-        return prop("pokedexId", pokemon);
-      });
+      const pokedexIds = teamBuilderMembers.map(get(["pokemon", "pokedexId"]));
 
       if (teamId) {
         updateTeamMutation({
@@ -223,13 +123,11 @@ class TeamBuilder extends Component<IProps, IState> {
   public render() {
     const {
       team,
-      pokemon,
       teamBuilderMembers,
       teamBuilderName,
       createdTeamId,
       loading,
-      error,
-      setCurrentSearchPokemon
+      error
     } = this.props;
     const nameErrorMessage = propOr(undefined, "name", this.state.errors);
     const nameHasError = this.state.isTouched && !!nameErrorMessage;
@@ -273,67 +171,7 @@ class TeamBuilder extends Component<IProps, IState> {
           ]}
         </CenteredRow>
 
-        <Tabs
-          selectedItem={compose(
-            get("id"),
-            first,
-            values
-          )(teamBuilderMembers)}
-        >
-          {({ getTabItemProps, getTabContentProps }) => {
-            const addPokemonTabItemProps = getTabItemProps("add-pokemon");
-            const addPokemonTabContentProps = getTabContentProps("add-pokemon");
-
-            return (
-              <>
-                <TabBar>
-                  {map(({ id, pokemon: pkmn }) => {
-                    const tabItemProps = getTabItemProps(id);
-                    return (
-                      <TabItem {...tabItemProps} key={id}>
-                        <PokemonLine pokemon={pkmn} />
-                      </TabItem>
-                    );
-                  })(teamBuilderMembers)}
-
-                  {lt(size(teamBuilderMembers), 6) ? (
-                    <TabItem
-                      {...addPokemonTabItemProps}
-                      key={"Add new Pokemon"}
-                    >
-                      +
-                    </TabItem>
-                  ) : null}
-                </TabBar>
-
-                {map(({ id, pokemon: pkmn }) => {
-                  const tabContentProps = getTabContentProps(id);
-                  return (
-                    <TabContent {...tabContentProps} key={id}>
-                      <PokemonCard
-                        memberId={id}
-                        pokemon={pkmn}
-                        isSquared={true}
-                      />
-                    </TabContent>
-                  );
-                })(teamBuilderMembers)}
-
-                {lt(size(teamBuilderMembers), 6) ? (
-                  <TabContent
-                    {...addPokemonTabContentProps}
-                    key="Pokemon search"
-                  >
-                    <PokemonSearch
-                      pokemon={pokemon}
-                      setCurrentSearchPokemon={setCurrentSearchPokemon}
-                    />
-                  </TabContent>
-                ) : null}
-              </>
-            );
-          }}
-        </Tabs>
+        <TeamView />
       </>
     );
   }

@@ -30,27 +30,27 @@ describe("<PokemonSearch />", () => {
   ];
 
   it("renders search input", () => {
-    const setCurrentSearchPokemon = () => null;
+    const setCurrentSelection = () => null;
     const { queryByPlaceholderText } = render(
       <PokemonSearch
         pokemon={pokemon}
-        setCurrentSearchPokemon={setCurrentSearchPokemon}
+        setCurrentSelection={setCurrentSelection}
       />
     );
 
-    expect(queryByPlaceholderText(/Choose a Pokemon/)).toBeTruthy();
+    expect(queryByPlaceholderText(/Find by name/)).toBeTruthy();
   });
 
   it("shows list of matching pokemon when user begins to search", () => {
-    const setCurrentSearchPokemon = () => null;
+    const setCurrentSelection = () => null;
     const { getByPlaceholderText, queryByText } = render(
       <PokemonSearch
         pokemon={pokemon}
-        setCurrentSearchPokemon={setCurrentSearchPokemon}
+        setCurrentSelection={setCurrentSelection}
       />
     );
 
-    fireEvent.change(getByPlaceholderText(/Choose a Pokemon/), {
+    fireEvent.change(getByPlaceholderText(/Find by name/), {
       target: { value: "hau" }
     });
 
@@ -60,19 +60,19 @@ describe("<PokemonSearch />", () => {
   });
 
   it("shows full list of pokemon when user has cleared their search", () => {
-    const setCurrentSearchPokemon = () => null;
+    const setCurrentSelection = () => null;
     const { getByPlaceholderText, queryByText } = render(
       <PokemonSearch
         pokemon={pokemon}
-        setCurrentSearchPokemon={setCurrentSearchPokemon}
+        setCurrentSelection={setCurrentSelection}
       />
     );
 
-    fireEvent.change(getByPlaceholderText(/Choose a Pokemon/), {
+    fireEvent.change(getByPlaceholderText(/Find by name/), {
       target: { value: "hau" }
     });
 
-    fireEvent.change(getByPlaceholderText(/Choose a Pokemon/), {
+    fireEvent.change(getByPlaceholderText(/Find by name/), {
       target: { value: "" }
     });
 
@@ -82,15 +82,15 @@ describe("<PokemonSearch />", () => {
   });
 
   it("doesn't show any pokemon when none are matched", () => {
-    const setCurrentSearchPokemon = () => null;
+    const setCurrentSelection = () => null;
     const { getByPlaceholderText, queryByText } = render(
       <PokemonSearch
         pokemon={pokemon}
-        setCurrentSearchPokemon={setCurrentSearchPokemon}
+        setCurrentSelection={setCurrentSelection}
       />
     );
 
-    fireEvent.change(getByPlaceholderText(/Choose a Pokemon/), {
+    fireEvent.change(getByPlaceholderText(/Find by name/), {
       target: { value: "blah" }
     });
 
@@ -99,26 +99,26 @@ describe("<PokemonSearch />", () => {
     expect(queryByText(/Charmander/)).toBeFalsy();
   });
 
-  it("calls setCurrentSearchPokemon when user clicks a pokemon result", () => {
-    const setCurrentSearchPokemon = jest.fn();
+  it("calls setCurrentSelection when user clicks a pokemon result", () => {
+    const setCurrentSelection = jest.fn();
     const { getByPlaceholderText, getByTestId } = render(
       <PokemonSearch
         pokemon={pokemon}
-        setCurrentSearchPokemon={setCurrentSearchPokemon}
+        setCurrentSelection={setCurrentSelection}
       />
     );
 
-    expect(setCurrentSearchPokemon).toBeCalledTimes(0);
+    expect(setCurrentSelection).toBeCalledTimes(0);
 
-    fireEvent.change(getByPlaceholderText(/Choose a Pokemon/), {
+    fireEvent.change(getByPlaceholderText(/Find by name/), {
       target: { value: "hau" }
     });
 
-    expect(setCurrentSearchPokemon).toBeCalledTimes(0);
+    expect(setCurrentSelection).toBeCalledTimes(0);
 
     fireEvent.click(getByTestId("autocomplete-result-93"));
 
-    expect(setCurrentSearchPokemon).toBeCalledTimes(1);
-    expect(setCurrentSearchPokemon).toBeCalledWith(pokemon[2]);
+    expect(setCurrentSelection).toBeCalledTimes(1);
+    expect(setCurrentSelection).toBeCalledWith(pokemon[2]);
   });
 });

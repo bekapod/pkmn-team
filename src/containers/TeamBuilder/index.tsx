@@ -14,20 +14,17 @@ import * as teamBuilderActions from "../../actions/teamBuilder";
 import Page from "../../components/Page";
 import TeamBuilder from "../../components/TeamBuilder";
 import { createTeam, updateTeam } from "../../mutations/team";
-import { getAllPokemon } from "../../queries/pokemon";
 import { getTeamById } from "../../queries/team";
 import * as teamBuilderSelectors from "../../selectors/teamBuilder";
-import { IPokemon, IState, ITeam, ITeamMember } from "../../types";
+import { IState, ITeam, ITeamMember } from "../../types";
 
 interface IProps {
   addPokemonToTeam: (_: ITeamMember) => void;
   removePokemonFromTeam: (_: { id: string }) => void;
-  setCurrentSearchPokemon: (_: IPokemon) => void;
   setTeamName: (_: string) => void;
   setTeamMembers: (_: ITeamMember[]) => void;
   teamBuilderName?: string;
-  teamBuilderMembers: { [key: string]: ITeamMember };
-  teamBuilderCurrentSearchPokemon?: IPokemon;
+  teamBuilderMembers: ITeamMember[];
   match?: { params: { teamId?: string } };
 }
 
@@ -55,10 +52,6 @@ interface IQueryProps {
     ) => void;
     result: MutationResult<{ updateTeam: ITeam }>;
   };
-  getAllPokemonQuery: QueryResult<
-    { allPokemon: IPokemon[] },
-    OperationVariables
-  >;
   getTeamQuery?: QueryResult<{ teamById: ITeam }, OperationVariables>;
 }
 
@@ -76,9 +69,6 @@ const mutations = {
 };
 
 const queries = {
-  getAllPokemonQuery: ({ render }: any) => (
-    <Query query={getAllPokemon}>{render}</Query>
-  ),
   getTeamQuery: ({ teamId, render }: any) =>
     teamId ? (
       <Query query={getTeamById} variables={{ id: teamId }}>
@@ -110,11 +100,6 @@ class TeamBuilderContainer extends PureComponent<IProps> {
             mutation: updateTeamMutation,
             result: { loading: updateTeamLoading, error: updateTeamError }
           },
-          getAllPokemonQuery: {
-            data: allPokemonData,
-            loading: allPokemonLoading,
-            error: allPokemonError
-          },
           getTeamQuery
         }: IQueryProps) => {
           const team = getOr(undefined, "data.teamById", getTeamQuery);
@@ -122,15 +107,12 @@ class TeamBuilderContainer extends PureComponent<IProps> {
           return (
             <Page
               title={team ? "Edit Team" : "Create a Team"}
-              loading={
-                allPokemonLoading || getOr(false, "loading", getTeamQuery)
-              }
-              error={allPokemonError || getOr(undefined, "error", getTeamQuery)}
+              loading={getOr(false, "loading", getTeamQuery)}
+              error={getOr(undefined, "error", getTeamQuery)}
             >
               <TeamBuilder
                 {...this.props}
                 team={team}
-                pokemon={getOr([], "allPokemon", allPokemonData)}
                 createTeamMutation={createTeamMutation}
                 updateTeamMutation={updateTeamMutation}
                 createdTeamId={createdTeam && createdTeam.createTeam.id}
@@ -146,9 +128,6 @@ class TeamBuilderContainer extends PureComponent<IProps> {
 }
 
 const mapStateToProps = (state: IState) => ({
-  teamBuilderCurrentSearchPokemon: teamBuilderSelectors.getTeamBuilderCurrentSearchPokemon(
-    state
-  ),
   teamBuilderMembers: teamBuilderSelectors.getTeamBuilderMembers(state),
   teamBuilderName: teamBuilderSelectors.getTeamBuilderName(state)
 });

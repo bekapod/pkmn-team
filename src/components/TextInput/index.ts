@@ -1,9 +1,10 @@
 import { placeholder } from "polished";
-import styled from "styled-components/macro";
+import styled, { FlattenSimpleInterpolation } from "styled-components/macro";
 import * as variables from "../../helpers/variables";
 import { lineHeight } from "../../helpers/verticalRhythm";
 
 interface IProps {
+  css?: FlattenSimpleInterpolation;
   isInvalid?: boolean;
 }
 

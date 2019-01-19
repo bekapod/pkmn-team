@@ -11,7 +11,6 @@ import TypeTag from "../TypeTag";
 interface IProps {
   memberId?: string;
   pokemon: IPokemon;
-  isSquared?: boolean;
   renderCardActions?: () => ReactNode | ReactNodeArray;
 }
 
@@ -28,17 +27,12 @@ const PokemonCardActions = styled.div`
   margin-top: ${variables.spacing.lg}px;
 `;
 
-const PokemonCard = ({
-  memberId,
-  pokemon,
-  isSquared,
-  renderCardActions
-}: IProps) => {
+const PokemonCard = ({ memberId, pokemon, renderCardActions }: IProps) => {
   const { pokedexId, types, name, sprite } = pokemon;
 
   return (
     <CardWrapper data-testid={`pokemon-${pokemon.id}`}>
-      <CardHeader types={types} isSquared={!!isSquared}>
+      <CardHeader types={types}>
         <CardHeading>{formatPokemonName(pokemon)}</CardHeading>
       </CardHeader>
 

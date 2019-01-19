@@ -1,4 +1,4 @@
-import { get } from "lodash/fp";
+import { compose, get, values } from "lodash/fp";
 import { createSelector } from "reselect";
 
 export const getTeamBuilder = get("teamBuilder");
@@ -10,10 +10,8 @@ export const getTeamBuilderName = createSelector(
 
 export const getTeamBuilderMembers = createSelector(
   getTeamBuilder,
-  get("members")
-);
-
-export const getTeamBuilderCurrentSearchPokemon = createSelector(
-  getTeamBuilder,
-  get("currentSearchPokemon")
+  compose(
+    values,
+    get("members")
+  )
 );

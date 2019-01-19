@@ -43,9 +43,13 @@ export interface ITeam {
 export interface ITeamBuilderState {
   name: string;
   members: { [key: string]: ITeamMember };
-  currentSearchPokemon?: IPokemon;
+}
+
+export interface IPokemonSearchState {
+  currentSelection?: IPokemon;
 }
 
 export interface IState {
   teamBuilder: ITeamBuilderState;
+  pokemonSearch: IPokemonSearchState;
 }

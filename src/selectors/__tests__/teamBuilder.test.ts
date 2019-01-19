@@ -1,6 +1,5 @@
 import {
   getTeamBuilder,
-  getTeamBuilderCurrentSearchPokemon,
   getTeamBuilderMembers,
   getTeamBuilderName
 } from "../teamBuilder";
@@ -8,13 +7,6 @@ import {
 describe("Team builder selectors", () => {
   const state = {
     teamBuilder: {
-      currentSearchPokemon: {
-        id: "25",
-        name: "pikachu",
-        pokedexId: 25,
-        sprite: "pikachu.png",
-        types: ["ELECTRIC"]
-      },
       members: {
         "1": {
           id: "1",
@@ -47,17 +39,12 @@ describe("Team builder selectors", () => {
     });
   });
 
-  describe("getTeamBuilderCurrentSearchPokemon", () => {
-    it("gets the current searched for pokemon from state", () => {
-      expect(getTeamBuilderCurrentSearchPokemon(state)).toEqual(
-        state.teamBuilder.currentSearchPokemon
-      );
-    });
-  });
-
   describe("getTeamBuilderMembers", () => {
     it("gets the list of team members from state", () => {
-      expect(getTeamBuilderMembers(state)).toEqual(state.teamBuilder.members);
+      expect(getTeamBuilderMembers(state)).toEqual([
+        state.teamBuilder.members["1"],
+        state.teamBuilder.members["2"]
+      ]);
     });
   });
 

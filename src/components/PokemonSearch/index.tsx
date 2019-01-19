@@ -1,6 +1,8 @@
+import { ApolloError } from "apollo-client";
 import Downshift from "downshift";
 import { toLower } from "lodash/fp";
 import React from "react";
+import { css } from "styled-components/macro";
 import { capitalizePokemonName } from "../../helpers/general";
 import * as variables from "../../helpers/variables";
 import { IPokemon } from "../../types";
@@ -10,11 +12,12 @@ import PokemonLine from "../PokemonLine";
 
 interface IProps {
   pokemon: IPokemon[];
-  setCurrentSearchPokemon: (pokemon: IPokemon) => void;
+  loading?: boolean;
+  error?: ApolloError;
+  setCurrentSelection: (pokemon: IPokemon) => void;
 }
 
 const stateReducer = (state: any, changes: any) => {
-  console.log(changes);
   switch (changes.type) {
     case Downshift.stateChangeTypes.clickItem:
     case Downshift.stateChangeTypes.mouseUp:
@@ -29,15 +32,16 @@ const stateReducer = (state: any, changes: any) => {
   }
 };
 
-const PokemonSearch = ({ pokemon, setCurrentSearchPokemon }: IProps) => {
+const PokemonSearch = ({ pokemon, setCurrentSelection }: IProps) => {
   const itemToString = (pkmn: IPokemon) => capitalizePokemonName(pkmn);
+  const onChange = (pkmn: IPokemon) => setCurrentSelection(pkmn);
 
   return (
     <Downshift
       itemToString={itemToString}
       defaultIsOpen={true}
       stateReducer={stateReducer}
-      onChange={setCurrentSearchPokemon}
+      onChange={onChange}
     >
       {({
         getRootProps,
@@ -51,8 +55,11 @@ const PokemonSearch = ({ pokemon, setCurrentSearchPokemon }: IProps) => {
         <Autocomplete {...getRootProps()}>
           <GiantInput
             {...getInputProps()}
-            arial-label="Find a Pokemon"
-            placeholder="Find a Pokemon"
+            arial-label="Find Pokemon by name"
+            placeholder="Find by name"
+            css={css`
+              max-width: none;
+            `}
           />
           {isOpen ? (
             <AutocompleteDropdown {...getMenuProps()}>

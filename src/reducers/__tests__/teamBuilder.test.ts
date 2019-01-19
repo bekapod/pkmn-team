@@ -1,11 +1,10 @@
 import {
   addPokemonToTeam,
   removePokemonFromTeam,
-  setCurrentSearchPokemon,
   setTeamMembers,
   setTeamName
 } from "../../actions/teamBuilder";
-import { IPokemon, ITeamBuilderState, ITeamMember } from "../../types";
+import { ITeamBuilderState, ITeamMember } from "../../types";
 import reducer, { initialState } from "../teamBuilder";
 
 describe("Team builder reducer", () => {
@@ -287,25 +286,6 @@ describe("Team builder reducer", () => {
       expect(
         reducer(initialState, removePokemonFromTeam({ id: "2" }) as any)
       ).toEqual(initialState);
-    });
-  });
-
-  describe("setCurrentSearchPokemon", () => {
-    it("sets the current search pokemon", () => {
-      const pokemon: IPokemon = {
-        id: "1",
-        name: "bulbasaur",
-        pokedexId: 1,
-        sprite: "bulbasaur.png",
-        types: ["GRASS", "POISON"]
-      };
-
-      expect(
-        reducer(initialState, setCurrentSearchPokemon(pokemon) as any)
-      ).toEqual({
-        ...initialState,
-        currentSearchPokemon: pokemon
-      });
     });
   });
 

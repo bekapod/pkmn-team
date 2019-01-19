@@ -2,14 +2,12 @@ import { Action, combineActions, handleActions } from "redux-actions";
 import {
   addPokemonToTeam,
   removePokemonFromTeam,
-  setCurrentSearchPokemon,
   setTeamMembers,
   setTeamName
 } from "../actions/teamBuilder";
 import { ITeamBuilderState, ITeamMember } from "../types";
 
 export const initialState: ITeamBuilderState = {
-  currentSearchPokemon: undefined,
   members: {},
   name: ""
 };
@@ -65,14 +63,6 @@ export default handleActions(
         },
         {}
       )
-    }),
-
-    [combineActions(setCurrentSearchPokemon).toString()]: (
-      state: ITeamBuilderState,
-      action: Action<Payload>
-    ) => ({
-      ...state,
-      currentSearchPokemon: action.payload
     })
   },
   initialState
