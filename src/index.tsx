@@ -70,7 +70,7 @@ const httpLink = createHttpLink({
 const timeoutLink = new ApolloLinkTimeout(10000);
 
 const client = new ApolloClient({
-  cache: new InMemoryCache().restore((window as any).__APOLLO_STATE__),
+  cache: new InMemoryCache(),
   connectToDevTools: true,
   link: timeoutLink.concat(httpLink)
 });

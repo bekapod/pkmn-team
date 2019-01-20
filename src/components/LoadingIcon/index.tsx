@@ -24,17 +24,16 @@ const Styled = styled.div`
 
 const StyledSpinner = styled.div`
   position: relative;
-  margin: ${variables.spacing.sm}px 0;
   font-size: ${variables.fontSizes.xxs}px;
-  border: 1.5em solid ${rgba(variables.colors.secondary, 0.15)};
-  border-left: 1.5em solid ${variables.colors.secondary};
+  border: 10px solid ${rgba(variables.colors.secondary, 0.15)};
+  border-left: 10px solid ${variables.colors.secondary};
   transform: translateZ(0);
   animation: ${spin} 1s linear infinite;
 
   &,
   &:after {
-    width: 10em;
-    height: 10em;
+    width: ${variables.spacing.xl}px;
+    height: ${variables.spacing.xl}px;
     border-radius: 50%;
   }
 `;

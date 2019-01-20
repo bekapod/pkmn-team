@@ -18,6 +18,8 @@ const CenteredRow = styled.div`
   & > * {
     margin-right: ${({ stackVertically }: IProps) =>
       stackVertically ? 0 : `${variables.gutters.grid}px`};
+    margin-bottom: ${({ stackVertically }: IProps) =>
+      stackVertically ? `${variables.spacing.md}px` : 0};
 
     &:last-child {
       margin-right: 0;

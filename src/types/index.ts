@@ -47,6 +47,10 @@ export interface ITeamBuilderState {
 
 export interface IPokemonSearchState {
   currentSelection?: IPokemon;
+  highlightedIndex: number;
+  inputValue?: string;
+  filteredList: IPokemon[];
+  unfilteredList: IPokemon[];
 }
 
 export interface IState {

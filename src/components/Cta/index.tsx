@@ -20,7 +20,6 @@ const not = (value: any) => !value;
 
 const styles = css`
   display: block;
-  margin: 0;
   padding: ${({ small }: IProps) =>
     cond([
       [not, always(`${variables.spacing.md}px ${variables.spacing.lg}px`)],

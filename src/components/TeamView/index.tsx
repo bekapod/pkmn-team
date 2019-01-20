@@ -1,11 +1,13 @@
-import { compose, first, get, lt, map, size } from "lodash/fp";
-import React, { PureComponent } from "react";
+import { compose, first, getOr, lt, map, size } from "lodash/fp";
+import React, { Component } from "react";
+import isEqual from "react-fast-compare";
 import styled from "styled-components/macro";
 import PokemonSearch from "../../containers/PokemonSearch";
 import { baseTransition } from "../../helpers/animations";
 import { getUniqueId } from "../../helpers/general";
 import * as variables from "../../helpers/variables";
 import { IPokemon, ITeamMember } from "../../types";
+import { CtaButton } from "../Cta";
 import PokemonCard from "../PokemonCard";
 import PokemonLine from "../PokemonLine";
 import Tabs from "../Tabs";
@@ -22,7 +24,7 @@ const AddButton = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  height: ${variables.spacing.xxl}px;
   color: ${variables.colors.white};
   font-size: ${variables.fontSizes.xxl}px;
   font-weight: 700;
@@ -118,13 +120,39 @@ const TabContent = styled.div`
     props["aria-hidden"] ? "display: none !important;" : "display: grid;"}
 `;
 
-class TeamView extends PureComponent<IProps> {
+class TeamView extends Component<IProps> {
   constructor(props: IProps) {
     super(props);
 
+    this.renderCardActions = this.renderCardActions.bind(this);
     this.handleAddPokemonToTeam = this.handleAddPokemonToTeam.bind(this);
     this.handleRemovePokemonFromTeam = this.handleRemovePokemonFromTeam.bind(
       this
+    );
+  }
+
+  public shouldComponentUpdate(nextProps: IProps) {
+    return !isEqual(this.props, nextProps);
+  }
+
+  public renderCardActions({
+    memberId,
+    pokemon
+  }: {
+    memberId?: string;
+    pokemon: IPokemon;
+  }) {
+    const onClick = memberId
+      ? this.handleRemovePokemonFromTeam(memberId)
+      : this.handleAddPokemonToTeam(pokemon);
+    const buttonText = memberId
+      ? `Remove ${pokemon.name} from team`
+      : `Add ${pokemon.name} to team`;
+
+    return () => (
+      <CtaButton small={true} onClick={onClick}>
+        {buttonText}
+      </CtaButton>
     );
   }
 
@@ -149,7 +177,7 @@ class TeamView extends PureComponent<IProps> {
     return (
       <Tabs
         selectedItem={compose(
-          get("id"),
+          getOr("add-pokemon", "id"),
           first
         )(teamBuilderMembers)}
       >
@@ -194,7 +222,14 @@ class TeamView extends PureComponent<IProps> {
                     key={id}
                     data-testid={`tab-content-${id}`}
                   >
-                    <PokemonCard memberId={id} pokemon={pkmn} />
+                    <PokemonCard
+                      memberId={id}
+                      pokemon={pkmn}
+                      renderCardActions={this.renderCardActions({
+                        memberId: id,
+                        pokemon: pkmn
+                      })}
+                    />
                   </TabContent>
                 );
               })(teamBuilderMembers)}
@@ -207,7 +242,12 @@ class TeamView extends PureComponent<IProps> {
                 >
                   <PokemonSearch />
                   {pokemonSearchCurrentSelection ? (
-                    <PokemonCard pokemon={pokemonSearchCurrentSelection} />
+                    <PokemonCard
+                      pokemon={pokemonSearchCurrentSelection}
+                      renderCardActions={this.renderCardActions({
+                        pokemon: pokemonSearchCurrentSelection
+                      })}
+                    />
                   ) : null}
                 </TabContent>
               ) : null}

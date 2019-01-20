@@ -43,7 +43,10 @@ describe("<TeamViewContainer />", () => {
               pokedexId: 1,
               sprite: "1.png",
               types: ["POISON", "GRASS"]
-            }
+            },
+            filteredList: [],
+            highlightedIndex: 0,
+            unfilteredList: []
           },
           teamBuilder: {
             members: {

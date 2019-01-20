@@ -153,20 +153,17 @@ class TeamBuilder extends Component<IProps, IState> {
 
           {gt(size(teamBuilderMembers), 0) && [
             !!error && (
-              <CenteredRow key="Error">
-                <ErrorMessage>{error.message}</ErrorMessage>
-              </CenteredRow>
+              <ErrorMessage key="Error message">{error.message}</ErrorMessage>
             ),
             loading && !error ? (
-              <CenteredRow key="Loading">
-                <LoadingIcon spinner={true} />
-              </CenteredRow>
+              <LoadingIcon key="Loading icon" spinner={true} />
             ) : (
-              <CenteredRow key={team ? "Save button" : "Create button"}>
-                <CtaButton onClick={this.handleUpsertTeam}>
-                  {team ? "Save team" : "Create this team!"}
-                </CtaButton>
-              </CenteredRow>
+              <CtaButton
+                key={team ? "Save button" : "Create button"}
+                onClick={this.handleUpsertTeam}
+              >
+                {team ? "Save team" : "Create this team!"}
+              </CtaButton>
             )
           ]}
         </CenteredRow>

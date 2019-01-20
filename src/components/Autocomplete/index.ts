@@ -4,9 +4,11 @@ import * as variables from "../../helpers/variables";
 export const AutocompleteDropdown = styled.div`
   flex: 1;
   width: 100%;
-  padding: calc(${variables.spacing.sm}px / 2) 0;
-  overflow-y: scroll;
   background-color: ${variables.colors.white};
+
+  > * {
+    width: 100% !important;
+  }
 `;
 
 const Autocomplete = styled.div`

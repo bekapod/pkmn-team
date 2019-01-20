@@ -53,11 +53,11 @@ class PokemonLine extends PureComponent<IProps> {
   };
 
   public render() {
-    const { pokemon, outdent } = this.props;
+    const { pokemon, outdent, ...props } = this.props;
     const { pokedexId, name, types, sprite } = pokemon;
 
     return (
-      <Row types={types} outdent={outdent}>
+      <Row types={types} outdent={outdent} {...props}>
         <RowImage src={`/sprites/${sprite}`} alt={`${name} sprite`} />
         <div>
           <RowTitle>{formatPokemonName(pokemon)}</RowTitle>

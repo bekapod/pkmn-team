@@ -2,14 +2,20 @@ import { getOr } from "lodash/fp";
 import React, { PureComponent } from "react";
 import { Query } from "react-apollo";
 import { connect } from "react-redux";
-import { bindActionCreators, Dispatch } from "redux";
 import * as pokemonSearchActions from "../../actions/pokemonSearch";
 import PokemonSearch from "../../components/PokemonSearch";
 import { getAllPokemon } from "../../queries/pokemon";
-import { IPokemon } from "../../types";
+import * as pokemonSearchSelectors from "../../selectors/pokemonSearch";
+import { IPokemon, IState } from "../../types";
 
 interface IProps {
+  highlightedIndex: number;
+  inputValue?: string;
+  filteredList: IPokemon[];
   setCurrentSelection: (_: IPokemon) => void;
+  setHighlightedIndex: (_: number) => void;
+  setInputValue: (_: string) => void;
+  setUnfilteredList: (_: IPokemon[]) => void;
 }
 
 class PokemonSearchContainer extends PureComponent<IProps> {
@@ -31,10 +37,15 @@ class PokemonSearchContainer extends PureComponent<IProps> {
   }
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state: IState) => ({
+  filteredList: pokemonSearchSelectors.getPokemonSearchFilteredList(state),
+  highlightedIndex: pokemonSearchSelectors.getPokemonSearchHighlightedIndex(
+    state
+  ),
+  inputValue: pokemonSearchSelectors.getPokemonSearchInputValue(state)
+});
 
-const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators(pokemonSearchActions, dispatch);
+const mapDispatchToProps = pokemonSearchActions;
 
 export default connect(
   mapStateToProps,

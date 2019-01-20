@@ -58,7 +58,7 @@ describe("<TeamBuilderContainer />", () => {
 
     await wait(0);
 
-    expect(queryByPlaceholderText(/Find by name/)).toBeTruthy();
+    expect(queryByPlaceholderText(/Choose a team name/)).toBeTruthy();
   });
 
   it("renders team edit form", async () => {

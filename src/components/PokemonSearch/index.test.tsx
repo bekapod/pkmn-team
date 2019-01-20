@@ -30,81 +30,34 @@ describe("<PokemonSearch />", () => {
   ];
 
   it("renders search input", () => {
-    const setCurrentSelection = () => null;
+    const fnStub = () => null;
     const { queryByPlaceholderText } = render(
       <PokemonSearch
+        highlightedIndex={0}
         pokemon={pokemon}
-        setCurrentSelection={setCurrentSelection}
+        filteredList={pokemon}
+        setCurrentSelection={fnStub}
+        setHighlightedIndex={fnStub}
+        setInputValue={fnStub}
+        setUnfilteredList={fnStub}
       />
     );
 
     expect(queryByPlaceholderText(/Find by name/)).toBeTruthy();
   });
 
-  it("shows list of matching pokemon when user begins to search", () => {
-    const setCurrentSelection = () => null;
-    const { getByPlaceholderText, queryByText } = render(
-      <PokemonSearch
-        pokemon={pokemon}
-        setCurrentSelection={setCurrentSelection}
-      />
-    );
-
-    fireEvent.change(getByPlaceholderText(/Find by name/), {
-      target: { value: "hau" }
-    });
-
-    expect(queryByText(/Haunter/)).toBeTruthy();
-    expect(queryByText(/Pikachu/)).toBeFalsy();
-    expect(queryByText(/Charmander/)).toBeFalsy();
-  });
-
-  it("shows full list of pokemon when user has cleared their search", () => {
-    const setCurrentSelection = () => null;
-    const { getByPlaceholderText, queryByText } = render(
-      <PokemonSearch
-        pokemon={pokemon}
-        setCurrentSelection={setCurrentSelection}
-      />
-    );
-
-    fireEvent.change(getByPlaceholderText(/Find by name/), {
-      target: { value: "hau" }
-    });
-
-    fireEvent.change(getByPlaceholderText(/Find by name/), {
-      target: { value: "" }
-    });
-
-    expect(queryByText(/Haunter/)).toBeTruthy();
-    expect(queryByText(/Pikachu/)).toBeTruthy();
-    expect(queryByText(/Charmander/)).toBeTruthy();
-  });
-
-  it("doesn't show any pokemon when none are matched", () => {
-    const setCurrentSelection = () => null;
-    const { getByPlaceholderText, queryByText } = render(
-      <PokemonSearch
-        pokemon={pokemon}
-        setCurrentSelection={setCurrentSelection}
-      />
-    );
-
-    fireEvent.change(getByPlaceholderText(/Find by name/), {
-      target: { value: "blah" }
-    });
-
-    expect(queryByText(/Haunter/)).toBeFalsy();
-    expect(queryByText(/Pikachu/)).toBeFalsy();
-    expect(queryByText(/Charmander/)).toBeFalsy();
-  });
-
   it("calls setCurrentSelection when user clicks a pokemon result", () => {
     const setCurrentSelection = jest.fn();
+    const fnStub = () => null;
     const { getByPlaceholderText, getByTestId } = render(
       <PokemonSearch
+        highlightedIndex={0}
         pokemon={pokemon}
+        filteredList={pokemon}
         setCurrentSelection={setCurrentSelection}
+        setHighlightedIndex={fnStub}
+        setInputValue={fnStub}
+        setUnfilteredList={fnStub}
       />
     );
 

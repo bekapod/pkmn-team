@@ -3,10 +3,10 @@ import { MockedProvider, MockedResponse } from "react-apollo/test-utils";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 // tslint:disable-next-line:no-implicit-dependencies
-import { render } from "react-testing-library";
+import { fireEvent, render } from "react-testing-library";
 // tslint:disable-next-line:no-implicit-dependencies
 import wait from "waait";
-import TeamBuilderContainer from ".";
+import PokemonSearchContainer from ".";
 import { getAllPokemon } from "../../queries/pokemon";
 import configureStore from "../../store";
 
@@ -19,11 +19,25 @@ const mocks: ReadonlyArray<MockedResponse> = [
       data: {
         allPokemon: [
           {
+            id: "4",
+            name: "charmander",
+            pokedexId: 4,
+            sprite: "4.png",
+            types: ["FIRE"]
+          },
+          {
             id: "25",
             name: "pikachu",
             pokedexId: 25,
             sprite: "25.png",
             types: ["ELECTRIC"]
+          },
+          {
+            id: "93",
+            name: "haunter",
+            pokedexId: 93,
+            sprite: "93.png",
+            types: ["GHOST", "POISON"]
           }
         ]
       },
@@ -32,13 +46,13 @@ const mocks: ReadonlyArray<MockedResponse> = [
   }
 ];
 
-describe("PokemonSearchContainer />", () => {
+describe("<PokemonSearchContainer />", () => {
   it("renders pokemon search input and list of pokemon", async () => {
     const { queryByPlaceholderText, queryByText } = render(
       <Provider store={configureStore({})}>
         <MockedProvider mocks={mocks} addTypename={false}>
           <MemoryRouter initialEntries={["/team/create/"]}>
-            <TeamBuilderContainer />
+            <PokemonSearchContainer />
           </MemoryRouter>
         </MockedProvider>
       </Provider>
@@ -48,5 +62,77 @@ describe("PokemonSearchContainer />", () => {
 
     expect(queryByPlaceholderText(/Find by name/)).toBeTruthy();
     expect(queryByText(/Pikachu/)).toBeTruthy();
+  });
+
+  it("shows list of matching pokemon when user begins to search", async () => {
+    const { getByPlaceholderText, queryByText, getByText } = render(
+      <Provider store={configureStore({})}>
+        <MockedProvider mocks={mocks} addTypename={false}>
+          <MemoryRouter initialEntries={["/team/create/"]}>
+            <PokemonSearchContainer />
+          </MemoryRouter>
+        </MockedProvider>
+      </Provider>
+    );
+
+    await wait(0);
+
+    fireEvent.change(getByPlaceholderText(/Find by name/), {
+      target: { value: "hau" }
+    });
+
+    getByText(/Haunter/);
+
+    expect(queryByText(/Haunter/)).toBeTruthy();
+    expect(queryByText(/Pikachu/)).toBeFalsy();
+    expect(queryByText(/Charmander/)).toBeFalsy();
+  });
+
+  it("shows full list of pokemon when user has cleared their search", async () => {
+    const { getByPlaceholderText, queryByText } = render(
+      <Provider store={configureStore({})}>
+        <MockedProvider mocks={mocks} addTypename={false}>
+          <MemoryRouter initialEntries={["/team/create/"]}>
+            <PokemonSearchContainer />
+          </MemoryRouter>
+        </MockedProvider>
+      </Provider>
+    );
+
+    await wait(0);
+
+    fireEvent.change(getByPlaceholderText(/Find by name/), {
+      target: { value: "hau" }
+    });
+
+    fireEvent.change(getByPlaceholderText(/Find by name/), {
+      target: { value: "" }
+    });
+
+    expect(queryByText(/Haunter/)).toBeTruthy();
+    expect(queryByText(/Pikachu/)).toBeTruthy();
+    expect(queryByText(/Charmander/)).toBeTruthy();
+  });
+
+  it("doesn't show any pokemon when none are matched", async () => {
+    const { getByPlaceholderText, queryByText } = render(
+      <Provider store={configureStore({})}>
+        <MockedProvider mocks={mocks} addTypename={false}>
+          <MemoryRouter initialEntries={["/team/create/"]}>
+            <PokemonSearchContainer />
+          </MemoryRouter>
+        </MockedProvider>
+      </Provider>
+    );
+
+    await wait(0);
+
+    fireEvent.change(getByPlaceholderText(/Find by name/), {
+      target: { value: "blah" }
+    });
+
+    expect(queryByText(/Haunter/)).toBeFalsy();
+    expect(queryByText(/Pikachu/)).toBeFalsy();
+    expect(queryByText(/Charmander/)).toBeFalsy();
   });
 });
