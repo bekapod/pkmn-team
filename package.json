@@ -12,6 +12,7 @@
     "graphql-tag": "^2.10.0",
     "history": "^4.7.2",
     "lodash": "^4.17.11",
+    "next": "^7.0.2",
     "polished": "^2.3.1",
     "react": "^16.7.0",
     "react-adopt": "^0.6.0",
@@ -31,10 +32,10 @@
     "waait": "^1.0.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "next start",
+    "build": "next build",
+    "dev": "next",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
     "lint": "tslint --project .",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public"
@@ -71,8 +72,11 @@
     "@types/storybook__react": "^4.0.0",
     "@types/styled-components": "^4.1.4",
     "@types/uuid": "^3.4.4",
+    "@zeit/next-typescript": "^1.1.1",
     "babel-loader": "8.0.4",
+    "babel-plugin-macros": "^2.4.5",
     "babel-plugin-styled-components": "^1.10.0",
+    "next-compose-plugins": "^2.1.1",
     "prettier": "^1.15.3",
     "prettier-tslint": "^0.4.2",
     "react-test-renderer": "^16.7.0",

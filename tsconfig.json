@@ -15,7 +15,9 @@
     "noEmit": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "jsx": "preserve"
-  },
-  "include": ["src"]
+    "jsx": "preserve",
+    "preserveConstEnums": true,
+    "removeComments": false,
+    "sourceMap": true
+  }
 }
