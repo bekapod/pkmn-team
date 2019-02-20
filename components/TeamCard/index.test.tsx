@@ -1,9 +1,7 @@
 import React from "react";
-import { MemoryRouter } from "react-router-dom";
 // tslint:disable-next-line:no-implicit-dependencies
 import { fireEvent, render } from "react-testing-library";
 import TeamCard from ".";
-import { renderWithRouter } from "../../helpers/testUtils";
 import { ITeam } from "../../types";
 
 describe("<TeamCard />", () => {
@@ -46,27 +44,23 @@ describe("<TeamCard />", () => {
   };
 
   it("renders team name and pokemon", () => {
-    const { queryByText, getAllByText } = render(
-      <MemoryRouter initialEntries={["/"]}>
-        <TeamCard team={team} />
-      </MemoryRouter>
-    );
+    const { queryByText, getAllByText } = render(<TeamCard team={team} />);
 
     expect(queryByText(/Pikachu Team/)).toBeTruthy();
     expect(getAllByText(/#25 Pikachu/)).toHaveLength(3);
   });
 
   it("renders a link to team edit page", () => {
-    const { getByTestId, history } = renderWithRouter(<TeamCard team={team} />);
+    const { getByTestId } = render(<TeamCard team={team} />);
 
     expect(
-      history.entries.find(entry => entry.pathname === `/team/edit/${team.id}`)
+      global.appHistory.find(entry => entry === `/team/edit/${team.id}/`)
     ).toBeFalsy();
 
     fireEvent.click(getByTestId(`team-link-${team.id}`));
 
     expect(
-      history.entries.find(entry => entry.pathname === `/team/edit/${team.id}`)
+      global.appHistory.find(entry => entry === `/team/edit/${team.id}/`)
     ).toBeTruthy();
   });
 });

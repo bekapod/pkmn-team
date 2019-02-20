@@ -2,18 +2,16 @@ import { anyPass, isEmpty, isNil, set, unset } from "lodash/fp";
 import { ITeamMember } from "../../types";
 
 export const validate = (
-  props: {
-    teamBuilderName?: string;
-    teamBuilderMembers?: ITeamMember[];
-  },
   state: {
+    teamName?: string;
+    teamMembers?: ITeamMember[];
     isValid: boolean;
     isTouched: boolean;
     errors: { [key: string]: string };
   },
   options: { setTouched?: boolean } = {}
 ) => {
-  const { teamBuilderName, teamBuilderMembers } = props;
+  const { teamName, teamMembers } = state;
   const isInvalid = anyPass([isEmpty, isNil]);
   let updatedState = { ...state };
 
@@ -22,11 +20,11 @@ export const validate = (
   }
 
   updatedState =
-    isInvalid(teamBuilderName) || isInvalid(teamBuilderMembers)
+    isInvalid(teamName) || isInvalid(teamMembers)
       ? set("isValid", false, updatedState)
       : set("isValid", true, updatedState);
 
-  if (isInvalid(teamBuilderName)) {
+  if (isInvalid(teamName)) {
     updatedState = set(
       "errors",
       { ...updatedState.errors, name: "Team name is required" },
@@ -40,7 +38,7 @@ export const validate = (
     );
   }
 
-  if (isInvalid(teamBuilderMembers)) {
+  if (isInvalid(teamMembers)) {
     updatedState = set(
       "errors",
       { ...updatedState.errors, members: "Your team must have some pokemon" },

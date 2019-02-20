@@ -118,7 +118,7 @@ describe("<TeamView />", () => {
     const fnStub = () => null;
     const { getByTestId } = render(
       <TeamView
-        teamBuilderMembers={threeTeamMembers}
+        teamMembers={threeTeamMembers}
         addPokemonToTeam={fnStub}
         removePokemonFromTeam={fnStub}
       />
@@ -162,7 +162,7 @@ describe("<TeamView />", () => {
       const fnStub = () => null;
       const { queryByTestId, queryAllByTestId } = render(
         <TeamView
-          teamBuilderMembers={threeTeamMembers}
+          teamMembers={threeTeamMembers}
           addPokemonToTeam={fnStub}
           removePokemonFromTeam={fnStub}
         />
@@ -180,7 +180,7 @@ describe("<TeamView />", () => {
       const fnStub = () => null;
       const { queryByTestId, queryAllByTestId } = render(
         <TeamView
-          teamBuilderMembers={sixTeamMembers}
+          teamMembers={sixTeamMembers}
           addPokemonToTeam={fnStub}
           removePokemonFromTeam={fnStub}
         />
@@ -198,8 +198,8 @@ describe("<TeamView />", () => {
       const fnStub = () => null;
       const { queryByText } = render(
         <TeamView
-          teamBuilderMembers={threeTeamMembers}
-          pokemonSearchCurrentSelection={pokemon}
+          teamMembers={threeTeamMembers}
+          currentSearchPokemon={pokemon}
           addPokemonToTeam={fnStub}
           removePokemonFromTeam={fnStub}
         />

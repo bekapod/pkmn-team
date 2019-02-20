@@ -1,6 +1,5 @@
 import React from "react";
 import { MockedProvider, MockedResponse } from "react-apollo/test-utils";
-import { MemoryRouter } from "react-router-dom";
 // tslint:disable-next-line:no-implicit-dependencies
 import { render } from "react-testing-library";
 // tslint:disable-next-line:no-implicit-dependencies
@@ -173,18 +172,15 @@ const mocks: ReadonlyArray<MockedResponse> = [
 ];
 
 describe("<DashboardContainer />", () => {
-  it("renders with correct title and number of team members", async () => {
+  it("renders with correct number of team members", async () => {
     const { queryByText, getAllByTestId } = render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <MemoryRouter initialEntries={["/"]}>
-          <DashboardContainer />
-        </MemoryRouter>
+        <DashboardContainer />
       </MockedProvider>
     );
 
     await wait(0);
 
-    expect(queryByText(/My Teams/)).toBeTruthy();
     expect(getAllByTestId(/team-link-(\w+)/)).toHaveLength(3);
   });
 });

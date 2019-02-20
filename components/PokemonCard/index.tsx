@@ -37,7 +37,10 @@ const PokemonCard = ({ memberId, pokemon, renderCardActions }: IProps) => {
       </CardHeader>
 
       <PokemonCardContent>
-        <PokemonCardSprite src={`/sprites/${sprite}`} alt={`${name} sprite`} />
+        <PokemonCardSprite
+          src={`/static/sprites/${sprite}`}
+          alt={`${name} sprite`}
+        />
 
         <InlineList>
           {sortTypes(types).map((type: Type) => (

@@ -1,53 +1,56 @@
 import { getOr } from "lodash/fp";
-import React, { PureComponent } from "react";
-import { Query } from "react-apollo";
-import { connect } from "react-redux";
-import * as pokemonSearchActions from "../../actions/pokemonSearch";
+import React from "react";
+import { adopt } from "react-adopt";
+import { Mutation, OperationVariables, Query, QueryResult } from "react-apollo";
 import PokemonSearch from "../../components/PokemonSearch";
+import { setCurrentSearchPokemon } from "../../mutations/search";
 import { getAllPokemon } from "../../queries/pokemon";
-import * as pokemonSearchSelectors from "../../selectors/pokemonSearch";
-import { IPokemon, IState } from "../../types";
+import { IPokemon } from "../../types";
 
-interface IProps {
-  highlightedIndex: number;
-  inputValue?: string;
-  filteredList: IPokemon[];
-  setCurrentSelection: (_: IPokemon) => void;
-  setHighlightedIndex: (_: number) => void;
-  setInputValue: (_: string) => void;
-  setUnfilteredList: (_: IPokemon[]) => void;
+interface IQueryProps {
+  getAllPokemonQuery: QueryResult<
+    { allPokemon: IPokemon[] },
+    OperationVariables
+  >;
+  setCurrentSearchPokemonMutation: ({
+    variables: { pokemon }
+  }: {
+    variables: { pokemon: IPokemon };
+  }) => void;
 }
 
-class PokemonSearchContainer extends PureComponent<IProps> {
-  public render() {
-    return (
-      <Query query={getAllPokemon}>
-        {({ data, loading, error }) => {
-          return (
-            <PokemonSearch
-              {...this.props}
-              pokemon={getOr([], "allPokemon", data)}
-              loading={loading}
-              error={error}
-            />
-          );
-        }}
-      </Query>
-    );
-  }
-}
+const queries = {
+  getAllPokemonQuery: ({ render }: any) => (
+    <Query query={getAllPokemon}>{render}</Query>
+  )
+};
 
-const mapStateToProps = (state: IState) => ({
-  filteredList: pokemonSearchSelectors.getPokemonSearchFilteredList(state),
-  highlightedIndex: pokemonSearchSelectors.getPokemonSearchHighlightedIndex(
-    state
-  ),
-  inputValue: pokemonSearchSelectors.getPokemonSearchInputValue(state)
-});
+const mutations = {
+  setCurrentSearchPokemonMutation: ({ render }: any) => (
+    <Mutation mutation={setCurrentSearchPokemon}>{render}</Mutation>
+  )
+};
 
-const mapDispatchToProps = pokemonSearchActions;
+const WithQueries = adopt({ ...queries, ...mutations });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PokemonSearchContainer);
+const PokemonSearchContainer = () => {
+  return (
+    <WithQueries>
+      {({
+        getAllPokemonQuery: { data, loading, error },
+        setCurrentSearchPokemonMutation
+      }: IQueryProps) => {
+        return (
+          <PokemonSearch
+            pokemon={getOr([], "allPokemon", data)}
+            setCurrentSearchPokemon={setCurrentSearchPokemonMutation}
+            loading={loading}
+            error={error}
+          />
+        );
+      }}
+    </WithQueries>
+  );
+};
+
+export default PokemonSearchContainer;

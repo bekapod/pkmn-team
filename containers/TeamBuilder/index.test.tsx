@@ -1,7 +1,5 @@
 import React from "react";
 import { MockedProvider, MockedResponse } from "react-apollo/test-utils";
-import { Provider } from "react-redux";
-import { MemoryRouter } from "react-router-dom";
 // tslint:disable-next-line:no-implicit-dependencies
 import { render } from "react-testing-library";
 // tslint:disable-next-line:no-implicit-dependencies
@@ -9,7 +7,6 @@ import wait from "waait";
 import TeamBuilderContainer from ".";
 import { createTeam, updateTeam } from "../../mutations/team";
 import { getTeamById } from "../../queries/team";
-import configureStore from "../../store";
 
 const mocks: ReadonlyArray<MockedResponse> = [
   {
@@ -47,13 +44,9 @@ const mocks: ReadonlyArray<MockedResponse> = [
 describe("<TeamBuilderContainer />", () => {
   it("renders team creation form", async () => {
     const { queryByPlaceholderText } = render(
-      <Provider store={configureStore({})}>
-        <MockedProvider mocks={mocks} addTypename={false}>
-          <MemoryRouter initialEntries={["/team/create/"]}>
-            <TeamBuilderContainer />
-          </MemoryRouter>
-        </MockedProvider>
-      </Provider>
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <TeamBuilderContainer />
+      </MockedProvider>
     );
 
     await wait(0);
@@ -124,19 +117,16 @@ describe("<TeamBuilderContainer />", () => {
       }
     ];
     const team = mocksWithTeam[2].result.data.teamById;
-    const { queryByDisplayValue, queryAllByTestId, queryByText } = render(
-      <Provider store={configureStore({})}>
-        <MockedProvider mocks={mocksWithTeam} addTypename={false}>
-          <MemoryRouter initialEntries={[`/team/edit/${team.id}`]}>
-            <TeamBuilderContainer match={{ params: { teamId: team.id } }} />
-          </MemoryRouter>
-        </MockedProvider>
-      </Provider>
+    const { getByValue, queryByValue, queryAllByTestId, queryByText } = render(
+      <MockedProvider mocks={mocksWithTeam} addTypename={false}>
+        <TeamBuilderContainer query={{ teamId: team.id }} />
+      </MockedProvider>
     );
 
     await wait(0);
 
-    expect(queryByDisplayValue(team.name)).toBeTruthy();
+    getByValue(team.name);
+    expect(queryByValue(team.name)).toBeTruthy();
     expect(queryAllByTestId(/pokemon-(\w+)/)).toHaveLength(team.members.length);
     expect(queryByText(/Save team/)).toBeTruthy();
   });

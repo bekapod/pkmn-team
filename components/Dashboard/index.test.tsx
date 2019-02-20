@@ -1,6 +1,5 @@
 import { flatten } from "lodash/fp";
 import React from "react";
-import { MemoryRouter } from "react-router-dom";
 // tslint:disable-next-line:no-implicit-dependencies
 import { render } from "react-testing-library";
 import Dashboard from ".";
@@ -75,11 +74,7 @@ const mockData: ITeam[] = [
 
 describe("<Dashboard />", () => {
   it("renders all teams with associated pokemon", () => {
-    const { queryByText } = render(
-      <MemoryRouter initialEntries={["/"]}>
-        <Dashboard teams={mockData} />
-      </MemoryRouter>
-    );
+    const { queryByText } = render(<Dashboard teams={mockData} />);
 
     const expectedTeams = mockData.map(team => team.name);
     const expectedPokemon = flatten(
@@ -98,9 +93,7 @@ describe("<Dashboard />", () => {
   describe("when dashboard has no data", () => {
     it("renders correctly", () => {
       const { queryAllByTestId, queryByText } = render(
-        <MemoryRouter initialEntries={["/"]}>
-          <Dashboard teams={[]} />
-        </MemoryRouter>
+        <Dashboard teams={[]} />
       );
 
       expect(queryByText(/Create a team/)).toBeTruthy();

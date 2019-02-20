@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React, { Fragment } from "react";
 import { ITeam } from "../../types";
 import CenteredRow from "../CenteredRow";
@@ -12,7 +13,9 @@ interface IProps {
 const Dashboard = ({ teams }: IProps) => (
   <Fragment>
     <CenteredRow>
-      <CtaInternalLink to="/team/create/">Create a team</CtaInternalLink>
+      <Link href="/team/create/" passHref={true}>
+        <CtaInternalLink>Create a team</CtaInternalLink>
+      </Link>
     </CenteredRow>
     {teams && (
       <TeamGrid>

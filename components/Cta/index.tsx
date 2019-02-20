@@ -1,7 +1,5 @@
-import { LocationDescriptor } from "history";
 import { always, cond, T } from "lodash/fp";
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { ReactNode, ReactNodeArray } from "react";
 import styled, { css } from "styled-components/macro";
 import { radialIn } from "../../helpers/animations";
 import * as variables from "../../helpers/variables";
@@ -10,10 +8,7 @@ import { lineHeight } from "../../helpers/verticalRhythm";
 interface IProps {
   secondary?: boolean;
   small?: boolean;
-}
-
-interface ILinkProps extends IProps {
-  to: LocationDescriptor<any>;
+  children: ReactNode | ReactNodeArray;
 }
 
 const not = (value: any) => !value;
@@ -54,7 +49,7 @@ const styles = css`
 `;
 
 export const CtaInternalLink = styled(
-  ({ secondary, small, ...props }: ILinkProps) => <Link {...props} />
+  ({ secondary, small, ...props }: IProps) => <a {...props} />
 )`
   ${styles};
 `;

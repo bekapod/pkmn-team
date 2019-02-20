@@ -4,7 +4,6 @@ import isEqual from "react-fast-compare";
 import styled from "styled-components/macro";
 import PokemonSearch from "../../containers/PokemonSearch";
 import { baseTransition } from "../../helpers/animations";
-import { getUniqueId } from "../../helpers/general";
 import * as variables from "../../helpers/variables";
 import { IPokemon, ITeamMember } from "../../types";
 import { CtaButton } from "../Cta";
@@ -13,10 +12,10 @@ import PokemonLine from "../PokemonLine";
 import Tabs from "../Tabs";
 
 interface IProps {
-  teamBuilderMembers: ITeamMember[];
-  pokemonSearchCurrentSelection?: IPokemon;
-  addPokemonToTeam: (member: ITeamMember) => void;
-  removePokemonFromTeam: (member: { id: string }) => void;
+  teamMembers: ITeamMember[];
+  currentSearchPokemon?: IPokemon;
+  addPokemonToTeam: (pokemon: IPokemon) => void;
+  removePokemonFromTeam: (member: string) => void;
 }
 
 const AddButton = styled.span`
@@ -125,10 +124,6 @@ class TeamView extends Component<IProps> {
     super(props);
 
     this.renderCardActions = this.renderCardActions.bind(this);
-    this.handleAddPokemonToTeam = this.handleAddPokemonToTeam.bind(this);
-    this.handleRemovePokemonFromTeam = this.handleRemovePokemonFromTeam.bind(
-      this
-    );
   }
 
   public shouldComponentUpdate(nextProps: IProps) {
@@ -142,9 +137,12 @@ class TeamView extends Component<IProps> {
     memberId?: string;
     pokemon: IPokemon;
   }) {
+    const { addPokemonToTeam, removePokemonFromTeam } = this.props;
+
     const onClick = memberId
-      ? this.handleRemovePokemonFromTeam(memberId)
-      : this.handleAddPokemonToTeam(pokemon);
+      ? () => removePokemonFromTeam(memberId)
+      : () => addPokemonToTeam(pokemon);
+
     const buttonText = memberId
       ? `Remove ${pokemon.name} from team`
       : `Add ${pokemon.name} to team`;
@@ -156,30 +154,15 @@ class TeamView extends Component<IProps> {
     );
   }
 
-  public handleAddPokemonToTeam(pokemon: IPokemon) {
-    return () => {
-      this.props.addPokemonToTeam({
-        id: getUniqueId(),
-        pokemon
-      });
-    };
-  }
-
-  public handleRemovePokemonFromTeam(memberId: string) {
-    return () => {
-      this.props.removePokemonFromTeam({ id: memberId });
-    };
-  }
-
   public render() {
-    const { teamBuilderMembers, pokemonSearchCurrentSelection } = this.props;
+    const { teamMembers, currentSearchPokemon } = this.props;
 
     return (
       <Tabs
         selectedItem={compose(
           getOr("add-pokemon", "id"),
           first
-        )(teamBuilderMembers)}
+        )(teamMembers)}
       >
         {({ getTabItemProps, getTabContentProps }) => {
           const addPokemonTabItemProps = getTabItemProps("add-pokemon");
@@ -198,9 +181,9 @@ class TeamView extends Component<IProps> {
                       <PokemonLine pokemon={pkmn} />
                     </TabItem>
                   );
-                })(teamBuilderMembers)}
+                })(teamMembers)}
 
-                {lt(size(teamBuilderMembers), 6) ? (
+                {lt(size(teamMembers), 6) ? (
                   <TabItem
                     {...addPokemonTabItemProps}
                     key={"Add new Pokemon"}
@@ -232,20 +215,20 @@ class TeamView extends Component<IProps> {
                     />
                   </TabContent>
                 );
-              })(teamBuilderMembers)}
+              })(teamMembers)}
 
-              {lt(size(teamBuilderMembers), 6) ? (
+              {lt(size(teamMembers), 6) ? (
                 <TabContent
                   {...addPokemonTabContentProps}
                   key="Pokemon search"
                   data-testid="tab-content-add-pokemon"
                 >
                   <PokemonSearch />
-                  {pokemonSearchCurrentSelection ? (
+                  {currentSearchPokemon ? (
                     <PokemonCard
-                      pokemon={pokemonSearchCurrentSelection}
+                      pokemon={currentSearchPokemon}
                       renderCardActions={this.renderCardActions({
-                        pokemon: pokemonSearchCurrentSelection
+                        pokemon: currentSearchPokemon
                       })}
                     />
                   ) : null}

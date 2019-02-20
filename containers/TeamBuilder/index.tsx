@@ -8,51 +8,41 @@ import {
   Query,
   QueryResult
 } from "react-apollo";
-import { connect } from "react-redux";
-import { bindActionCreators, Dispatch } from "redux";
-import * as teamBuilderActions from "../../actions/teamBuilder";
-import Page from "../../components/Page";
 import TeamBuilder from "../../components/TeamBuilder";
 import { createTeam, updateTeam } from "../../mutations/team";
+import { getCurrentSearchPokemon } from "../../queries/search";
 import { getTeamById } from "../../queries/team";
-import * as teamBuilderSelectors from "../../selectors/teamBuilder";
-import { IState, ITeam, ITeamMember } from "../../types";
+import { IPokemon, ITeam } from "../../types";
 
 interface IProps {
-  addPokemonToTeam: (_: ITeamMember) => void;
-  removePokemonFromTeam: (_: { id: string }) => void;
-  setTeamName: (_: string) => void;
-  setTeamMembers: (_: ITeamMember[]) => void;
-  teamBuilderName?: string;
-  teamBuilderMembers: ITeamMember[];
-  match?: { params: { teamId?: string } };
+  query?: { teamId?: string };
 }
 
 interface IQueryProps {
   createTeamMutation: {
-    mutation: (
-      mutation: {
-        variables: {
-          name: string;
-          pokedexIds: number[];
-        };
-      }
-    ) => void;
+    mutation: (mutation: {
+      variables: {
+        name: string;
+        pokedexIds: number[];
+      };
+    }) => void;
     result: MutationResult<{ createTeam: ITeam }>;
   };
   updateTeamMutation: {
-    mutation: (
-      mutation: {
-        variables: {
-          id: string;
-          name: string;
-          pokedexIds: number[];
-        };
-      }
-    ) => void;
+    mutation: (mutation: {
+      variables: {
+        id: string;
+        name: string;
+        pokedexIds: number[];
+      };
+    }) => void;
     result: MutationResult<{ updateTeam: ITeam }>;
   };
   getTeamQuery?: QueryResult<{ teamById: ITeam }, OperationVariables>;
+  getCurrentSearchPokemonQuery: QueryResult<
+    { currentSearchPokemon: IPokemon },
+    OperationVariables
+  >;
 }
 
 const mutations = {
@@ -69,6 +59,9 @@ const mutations = {
 };
 
 const queries = {
+  getCurrentSearchPokemonQuery: ({ render }: any) => (
+    <Query query={getCurrentSearchPokemon}>{render}</Query>
+  ),
   getTeamQuery: ({ teamId, render }: any) =>
     teamId ? (
       <Query query={getTeamById} variables={{ id: teamId }}>
@@ -83,7 +76,7 @@ const WithQueriesAndMutations = adopt({ ...queries, ...mutations });
 
 class TeamBuilderContainer extends PureComponent<IProps> {
   public render() {
-    const teamId = getOr(null, "match.params.teamId", this.props);
+    const teamId = getOr(null, ["query", "teamId"], this.props);
 
     return (
       <WithQueriesAndMutations teamId={teamId}>
@@ -100,26 +93,27 @@ class TeamBuilderContainer extends PureComponent<IProps> {
             mutation: updateTeamMutation,
             result: { loading: updateTeamLoading, error: updateTeamError }
           },
+          getCurrentSearchPokemonQuery,
           getTeamQuery
         }: IQueryProps) => {
-          const team = getOr(undefined, "data.teamById", getTeamQuery);
+          const team = getOr(undefined, ["data", "teamById"], getTeamQuery);
+          const currentSearchPokemon = getOr(
+            undefined,
+            ["data", "currentSearchPokemon"],
+            getCurrentSearchPokemonQuery
+          );
 
           return (
-            <Page
-              title={team ? "Edit Team" : "Create a Team"}
-              loading={getOr(false, "loading", getTeamQuery)}
-              error={getOr(undefined, "error", getTeamQuery)}
-            >
-              <TeamBuilder
-                {...this.props}
-                team={team}
-                createTeamMutation={createTeamMutation}
-                updateTeamMutation={updateTeamMutation}
-                createdTeamId={createdTeam && createdTeam.createTeam.id}
-                loading={createTeamLoading || updateTeamLoading}
-                error={createTeamError || updateTeamError}
-              />
-            </Page>
+            <TeamBuilder
+              {...this.props}
+              team={team}
+              currentSearchPokemon={currentSearchPokemon}
+              createTeamMutation={createTeamMutation}
+              updateTeamMutation={updateTeamMutation}
+              createdTeamId={createdTeam && createdTeam.createTeam.id}
+              loading={createTeamLoading || updateTeamLoading}
+              error={createTeamError || updateTeamError}
+            />
           );
         }}
       </WithQueriesAndMutations>
@@ -127,15 +121,4 @@ class TeamBuilderContainer extends PureComponent<IProps> {
   }
 }
 
-const mapStateToProps = (state: IState) => ({
-  teamBuilderMembers: teamBuilderSelectors.getTeamBuilderMembers(state),
-  teamBuilderName: teamBuilderSelectors.getTeamBuilderName(state)
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators(teamBuilderActions, dispatch);
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TeamBuilderContainer);
+export default TeamBuilderContainer;

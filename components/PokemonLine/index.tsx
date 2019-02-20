@@ -58,7 +58,7 @@ class PokemonLine extends PureComponent<IProps> {
 
     return (
       <Row types={types} outdent={outdent} {...props}>
-        <RowImage src={`/sprites/${sprite}`} alt={`${name} sprite`} />
+        <RowImage src={`/static/sprites/${sprite}`} alt={`${name} sprite`} />
         <div>
           <RowTitle>{formatPokemonName(pokemon)}</RowTitle>
           <InlineList>

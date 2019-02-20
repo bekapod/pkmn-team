@@ -1,14 +1,11 @@
 import React from "react";
 import { MockedProvider, MockedResponse } from "react-apollo/test-utils";
-import { Provider } from "react-redux";
-import { MemoryRouter } from "react-router-dom";
 // tslint:disable-next-line:no-implicit-dependencies
 import { fireEvent, render } from "react-testing-library";
 // tslint:disable-next-line:no-implicit-dependencies
 import wait from "waait";
 import PokemonSearchContainer from ".";
 import { getAllPokemon } from "../../queries/pokemon";
-import configureStore from "../../store";
 
 const mocks: ReadonlyArray<MockedResponse> = [
   {
@@ -49,13 +46,9 @@ const mocks: ReadonlyArray<MockedResponse> = [
 describe("<PokemonSearchContainer />", () => {
   it("renders pokemon search input and list of pokemon", async () => {
     const { queryByPlaceholderText, queryByText } = render(
-      <Provider store={configureStore({})}>
-        <MockedProvider mocks={mocks} addTypename={false}>
-          <MemoryRouter initialEntries={["/team/create/"]}>
-            <PokemonSearchContainer />
-          </MemoryRouter>
-        </MockedProvider>
-      </Provider>
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <PokemonSearchContainer />
+      </MockedProvider>
     );
 
     await wait(0);
@@ -66,13 +59,9 @@ describe("<PokemonSearchContainer />", () => {
 
   it("shows list of matching pokemon when user begins to search", async () => {
     const { getByPlaceholderText, queryByText, getByText } = render(
-      <Provider store={configureStore({})}>
-        <MockedProvider mocks={mocks} addTypename={false}>
-          <MemoryRouter initialEntries={["/team/create/"]}>
-            <PokemonSearchContainer />
-          </MemoryRouter>
-        </MockedProvider>
-      </Provider>
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <PokemonSearchContainer />
+      </MockedProvider>
     );
 
     await wait(0);
@@ -90,13 +79,9 @@ describe("<PokemonSearchContainer />", () => {
 
   it("shows full list of pokemon when user has cleared their search", async () => {
     const { getByPlaceholderText, queryByText } = render(
-      <Provider store={configureStore({})}>
-        <MockedProvider mocks={mocks} addTypename={false}>
-          <MemoryRouter initialEntries={["/team/create/"]}>
-            <PokemonSearchContainer />
-          </MemoryRouter>
-        </MockedProvider>
-      </Provider>
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <PokemonSearchContainer />
+      </MockedProvider>
     );
 
     await wait(0);
@@ -116,13 +101,9 @@ describe("<PokemonSearchContainer />", () => {
 
   it("doesn't show any pokemon when none are matched", async () => {
     const { getByPlaceholderText, queryByText } = render(
-      <Provider store={configureStore({})}>
-        <MockedProvider mocks={mocks} addTypename={false}>
-          <MemoryRouter initialEntries={["/team/create/"]}>
-            <PokemonSearchContainer />
-          </MemoryRouter>
-        </MockedProvider>
-      </Provider>
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <PokemonSearchContainer />
+      </MockedProvider>
     );
 
     await wait(0);

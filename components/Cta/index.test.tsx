@@ -2,41 +2,18 @@ import React from "react";
 // tslint:disable-next-line:no-implicit-dependencies
 import { fireEvent, render } from "react-testing-library";
 import { CtaButton, CtaInternalLink } from ".";
-import { renderWithRouter } from "../../helpers/testUtils";
 
 describe("<CtaInternalLink />", () => {
   it("renders a link", () => {
-    const { getByText } = renderWithRouter(
-      <CtaInternalLink to="/dashboard">Dashboard</CtaInternalLink>
-    );
+    const { getByText } = render(<CtaInternalLink>Dashboard</CtaInternalLink>);
 
     expect(getByText(/Dashboard/).tagName).toBe("A");
   });
 
-  describe("when user has clicked the link", () => {
-    it("directs user to correct page", () => {
-      const { getByText, history } = renderWithRouter(
-        <CtaInternalLink to="/dashboard">Dashboard</CtaInternalLink>
-      );
-
-      expect(
-        history.entries.find(entry => entry.pathname === "/dashboard")
-      ).toBeFalsy();
-
-      fireEvent.click(getByText(/Dashboard/));
-
-      expect(
-        history.entries.find(entry => entry.pathname === "/dashboard")
-      ).toBeTruthy();
-    });
-  });
-
   describe("when secondary prop is passed", () => {
     it("renders a link", () => {
-      const { getByText } = renderWithRouter(
-        <CtaInternalLink to="/dashboard" secondary={true}>
-          Dashboard
-        </CtaInternalLink>
+      const { getByText } = render(
+        <CtaInternalLink secondary={true}>Dashboard</CtaInternalLink>
       );
 
       expect(getByText(/Dashboard/).tagName).toBe("A");
@@ -45,10 +22,8 @@ describe("<CtaInternalLink />", () => {
 
   describe("when small prop is passed", () => {
     it("renders a link", () => {
-      const { getByText } = renderWithRouter(
-        <CtaInternalLink to="/dashboard" small={true}>
-          Dashboard
-        </CtaInternalLink>
+      const { getByText } = render(
+        <CtaInternalLink small={true}>Dashboard</CtaInternalLink>
       );
 
       expect(getByText(/Dashboard/).tagName).toBe("A");

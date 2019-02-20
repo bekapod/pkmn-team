@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import styled from "styled-components/macro";
 import { zoomIn } from "../../helpers/animations";
 import { getTypeGradient } from "../../helpers/gradients";
@@ -9,7 +8,7 @@ interface ICardHeaderProps {
   types: Type[];
 }
 
-export const CardLink = styled(Link)`
+export const CardLink = styled.a`
   ${zoomIn}
   color: initial;
   text-decoration: none;

@@ -32,46 +32,34 @@ describe("<PokemonSearch />", () => {
   it("renders search input", () => {
     const fnStub = () => null;
     const { queryByPlaceholderText } = render(
-      <PokemonSearch
-        highlightedIndex={0}
-        pokemon={pokemon}
-        filteredList={pokemon}
-        setCurrentSelection={fnStub}
-        setHighlightedIndex={fnStub}
-        setInputValue={fnStub}
-        setUnfilteredList={fnStub}
-      />
+      <PokemonSearch pokemon={pokemon} setCurrentSearchPokemon={fnStub} />
     );
 
     expect(queryByPlaceholderText(/Find by name/)).toBeTruthy();
   });
 
   it("calls setCurrentSelection when user clicks a pokemon result", () => {
-    const setCurrentSelection = jest.fn();
-    const fnStub = () => null;
+    const setCurrentSearchPokemon = jest.fn();
     const { getByPlaceholderText, getByTestId } = render(
       <PokemonSearch
-        highlightedIndex={0}
         pokemon={pokemon}
-        filteredList={pokemon}
-        setCurrentSelection={setCurrentSelection}
-        setHighlightedIndex={fnStub}
-        setInputValue={fnStub}
-        setUnfilteredList={fnStub}
+        setCurrentSearchPokemon={setCurrentSearchPokemon}
       />
     );
 
-    expect(setCurrentSelection).toBeCalledTimes(0);
+    expect(setCurrentSearchPokemon).toBeCalledTimes(0);
 
     fireEvent.change(getByPlaceholderText(/Find by name/), {
       target: { value: "hau" }
     });
 
-    expect(setCurrentSelection).toBeCalledTimes(0);
+    expect(setCurrentSearchPokemon).toBeCalledTimes(0);
 
     fireEvent.click(getByTestId("autocomplete-result-93"));
 
-    expect(setCurrentSelection).toBeCalledTimes(1);
-    expect(setCurrentSelection).toBeCalledWith(pokemon[2]);
+    expect(setCurrentSearchPokemon).toBeCalledTimes(1);
+    expect(setCurrentSearchPokemon).toBeCalledWith({
+      variables: { pokemon: pokemon[2] }
+    });
   });
 });

@@ -1,5 +1,6 @@
 import dateFormat from "dateformat";
 import { compose, flatMap, get, isNil, map, reject } from "lodash/fp";
+import Link from "next/link";
 import React from "react";
 import * as variables from "../../helpers/variables";
 import { IPokemon, ITeam } from "../../types";
@@ -20,31 +21,33 @@ const TeamCard = ({ team: { id, name, members, createdAt } }: IProps) => {
   );
 
   return (
-    <CardLink to={`/team/edit/${id}`} data-testid={`team-link-${id}`}>
-      <CardWrapper>
-        <CardHeader types={getAllTypes(pokemon)}>
-          <CardHeading>{name}</CardHeading>
-        </CardHeader>
+    <Link href={`/team/edit/${id}/`} passHref={true}>
+      <CardLink data-testid={`team-link-${id}`}>
+        <CardWrapper>
+          <CardHeader types={getAllTypes(pokemon)}>
+            <CardHeading>{name}</CardHeading>
+          </CardHeader>
 
-        <CardContent>
-          <CardMeta
-            id={id}
-            items={[
-              { label: "Pkmn", value: members.length },
-              { label: "Created", value: dateFormat(createdAt, "d/m/yy") }
-            ]}
-          />
-
-          {members.map(({ id: memberId, pokemon: memberPkmn }) => (
-            <PokemonLine
-              key={`Team Member: ${memberId}`}
-              pokemon={memberPkmn}
-              outdent={variables.spacing.sm}
+          <CardContent>
+            <CardMeta
+              id={id}
+              items={[
+                { label: "Pkmn", value: members.length },
+                { label: "Created", value: dateFormat(createdAt, "d/m/yy") }
+              ]}
             />
-          ))}
-        </CardContent>
-      </CardWrapper>
-    </CardLink>
+
+            {members.map(({ id: memberId, pokemon: memberPkmn }) => (
+              <PokemonLine
+                key={`Team Member: ${memberId}`}
+                pokemon={memberPkmn}
+                outdent={variables.spacing.sm}
+              />
+            ))}
+          </CardContent>
+        </CardWrapper>
+      </CardLink>
+    </Link>
   );
 };
 

@@ -1,7 +1,16 @@
+const path = require("path");
 const withPlugins = require("next-compose-plugins");
 const withTypescript = require("@zeit/next-typescript");
+import {} from "styled-components/cssprop";
 
-const nextConfig = {
+require("dotEnv").config();
+const dotEnv = require("dotenv-webpack");
+
+if (dotEnv.error) {
+  throw dotEnv.error;
+}
+
+const nextConfig = withTypescript({
   webpack: config => {
     // Fixes npm packages that depend on `fs` module
     config.node = {
@@ -9,8 +18,16 @@ const nextConfig = {
       module: "empty"
     };
 
+    config.plugins = [
+      ...config.plugins,
+      new dotEnv({
+        path: path.join(__dirname, ".env"),
+        systemvars: true
+      })
+    ];
+
     return config;
   }
-};
+});
 
-module.exports = withPlugins([[withTypescript]], nextConfig);
+module.exports = nextConfig;
