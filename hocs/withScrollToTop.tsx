@@ -4,7 +4,7 @@ import React, { PureComponent } from "react";
 interface IProps {}
 
 interface IState {
-  intervalId?: NodeJS.Timeout;
+  intervalId?: number;
 }
 
 const withScrollToTop = <P extends object>(

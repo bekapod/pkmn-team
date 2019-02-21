@@ -99,7 +99,7 @@ describe("<TeamBuilder />", () => {
     describe("when user attempts to submit form", () => {
       it("displays an error message for invalid team name when user has not entered a team name", async () => {
         const fnStub = () => null;
-        const { getByText, getByTestId, queryByText } = render(
+        const { getByText, queryByText } = render(
           <MockedProvider mocks={mocks} addTypename={false}>
             <TeamBuilder
               updateTeamMutation={fnStub}

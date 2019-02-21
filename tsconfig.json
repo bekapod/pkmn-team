@@ -20,5 +20,11 @@
     "removeComments": false,
     "sourceMap": true
   },
-  "exclude": [".next", "node_modules"]
+  "exclude": [
+    ".next",
+    "node_modules",
+    "jest.config.js",
+    "server.js",
+    "coverage"
+  ]
 }

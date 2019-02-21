@@ -9,5 +9,8 @@
   "rules": {
     "prettier": true,
     "no-submodule-imports": false
+  },
+  "linterOptions": {
+    "exclude": ["coverage/**/*"]
   }
 }

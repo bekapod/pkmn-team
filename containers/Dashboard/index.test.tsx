@@ -173,7 +173,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
 
 describe("<DashboardContainer />", () => {
   it("renders with correct number of team members", async () => {
-    const { queryByText, getAllByTestId } = render(
+    const { getAllByTestId } = render(
       <MockedProvider mocks={mocks} addTypename={false}>
         <DashboardContainer />
       </MockedProvider>

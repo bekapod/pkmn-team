@@ -1,4 +1,4 @@
-import ApolloClient from "apollo-boost";
+import ApolloClient, { InMemoryCache } from "apollo-boost";
 import withApollo, { InitApolloOptions } from "next-with-apollo";
 import { IPokemon } from "../types";
 
@@ -13,7 +13,7 @@ function createClient({ headers }: InitApolloOptions<{}>) {
           setCurrentSearchPokemon: (
             _: any,
             variables: { pokemon: IPokemon },
-            { cache }
+            { cache }: { cache: InMemoryCache }
           ) => {
             const data = { currentSearchPokemon: variables.pokemon };
             cache.writeData({ data });

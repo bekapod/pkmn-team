@@ -1,3 +1,4 @@
+// tslint:disable:no-console
 const express = require("express");
 const next = require("next");
 
@@ -22,7 +23,9 @@ app
     });
 
     server.listen(process.env.PORT, err => {
-      if (err) throw err;
+      if (err) {
+        throw err;
+      }
       console.log(`> Ready on http://localhost:${process.env.PORT}`);
     });
   })
