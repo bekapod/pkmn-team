@@ -27,7 +27,9 @@ module.exports = {
     "!<rootDir>/.storybook/",
     "!<rootDir>/@types/",
     "!<rootDir>/node_modules/",
-    "!<rootDir>/src/helpers/test.tsx"
+    "!<rootDir>/src/helpers/test.tsx",
+    "!<rootDir>/**/*.story.tsx",
+    "!<rootDir>/next.config.js"
   ],
 
   // The directory where Jest should output its coverage files
