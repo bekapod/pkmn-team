@@ -2,7 +2,6 @@ import { ApolloError } from "apollo-client";
 import { get, getOr, size } from "lodash/fp";
 import React, { PureComponent } from "react";
 import { FixedSizeList, FixedSizeList as List } from "react-window";
-import { css } from "styled-components/macro";
 import * as variables from "../../helpers/variables";
 import { Pokemon } from "../../types";
 import Autocomplete, { AutocompleteDropdown } from "../Autocomplete";
@@ -181,9 +180,7 @@ class PokemonSearch extends PureComponent<Props, State> {
         <GiantInput
           arial-label="Find Pokemon by name"
           placeholder="Find by name"
-          css={css`
-            max-width: none;
-          `}
+          fullWidth
           value={inputValue}
           onKeyDown={this.keyboardNavigation}
           onChange={this.setInputValue}

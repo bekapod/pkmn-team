@@ -6,8 +6,9 @@ export const getAllTeams = gql`
       id
       name
       createdAt
-      members {
+      members(orderBy: order_ASC) {
         id
+        order
         pokemon {
           pokedexId
           name
@@ -25,8 +26,9 @@ export const getTeamById = gql`
       id
       name
       createdAt
-      members {
+      members(orderBy: order_ASC) {
         id
+        order
         pokemon {
           pokedexId
           name

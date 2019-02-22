@@ -7,6 +7,7 @@ import Document, {
   DefaultDocumentIProps
 } from "next/document";
 import React from "react";
+import { resetServerContext } from "react-beautiful-dnd";
 import { ServerStyleSheet } from "styled-components/macro";
 
 interface Props extends AnyPageProps {
@@ -21,6 +22,7 @@ class MyDocument extends Document<Props> {
   public static getInitialProps({
     renderPage
   }: NextDocumentContext): DocumentProps {
+    resetServerContext();
     const sheet = new ServerStyleSheet();
     const page = renderPage(
       (App: React.ComponentType<AnyPageProps>) => (props: AnyPageProps) =>

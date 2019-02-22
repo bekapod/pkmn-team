@@ -1,5 +1,5 @@
 import { ApolloError } from "apollo-client";
-import { get, getOr, gt, propOr, size } from "lodash/fp";
+import { getOr, gt, propOr, size, get } from "lodash/fp";
 import Router from "next/router";
 import React, { ChangeEvent, Component } from "react";
 import isEqual from "react-fast-compare";
@@ -23,14 +23,14 @@ interface Props {
   createTeamMutation: (mutation: {
     variables: {
       name: string;
-      pokedexIds: number[];
+      members: { pokedexId: number; order: number }[];
     };
   }) => void;
   updateTeamMutation: (mutation: {
     variables: {
       id: string;
       name: string;
-      pokedexIds: number[];
+      members: { pokedexId: number; order: number }[];
     };
   }) => void;
   scrollToTop?: () => void;
@@ -54,6 +54,7 @@ class TeamBuilder extends Component<Props, State> {
     this.handleRemovePokemonFromTeam = this.handleRemovePokemonFromTeam.bind(
       this
     );
+    this.handleReorderTeamMembers = this.handleReorderTeamMembers.bind(this);
 
     this.state = {
       errors: {},
@@ -100,11 +101,14 @@ class TeamBuilder extends Component<Props, State> {
     });
   }
 
-  public handleAddPokemonToTeam(pokemon: Pokemon): void {
+  public handleAddPokemonToTeam(pokemon: Pokemon, order: number): void {
     this.setState(state => {
       const newState = {
         ...state,
-        teamMembers: [...state.teamMembers, { id: getUniqueId(), pokemon }]
+        teamMembers: [
+          ...state.teamMembers,
+          { id: getUniqueId(), order, pokemon }
+        ]
       };
 
       return {
@@ -123,6 +127,13 @@ class TeamBuilder extends Component<Props, State> {
     }));
   }
 
+  public handleReorderTeamMembers(members: TeamMember[]): void {
+    this.setState(() => ({
+      isTouched: true,
+      teamMembers: members
+    }));
+  }
+
   public handleUpsertTeam(): void {
     const {
       team,
@@ -134,21 +145,24 @@ class TeamBuilder extends Component<Props, State> {
     const teamId = getOr(undefined, "id", team);
 
     if (isValid && teamName && teamMembers) {
-      const pokedexIds = teamMembers.map(get(["pokemon", "pokedexId"]));
+      const input = teamMembers.map(member => ({
+        pokedexId: get(["pokemon", "pokedexId"], member),
+        order: get(["order"], member)
+      }));
 
       if (teamId) {
         updateTeamMutation({
           variables: {
             id: teamId,
             name: teamName,
-            pokedexIds
+            members: input
           }
         });
       } else {
         createTeamMutation({
           variables: {
             name: teamName,
-            pokedexIds
+            members: input
           }
         });
       }
@@ -212,6 +226,7 @@ class TeamBuilder extends Component<Props, State> {
           currentSearchPokemon={currentSearchPokemon}
           addPokemonToTeam={this.handleAddPokemonToTeam}
           removePokemonFromTeam={this.handleRemovePokemonFromTeam}
+          reorderTeamMembers={this.handleReorderTeamMembers}
         />
       </>
     );
