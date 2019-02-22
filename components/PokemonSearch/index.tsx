@@ -4,7 +4,7 @@ import React, { PureComponent } from "react";
 import { FixedSizeList, FixedSizeList as List } from "react-window";
 import { css } from "styled-components/macro";
 import * as variables from "../../helpers/variables";
-import { IPokemon } from "../../types";
+import { Pokemon } from "../../types";
 import Autocomplete, { AutocompleteDropdown } from "../Autocomplete";
 import CenteredRow from "../CenteredRow";
 import ErrorMessage from "../ErrorMessage";
@@ -12,19 +12,19 @@ import GiantInput from "../GiantInput";
 import LoadingIcon from "../LoadingIcon";
 import PokemonLine from "../PokemonLine";
 
-interface IProps {
+interface Props {
   setCurrentSearchPokemon: ({
     variables: { pokemon }
   }: {
-    variables: { pokemon: IPokemon };
+    variables: { pokemon: Pokemon };
   }) => void;
-  pokemon: IPokemon[];
+  pokemon: Pokemon[];
   loading?: boolean;
   error?: ApolloError;
 }
 
-interface IState {
-  filteredList?: IPokemon[];
+interface State {
+  filteredList?: Pokemon[];
   highlightedIndex: number;
   inputValue: string;
 }
@@ -32,10 +32,17 @@ interface IState {
 const itemHeight = variables.spacing.xxl;
 
 const resultItem = (
-  pokemon: IPokemon[],
+  pokemon: Pokemon[],
   highlightedIndex: number,
-  onClick: any
-) => ({ index, style, ...itemProps }: { index: number; style: any }) => {
+  onClick: (pokemon: Pokemon, index: number) => void
+): (({ index, style }: { index: number; style: any }) => JSX.Element) => ({
+  index,
+  style,
+  ...itemProps
+}: {
+  index: number;
+  style: any;
+}): JSX.Element => {
   const pkmn = pokemon[index];
   const isHighlighted = index === highlightedIndex;
   const props = {
@@ -58,7 +65,7 @@ const resultItem = (
   );
 };
 
-class PokemonSearch extends PureComponent<IProps, IState> {
+class PokemonSearch extends PureComponent<Props, State> {
   public listContainer: React.RefObject<FixedSizeList> = React.createRef();
 
   public state = {
@@ -66,7 +73,7 @@ class PokemonSearch extends PureComponent<IProps, IState> {
     inputValue: ""
   };
 
-  constructor(props: IProps) {
+  public constructor(props: Props) {
     super(props);
 
     this.keyboardNavigation = this.keyboardNavigation.bind(this);
@@ -74,33 +81,53 @@ class PokemonSearch extends PureComponent<IProps, IState> {
     this.onResultClick = this.onResultClick.bind(this);
   }
 
-  public componentDidMount() {
+  public componentDidMount(): void {
     if (this.listContainer.current) {
-      this.listContainer.current.scrollToItem(
-        this.state.highlightedIndex,
-        "center"
-      );
+      const { highlightedIndex } = this.state;
+      this.listContainer.current.scrollToItem(highlightedIndex, "center");
     }
   }
 
-  public componentDidUpdate() {
+  public componentDidUpdate(): void {
     if (this.listContainer.current) {
-      this.listContainer.current.scrollToItem(
-        this.state.highlightedIndex,
-        "center"
-      );
+      const { highlightedIndex } = this.state;
+      this.listContainer.current.scrollToItem(highlightedIndex, "center");
     }
   }
 
-  public keyboardNavigation(e: React.KeyboardEvent) {
+  public onResultClick(pokemon: Pokemon, index: number): void {
+    this.setState(() => {
+      const { setCurrentSearchPokemon } = this.props;
+      setCurrentSearchPokemon({ variables: { pokemon } });
+      return {
+        highlightedIndex: index
+      };
+    });
+  }
+
+  public setInputValue(e: React.ChangeEvent<HTMLInputElement>): void {
+    const { pokemon } = this.props;
+    const { value } = e.target;
+
+    this.setState(() => ({
+      filteredList: pokemon.filter(({ name }) => name.includes(value)),
+      highlightedIndex: 0,
+      inputValue: value
+    }));
+  }
+
+  public keyboardNavigation(e: React.KeyboardEvent): void {
+    const { highlightedIndex } = this.state;
+    const { pokemon, setCurrentSearchPokemon } = this.props;
+
     if (e.key === "Enter") {
-      const pokemon = get(
-        ["filteredList", this.state.highlightedIndex],
+      const selectedPokemon = get(
+        ["filteredList", highlightedIndex],
         this.state
       );
 
       if (pokemon) {
-        this.props.setCurrentSearchPokemon({ variables: { pokemon } });
+        setCurrentSearchPokemon({ variables: { pokemon: selectedPokemon } });
       }
 
       return;
@@ -110,17 +137,16 @@ class PokemonSearch extends PureComponent<IProps, IState> {
 
     if (["ArrowUp", "ArrowDown"].includes(e.key)) {
       if (e.key === "ArrowUp") {
-        if (this.state.highlightedIndex !== 0) {
-          newHighlightedIndex = this.state.highlightedIndex - 1;
+        if (highlightedIndex !== 0) {
+          newHighlightedIndex = highlightedIndex - 1;
         }
       }
 
       if (e.key === "ArrowDown") {
         if (
-          this.state.highlightedIndex <
-          size(getOr(this.props.pokemon, "filteredList", this.state))
+          highlightedIndex < size(getOr(pokemon, "filteredList", this.state))
         ) {
-          newHighlightedIndex = this.state.highlightedIndex + 1;
+          newHighlightedIndex = highlightedIndex + 1;
         }
       }
 
@@ -130,40 +156,22 @@ class PokemonSearch extends PureComponent<IProps, IState> {
     }
   }
 
-  public setInputValue(e: React.ChangeEvent<HTMLInputElement>) {
-    const { value } = e.target;
+  public render(): JSX.Element {
+    const { pokemon, loading, error } = this.props;
+    const { inputValue, highlightedIndex } = this.state;
 
-    this.setState(() => ({
-      filteredList: this.props.pokemon.filter(({ name }) =>
-        name.includes(value)
-      ),
-      highlightedIndex: 0,
-      inputValue: value
-    }));
-  }
-
-  public onResultClick(pokemon: IPokemon, index: number) {
-    this.setState(() => {
-      this.props.setCurrentSearchPokemon({ variables: { pokemon } });
-      return {
-        highlightedIndex: index
-      };
-    });
-  }
-
-  public render() {
-    if (this.props.loading) {
+    if (loading) {
       return (
-        <CenteredRow stackVertically={true}>
-          <LoadingIcon spinner={true} />
+        <CenteredRow stackVertically>
+          <LoadingIcon spinner />
         </CenteredRow>
       );
     }
 
-    if (!this.props.loading && this.props.error) {
+    if (!loading && error) {
       return (
-        <CenteredRow stackVertically={true}>
-          <ErrorMessage>{this.props.error.message}</ErrorMessage>
+        <CenteredRow stackVertically>
+          <ErrorMessage>{error.message}</ErrorMessage>
         </CenteredRow>
       );
     }
@@ -176,7 +184,7 @@ class PokemonSearch extends PureComponent<IProps, IState> {
           css={css`
             max-width: none;
           `}
-          value={this.state.inputValue}
+          value={inputValue}
           onKeyDown={this.keyboardNavigation}
           onChange={this.setInputValue}
         />
@@ -185,14 +193,12 @@ class PokemonSearch extends PureComponent<IProps, IState> {
             ref={this.listContainer}
             height={itemHeight * 5}
             itemSize={itemHeight}
-            itemCount={size(
-              getOr(this.props.pokemon, "filteredList", this.state)
-            )}
+            itemCount={size(getOr(pokemon, "filteredList", this.state))}
             width={500}
           >
             {resultItem(
-              getOr(this.props.pokemon, "filteredList", this.state),
-              this.state.highlightedIndex,
+              getOr(pokemon, "filteredList", this.state),
+              highlightedIndex,
               this.onResultClick
             )}
           </List>

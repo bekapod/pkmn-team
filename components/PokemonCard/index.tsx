@@ -2,15 +2,15 @@ import React, { ReactNode, ReactNodeArray } from "react";
 import styled from "styled-components/macro";
 import { formatPokemonName, sortTypes } from "../../helpers/general";
 import * as variables from "../../helpers/variables";
-import { IPokemon, Type } from "../../types";
+import { Pokemon, Type } from "../../types"; // eslint-disable-line import/named
 import { CardContent, CardHeader, CardWrapper } from "../Card";
 import CardHeading from "../CardHeading";
 import InlineList from "../InlineList";
 import TypeTag from "../TypeTag";
 
-interface IProps {
+interface Props {
   memberId?: string;
-  pokemon: IPokemon;
+  pokemon: Pokemon;
   renderCardActions?: () => ReactNode | ReactNodeArray;
 }
 
@@ -27,7 +27,11 @@ const PokemonCardActions = styled.div`
   margin-top: ${variables.spacing.lg}px;
 `;
 
-const PokemonCard = ({ memberId, pokemon, renderCardActions }: IProps) => {
+const PokemonCard = ({
+  memberId,
+  pokemon,
+  renderCardActions
+}: Props): JSX.Element => {
   const { pokedexId, types, name, sprite } = pokemon;
 
   return (

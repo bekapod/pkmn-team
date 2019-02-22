@@ -2,7 +2,7 @@ import React from "react";
 // tslint:disable-next-line:no-implicit-dependencies
 import { render } from "react-testing-library";
 import TeamCard from "../TeamCard";
-import TeamGrid from "./";
+import TeamGrid from ".";
 
 describe("<TeamGrid />", () => {
   it("renders children", () => {

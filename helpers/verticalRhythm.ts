@@ -1,4 +1,4 @@
-export const lineHeight = (size: string = "base") => {
+export const lineHeight = (size: string = "base"): number => {
   switch (size) {
     case "xs":
       return 2.3571;

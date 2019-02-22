@@ -3,14 +3,14 @@ import React from "react";
 import { fireEvent, render } from "react-testing-library";
 import wait from "waait";
 import TeamView from ".";
-import { IPokemon, ITeamMember } from "../../types";
+import { Pokemon, TeamMember } from "../../types";
 
 jest.mock("../../containers/PokemonSearch", () => () => (
   <div data-testid="mocked-PokemonSearch" />
 ));
 
 describe("<TeamView />", () => {
-  const pokemon: IPokemon = {
+  const pokemon: Pokemon = {
     id: "4",
     name: "charmander",
     pokedexId: 4,
@@ -18,7 +18,7 @@ describe("<TeamView />", () => {
     types: ["FIRE"]
   };
 
-  const threeTeamMembers: ITeamMember[] = [
+  const threeTeamMembers: TeamMember[] = [
     {
       id: "1",
       pokemon: {
@@ -51,7 +51,7 @@ describe("<TeamView />", () => {
     }
   ];
 
-  const sixTeamMembers: ITeamMember[] = [
+  const sixTeamMembers: TeamMember[] = [
     {
       id: "1",
       pokemon: {
@@ -115,7 +115,7 @@ describe("<TeamView />", () => {
   ];
 
   it("applies props from Tabs component correctly", async () => {
-    const fnStub = () => null;
+    const fnStub = (): null => null;
     const { getByTestId } = render(
       <TeamView
         teamMembers={threeTeamMembers}
@@ -159,7 +159,7 @@ describe("<TeamView />", () => {
 
   describe("with less than 6 team members", () => {
     it("renders a tab for each pokemon plus a tab for pokemon search", () => {
-      const fnStub = () => null;
+      const fnStub = (): null => null;
       const { queryByTestId, queryAllByTestId } = render(
         <TeamView
           teamMembers={threeTeamMembers}
@@ -177,7 +177,7 @@ describe("<TeamView />", () => {
 
   describe("with 6 team members", () => {
     it("renders a tab for each pokemon plus a tab for pokemon search", () => {
-      const fnStub = () => null;
+      const fnStub = (): null => null;
       const { queryByTestId, queryAllByTestId } = render(
         <TeamView
           teamMembers={sixTeamMembers}
@@ -195,7 +195,7 @@ describe("<TeamView />", () => {
 
   describe("with a search pokemon selected", () => {
     it("renders the currently selected pokemon", () => {
-      const fnStub = () => null;
+      const fnStub = (): null => null;
       const { queryByText } = render(
         <TeamView
           teamMembers={threeTeamMembers}

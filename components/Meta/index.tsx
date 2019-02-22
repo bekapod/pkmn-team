@@ -1,10 +1,11 @@
+import React from "react";
 import Head from "next/head";
 
-interface IProps {
+interface Props {
   title: string;
 }
 
-const Meta = ({ title }: IProps) => (
+const Meta = ({ title }: Props): JSX.Element => (
   <Head>
     <meta charSet="utf-8" />
     <link rel="shortcut icon" href="/static/favicon.ico" />

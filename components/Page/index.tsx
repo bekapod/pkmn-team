@@ -7,7 +7,7 @@ import FullWidthContainer from "../FullWidthContainer";
 import Heading from "../Heading";
 import Meta from "../Meta";
 
-interface IProps {
+interface Props {
   title: string;
   children: ReactNode | ReactNodeArray;
 }
@@ -61,7 +61,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const Page = ({ title, children }: IProps) => (
+const Page = ({ title, children }: Props): JSX.Element => (
   <Fragment>
     <Meta title={title} />
     <GlobalStyle />

@@ -9,7 +9,7 @@ describe("withData", () => {
   it("returns the wrapped component with its own props and scrollToTop prop", () => {
     const renderer = new ShallowRenderer();
     class TestComponent extends App {
-      public render() {
+      public render(): JSX.Element {
         const { Component, pageProps } = this.props;
 
         return (

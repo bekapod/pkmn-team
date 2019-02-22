@@ -5,16 +5,16 @@ import styled from "styled-components/macro";
 import PokemonSearch from "../../containers/PokemonSearch";
 import { baseTransition } from "../../helpers/animations";
 import * as variables from "../../helpers/variables";
-import { IPokemon, ITeamMember } from "../../types";
+import { Pokemon, TeamMember } from "../../types";
 import { CtaButton } from "../Cta";
 import PokemonCard from "../PokemonCard";
 import PokemonLine from "../PokemonLine";
 import Tabs from "../Tabs";
 
-interface IProps {
-  teamMembers: ITeamMember[];
-  currentSearchPokemon?: IPokemon;
-  addPokemonToTeam: (pokemon: IPokemon) => void;
+interface Props {
+  teamMembers: TeamMember[];
+  currentSearchPokemon?: Pokemon;
+  addPokemonToTeam: (pokemon: Pokemon) => void;
   removePokemonFromTeam: (member: string) => void;
 }
 
@@ -65,11 +65,11 @@ const AddButton = styled.span`
   }
 `;
 
-interface ITabItemProps {
+interface TabItemProps {
   "aria-selected": boolean;
 }
 
-interface ITabContentProps {
+interface TabContentProps {
   "aria-hidden": boolean;
 }
 
@@ -82,9 +82,9 @@ const TabBar = styled.div`
 `;
 
 const TabItem = styled.div`
-  color: ${(props: ITabItemProps) =>
+  color: ${(props: TabItemProps) =>
     props["aria-selected"] ? "initial" : variables.colors.white};
-  background-color: ${(props: ITabItemProps) =>
+  background-color: ${(props: TabItemProps) =>
     props["aria-selected"]
       ? variables.colors.white
       : variables.colors.grayDark};
@@ -115,18 +115,18 @@ const TabContent = styled.div`
   padding: ${variables.spacing.lg}px;
   background-color: ${variables.colors.gray};
 
-  ${(props: ITabContentProps) =>
+  ${(props: TabContentProps) =>
     props["aria-hidden"] ? "display: none !important;" : "display: grid;"}
 `;
 
-class TeamView extends Component<IProps> {
-  constructor(props: IProps) {
+class TeamView extends Component<Props> {
+  public constructor(props: Props) {
     super(props);
 
     this.renderCardActions = this.renderCardActions.bind(this);
   }
 
-  public shouldComponentUpdate(nextProps: IProps) {
+  public shouldComponentUpdate(nextProps: Props): boolean {
     return !isEqual(this.props, nextProps);
   }
 
@@ -135,8 +135,8 @@ class TeamView extends Component<IProps> {
     pokemon
   }: {
     memberId?: string;
-    pokemon: IPokemon;
-  }) {
+    pokemon: Pokemon;
+  }): () => JSX.Element {
     const { addPokemonToTeam, removePokemonFromTeam } = this.props;
 
     const onClick = memberId
@@ -148,13 +148,13 @@ class TeamView extends Component<IProps> {
       : `Add ${pokemon.name} to team`;
 
     return () => (
-      <CtaButton small={true} onClick={onClick}>
+      <CtaButton small onClick={onClick}>
         {buttonText}
       </CtaButton>
     );
   }
 
-  public render() {
+  public render(): JSX.Element {
     const { teamMembers, currentSearchPokemon } = this.props;
 
     return (
@@ -186,9 +186,9 @@ class TeamView extends Component<IProps> {
                 {lt(size(teamMembers), 6) ? (
                   <TabItem
                     {...addPokemonTabItemProps}
-                    key={"Add new Pokemon"}
+                    key="Add new Pokemon"
                     data-testid="tab-item-add-pokemon"
-                    data-add-button={true}
+                    data-add-button
                   >
                     <AddButton aria-label="Add new pokemon to team">
                       +

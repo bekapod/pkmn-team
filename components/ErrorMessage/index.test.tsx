@@ -28,7 +28,9 @@ describe("<ErrorMessage />", () => {
 
   describe("when a react component is passed", () => {
     it("renders as per component", () => {
-      const Component = () => <div>This is an error in a component</div>;
+      const Component = (): JSX.Element => (
+        <div>This is an error in a component</div>
+      );
       const { getByText } = render(
         <ErrorMessage>
           <Component />
@@ -42,7 +44,7 @@ describe("<ErrorMessage />", () => {
   describe("when isBig prop is passed", () => {
     it("renders child as a string", () => {
       const { queryByText } = render(
-        <ErrorMessage isBig={true}>This is an error</ErrorMessage>
+        <ErrorMessage isBig>This is an error</ErrorMessage>
       );
 
       expect(queryByText(/This is an error/)).toBeTruthy();

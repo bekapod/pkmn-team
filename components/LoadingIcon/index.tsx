@@ -5,7 +5,7 @@ import { pulseFade, spin } from "../../helpers/animations";
 import * as variables from "../../helpers/variables";
 import { lineHeight } from "../../helpers/verticalRhythm";
 
-interface IProps {
+interface Props {
   spinner?: boolean;
 }
 
@@ -40,7 +40,7 @@ const StyledSpinner = styled.div`
 
 const loadingText = "Loading";
 
-const LoadingIcon = ({ spinner }: IProps) =>
+const LoadingIcon = ({ spinner }: Props): JSX.Element =>
   spinner ? (
     <StyledSpinner
       data-testid="loading-spinner"

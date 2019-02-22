@@ -3,16 +3,16 @@ import styled from "styled-components/macro";
 import { formatPokemonName, sortTypes } from "../../helpers/general";
 import { getTypeGradient } from "../../helpers/gradients";
 import * as variables from "../../helpers/variables";
-import { IPokemon, Type } from "../../types";
+import { Pokemon, Type } from "../../types"; // eslint-disable-line import/named
 import InlineList from "../InlineList";
 import TypeTag from "../TypeTag";
 
-interface IProps {
-  pokemon: IPokemon;
+interface Props {
+  pokemon: Pokemon;
   outdent: number;
 }
 
-interface IRowProps {
+interface RowProps {
   outdent: number;
   types: Type[];
 }
@@ -28,11 +28,11 @@ const Row = styled.div`
     content: "";
     position: absolute;
     top: calc(${variables.spacing.sm}px / 2 * -1);
-    left: ${({ outdent }: IRowProps) => `-${outdent}px`};
+    left: ${({ outdent }: RowProps) => `-${outdent}px`};
     display: block;
-    width: ${({ outdent }: IRowProps) => `calc(100% + (${outdent}px * 2))`};
+    width: ${({ outdent }: RowProps) => `calc(100% + (${outdent}px * 2))`};
     height: ${variables.spacing.sm}px;
-    background-image: ${({ types }: IRowProps) => getTypeGradient(types)};
+    background-image: ${({ types }: RowProps) => getTypeGradient(types)};
   }
 `;
 
@@ -46,13 +46,13 @@ const RowTitle = styled.div`
   font-weight: 700;
 `;
 
-class PokemonLine extends PureComponent<IProps> {
+class PokemonLine extends PureComponent<Props> {
   public static defaultProps = {
     outdent: 0,
     pokemon: {}
   };
 
-  public render() {
+  public render(): JSX.Element {
     const { pokemon, outdent, ...props } = this.props;
     const { pokedexId, name, types, sprite } = pokemon;
 

@@ -3,9 +3,9 @@ import React from "react";
 // tslint:disable-next-line:no-implicit-dependencies
 import { render } from "react-testing-library";
 import Dashboard from ".";
-import { ITeam } from "../../types";
+import { Team } from "../../types";
 
-const mockData: ITeam[] = [
+const mockData: Team[] = [
   {
     createdAt: "2018-06-08T21:15:14.723Z",
     id: "1",

@@ -3,7 +3,7 @@ import { compose, flatMap, get, isNil, map, reject } from "lodash/fp";
 import Link from "next/link";
 import React from "react";
 import * as variables from "../../helpers/variables";
-import { IPokemon, ITeam } from "../../types";
+import { Pokemon, Team } from "../../types";
 import { CardContent, CardHeader, CardLink, CardWrapper } from "../Card";
 import CardHeading from "../CardHeading";
 import CardMeta from "../CardMeta";
@@ -11,17 +11,19 @@ import PokemonLine from "../PokemonLine";
 
 const getAllTypes = flatMap(get("types"));
 
-interface IProps {
-  team: ITeam;
+interface Props {
+  team: Team;
 }
 
-const TeamCard = ({ team: { id, name, members, createdAt } }: IProps) => {
-  const pokemon: IPokemon[] = compose([reject(isNil), map(get("pokemon"))])(
+const TeamCard = ({
+  team: { id, name, members, createdAt }
+}: Props): JSX.Element => {
+  const pokemon: Pokemon[] = compose([reject(isNil), map(get("pokemon"))])(
     members
   );
 
   return (
-    <Link href={`/team/edit/${id}/`} passHref={true}>
+    <Link href={`/team/edit/${id}/`} passHref>
       <CardLink data-testid={`team-link-${id}`}>
         <CardWrapper>
           <CardHeader types={getAllTypes(pokemon)}>

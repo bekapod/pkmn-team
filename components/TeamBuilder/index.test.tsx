@@ -5,7 +5,7 @@ import { fireEvent, render } from "react-testing-library";
 import wait from "waait";
 import TeamBuilder from ".";
 import { getAllPokemon } from "../../queries/pokemon";
-import { ITeam, ITeamMember } from "../../types";
+import { Team, TeamMember } from "../../types";
 
 const mocks: ReadonlyArray<MockedResponse> = [
   {
@@ -44,7 +44,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
 ];
 
 describe("<TeamBuilder />", () => {
-  const threeTeamMembers: ITeamMember[] = [
+  const threeTeamMembers: TeamMember[] = [
     {
       id: "1",
       pokemon: {
@@ -80,7 +80,7 @@ describe("<TeamBuilder />", () => {
   describe("when creating a team", () => {
     describe("when user has not entered any information", () => {
       it("displays empty team name input", () => {
-        const fnStub = () => null;
+        const fnStub = (): null => null;
         const { getByLabelText } = render(
           <MockedProvider mocks={mocks} addTypename={false}>
             <TeamBuilder
@@ -98,7 +98,7 @@ describe("<TeamBuilder />", () => {
 
     describe("when user attempts to submit form", () => {
       it("displays an error message for invalid team name when user has not entered a team name", async () => {
-        const fnStub = () => null;
+        const fnStub = (): null => null;
         const { getByText, queryByText } = render(
           <MockedProvider mocks={mocks} addTypename={false}>
             <TeamBuilder
@@ -120,13 +120,13 @@ describe("<TeamBuilder />", () => {
       });
 
       it("displays a loading spinner when create is in progress", () => {
-        const fnStub = () => null;
+        const fnStub = (): null => null;
         const { queryByTestId } = render(
           <MockedProvider mocks={mocks} addTypename={false}>
             <TeamBuilder
               updateTeamMutation={fnStub}
               createTeamMutation={fnStub}
-              loading={true}
+              loading
             />
           </MockedProvider>
         );
@@ -135,7 +135,7 @@ describe("<TeamBuilder />", () => {
       });
 
       it("displays an error message if create team failed", () => {
-        const fnStub = () => null;
+        const fnStub = (): null => null;
         const { queryByText } = render(
           <MockedProvider mocks={mocks} addTypename={false}>
             <TeamBuilder
@@ -156,7 +156,7 @@ describe("<TeamBuilder />", () => {
       });
 
       it("calls createTeamMutation when user submits team creation form with valid data", () => {
-        const fnStub = () => null;
+        const fnStub = (): null => null;
         const mutation = jest.fn();
         const { getByText, getByLabelText } = render(
           <MockedProvider mocks={mocks} addTypename={false}>
@@ -186,7 +186,7 @@ describe("<TeamBuilder />", () => {
       });
 
       it("does not call createTeamMutation when user submits team creation form with invalid data, and scrolls user to top of the page", () => {
-        const fnStub = () => null;
+        const fnStub = (): null => null;
         const mutation = jest.fn();
         const scrollToTop = jest.fn();
         const { getByText } = render(
@@ -213,7 +213,7 @@ describe("<TeamBuilder />", () => {
 
     describe("when team has been successfully created", () => {
       it("redirects to team edit form", async () => {
-        const fnStub = () => null;
+        const fnStub = (): null => null;
         render(
           <MockedProvider mocks={mocks} addTypename={false}>
             <TeamBuilder
@@ -234,7 +234,7 @@ describe("<TeamBuilder />", () => {
   });
 
   describe("when editing a team", () => {
-    const team: ITeam = {
+    const team: Team = {
       createdAt: "2018-06-08T21:15:14.723Z",
       id: "cji6gz8gwhblk0a9639btq2hd",
       members: [
@@ -284,7 +284,7 @@ describe("<TeamBuilder />", () => {
 
     describe("when user's team is found", () => {
       it("renders team name and members", () => {
-        const fnStub = () => null;
+        const fnStub = (): null => null;
         const { getByValue, getByTestId } = render(
           <MockedProvider mocks={mocks} addTypename={false}>
             <TeamBuilder
@@ -305,7 +305,7 @@ describe("<TeamBuilder />", () => {
 
     describe("when user attempts to submit form", () => {
       it("displays an error message for invalid team name when user has not entered a team name", () => {
-        const fnStub = () => null;
+        const fnStub = (): null => null;
         const { getByText, getByValue, queryByText } = render(
           <MockedProvider mocks={mocks} addTypename={false}>
             <TeamBuilder
@@ -327,7 +327,7 @@ describe("<TeamBuilder />", () => {
       });
 
       it("calls updateTeamMutation when user submits team edit form with valid data", () => {
-        const fnStub = () => null;
+        const fnStub = (): null => null;
         const mutation = jest.fn();
         const { getByText, getByValue } = render(
           <MockedProvider mocks={mocks} addTypename={false}>
@@ -361,7 +361,7 @@ describe("<TeamBuilder />", () => {
       });
 
       it("does not call updateTeamMutation when user submits team edit form with invalid data, and scrolls user to top of the page", () => {
-        const fnStub = () => null;
+        const fnStub = (): null => null;
         const mutation = jest.fn();
         const scrollToTop = jest.fn();
         const { getByText, getByValue } = render(

@@ -13,7 +13,7 @@ describe("<CtaInternalLink />", () => {
   describe("when secondary prop is passed", () => {
     it("renders a link", () => {
       const { getByText } = render(
-        <CtaInternalLink secondary={true}>Dashboard</CtaInternalLink>
+        <CtaInternalLink secondary>Dashboard</CtaInternalLink>
       );
 
       expect(getByText(/Dashboard/).tagName).toBe("A");
@@ -23,7 +23,7 @@ describe("<CtaInternalLink />", () => {
   describe("when small prop is passed", () => {
     it("renders a link", () => {
       const { getByText } = render(
-        <CtaInternalLink small={true}>Dashboard</CtaInternalLink>
+        <CtaInternalLink small>Dashboard</CtaInternalLink>
       );
 
       expect(getByText(/Dashboard/).tagName).toBe("A");
@@ -33,7 +33,7 @@ describe("<CtaInternalLink />", () => {
 
 describe("<CtaButton />", () => {
   it("renders a button", () => {
-    const onClick = () => null;
+    const onClick = (): null => null;
     const { getByText } = render(
       <CtaButton onClick={onClick}>Create Team</CtaButton>
     );
@@ -54,9 +54,9 @@ describe("<CtaButton />", () => {
 
   describe("when secondary prop is passed", () => {
     it("renders a button", () => {
-      const onClick = () => null;
+      const onClick = (): null => null;
       const { getByText } = render(
-        <CtaButton secondary={true} onClick={onClick}>
+        <CtaButton secondary onClick={onClick}>
           Create Team
         </CtaButton>
       );
@@ -67,9 +67,9 @@ describe("<CtaButton />", () => {
 
   describe("when small prop is passed", () => {
     it("renders a button", () => {
-      const onClick = () => null;
+      const onClick = (): null => null;
       const { getByText } = render(
-        <CtaButton small={true} onClick={onClick}>
+        <CtaButton small onClick={onClick}>
           Create Team
         </CtaButton>
       );

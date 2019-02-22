@@ -1,12 +1,11 @@
 import { add, compose, divide, flatMap, join, multiply } from "lodash/fp";
-import { Type } from "../types";
+import { Type } from "../types"; // eslint-disable-line import/named
 import { getTypeColor, percentage, sortTypes } from "./general";
 
-const getColourStopCss = (type: Type, position: number) => {
-  return `${getTypeColor(type)} ${position}%`;
-};
+const getColourStopCss = (type: Type, position: number): string =>
+  `${getTypeColor(type)} ${position}%`;
 
-export const getTypeGradient = (types: Type[]) => {
+export const getTypeGradient = (types: Type[]): string => {
   const colourWidth = divide(100, types.length);
   const getColourStop = compose(
     percentage,

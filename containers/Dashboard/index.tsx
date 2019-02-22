@@ -4,9 +4,9 @@ import { Query } from "react-apollo";
 import Dashboard from "../../components/Dashboard";
 import { getAllTeams } from "../../queries/team";
 
-const DashboardContainer = () => (
+const DashboardContainer = (): JSX.Element => (
   <Query query={getAllTeams}>
-    {({ data /*, loading, error */ }) => (
+    {({ data /* , loading, error */ }) => (
       <Dashboard teams={getOr([], "allTeams", data)} />
     )}
   </Query>

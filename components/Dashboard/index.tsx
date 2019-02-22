@@ -1,19 +1,19 @@
 import Link from "next/link";
 import React, { Fragment } from "react";
-import { ITeam } from "../../types";
+import { Team } from "../../types";
 import CenteredRow from "../CenteredRow";
 import { CtaInternalLink } from "../Cta";
 import TeamCard from "../TeamCard";
 import TeamGrid from "../TeamGrid";
 
-interface IProps {
-  teams?: ITeam[];
+interface Props {
+  teams?: Team[];
 }
 
-const Dashboard = ({ teams }: IProps) => (
+const Dashboard = ({ teams }: Props): JSX.Element => (
   <Fragment>
     <CenteredRow>
-      <Link href="/team/create/" passHref={true}>
+      <Link href="/team/create/" passHref>
         <CtaInternalLink>Create a team</CtaInternalLink>
       </Link>
     </CenteredRow>

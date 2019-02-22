@@ -1,7 +1,7 @@
-import React, { Component, KeyboardEvent } from "react";
+import React, { Component, KeyboardEvent, MouseEventHandler } from "react";
 import wait from "waait";
 
-interface IRenderProps {
+interface RenderProps {
   getTabItemProps: (
     _: string
   ) => {
@@ -9,24 +9,25 @@ interface IRenderProps {
     role: string;
     "aria-selected": boolean;
     tabIndex: number;
-    onClick: () => void;
+    onClick: MouseEventHandler;
+    onKeyDown: (e: KeyboardEvent) => any;
   };
   getTabContentProps: (
     _: string
   ) => { "aria-hidden": boolean; "aria-labelledby": string };
 }
 
-interface IState {
+interface State {
   selectedItem?: string;
 }
 
-interface IProps {
+interface Props {
   selectedItem: string;
-  children: (_: IRenderProps) => JSX.Element;
+  children: (_: RenderProps) => JSX.Element;
 }
 
-class Tabs extends Component<IProps> {
-  public static getDerivedStateFromProps(props: IProps, state: IState) {
+class Tabs extends Component<Props> {
+  public static getDerivedStateFromProps(props: Props, state: State): State {
     if (state.selectedItem) {
       return state;
     }
@@ -37,13 +38,13 @@ class Tabs extends Component<IProps> {
     };
   }
 
-  public state: IState = {
+  public state: State = {
     selectedItem: undefined
   };
 
   private contentRefs: { [key: string]: HTMLElement } = {};
 
-  constructor(props: IProps) {
+  public constructor(props: Props) {
     super(props);
 
     this.getTabItemProps = this.getTabItemProps.bind(this);
@@ -56,19 +57,13 @@ class Tabs extends Component<IProps> {
     };
   }
 
-  public addTabContentRef(id: string) {
-    return (element: HTMLElement) => {
-      this.contentRefs[id] = element;
-    };
-  }
-
-  public onTabItemClick(id: string) {
+  public onTabItemClick(id: string): () => void {
     return () => {
       this.setState(() => ({ selectedItem: id }));
     };
   }
 
-  public onTabItemKey(id: string) {
+  public onTabItemKey(id: string): (e: KeyboardEvent) => Promise<void> {
     return async (e: KeyboardEvent) => {
       if (e.key === "Enter") {
         const ref = this.contentRefs[id];
@@ -86,8 +81,18 @@ class Tabs extends Component<IProps> {
     };
   }
 
-  public getTabItemProps(id: string) {
-    const isSelected = id === this.state.selectedItem;
+  public getTabItemProps(
+    id: string
+  ): {
+    "aria-selected": boolean;
+    id: string;
+    onClick: MouseEventHandler;
+    onKeyDown: (e: KeyboardEvent) => any;
+    role: string;
+    tabIndex: number;
+  } {
+    const { selectedItem } = this.state;
+    const isSelected = id === selectedItem;
 
     return {
       "aria-selected": isSelected,
@@ -99,8 +104,15 @@ class Tabs extends Component<IProps> {
     };
   }
 
-  public getTabContentProps(id: string) {
-    const isSelected = id === this.state.selectedItem;
+  public getTabContentProps(
+    id: string
+  ): {
+    "aria-hidden": boolean;
+    "aria-labelledby": string;
+    ref: (element: HTMLElement) => void;
+  } {
+    const { selectedItem } = this.state;
+    const isSelected = id === selectedItem;
 
     return {
       "aria-hidden": !isSelected,
@@ -109,7 +121,13 @@ class Tabs extends Component<IProps> {
     };
   }
 
-  public render() {
+  public addTabContentRef(id: string): (element: HTMLElement) => void {
+    return (element: HTMLElement) => {
+      this.contentRefs[id] = element;
+    };
+  }
+
+  public render(): JSX.Element {
     const { children: Children } = this.props;
 
     return (

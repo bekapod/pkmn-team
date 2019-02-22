@@ -2,7 +2,7 @@ import React, { ReactNode, ReactNodeArray } from "react";
 import styled from "styled-components/macro";
 import * as variables from "../../helpers/variables";
 
-interface IProps {
+interface Props {
   isBig?: boolean;
   children: ReactNode | ReactNodeArray;
 }
@@ -11,7 +11,7 @@ const StyledError = styled.div`
   color: ${variables.colors.error};
   font-weight: 700;
 
-  ${({ isBig }: IProps) =>
+  ${({ isBig }: Props) =>
     isBig
       ? `
     margin: ${variables.spacing.xl}px 0;
@@ -26,7 +26,7 @@ const StyledError = styled.div`
   }
 `;
 
-const ErrorMessage = ({ isBig, children }: IProps) => (
+const ErrorMessage = ({ isBig, children }: Props): JSX.Element => (
   <StyledError isBig={isBig} role="alert">
     {children}
   </StyledError>

@@ -4,9 +4,9 @@ import { MockedProvider, MockedResponse } from "react-apollo/test-utils";
 import { render } from "react-testing-library";
 // tslint:disable-next-line:no-implicit-dependencies
 import wait from "waait";
-import TeamBuilderContainer from ".";
 import { createTeam, updateTeam } from "../../mutations/team";
 import { getTeamById } from "../../queries/team";
+import TeamBuilderContainer from ".";
 
 const mocks: ReadonlyArray<MockedResponse> = [
   {

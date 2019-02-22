@@ -5,24 +5,24 @@ import { radialIn } from "../../helpers/animations";
 import * as variables from "../../helpers/variables";
 import { lineHeight } from "../../helpers/verticalRhythm";
 
-interface IProps {
+interface Props {
   secondary?: boolean;
   small?: boolean;
   children: ReactNode | ReactNodeArray;
 }
 
-const not = (value: any) => !value;
+const not = (value: any): boolean => !value;
 
 const styles = css`
   display: block;
-  padding: ${({ small }: IProps) =>
+  padding: ${({ small }: Props) =>
     cond([
       [not, always(`${variables.spacing.md}px ${variables.spacing.lg}px`)],
       [T, always(`${variables.spacing.xs}px ${variables.spacing.md}px`)]
     ])(small)};
   color: ${variables.colors.white};
   font-family: ${variables.fonts.base};
-  font-size: ${({ small }: IProps) =>
+  font-size: ${({ small }: Props) =>
     cond([
       [not, always(`${variables.fontSizes.md}px`)],
       [T, always(`${variables.fontSizes.sm}px`)]
@@ -31,7 +31,7 @@ const styles = css`
   line-height: ${lineHeight("md")};
   text-decoration: none;
   text-transform: uppercase;
-  background-color: ${({ secondary }: IProps) =>
+  background-color: ${({ secondary }: Props) =>
     cond([
       [not, always(variables.colors.primaryDark)],
       [T, always(variables.colors.secondaryDark)]
@@ -40,7 +40,7 @@ const styles = css`
   border-radius: ${variables.sizes.borderRadius}px 0;
   ${radialIn};
   &::before {
-    background-color: ${({ secondary }: IProps) =>
+    background-color: ${({ secondary }: Props) =>
       cond([
         [not, always(variables.colors.primary)],
         [T, always(variables.colors.secondary)]
@@ -49,7 +49,7 @@ const styles = css`
 `;
 
 export const CtaInternalLink = styled(
-  ({ secondary, small, ...props }: IProps) => <a {...props} />
+  ({ secondary, small, ...props }: Props) => <a {...props} /> // eslint-disable-line jsx-a11y/anchor-has-content, @typescript-eslint/no-unused-vars
 )`
   ${styles};
 `;

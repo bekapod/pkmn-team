@@ -11,7 +11,7 @@ describe("<LoadingIcon />", () => {
   });
 
   it("renders spinner variant", () => {
-    const { queryByTestId } = render(<LoadingIcon spinner={true} />);
+    const { queryByTestId } = render(<LoadingIcon spinner />);
 
     expect(queryByTestId("loading-spinner")).toBeTruthy();
   });

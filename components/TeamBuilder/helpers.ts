@@ -1,16 +1,18 @@
 import { anyPass, isEmpty, isNil, set, unset } from "lodash/fp";
-import { ITeamMember } from "../../types";
+import { TeamMember } from "../../types";
+
+interface State {
+  teamName?: string;
+  teamMembers?: TeamMember[];
+  isValid: boolean;
+  isTouched: boolean;
+  errors: { [key: string]: string };
+}
 
 export const validate = (
-  state: {
-    teamName?: string;
-    teamMembers?: ITeamMember[];
-    isValid: boolean;
-    isTouched: boolean;
-    errors: { [key: string]: string };
-  },
+  state: State,
   options: { setTouched?: boolean } = {}
-) => {
+): State => {
   const { teamName, teamMembers } = state;
   const isInvalid = anyPass([isEmpty, isNil]);
   let updatedState = { ...state };

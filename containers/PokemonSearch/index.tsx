@@ -5,17 +5,17 @@ import { Mutation, OperationVariables, Query, QueryResult } from "react-apollo";
 import PokemonSearch from "../../components/PokemonSearch";
 import { setCurrentSearchPokemon } from "../../mutations/search";
 import { getAllPokemon } from "../../queries/pokemon";
-import { IPokemon } from "../../types";
+import { Pokemon } from "../../types";
 
-interface IQueryProps {
+interface QueryProps {
   getAllPokemonQuery: QueryResult<
-    { allPokemon: IPokemon[] },
+    { allPokemon: Pokemon[] },
     OperationVariables
   >;
   setCurrentSearchPokemonMutation: ({
     variables: { pokemon }
   }: {
-    variables: { pokemon: IPokemon };
+    variables: { pokemon: Pokemon };
   }) => void;
 }
 
@@ -33,24 +33,22 @@ const mutations = {
 
 const WithQueries = adopt({ ...queries, ...mutations });
 
-const PokemonSearchContainer = () => {
-  return (
-    <WithQueries>
-      {({
-        getAllPokemonQuery: { data, loading, error },
-        setCurrentSearchPokemonMutation
-      }: IQueryProps) => {
-        return (
-          <PokemonSearch
-            pokemon={getOr([], "allPokemon", data)}
-            setCurrentSearchPokemon={setCurrentSearchPokemonMutation}
-            loading={loading}
-            error={error}
-          />
-        );
-      }}
-    </WithQueries>
-  );
-};
+const PokemonSearchContainer = (): JSX.Element => (
+  <WithQueries>
+    {({
+      getAllPokemonQuery: { data, loading, error },
+      setCurrentSearchPokemonMutation
+    }: QueryProps) => {
+      return (
+        <PokemonSearch
+          pokemon={getOr([], "allPokemon", data)}
+          setCurrentSearchPokemon={setCurrentSearchPokemonMutation}
+          loading={loading}
+          error={error}
+        />
+      );
+    }}
+  </WithQueries>
+);
 
 export default PokemonSearchContainer;

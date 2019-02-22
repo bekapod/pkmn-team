@@ -2,9 +2,9 @@ import styled from "styled-components/macro";
 import { getTypeColor } from "../../helpers/general";
 import * as variables from "../../helpers/variables";
 import { lineHeight } from "../../helpers/verticalRhythm";
-import { Type } from "../../types";
+import { Type } from "../../types"; // eslint-disable-line import/named
 
-interface IProps {
+interface Props {
   type: Type;
 }
 
@@ -17,7 +17,7 @@ const TypeTag = styled.span`
   text-shadow: 0 1px 0px ${variables.colors.grayDarker},
     1px 0 0px ${variables.colors.grayDark};
   text-transform: uppercase;
-  background-color: ${({ type }: IProps) => getTypeColor(type)};
+  background-color: ${({ type }: Props) => getTypeColor(type)};
   border-radius: ${variables.sizes.borderRadiusSm}px 0;
 `;
 

@@ -12,13 +12,13 @@ import TeamBuilder from "../../components/TeamBuilder";
 import { createTeam, updateTeam } from "../../mutations/team";
 import { getCurrentSearchPokemon } from "../../queries/search";
 import { getTeamById } from "../../queries/team";
-import { IPokemon, ITeam } from "../../types";
+import { Pokemon, Team } from "../../types";
 
-interface IProps {
+interface Props {
   query?: { teamId?: string };
 }
 
-interface IQueryProps {
+interface QueryProps {
   createTeamMutation: {
     mutation: (mutation: {
       variables: {
@@ -26,7 +26,7 @@ interface IQueryProps {
         pokedexIds: number[];
       };
     }) => void;
-    result: MutationResult<{ createTeam: ITeam }>;
+    result: MutationResult<{ createTeam: Team }>;
   };
   updateTeamMutation: {
     mutation: (mutation: {
@@ -36,11 +36,11 @@ interface IQueryProps {
         pokedexIds: number[];
       };
     }) => void;
-    result: MutationResult<{ updateTeam: ITeam }>;
+    result: MutationResult<{ updateTeam: Team }>;
   };
-  getTeamQuery?: QueryResult<{ teamById: ITeam }, OperationVariables>;
+  getTeamQuery?: QueryResult<{ teamById: Team }, OperationVariables>;
   getCurrentSearchPokemonQuery: QueryResult<
-    { currentSearchPokemon: IPokemon },
+    { currentSearchPokemon: Pokemon },
     OperationVariables
   >;
 }
@@ -74,8 +74,8 @@ const queries = {
 
 const WithQueriesAndMutations = adopt({ ...queries, ...mutations });
 
-class TeamBuilderContainer extends PureComponent<IProps> {
-  public render() {
+class TeamBuilderContainer extends PureComponent<Props> {
+  public render(): JSX.Element {
     const teamId = getOr(null, ["query", "teamId"], this.props);
 
     return (
@@ -95,7 +95,7 @@ class TeamBuilderContainer extends PureComponent<IProps> {
           },
           getCurrentSearchPokemonQuery,
           getTeamQuery
-        }: IQueryProps) => {
+        }: QueryProps) => {
           const team = getOr(undefined, ["data", "teamById"], getTeamQuery);
           const currentSearchPokemon = getOr(
             undefined,

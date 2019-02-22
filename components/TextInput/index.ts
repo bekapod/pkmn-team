@@ -3,7 +3,7 @@ import styled from "styled-components/macro";
 import * as variables from "../../helpers/variables";
 import { lineHeight } from "../../helpers/verticalRhythm";
 
-interface IProps {
+interface Props {
   isInvalid?: boolean;
 }
 
@@ -15,7 +15,7 @@ const TextInput = styled.input`
   font-weight: 900;
   line-height: ${lineHeight("base")};
   background-color: ${variables.colors.white};
-  box-shadow: ${({ isInvalid }: IProps) =>
+  box-shadow: ${({ isInvalid }: Props) =>
     isInvalid
       ? `0 0 0 ${variables.spacing.xs}px ${variables.colors.error}`
       : "none"};

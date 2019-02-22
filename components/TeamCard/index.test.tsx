@@ -2,10 +2,10 @@ import React from "react";
 // tslint:disable-next-line:no-implicit-dependencies
 import { fireEvent, render } from "react-testing-library";
 import TeamCard from ".";
-import { ITeam } from "../../types";
+import { Team } from "../../types";
 
 describe("<TeamCard />", () => {
-  const team: ITeam = {
+  const team: Team = {
     createdAt: "2018-06-08T21:15:14.723Z",
     id: "1",
     members: [

@@ -1,7 +1,7 @@
 import React from "react";
 // tslint:disable-next-line:no-implicit-dependencies
 import { render } from "react-testing-library";
-import TypeTag from "./";
+import TypeTag from ".";
 
 describe("<TypeTag />", () => {
   it("renders with ELECTRIC type", () => {

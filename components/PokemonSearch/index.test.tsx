@@ -2,10 +2,10 @@ import React from "react";
 // tslint:disable-next-line:no-implicit-dependencies
 import { fireEvent, render } from "react-testing-library";
 import PokemonSearch from ".";
-import { IPokemon } from "../../types";
+import { Pokemon } from "../../types";
 
 describe("<PokemonSearch />", () => {
-  const pokemon: IPokemon[] = [
+  const pokemon: Pokemon[] = [
     {
       id: "4",
       name: "charmander",
@@ -30,7 +30,7 @@ describe("<PokemonSearch />", () => {
   ];
 
   it("renders search input", () => {
-    const fnStub = () => null;
+    const fnStub = (): null => null;
     const { queryByPlaceholderText } = render(
       <PokemonSearch pokemon={pokemon} setCurrentSearchPokemon={fnStub} />
     );

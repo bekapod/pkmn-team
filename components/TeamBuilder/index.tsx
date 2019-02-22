@@ -5,7 +5,7 @@ import React, { ChangeEvent, Component } from "react";
 import isEqual from "react-fast-compare";
 import { getUniqueId } from "../../helpers/general";
 import withScrollToTop from "../../hocs/withScrollToTop";
-import { IPokemon, ITeam, ITeamMember } from "../../types";
+import { Pokemon, Team, TeamMember } from "../../types";
 import CenteredRow from "../CenteredRow";
 import { CtaButton } from "../Cta";
 import ErrorMessage from "../ErrorMessage";
@@ -14,9 +14,9 @@ import LoadingIcon from "../LoadingIcon";
 import TeamView from "../TeamView";
 import { validate } from "./helpers";
 
-interface IProps {
-  team?: ITeam;
-  currentSearchPokemon?: IPokemon;
+interface Props {
+  team?: Team;
+  currentSearchPokemon?: Pokemon;
   createdTeamId?: string;
   loading?: boolean;
   error?: ApolloError;
@@ -36,16 +36,16 @@ interface IProps {
   scrollToTop?: () => void;
 }
 
-interface IState {
+interface State {
   isValid: boolean;
   isTouched: boolean;
   errors: { [key: string]: string };
-  teamMembers: ITeamMember[];
+  teamMembers: TeamMember[];
   teamName: string;
 }
 
-class TeamBuilder extends Component<IProps, IState> {
-  constructor(props: IProps) {
+class TeamBuilder extends Component<Props, State> {
+  public constructor(props: Props) {
     super(props);
 
     this.handleTeamNameChange = this.handleTeamNameChange.bind(this);
@@ -69,10 +69,11 @@ class TeamBuilder extends Component<IProps, IState> {
     };
   }
 
-  public componentDidUpdate(prevProps: IProps) {
+  public componentDidUpdate(prevProps: Props): void {
     const { team } = this.props;
 
     if (!isEqual(team, prevProps.team)) {
+      // eslint-disable-next-line react/no-did-update-set-state
       this.setState(() => ({
         errors: {},
         isTouched: false,
@@ -83,7 +84,7 @@ class TeamBuilder extends Component<IProps, IState> {
     }
   }
 
-  public handleTeamNameChange(e: ChangeEvent<HTMLInputElement>) {
+  public handleTeamNameChange(e: ChangeEvent<HTMLInputElement>): void {
     const { value } = e.target;
 
     this.setState(state => {
@@ -99,7 +100,7 @@ class TeamBuilder extends Component<IProps, IState> {
     });
   }
 
-  public handleAddPokemonToTeam(pokemon: IPokemon) {
+  public handleAddPokemonToTeam(pokemon: Pokemon): void {
     this.setState(state => {
       const newState = {
         ...state,
@@ -113,7 +114,7 @@ class TeamBuilder extends Component<IProps, IState> {
     });
   }
 
-  public handleRemovePokemonFromTeam(memberId: string) {
+  public handleRemovePokemonFromTeam(memberId: string): void {
     this.setState(state => ({
       isTouched: true,
       teamMembers: state.teamMembers.filter(
@@ -122,12 +123,17 @@ class TeamBuilder extends Component<IProps, IState> {
     }));
   }
 
-  public handleUpsertTeam() {
-    const { team, createTeamMutation, updateTeamMutation } = this.props;
-    const { teamName, teamMembers } = this.state;
+  public handleUpsertTeam(): void {
+    const {
+      team,
+      createTeamMutation,
+      updateTeamMutation,
+      scrollToTop
+    } = this.props;
+    const { teamName, teamMembers, isValid } = this.state;
     const teamId = getOr(undefined, "id", team);
 
-    if (this.state.isValid && teamName && teamMembers) {
+    if (isValid && teamName && teamMembers) {
       const pokedexIds = teamMembers.map(get(["pokemon", "pokedexId"]));
 
       if (teamId) {
@@ -146,13 +152,13 @@ class TeamBuilder extends Component<IProps, IState> {
           }
         });
       }
-    } else if (this.props.scrollToTop) {
+    } else if (scrollToTop) {
       this.setState({ isTouched: true });
-      this.props.scrollToTop();
+      scrollToTop();
     }
   }
 
-  public render() {
+  public render(): JSX.Element {
     const {
       team,
       currentSearchPokemon,
@@ -160,9 +166,9 @@ class TeamBuilder extends Component<IProps, IState> {
       loading,
       error
     } = this.props;
-    const { teamName, teamMembers } = this.state;
-    const nameErrorMessage = propOr(undefined, "name", this.state.errors);
-    const nameHasError = this.state.isTouched && !!nameErrorMessage;
+    const { teamName, teamMembers, errors, isTouched } = this.state;
+    const nameErrorMessage = propOr(undefined, "name", errors);
+    const nameHasError = isTouched && !!nameErrorMessage;
 
     if (createdTeamId) {
       Router.push(`/team/edit/${createdTeamId}`);
@@ -170,7 +176,7 @@ class TeamBuilder extends Component<IProps, IState> {
 
     return (
       <>
-        <CenteredRow stackVertically={true}>
+        <CenteredRow stackVertically>
           <GiantInput
             aria-label="Choose a team name"
             placeholder="Choose a team name"
@@ -179,7 +185,7 @@ class TeamBuilder extends Component<IProps, IState> {
             isInvalid={nameHasError}
           />
 
-          {this.state.isTouched && nameHasError && nameErrorMessage && (
+          {isTouched && nameHasError && nameErrorMessage && (
             <ErrorMessage>{nameErrorMessage}</ErrorMessage>
           )}
 
@@ -188,7 +194,7 @@ class TeamBuilder extends Component<IProps, IState> {
           )}
 
           {loading && !error ? (
-            <LoadingIcon key="Loading icon" spinner={true} />
+            <LoadingIcon key="Loading icon" spinner />
           ) : null}
 
           {gt(size(teamMembers), 0) && !error && !loading && (

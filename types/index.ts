@@ -1,4 +1,4 @@
-import {} from "styled-components/cssprop";
+import {} from "styled-components/cssprop"; // eslint-disable-line import/no-unresolved
 
 export type Type =
   | "NORMAL"
@@ -22,7 +22,7 @@ export type Type =
   | "UNKNOWN"
   | "SHADOW";
 
-export interface IPokemon {
+export interface Pokemon {
   id: string;
   pokedexId: number;
   name: string;
@@ -30,32 +30,32 @@ export interface IPokemon {
   sprite: string;
 }
 
-export interface ITeamMember {
+export interface TeamMember {
   id: string;
-  pokemon: IPokemon;
+  pokemon: Pokemon;
 }
 
-export interface ITeam {
+export interface Team {
   id: string;
   name: string;
-  members: ITeamMember[];
+  members: TeamMember[];
   createdAt: string;
 }
 
-export interface ITeamBuilderState {
+export interface TeamBuilderState {
   name: string;
-  members: { [key: string]: ITeamMember };
+  members: { [key: string]: TeamMember };
 }
 
-export interface IPokemonSearchState {
-  currentSelection?: IPokemon;
+export interface PokemonSearchState {
+  currentSelection?: Pokemon;
   highlightedIndex: number;
   inputValue?: string;
-  filteredList: IPokemon[];
-  unfilteredList: IPokemon[];
+  filteredList: Pokemon[];
+  unfilteredList: Pokemon[];
 }
 
-export interface IState {
-  teamBuilder: ITeamBuilderState;
-  pokemonSearch: IPokemonSearchState;
+export interface State {
+  teamBuilder: TeamBuilderState;
+  pokemonSearch: PokemonSearchState;
 }

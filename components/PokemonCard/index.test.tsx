@@ -43,7 +43,7 @@ describe("<PokemonCard />", () => {
 
   describe("when a renderCardActions function is passed", () => {
     it("renders the card actions", () => {
-      const renderCardActions = () => (
+      const renderCardActions = (): JSX.Element => (
         <div>Card actions that should be rendered</div>
       );
       const { queryByText } = render(

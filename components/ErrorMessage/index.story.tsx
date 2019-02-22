@@ -6,5 +6,5 @@ import ErrorMessage from ".";
 storiesOf("ErrorMessage", module)
   .add("default", () => <ErrorMessage>This is an error message.</ErrorMessage>)
   .add("big", () => (
-    <ErrorMessage isBig={true}>This is an error message.</ErrorMessage>
+    <ErrorMessage isBig>This is an error message.</ErrorMessage>
   ));

@@ -2,9 +2,9 @@ import styled from "styled-components/macro";
 import { zoomIn } from "../../helpers/animations";
 import { getTypeGradient } from "../../helpers/gradients";
 import * as variables from "../../helpers/variables";
-import { Type } from "../../types";
+import { Type } from "../../types"; // eslint-disable-line import/named
 
-interface ICardHeaderProps {
+interface CardHeaderProps {
   types: Type[];
 }
 
@@ -31,7 +31,7 @@ export const CardHeader = styled.header`
     2px 1px 0px ${variables.colors.grayDark},
     2px 3px 0px ${variables.colors.grayDarker},
     3px 2px 0px ${variables.colors.grayDark};
-  background-image: ${({ types }: ICardHeaderProps) => getTypeGradient(types)};
+  background-image: ${({ types }: CardHeaderProps) => getTypeGradient(types)};
   border-radius: ${variables.sizes.borderRadius}px 0 0 0;
 `;
 

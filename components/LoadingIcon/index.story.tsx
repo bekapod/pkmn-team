@@ -5,4 +5,4 @@ import LoadingIcon from ".";
 
 storiesOf("LoadingIcon", module)
   .add("default", () => <LoadingIcon />)
-  .add("spinner", () => <LoadingIcon spinner={true} />);
+  .add("spinner", () => <LoadingIcon spinner />);

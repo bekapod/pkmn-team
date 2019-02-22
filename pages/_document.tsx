@@ -3,16 +3,24 @@ import Document, {
   Head,
   Main,
   NextDocumentContext,
-  NextScript
+  NextScript,
+  DefaultDocumentIProps
 } from "next/document";
+import React from "react";
 import { ServerStyleSheet } from "styled-components/macro";
 
-interface IProps extends AnyPageProps {
+interface Props extends AnyPageProps {
   styleTags: any;
 }
 
-class MyDocument extends Document<IProps> {
-  public static getInitialProps({ renderPage }: NextDocumentContext) {
+interface DocumentProps extends DefaultDocumentIProps {
+  styleTags: any;
+}
+
+class MyDocument extends Document<Props> {
+  public static getInitialProps({
+    renderPage
+  }: NextDocumentContext): DocumentProps {
     const sheet = new ServerStyleSheet();
     const page = renderPage(
       (App: React.ComponentType<AnyPageProps>) => (props: AnyPageProps) =>
@@ -22,9 +30,9 @@ class MyDocument extends Document<IProps> {
     return { ...page, styleTags };
   }
 
-  public render() {
+  public render(): JSX.Element {
     return (
-      <html>
+      <html lang="en">
         <Head>{this.props.styleTags}</Head>
         <body>
           <Main />
