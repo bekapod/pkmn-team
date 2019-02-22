@@ -1,3 +1,5 @@
+import {} from "styled-components/cssprop";
+
 export type Type =
   | "NORMAL"
   | "FIGHTING"

@@ -24,6 +24,7 @@
     ".next",
     "node_modules",
     "jest.config.js",
+    "next.config.js",
     "server.js",
     "coverage"
   ]

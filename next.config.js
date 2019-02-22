@@ -1,7 +1,6 @@
 const path = require("path");
 const withPlugins = require("next-compose-plugins");
 const withTypescript = require("@zeit/next-typescript");
-import {} from "styled-components/cssprop";
 
 require("dotEnv").config();
 const dotEnv = require("dotenv-webpack");
