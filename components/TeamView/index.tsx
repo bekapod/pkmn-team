@@ -18,8 +18,9 @@ import {
   Draggable,
   DropResult
 } from "react-beautiful-dnd";
-import styled from "styled-components/macro";
+import styled, { css } from "styled-components/macro";
 import wait from "waait";
+import { rgba } from "polished";
 import PokemonSearch from "../../containers/PokemonSearch";
 import { baseTransition, spaceUpOut } from "../../helpers/animations";
 import * as variables from "../../helpers/variables";
@@ -28,6 +29,7 @@ import { CtaButton } from "../Cta";
 import PokemonCard from "../PokemonCard";
 import PokemonLine from "../PokemonLine";
 import Tabs from "../Tabs";
+import BinIcon from "../BinIcon";
 
 interface Props {
   teamMembers: TeamMember[];
@@ -106,36 +108,87 @@ const TabBar = styled.div`
   [data-add-button] {
     flex: 1;
   }
+`;
 
-  [data-bin] {
-    opacity: 0;
-    position: fixed;
+const Bin = styled.div`
+  --background: transparent;
+  --helperOpacity: 0;
+
+  opacity: 0;
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  z-index: 1;
+  height: 99px;
+  color: ${rgba(variables.colors.white, 0.5)};
+  background: var(--background);
+  transform: translateX(-50%);
+  transition: all 0.5s linear;
+
+  .is-dragging & {
+    opacity: 1;
+  }
+
+  &::before {
+    content: "";
+    width: 150vw;
+    background: ${rgba(variables.colors.grayDark, 0.5)};
+    position: absolute;
+    top: 0;
+    left: -50vw;
+    height: 100%;
+  }
+
+  [data-binned-item] {
+    animation: ${spaceUpOut} 0.75s linear;
+    animation-fill-mode: forwards;
+  }
+
+  [data-icon] {
+    position: absolute;
+    top: 50%;
     left: 50%;
-    bottom: 0;
-    z-index: 1;
-    height: 99px;
-    background: rgba(125, 213, 43, 0.5);
+    height: 70%;
+    transform: translate(-50%, -50%);
+  }
+
+  .zig-zag-helper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
-    transform: translateX(-50%);
-    transition: opacity 0.5s linear;
 
-    .is-dragging & {
-      opacity: 1;
-    }
-
-    &::before {
+    &::before,
+    &:after {
       content: "";
-      width: 150vw;
-      background: rgba(125, 213, 43, 0.5);
+      opacity: var(--helperOpacity);
       position: absolute;
-      top: 0;
-      left: -50vw;
-      height: 100%;
+      top: 41px;
+      left: calc(-41px - 16.5px);
+      width: 99px;
+      height: calc(${variables.sizes.zigzag}px / 2);
+      transform: rotate(-90deg);
+      background: linear-gradient(
+          -45deg,
+          ${variables.colors.grayDark} ${variables.sizes.zigzag}px,
+          transparent 0
+        ),
+        linear-gradient(
+          45deg,
+          ${variables.colors.grayDark} ${variables.sizes.zigzag}px,
+          transparent 0
+        );
+      background-repeat: repeat-x;
+      background-position: left top;
+      background-size: ${variables.sizes.zigzag}px 46px;
+      transition: opacity 0.5s linear;
     }
 
-    [data-binned-item] {
-      animation: ${spaceUpOut} 0.75s linear;
-      animation-fill-mode: forwards;
+    &::after {
+      left: calc(100% - 41px);
+      transform: rotate(90deg);
     }
   }
 `;
@@ -352,19 +405,27 @@ class TeamView extends Component<Props, State> {
 
                   <Droppable droppableId="teamview-bin" direction="horizontal">
                     {(droppableProvided, droppableSnapshot) => (
-                      <div
+                      <Bin
                         {...droppableProvided.droppableProps}
                         ref={droppableProvided.innerRef}
                         data-bin
-                        style={{
-                          width: `calc((100% - 80px) / ${teamMembers.length +
-                            1})`,
-                          backgroundColor: droppableSnapshot.isDraggingOver
-                            ? "red"
-                            : "initial"
-                        }}
+                        css={css`
+                          width: calc(
+                            (100% - 80px) / ${teamMembers.length + 1}
+                          );
+
+                          ${droppableSnapshot.isDraggingOver
+                            ? `
+                              --background: ${variables.colors.grayDark};
+                              --helperOpacity: 1;
+                              color: ${variables.colors.white};
+                            `
+                            : ""}
+                        `}
                       >
                         {droppableProvided.placeholder}
+                        <span className="zig-zag-helper" />
+                        <BinIcon />
                         {deletedItems.map(({ id, pokemon }) => (
                           <TabItem
                             key={id}
@@ -376,7 +437,7 @@ class TeamView extends Component<Props, State> {
                             <PokemonLine pokemon={pokemon} />
                           </TabItem>
                         ))}
-                      </div>
+                      </Bin>
                     )}
                   </Droppable>
                 </DragDropContext>
