@@ -191,26 +191,22 @@ describe("<TeamBuilder />", () => {
       it("does not call createTeamMutation when user submits team creation form with invalid data, and scrolls user to top of the page", () => {
         const fnStub = (): null => null;
         const mutation = jest.fn();
-        const scrollToTop = jest.fn();
         const { getByText } = render(
           <MockedProvider mocks={mocks} addTypename={false}>
             <TeamBuilder
               updateTeamMutation={fnStub}
               createTeamMutation={mutation}
-              scrollToTop={scrollToTop}
               currentSearchPokemon={threeTeamMembers[0].pokemon}
             />
           </MockedProvider>
         );
 
         expect(mutation).toBeCalledTimes(0);
-        expect(scrollToTop).toBeCalledTimes(0);
 
         fireEvent.click(getByText(/Add charmander to team/));
         fireEvent.click(getByText(/Create this team!/));
 
         expect(mutation).toBeCalledTimes(0);
-        expect(scrollToTop).toBeCalledTimes(1);
       });
     });
 
@@ -371,23 +367,20 @@ describe("<TeamBuilder />", () => {
         });
       });
 
-      it("does not call updateTeamMutation when user submits team edit form with invalid data, and scrolls user to top of the page", () => {
+      it("does not call updateTeamMutation when user submits team edit form with invalid data", () => {
         const fnStub = (): null => null;
         const mutation = jest.fn();
-        const scrollToTop = jest.fn();
         const { getByText, getByValue } = render(
           <MockedProvider mocks={mocks} addTypename={false}>
             <TeamBuilder
               team={team}
               updateTeamMutation={mutation}
               createTeamMutation={fnStub}
-              scrollToTop={scrollToTop}
             />
           </MockedProvider>
         );
 
         expect(mutation).toBeCalledTimes(0);
-        expect(scrollToTop).toBeCalledTimes(0);
 
         fireEvent.change(getByValue(/Starters Team/), {
           target: { value: "" }
@@ -395,7 +388,6 @@ describe("<TeamBuilder />", () => {
         fireEvent.click(getByText(/Save team/));
 
         expect(mutation).toBeCalledTimes(0);
-        expect(scrollToTop).toBeCalledTimes(1);
       });
     });
   });

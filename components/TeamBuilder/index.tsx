@@ -1,10 +1,9 @@
 import { ApolloError } from "apollo-client";
-import { getOr, gt, propOr, size, get } from "lodash/fp";
+import { getOr, propOr, get } from "lodash/fp";
 import Router from "next/router";
 import React, { ChangeEvent, Component } from "react";
 import isEqual from "react-fast-compare";
 import { getUniqueId } from "../../helpers/general";
-import withScrollToTop from "../../hocs/withScrollToTop";
 import { Pokemon, Team, TeamMember } from "../../types";
 import CenteredRow from "../CenteredRow";
 import { CtaButton } from "../Cta";
@@ -33,7 +32,6 @@ interface Props {
       members: { pokedexId: number; order: number }[];
     };
   }) => void;
-  scrollToTop?: () => void;
 }
 
 interface State {
@@ -135,12 +133,7 @@ class TeamBuilder extends Component<Props, State> {
   }
 
   public handleUpsertTeam(): void {
-    const {
-      team,
-      createTeamMutation,
-      updateTeamMutation,
-      scrollToTop
-    } = this.props;
+    const { team, createTeamMutation, updateTeamMutation } = this.props;
     const { teamName, teamMembers, isValid } = this.state;
     const teamId = getOr(undefined, "id", team);
 
@@ -166,9 +159,6 @@ class TeamBuilder extends Component<Props, State> {
           }
         });
       }
-    } else if (scrollToTop) {
-      this.setState({ isTouched: true });
-      scrollToTop();
     }
   }
 
@@ -180,7 +170,7 @@ class TeamBuilder extends Component<Props, State> {
       loading,
       error
     } = this.props;
-    const { teamName, teamMembers, errors, isTouched } = this.state;
+    const { teamName, teamMembers, errors, isTouched, isValid } = this.state;
     const nameErrorMessage = propOr(undefined, "name", errors);
     const nameHasError = isTouched && !!nameErrorMessage;
 
@@ -211,14 +201,13 @@ class TeamBuilder extends Component<Props, State> {
             <LoadingIcon key="Loading icon" spinner />
           ) : null}
 
-          {gt(size(teamMembers), 0) && !error && !loading && (
-            <CtaButton
-              key={team ? "Save button" : "Create button"}
-              onClick={this.handleUpsertTeam}
-            >
-              {team ? "Save team" : "Create this team!"}
-            </CtaButton>
-          )}
+          <CtaButton
+            key={team ? "Save button" : "Create button"}
+            onClick={this.handleUpsertTeam}
+            disabled={!isTouched || !!error || !!loading || !isValid}
+          >
+            {team ? "Save team" : "Create this team!"}
+          </CtaButton>
         </CenteredRow>
 
         <TeamView
@@ -233,4 +222,4 @@ class TeamBuilder extends Component<Props, State> {
   }
 }
 
-export default withScrollToTop(TeamBuilder);
+export default TeamBuilder;

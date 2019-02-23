@@ -46,6 +46,13 @@ const styles = css`
         [T, always(variables.colors.secondary)]
       ])(secondary)};
   }
+
+  &[disabled] {
+    &,
+    &::before {
+      background-color: ${variables.colors.gray};
+    }
+  }
 `;
 
 export const CtaInternalLink = styled(
