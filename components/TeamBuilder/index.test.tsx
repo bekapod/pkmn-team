@@ -47,6 +47,7 @@ describe("<TeamBuilder />", () => {
   const threeTeamMembers: TeamMember[] = [
     {
       id: "1",
+      order: 1,
       pokemon: {
         id: "4",
         name: "charmander",
@@ -57,6 +58,7 @@ describe("<TeamBuilder />", () => {
     },
     {
       id: "2",
+      order: 2,
       pokemon: {
         id: "25",
         name: "pikachu",
@@ -67,6 +69,7 @@ describe("<TeamBuilder />", () => {
     },
     {
       id: "3",
+      order: 3,
       pokemon: {
         id: "93",
         name: "haunter",
@@ -180,7 +183,7 @@ describe("<TeamBuilder />", () => {
         expect(mutation).toHaveBeenCalledWith({
           variables: {
             name: "My Team",
-            pokedexIds: [4]
+            members: [{ order: 1, pokedexId: 4 }]
           }
         });
       });
@@ -240,6 +243,7 @@ describe("<TeamBuilder />", () => {
       members: [
         {
           id: "cji6gz8gwhbll0a96aahx3ivv",
+          order: 1,
           pokemon: {
             id: "1",
             name: "bulbasaur",
@@ -250,6 +254,7 @@ describe("<TeamBuilder />", () => {
         },
         {
           id: "cji6gz8gwhblm0a96eja18t10",
+          order: 2,
           pokemon: {
             id: "4",
             name: "charmander",
@@ -260,6 +265,7 @@ describe("<TeamBuilder />", () => {
         },
         {
           id: "cji6gz8gwhbln0a96q7wmx9zj",
+          order: 3,
           pokemon: {
             id: "7",
             name: "squirtle",
@@ -270,6 +276,7 @@ describe("<TeamBuilder />", () => {
         },
         {
           id: "cji6gz8gwhblo0a96wgoki379",
+          order: 4,
           pokemon: {
             id: "25",
             name: "pikachu",
@@ -355,7 +362,11 @@ describe("<TeamBuilder />", () => {
           variables: {
             id: team.id,
             name: "My Team",
-            pokedexIds: [4, 25, 93]
+            members: [
+              { order: 2, pokedexId: 4 },
+              { order: 4, pokedexId: 25 },
+              { order: 5, pokedexId: 93 }
+            ]
           }
         });
       });

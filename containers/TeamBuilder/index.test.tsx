@@ -73,6 +73,7 @@ describe("<TeamBuilderContainer />", () => {
               members: [
                 {
                   id: "cji6gz8gwhbll0a96aahx3ivv",
+                  order: 1,
                   pokemon: {
                     name: "bulbasaur",
                     pokedexId: 1,
@@ -82,6 +83,7 @@ describe("<TeamBuilderContainer />", () => {
                 },
                 {
                   id: "cji6gz8gwhblm0a96eja18t10",
+                  order: 2,
                   pokemon: {
                     name: "charmander",
                     pokedexId: 4,
@@ -91,6 +93,7 @@ describe("<TeamBuilderContainer />", () => {
                 },
                 {
                   id: "cji6gz8gwhbln0a96q7wmx9zj",
+                  order: 3,
                   pokemon: {
                     id: "7",
                     name: "squirtle",
@@ -101,6 +104,7 @@ describe("<TeamBuilderContainer />", () => {
                 },
                 {
                   id: "cji6gz8gwhblo0a96wgoki379",
+                  order: 4,
                   pokemon: {
                     id: "25",
                     name: "pikachu",

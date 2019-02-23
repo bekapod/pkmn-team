@@ -12,6 +12,7 @@ const mockData: Team[] = [
     members: [
       {
         id: "1",
+        order: 1,
         pokemon: {
           id: "1",
           name: "bulbasaur",
@@ -22,6 +23,7 @@ const mockData: Team[] = [
       },
       {
         id: "2",
+        order: 2,
         pokemon: {
           id: "25",
           name: "pikachu",
@@ -39,6 +41,7 @@ const mockData: Team[] = [
     members: [
       {
         id: "1",
+        order: 1,
         pokemon: {
           id: "4",
           name: "charmander",
@@ -49,6 +52,7 @@ const mockData: Team[] = [
       },
       {
         id: "2",
+        order: 2,
         pokemon: {
           id: "25",
           name: "pikachu",
@@ -59,6 +63,7 @@ const mockData: Team[] = [
       },
       {
         id: "3",
+        order: 3,
         pokemon: {
           id: "93",
           name: "haunter",

@@ -21,6 +21,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
             members: [
               {
                 id: "cji6gz8gwhbll0a96aahx3ivv",
+                order: 1,
                 pokemon: {
                   name: "bulbasaur",
                   pokedexId: 1,
@@ -30,6 +31,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
               },
               {
                 id: "cji6gz8gwhblm0a96eja18t10",
+                order: 2,
                 pokemon: {
                   name: "charmander",
                   pokedexId: 4,
@@ -39,6 +41,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
               },
               {
                 id: "cji6gz8gwhbln0a96q7wmx9zj",
+                order: 3,
                 pokemon: {
                   id: "7",
                   name: "squirtle",
@@ -49,6 +52,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
               },
               {
                 id: "cji6gz8gwhblo0a96wgoki379",
+                order: 4,
                 pokemon: {
                   id: "25",
                   name: "pikachu",
@@ -67,6 +71,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
             members: [
               {
                 id: "cji6kxx7hp5n90a96r5rpx50u",
+                order: 1,
                 pokemon: {
                   id: "25",
                   name: "pikachu",
@@ -77,6 +82,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
               },
               {
                 id: "cji6kxx7hp5na0a96hb6e0643",
+                order: 2,
                 pokemon: {
                   id: "25",
                   name: "pikachu",
@@ -87,6 +93,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
               },
               {
                 id: "cji6kxx7hp5nb0a9629wdve5s",
+                order: 3,
                 pokemon: {
                   id: "25",
                   name: "pikachu",
@@ -97,6 +104,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
               },
               {
                 id: "cji6kxx7hp5nc0a969th9ll1f",
+                order: 4,
                 pokemon: {
                   id: "25",
                   name: "pikachu",
@@ -107,6 +115,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
               },
               {
                 id: "cji6kxx7hp5nd0a968aj6f6qj",
+                order: 5,
                 pokemon: {
                   id: "25",
                   name: "pikachu",
@@ -117,6 +126,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
               },
               {
                 id: "cji6kxx7hp5ne0a964tf72wol",
+                order: 6,
                 pokemon: {
                   id: "25",
                   name: "pikachu",
@@ -134,6 +144,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
             members: [
               {
                 id: "cji6kzy8pprbr0a967jhcik0n",
+                order: 1,
                 pokemon: {
                   id: "25",
                   name: "pikachu",
@@ -144,6 +155,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
               },
               {
                 id: "cji6kzy8pprbs0a96349zeq46",
+                order: 2,
                 pokemon: {
                   id: "25",
                   name: "pikachu",
@@ -154,6 +166,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
               },
               {
                 id: "cji6kzy8pprbt0a96v5isjwvt",
+                order: 3,
                 pokemon: {
                   id: "25",
                   name: "pikachu",

@@ -15,6 +15,7 @@ describe("<TeamGrid />", () => {
             members: [
               {
                 id: "1",
+                order: 1,
                 pokemon: {
                   id: "25",
                   name: "pikachu",
@@ -34,6 +35,7 @@ describe("<TeamGrid />", () => {
             members: [
               {
                 id: "1",
+                order: 1,
                 pokemon: {
                   id: "25",
                   name: "pikachu",

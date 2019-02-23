@@ -11,6 +11,7 @@ describe("<TeamCard />", () => {
     members: [
       {
         id: "1",
+        order: 1,
         pokemon: {
           id: "25",
           name: "pikachu",
@@ -21,6 +22,7 @@ describe("<TeamCard />", () => {
       },
       {
         id: "2",
+        order: 2,
         pokemon: {
           id: "25",
           name: "pikachu",
@@ -31,6 +33,7 @@ describe("<TeamCard />", () => {
       },
       {
         id: "3",
+        order: 3,
         pokemon: {
           id: "25",
           name: "pikachu",

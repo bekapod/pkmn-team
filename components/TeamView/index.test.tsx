@@ -21,6 +21,7 @@ describe("<TeamView />", () => {
   const threeTeamMembers: TeamMember[] = [
     {
       id: "1",
+      order: 1,
       pokemon: {
         id: "4",
         name: "charmander",
@@ -31,6 +32,7 @@ describe("<TeamView />", () => {
     },
     {
       id: "2",
+      order: 2,
       pokemon: {
         id: "25",
         name: "pikachu",
@@ -41,6 +43,7 @@ describe("<TeamView />", () => {
     },
     {
       id: "3",
+      order: 3,
       pokemon: {
         id: "93",
         name: "haunter",
@@ -54,6 +57,7 @@ describe("<TeamView />", () => {
   const sixTeamMembers: TeamMember[] = [
     {
       id: "1",
+      order: 1,
       pokemon: {
         id: "4",
         name: "charmander",
@@ -64,6 +68,7 @@ describe("<TeamView />", () => {
     },
     {
       id: "2",
+      order: 2,
       pokemon: {
         id: "25",
         name: "pikachu",
@@ -74,6 +79,7 @@ describe("<TeamView />", () => {
     },
     {
       id: "3",
+      order: 3,
       pokemon: {
         id: "93",
         name: "haunter",
@@ -84,6 +90,7 @@ describe("<TeamView />", () => {
     },
     {
       id: "4",
+      order: 4,
       pokemon: {
         id: "4",
         name: "charmander",
@@ -94,6 +101,7 @@ describe("<TeamView />", () => {
     },
     {
       id: "5",
+      order: 5,
       pokemon: {
         id: "25",
         name: "pikachu",
@@ -104,6 +112,7 @@ describe("<TeamView />", () => {
     },
     {
       id: "6",
+      order: 6,
       pokemon: {
         id: "93",
         name: "haunter",
@@ -121,6 +130,7 @@ describe("<TeamView />", () => {
         teamMembers={threeTeamMembers}
         addPokemonToTeam={fnStub}
         removePokemonFromTeam={fnStub}
+        reorderTeamMembers={fnStub}
       />
     );
 
@@ -165,6 +175,7 @@ describe("<TeamView />", () => {
           teamMembers={threeTeamMembers}
           addPokemonToTeam={fnStub}
           removePokemonFromTeam={fnStub}
+          reorderTeamMembers={fnStub}
         />
       );
 
@@ -183,6 +194,7 @@ describe("<TeamView />", () => {
           teamMembers={sixTeamMembers}
           addPokemonToTeam={fnStub}
           removePokemonFromTeam={fnStub}
+          reorderTeamMembers={fnStub}
         />
       );
 
@@ -202,6 +214,7 @@ describe("<TeamView />", () => {
           currentSearchPokemon={pokemon}
           addPokemonToTeam={fnStub}
           removePokemonFromTeam={fnStub}
+          reorderTeamMembers={fnStub}
         />
       );
 

@@ -1,7 +1,7 @@
 // tslint:disable:no-empty
 // tslint:disable-next-line:no-implicit-dependencies
 import Router from "next/router";
-import React, { ComponentType } from "react";
+import React, { ComponentType, DetailedReactHTMLElement } from "react";
 // tslint:disable-next-line:no-implicit-dependencies
 import "react-testing-library/cleanup-after-each";
 
@@ -13,7 +13,8 @@ const mockedRouter = {
   back: () => {},
   beforePopState: () => true,
   prefetch: async () => {
-    const Component = () => React.createElement("div");
+    const Component = (): DetailedReactHTMLElement<any, HTMLElement> =>
+      React.createElement("div");
     await true;
     return Component;
   },
@@ -44,4 +45,5 @@ const mockedRouter = {
 
 Router.router = mockedRouter;
 
+window.scrollTo = () => {};
 window.scroll = () => {};
