@@ -1,6 +1,7 @@
 import React from "react";
 // tslint:disable-next-line:no-implicit-dependencies
 import { fireEvent, render } from "react-testing-library";
+import ShallowRenderer from "react-test-renderer/shallow";
 import wait from "waait";
 import TeamView from ".";
 import { Pokemon, TeamMember } from "../../types";
@@ -223,6 +224,165 @@ describe("<TeamView />", () => {
           selector: '[data-testid="tab-content-add-pokemon"] *'
         })
       ).toBeTruthy();
+    });
+  });
+
+  describe("when using drag & drop re-ordering", () => {
+    it("does not re-order team when user drags a team member to an invalid position", () => {
+      const fnStub = (): null => null;
+      const reorderTeamMembers = jest.fn();
+      const renderer = new ShallowRenderer();
+      renderer.render(
+        <TeamView
+          teamMembers={threeTeamMembers}
+          addPokemonToTeam={fnStub}
+          removePokemonFromTeam={fnStub}
+          reorderTeamMembers={reorderTeamMembers}
+        />
+      );
+
+      const instance = renderer.getMountedInstance();
+
+      instance.onDragEnd({
+        source: {
+          index: 0
+        },
+        destination: null
+      });
+
+      expect(reorderTeamMembers).toBeCalledTimes(0);
+    });
+
+    it("does not re-order team when invalid item is dragged", () => {
+      const fnStub = (): null => null;
+      const reorderTeamMembers = jest.fn();
+      const renderer = new ShallowRenderer();
+      renderer.render(
+        <TeamView
+          teamMembers={threeTeamMembers}
+          addPokemonToTeam={fnStub}
+          removePokemonFromTeam={fnStub}
+          reorderTeamMembers={reorderTeamMembers}
+        />
+      );
+
+      const instance = renderer.getMountedInstance();
+
+      instance.onDragEnd({
+        source: {
+          index: 5
+        },
+        destination: {
+          droppableId: "teamview-tabs",
+          index: 2
+        }
+      });
+
+      expect(reorderTeamMembers).toBeCalledTimes(0);
+    });
+
+    it("re-orders team when user drags a team member to another valid position", () => {
+      const fnStub = (): null => null;
+      const reorderTeamMembers = jest.fn();
+      const renderer = new ShallowRenderer();
+      renderer.render(
+        <TeamView
+          teamMembers={threeTeamMembers}
+          addPokemonToTeam={fnStub}
+          removePokemonFromTeam={fnStub}
+          reorderTeamMembers={reorderTeamMembers}
+        />
+      );
+
+      const instance = renderer.getMountedInstance();
+
+      instance.onDragEnd({
+        source: {
+          index: 0
+        },
+        destination: {
+          droppableId: "teamview-tabs",
+          index: 2
+        }
+      });
+
+      expect(reorderTeamMembers).toBeCalledWith([
+        { ...threeTeamMembers[1], order: 1 },
+        { ...threeTeamMembers[2], order: 2 },
+        { ...threeTeamMembers[0], order: 3 }
+      ]);
+    });
+
+    it("removes team member from team when user drags team member to bin", async () => {
+      const fnStub = (): null => null;
+      const reorderTeamMembers = jest.fn();
+      const removePokemonFromTeam = jest.fn();
+      const renderer = new ShallowRenderer();
+      renderer.render(
+        <TeamView
+          teamMembers={threeTeamMembers}
+          addPokemonToTeam={fnStub}
+          removePokemonFromTeam={removePokemonFromTeam}
+          reorderTeamMembers={reorderTeamMembers}
+        />
+      );
+
+      const instance = renderer.getMountedInstance();
+
+      instance.onDragEnd({
+        source: {
+          index: 2
+        },
+        destination: {
+          droppableId: "teamview-bin",
+          index: 2
+        }
+      });
+
+      expect(reorderTeamMembers).toBeCalledTimes(0);
+      expect(removePokemonFromTeam).toBeCalledWith("3");
+      expect(instance.state.deletedItems).toEqual([threeTeamMembers[2]]);
+
+      instance.emptyBin();
+      await wait(300);
+
+      expect(instance.state.deletedItems).toEqual([]);
+    });
+
+    it("does not remove any team members when invalid item dragged", async () => {
+      const fnStub = (): null => null;
+      const reorderTeamMembers = jest.fn();
+      const removePokemonFromTeam = jest.fn();
+      const renderer = new ShallowRenderer();
+      renderer.render(
+        <TeamView
+          teamMembers={threeTeamMembers}
+          addPokemonToTeam={fnStub}
+          removePokemonFromTeam={removePokemonFromTeam}
+          reorderTeamMembers={reorderTeamMembers}
+        />
+      );
+
+      const instance = renderer.getMountedInstance();
+
+      instance.onDragEnd({
+        source: {
+          index: 5
+        },
+        destination: {
+          droppableId: "teamview-bin",
+          index: 2
+        }
+      });
+
+      expect(reorderTeamMembers).toBeCalledTimes(0);
+      expect(removePokemonFromTeam).toBeCalledTimes(0);
+      expect(instance.state.deletedItems).toEqual([]);
+
+      instance.emptyBin();
+      await wait(300);
+
+      expect(instance.state.deletedItems).toEqual([]);
     });
   });
 });

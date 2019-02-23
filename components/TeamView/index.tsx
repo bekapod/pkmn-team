@@ -78,6 +78,10 @@ class TeamView extends Component<Props, State> {
     } = this.props;
 
     if (result.destination.droppableId === "teamview-tabs") {
+      if (!getOr(false, [result.source.index], teamMembers)) {
+        return;
+      }
+
       reorderTeamMembers(
         reorder(
           teamMembers,
