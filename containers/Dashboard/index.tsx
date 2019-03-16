@@ -7,7 +7,7 @@ import { getAllTeams } from "../../queries/team";
 const DashboardContainer = (): JSX.Element => (
   <Query query={getAllTeams}>
     {({ data /* , loading, error */ }) => (
-      <Dashboard teams={getOr([], "allTeams", data)} />
+      <Dashboard teams={getOr([], "teams", data)} />
     )}
   </Query>
 );

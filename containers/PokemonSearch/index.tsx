@@ -4,14 +4,11 @@ import { adopt } from "react-adopt";
 import { Mutation, OperationVariables, Query, QueryResult } from "react-apollo";
 import PokemonSearch from "../../components/PokemonSearch";
 import { setCurrentSearchPokemon } from "../../mutations/search";
-import { getAllPokemon } from "../../queries/pokemon";
+import { getPokemon } from "../../queries/pokemon";
 import { Pokemon } from "../../types";
 
 interface QueryProps {
-  getAllPokemonQuery: QueryResult<
-    { allPokemon: Pokemon[] },
-    OperationVariables
-  >;
+  getAllPokemonQuery: QueryResult<{ pokemon: Pokemon[] }, OperationVariables>;
   setCurrentSearchPokemonMutation: ({
     variables: { pokemon }
   }: {
@@ -21,7 +18,7 @@ interface QueryProps {
 
 const queries = {
   getAllPokemonQuery: ({ render }: any) => (
-    <Query query={getAllPokemon}>{render}</Query>
+    <Query query={getPokemon}>{render}</Query>
   )
 };
 
@@ -41,7 +38,7 @@ const PokemonSearchContainer = (): JSX.Element => (
     }: QueryProps) => {
       return (
         <PokemonSearch
-          pokemon={getOr([], "allPokemon", data)}
+          pokemon={getOr([], "pokemon", data)}
           setCurrentSearchPokemon={setCurrentSearchPokemonMutation}
           loading={loading}
           error={error}

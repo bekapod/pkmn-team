@@ -2,17 +2,19 @@ import gql from "graphql-tag";
 
 export const getAllTeams = gql`
   query {
-    allTeams {
+    teams {
       id
       name
-      createdAt
-      members(orderBy: order_ASC) {
+      insertedAt
+      members {
         id
         order
         pokemon {
           pokedexId
           name
-          types
+          types {
+            name
+          }
           sprite
         }
       }
@@ -22,17 +24,19 @@ export const getAllTeams = gql`
 
 export const getTeamById = gql`
   query($id: ID!) {
-    teamById(id: $id) {
+    teams(id: $id) {
       id
       name
-      createdAt
-      members(orderBy: order_ASC) {
+      insertedAt
+      members {
         id
         order
         pokemon {
           pokedexId
           name
-          types
+          types {
+            name
+          }
           sprite
         }
       }

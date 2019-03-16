@@ -1,12 +1,14 @@
 import gql from "graphql-tag";
 
-export const getAllPokemon = gql`
+export const getPokemon = gql`
   query {
-    allPokemon {
+    pokemon {
       id
       pokedexId
       name
-      types
+      types {
+        name
+      }
       sprite
     }
   }

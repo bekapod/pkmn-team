@@ -38,7 +38,7 @@ interface QueryProps {
     }) => void;
     result: MutationResult<{ updateTeam: Team }>;
   };
-  getTeamQuery?: QueryResult<{ teamById: Team }, OperationVariables>;
+  getTeamQuery?: QueryResult<{ teams: Team }, OperationVariables>;
   getCurrentSearchPokemonQuery: QueryResult<
     { currentSearchPokemon: Pokemon },
     OperationVariables
@@ -96,7 +96,7 @@ class TeamBuilderContainer extends PureComponent<Props> {
           getCurrentSearchPokemonQuery,
           getTeamQuery
         }: QueryProps) => {
-          const team = getOr(undefined, ["data", "teamById"], getTeamQuery);
+          const team = getOr(undefined, ["data", "teams", "0"], getTeamQuery);
           const currentSearchPokemon = getOr(
             undefined,
             ["data", "currentSearchPokemon"],
