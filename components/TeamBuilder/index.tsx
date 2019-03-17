@@ -21,15 +21,19 @@ interface Props {
   error?: ApolloError;
   createTeamMutation: (mutation: {
     variables: {
-      name: string;
-      members: { pokedexId: number; order: number }[];
+      team: {
+        name: string;
+        members: { pokemonId: string; order: number }[];
+      };
     };
   }) => void;
   updateTeamMutation: (mutation: {
     variables: {
-      id: string;
-      name: string;
-      members: { pokedexId: number; order: number }[];
+      team: {
+        id: string;
+        name: string;
+        members: { pokemonId: string; order: number }[];
+      };
     };
   }) => void;
 }
@@ -139,23 +143,27 @@ class TeamBuilder extends Component<Props, State> {
 
     if (isValid && teamName && teamMembers) {
       const input = teamMembers.map(member => ({
-        pokedexId: get(["pokemon", "pokedexId"], member),
+        pokemonId: get(["pokemon", "id"], member),
         order: get(["order"], member)
       }));
 
       if (teamId) {
         updateTeamMutation({
           variables: {
-            id: teamId,
-            name: teamName,
-            members: input
+            team: {
+              id: teamId,
+              name: teamName,
+              members: input
+            }
           }
         });
       } else {
         createTeamMutation({
           variables: {
-            name: teamName,
-            members: input
+            team: {
+              name: teamName,
+              members: input
+            }
           }
         });
       }

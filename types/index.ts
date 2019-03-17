@@ -26,12 +26,12 @@ export interface Pokemon {
   id: string;
   pokedexId: number;
   name: string;
-  types: Type[];
+  types: { name: Type }[];
   sprite: string;
 }
 
 export interface TeamMember {
-  id: string;
+  id?: string;
   order: number;
   pokemon: Pokemon;
 }

@@ -6,7 +6,9 @@ export const getCurrentSearchPokemon = gql`
       id
       pokedexId
       name
-      types
+      types {
+        name
+      }
       sprite
     }
   }

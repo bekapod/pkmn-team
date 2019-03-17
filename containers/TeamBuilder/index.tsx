@@ -22,8 +22,10 @@ interface QueryProps {
   createTeamMutation: {
     mutation: (mutation: {
       variables: {
-        name: string;
-        members: { pokedexId: number; order: number }[];
+        team: {
+          name: string;
+          members: { pokemonId: string; order: number }[];
+        };
       };
     }) => void;
     result: MutationResult<{ createTeam: Team }>;
@@ -31,9 +33,11 @@ interface QueryProps {
   updateTeamMutation: {
     mutation: (mutation: {
       variables: {
-        id: string;
-        name: string;
-        members: { pokedexId: number; order: number }[];
+        team: {
+          id: string;
+          name: string;
+          members: { pokemonId: string; order: number }[];
+        };
       };
     }) => void;
     result: MutationResult<{ updateTeam: Team }>;
