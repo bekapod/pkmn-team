@@ -61,12 +61,19 @@ export const AddButton = styled.span`
 
 export const TabBar = styled.div`
   [data-react-beautiful-dnd-droppable] {
-    ${media.medium`
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-    `}
+    overflow-x: auto;
   }
 `;
+
+export const TabScroller = styled.div`
+  display: inline-flex;
+  padding-top: ${variables.spacing.md + variables.spacing.xs}px;
+
+  > * {
+    flex: 1 0 auto;
+    min-width: 250px;
+  }
+`
 
 export const TabItem = styled.div`
   color: ${(props: TabItemProps) =>
@@ -84,6 +91,7 @@ export const TabItem = styled.div`
   > * {
     ${baseTransition}
     background-color: inherit;
+    height: ${variables.spacing.xxl + variables.spacing.lg}px;
     transition-property: transform;
     will-change: transform;
   }

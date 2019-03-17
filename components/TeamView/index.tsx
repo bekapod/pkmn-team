@@ -29,7 +29,7 @@ import PokemonCard from "../PokemonCard";
 import PokemonLine from "../PokemonLine";
 import Tabs from "../Tabs";
 import BinIcon from "../BinIcon";
-import { TabBar, TabItem, AddButton, Bin, TabContent } from "./styles";
+import { TabBar, TabScroller, TabItem, AddButton, Bin, TabContent } from "./styles";
 import { reorder } from "./helpers";
 
 interface Props {
@@ -174,48 +174,51 @@ class TeamView extends Component<Props, State> {
                         {...droppableProvided.droppableProps}
                         ref={droppableProvided.innerRef}
                       >
-                        {droppableProvided.placeholder}
+                        <TabScroller>
+                          {droppableProvided.placeholder}
 
-                        {teamMembers.map(
-                          ({ id, pokemon }: TeamMember, index: number) => {
-                            const tabItemProps = getTabItemProps(id);
-                            return (
-                              <Draggable
-                                key={id}
-                                draggableId={id}
-                                index={index}
-                              >
-                                {draggableProvided => (
-                                  <TabItem
-                                    {...tabItemProps}
-                                    {...draggableProvided.draggableProps}
-                                    {...draggableProvided.dragHandleProps}
-                                    ref={draggableProvided.innerRef}
-                                    data-testid={`tab-item-${id}`}
-                                    style={{
-                                      ...draggableProvided.draggableProps.style
-                                    }}
-                                  >
-                                    <PokemonLine pokemon={pokemon} compact />
-                                  </TabItem>
-                                )}
-                              </Draggable>
-                            );
-                          }
-                        )}
+                          {teamMembers.map(
+                            ({ id, pokemon }: TeamMember, index: number) => {
+                              const tabItemProps = getTabItemProps(id);
+                              return (
+                                <Draggable
+                                  key={id}
+                                  draggableId={id}
+                                  index={index}
+                                >
+                                  {draggableProvided => (
+                                    <TabItem
+                                      {...tabItemProps}
+                                      {...draggableProvided.draggableProps}
+                                      {...draggableProvided.dragHandleProps}
+                                      ref={draggableProvided.innerRef}
+                                      data-testid={`tab-item-${id}`}
+                                      style={{
+                                        ...draggableProvided.draggableProps
+                                          .style
+                                      }}
+                                    >
+                                      <PokemonLine pokemon={pokemon} />
+                                    </TabItem>
+                                  )}
+                                </Draggable>
+                              );
+                            }
+                          )}
 
-                        {lt(size(teamMembers), 6) ? (
-                          <TabItem
-                            {...addPokemonTabItemProps}
-                            key="Add new Pokemon"
-                            data-testid="tab-item-add-pokemon"
-                            data-add-button
-                          >
-                            <AddButton aria-label="Add new pokemon to team">
-                              +
-                            </AddButton>
-                          </TabItem>
-                        ) : null}
+                          {lt(size(teamMembers), 6) ? (
+                            <TabItem
+                              {...addPokemonTabItemProps}
+                              key="Add new Pokemon"
+                              data-testid="tab-item-add-pokemon"
+                              data-add-button
+                            >
+                              <AddButton aria-label="Add new pokemon to team">
+                                +
+                              </AddButton>
+                            </TabItem>
+                          ) : null}
+                        </TabScroller>
                       </div>
                     )}
                   </Droppable>
