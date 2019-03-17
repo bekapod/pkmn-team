@@ -1,11 +1,11 @@
 import { css } from "styled-components/macro";
 
 const sizes: { [key: string]: number } = {
-  large: 1024,
+  large: 1280,
   medium: 768
 };
 
-export const media: {
+const standardMediaQueries: {
   [key: string]: (_: TemplateStringsArray) => TemplateStringsArray;
 } = Object.keys(sizes).reduce((accumulator: { [key: string]: any }, label) => {
   const size = sizes[label];
@@ -16,3 +16,13 @@ export const media: {
   `;
   return accumulator;
 }, {});
+
+export const media = {
+  ...standardMediaQueries,
+  mediumOnly: (...args: any[]) => css`
+    @media (min-width: ${sizes.medium}px) and (max-width: ${sizes.large -
+        1}px) {
+      ${css({}, ...args)};
+    }
+  `
+};

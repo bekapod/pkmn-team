@@ -2,6 +2,7 @@ import styled from "styled-components/macro";
 import { rgba } from "polished";
 import { baseTransition, spaceUpOut } from "../../helpers/animations";
 import * as variables from "../../helpers/variables";
+import { media } from "../../helpers/media";
 
 interface TabItemProps {
   "aria-selected": boolean;
@@ -60,13 +61,10 @@ export const AddButton = styled.span`
 
 export const TabBar = styled.div`
   [data-react-beautiful-dnd-droppable] {
-    display: flex;
-  }
-
-  [data-react-beautiful-dnd-draggable],
-  [data-binned-item],
-  [data-add-button] {
-    flex: 1;
+    ${media.medium`
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+    `}
   }
 `;
 
@@ -99,13 +97,16 @@ export const TabItem = styled.div`
 `;
 
 export const TabContent = styled.div`
-  grid-template-columns: 1fr 1fr;
-  grid-gap: ${variables.gutters.grid}px;
   padding: ${variables.spacing.lg}px;
   background-color: ${variables.colors.gray};
 
   ${(props: TabContentProps) =>
     props["aria-hidden"] ? "display: none !important;" : "display: grid;"}
+
+  ${media.medium`
+    grid-template-columns: 1fr 1fr;
+    grid-gap: ${variables.gutters.grid}px;
+  `}
 `;
 
 export const Bin = styled.div`

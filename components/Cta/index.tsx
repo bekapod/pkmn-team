@@ -4,6 +4,7 @@ import styled, { css } from "styled-components/macro";
 import { radialIn } from "../../helpers/animations";
 import * as variables from "../../helpers/variables";
 import { lineHeight } from "../../helpers/verticalRhythm";
+import { media } from "../../helpers/media";
 
 interface Props {
   secondary?: boolean;
@@ -15,6 +16,7 @@ const not = (value: any): boolean => !value;
 
 const styles = css`
   display: block;
+  width: 100%;
   padding: ${({ small }: Props) =>
     cond([
       [not, always(`${variables.spacing.md}px ${variables.spacing.lg}px`)],
@@ -53,6 +55,10 @@ const styles = css`
       background-color: ${variables.colors.gray};
     }
   }
+
+  ${media.medium`
+    width: auto;
+  `}
 `;
 
 export const CtaInternalLink = styled(

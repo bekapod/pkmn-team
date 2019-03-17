@@ -196,7 +196,7 @@ class TeamView extends Component<Props, State> {
                                       ...draggableProvided.draggableProps.style
                                     }}
                                   >
-                                    <PokemonLine pokemon={pokemon} />
+                                    <PokemonLine pokemon={pokemon} compact />
                                   </TabItem>
                                 )}
                               </Draggable>
@@ -251,7 +251,7 @@ class TeamView extends Component<Props, State> {
                             data-binned-item
                             onAnimationEnd={this.emptyBin}
                           >
-                            <PokemonLine pokemon={pokemon} />
+                            <PokemonLine pokemon={pokemon} compact />
                           </TabItem>
                         ))}
                       </Bin>

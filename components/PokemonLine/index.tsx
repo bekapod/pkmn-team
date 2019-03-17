@@ -6,14 +6,17 @@ import * as variables from "../../helpers/variables";
 import { Pokemon, Type } from "../../types"; // eslint-disable-line import/named
 import InlineList from "../InlineList";
 import TypeTag from "../TypeTag";
+import { media } from "../../helpers/media";
 
 interface Props {
   pokemon: Pokemon;
   outdent: number;
+  compact: boolean;
 }
 
 interface RowProps {
   outdent: number;
+  compact: boolean;
   types: Type[];
 }
 
@@ -34,31 +37,60 @@ const Row = styled.div`
     height: ${variables.spacing.sm}px;
     background-image: ${({ types }: RowProps) => getTypeGradient(types)};
   }
+
+  ${media.mediumOnly`
+    ${({ compact }: RowProps) =>
+      compact
+        ? `
+          flex-direction: column;
+          padding: ${variables.spacing.md}px;
+          height: ${variables.spacing.lg * 6}px;
+          align-items: flex-start;
+        `
+        : ""}
+  `}
 `;
 
 const RowImage = styled.img`
   width: ${variables.spacing.xl}px;
   height: ${variables.spacing.xl}px;
   margin-right: ${variables.spacing.md}px;
+
+  ${media.mediumOnly`
+    ${({ compact }: RowProps) =>
+      compact
+        ? `
+        margin-right: 0;
+        align-self: center;
+      `
+        : ""}
+  `}
 `;
 
 const RowTitle = styled.div`
+  margin-bottom: ${variables.spacing.xs}px;
   font-weight: 700;
+  line-height: 1;
 `;
 
 class PokemonLine extends PureComponent<Props> {
   public static defaultProps = {
     outdent: 0,
+    compact: false,
     pokemon: {}
   };
 
   public render(): JSX.Element {
-    const { pokemon, outdent, ...props } = this.props;
+    const { pokemon, compact, ...props } = this.props;
     const { pokedexId, name, types, sprite } = pokemon;
 
     return (
-      <Row types={types} outdent={outdent} {...props}>
-        <RowImage src={`/static/sprites/${sprite}`} alt={`${name} sprite`} />
+      <Row types={types} compact={compact} {...props}>
+        <RowImage
+          src={`/static/sprites/${sprite}`}
+          alt={`${name} sprite`}
+          compact={compact}
+        />
         <div>
           <RowTitle>{formatPokemonName(pokemon)}</RowTitle>
           <InlineList>
