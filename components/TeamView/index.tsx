@@ -29,7 +29,14 @@ import PokemonCard from "../PokemonCard";
 import PokemonLine from "../PokemonLine";
 import Tabs from "../Tabs";
 import BinIcon from "../BinIcon";
-import { TabBar, TabScroller, TabItem, AddButton, Bin, TabContent } from "./styles";
+import {
+  TabBar,
+  TabScroller,
+  TabItem,
+  AddButton,
+  Bin,
+  TabContent
+} from "./styles";
 import { reorder } from "./helpers";
 
 interface Props {

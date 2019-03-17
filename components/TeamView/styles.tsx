@@ -73,7 +73,7 @@ export const TabScroller = styled.div`
     flex: 1 0 auto;
     min-width: 250px;
   }
-`
+`;
 
 export const TabItem = styled.div`
   color: ${(props: TabItemProps) =>
