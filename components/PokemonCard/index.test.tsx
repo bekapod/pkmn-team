@@ -12,7 +12,7 @@ describe("<PokemonCard />", () => {
           name: "pikachu",
           pokedexId: 25,
           sprite: "25.png",
-          types: ["ELECTRIC"]
+          types: [{ name: "ELECTRIC" }]
         }}
       />
     );
@@ -31,7 +31,7 @@ describe("<PokemonCard />", () => {
             name: "pikachu",
             pokedexId: 25,
             sprite: "25.png",
-            types: ["ELECTRIC"]
+            types: [{ name: "ELECTRIC" }]
           }}
         />
       );
@@ -53,7 +53,7 @@ describe("<PokemonCard />", () => {
             name: "pikachu",
             pokedexId: 25,
             sprite: "25.png",
-            types: ["ELECTRIC"]
+            types: [{ name: "ELECTRIC" }]
           }}
           renderCardActions={renderCardActions}
         />
@@ -72,7 +72,7 @@ describe("<PokemonCard />", () => {
             name: "bulbasaur",
             pokedexId: 1,
             sprite: "1.png",
-            types: ["POISON", "GRASS"]
+            types: [{ name: "POISON" }, { name: "GRASS" }]
           }}
         />
       );

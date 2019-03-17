@@ -14,9 +14,9 @@ const mocks: ReadonlyArray<MockedResponse> = [
     },
     result: {
       data: {
-        allTeams: [
+        teams: [
           {
-            createdAt: "2018-06-08T21:15:14.723Z",
+            insertedAt: "2018-06-08T21:15:14.723Z",
             id: "cji6gz8gwhblk0a9639btq2hd",
             members: [
               {
@@ -26,7 +26,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
                   name: "bulbasaur",
                   pokedexId: 1,
                   sprite: "1.png",
-                  types: ["POISON", "GRASS"]
+                  types: [{ name: "POISON" }, { name: "GRASS" }]
                 }
               },
               {
@@ -36,7 +36,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
                   name: "charmander",
                   pokedexId: 4,
                   sprite: "4.png",
-                  types: ["FIRE"]
+                  types: [{ name: "FIRE" }]
                 }
               },
               {
@@ -47,7 +47,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
                   name: "squirtle",
                   pokedexId: 7,
                   sprite: "7.png",
-                  types: ["WATER"]
+                  types: [{ name: "WATER" }]
                 }
               },
               {
@@ -58,14 +58,14 @@ const mocks: ReadonlyArray<MockedResponse> = [
                   name: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
-                  types: ["ELECTRIC"]
+                  types: [{ name: "ELECTRIC" }]
                 }
               }
             ],
             name: "Starters Team"
           },
           {
-            createdAt: "2018-06-08T23:06:11.936Z",
+            insertedAt: "2018-06-08T23:06:11.936Z",
             id: "cji6kxx7gp5n80a96mgw7gc45",
             loading: false,
             members: [
@@ -77,7 +77,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
                   name: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
-                  types: ["ELECTRIC"]
+                  types: [{ name: "ELECTRIC" }]
                 }
               },
               {
@@ -88,7 +88,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
                   name: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
-                  types: ["ELECTRIC"]
+                  types: [{ name: "ELECTRIC" }]
                 }
               },
               {
@@ -99,7 +99,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
                   name: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
-                  types: ["ELECTRIC"]
+                  types: [{ name: "ELECTRIC" }]
                 }
               },
               {
@@ -110,7 +110,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
                   name: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
-                  types: ["ELECTRIC"]
+                  types: [{ name: "ELECTRIC" }]
                 }
               },
               {
@@ -121,7 +121,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
                   name: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
-                  types: ["ELECTRIC"]
+                  types: [{ name: "ELECTRIC" }]
                 }
               },
               {
@@ -132,14 +132,14 @@ const mocks: ReadonlyArray<MockedResponse> = [
                   name: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
-                  types: ["ELECTRIC"]
+                  types: [{ name: "ELECTRIC" }]
                 }
               }
             ],
             name: "Pikachu Team"
           },
           {
-            createdAt: "2018-06-08T23:07:46.587Z",
+            insertedAt: "2018-06-08T23:07:46.587Z",
             id: "cji6kzy8pprbq0a964rc3ikk3",
             members: [
               {
@@ -150,7 +150,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
                   name: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
-                  types: ["ELECTRIC"]
+                  types: [{ name: "ELECTRIC" }]
                 }
               },
               {
@@ -161,7 +161,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
                   name: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
-                  types: ["ELECTRIC"]
+                  types: [{ name: "ELECTRIC" }]
                 }
               },
               {
@@ -172,7 +172,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
                   name: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
-                  types: ["ELECTRIC"]
+                  types: [{ name: "ELECTRIC" }]
                 }
               }
             ],

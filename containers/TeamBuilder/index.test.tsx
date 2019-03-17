@@ -13,13 +13,17 @@ const mocks: ReadonlyArray<MockedResponse> = [
     request: {
       query: createTeam,
       variables: {
-        name: "Test Team",
-        pokedexIds: [25]
+        team: {
+          name: "Test Team",
+          members: [{ pokemonId: "25" }]
+        }
       }
     },
     result: {
       createTeam: {
-        id: "1"
+        team: {
+          id: "1"
+        }
       }
     }
   },
@@ -28,14 +32,18 @@ const mocks: ReadonlyArray<MockedResponse> = [
     request: {
       query: updateTeam,
       variables: {
-        id: "2",
-        name: "Test Team 2",
-        pokedexIds: [25, 25]
+        team: {
+          id: "2",
+          name: "Test Team 2",
+          members: [{ pokemonId: "25" }, { pokemonId: "25" }]
+        }
       }
     },
     result: {
       updateTeam: {
-        id: "2"
+        team: {
+          id: "2"
+        }
       }
     }
   }
@@ -67,60 +75,62 @@ describe("<TeamBuilderContainer />", () => {
 
         result: {
           data: {
-            teamById: {
-              createdAt: "2018-06-08T21:15:14.723Z",
-              id: "cji6gz8gwhblk0a9639btq2hd",
-              members: [
-                {
-                  id: "cji6gz8gwhbll0a96aahx3ivv",
-                  order: 1,
-                  pokemon: {
-                    name: "bulbasaur",
-                    pokedexId: 1,
-                    sprite: "1.png",
-                    types: ["POISON", "GRASS"]
+            teams: [
+              {
+                insertedAt: "2018-06-08T21:15:14.723Z",
+                id: "cji6gz8gwhblk0a9639btq2hd",
+                members: [
+                  {
+                    id: "cji6gz8gwhbll0a96aahx3ivv",
+                    order: 1,
+                    pokemon: {
+                      name: "bulbasaur",
+                      pokedexId: 1,
+                      sprite: "1.png",
+                      types: [{ name: "POISON" }, { name: "GRASS" }]
+                    }
+                  },
+                  {
+                    id: "cji6gz8gwhblm0a96eja18t10",
+                    order: 2,
+                    pokemon: {
+                      name: "charmander",
+                      pokedexId: 4,
+                      sprite: "4.png",
+                      types: [{ name: "FIRE" }]
+                    }
+                  },
+                  {
+                    id: "cji6gz8gwhbln0a96q7wmx9zj",
+                    order: 3,
+                    pokemon: {
+                      id: "7",
+                      name: "squirtle",
+                      pokedexId: 7,
+                      sprite: "7.png",
+                      types: [{ name: "WATER" }]
+                    }
+                  },
+                  {
+                    id: "cji6gz8gwhblo0a96wgoki379",
+                    order: 4,
+                    pokemon: {
+                      id: "25",
+                      name: "pikachu",
+                      pokedexId: 25,
+                      sprite: "25.png",
+                      types: [{ name: "ELECTRIC" }]
+                    }
                   }
-                },
-                {
-                  id: "cji6gz8gwhblm0a96eja18t10",
-                  order: 2,
-                  pokemon: {
-                    name: "charmander",
-                    pokedexId: 4,
-                    sprite: "4.png",
-                    types: ["FIRE"]
-                  }
-                },
-                {
-                  id: "cji6gz8gwhbln0a96q7wmx9zj",
-                  order: 3,
-                  pokemon: {
-                    id: "7",
-                    name: "squirtle",
-                    pokedexId: 7,
-                    sprite: "7.png",
-                    types: ["WATER"]
-                  }
-                },
-                {
-                  id: "cji6gz8gwhblo0a96wgoki379",
-                  order: 4,
-                  pokemon: {
-                    id: "25",
-                    name: "pikachu",
-                    pokedexId: 25,
-                    sprite: "25.png",
-                    types: ["ELECTRIC"]
-                  }
-                }
-              ],
-              name: "Starters Team"
-            }
+                ],
+                name: "Starters Team"
+              }
+            ]
           }
         }
       }
     ];
-    const team = mocksWithTeam[2].result.data.teamById;
+    const team = mocksWithTeam[2].result.data.teams[0];
     const { getByValue, queryByValue, queryAllByTestId, queryByText } = render(
       <MockedProvider mocks={mocksWithTeam} addTypename={false}>
         <TeamBuilderContainer query={{ teamId: team.id }} />

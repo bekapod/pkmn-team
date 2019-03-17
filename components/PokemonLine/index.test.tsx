@@ -12,7 +12,7 @@ describe("<PokemonLine />", () => {
           name: "pikachu",
           pokedexId: 25,
           sprite: "25.png",
-          types: ["ELECTRIC"]
+          types: [{ name: "ELECTRIC" }]
         }}
       />
     );
@@ -30,7 +30,7 @@ describe("<PokemonLine />", () => {
             name: "pikachu",
             pokedexId: 25,
             sprite: "25.png",
-            types: ["ELECTRIC"]
+            types: [{ name: "ELECTRIC" }]
           }}
           outdent={10}
         />
@@ -50,7 +50,7 @@ describe("<PokemonLine />", () => {
             name: "bulbasaur",
             pokedexId: 1,
             sprite: "1.png",
-            types: ["POISON", "GRASS"]
+            types: [{ name: "POISON" }, { name: "GRASS" }]
           }}
         />
       );

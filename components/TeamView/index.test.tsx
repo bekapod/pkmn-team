@@ -16,7 +16,7 @@ describe("<TeamView />", () => {
     name: "charmander",
     pokedexId: 4,
     sprite: "4.png",
-    types: ["FIRE"]
+    types: [{ name: "FIRE" }]
   };
 
   const threeTeamMembers: TeamMember[] = [
@@ -28,7 +28,7 @@ describe("<TeamView />", () => {
         name: "charmander",
         pokedexId: 4,
         sprite: "4.png",
-        types: ["FIRE"]
+        types: [{ name: "FIRE" }]
       }
     },
     {
@@ -39,7 +39,7 @@ describe("<TeamView />", () => {
         name: "pikachu",
         pokedexId: 25,
         sprite: "25.png",
-        types: ["ELECTRIC"]
+        types: [{ name: "ELECTRIC" }]
       }
     },
     {
@@ -50,7 +50,7 @@ describe("<TeamView />", () => {
         name: "haunter",
         pokedexId: 93,
         sprite: "93.png",
-        types: ["GHOST", "POISON"]
+        types: [{ name: "GHOST" }, { name: "POISON" }]
       }
     }
   ];
@@ -64,7 +64,7 @@ describe("<TeamView />", () => {
         name: "charmander",
         pokedexId: 4,
         sprite: "4.png",
-        types: ["FIRE"]
+        types: [{ name: "FIRE" }]
       }
     },
     {
@@ -75,7 +75,7 @@ describe("<TeamView />", () => {
         name: "pikachu",
         pokedexId: 25,
         sprite: "25.png",
-        types: ["ELECTRIC"]
+        types: [{ name: "ELECTRIC" }]
       }
     },
     {
@@ -86,7 +86,7 @@ describe("<TeamView />", () => {
         name: "haunter",
         pokedexId: 93,
         sprite: "93.png",
-        types: ["GHOST", "POISON"]
+        types: [{ name: "GHOST" }, { name: "POISON" }]
       }
     },
     {
@@ -97,7 +97,7 @@ describe("<TeamView />", () => {
         name: "charmander",
         pokedexId: 4,
         sprite: "4.png",
-        types: ["FIRE"]
+        types: [{ name: "FIRE" }]
       }
     },
     {
@@ -108,7 +108,7 @@ describe("<TeamView />", () => {
         name: "pikachu",
         pokedexId: 25,
         sprite: "25.png",
-        types: ["ELECTRIC"]
+        types: [{ name: "ELECTRIC" }]
       }
     },
     {
@@ -119,7 +119,7 @@ describe("<TeamView />", () => {
         name: "haunter",
         pokedexId: 93,
         sprite: "93.png",
-        types: ["GHOST", "POISON"]
+        types: [{ name: "GHOST" }, { name: "POISON" }]
       }
     }
   ];

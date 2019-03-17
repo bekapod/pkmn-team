@@ -40,7 +40,7 @@ export interface Team {
   id: string;
   name: string;
   members: TeamMember[];
-  createdAt: string;
+  insertedAt: string;
 }
 
 export interface TeamBuilderState {

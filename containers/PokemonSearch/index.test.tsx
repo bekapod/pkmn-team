@@ -5,36 +5,36 @@ import { fireEvent, render } from "react-testing-library";
 // tslint:disable-next-line:no-implicit-dependencies
 import wait from "waait";
 import PokemonSearchContainer from ".";
-import { getAllPokemon } from "../../queries/pokemon";
+import { getPokemon } from "../../queries/pokemon";
 
 const mocks: ReadonlyArray<MockedResponse> = [
   {
     request: {
-      query: getAllPokemon
+      query: getPokemon
     },
     result: {
       data: {
-        allPokemon: [
+        pokemon: [
           {
             id: "4",
             name: "charmander",
             pokedexId: 4,
             sprite: "4.png",
-            types: ["FIRE"]
+            types: [{ name: "FIRE" }]
           },
           {
             id: "25",
             name: "pikachu",
             pokedexId: 25,
             sprite: "25.png",
-            types: ["ELECTRIC"]
+            types: [{ name: "ELECTRIC" }]
           },
           {
             id: "93",
             name: "haunter",
             pokedexId: 93,
             sprite: "93.png",
-            types: ["GHOST", "POISON"]
+            types: [{ name: "GHOST" }, { name: "POISON" }]
           }
         ]
       },

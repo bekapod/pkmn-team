@@ -7,7 +7,7 @@ import { Team } from "../../types";
 
 const mockData: Team[] = [
   {
-    createdAt: "2018-06-08T21:15:14.723Z",
+    insertedAt: "2018-06-08T21:15:14.723Z",
     id: "1",
     members: [
       {
@@ -18,7 +18,7 @@ const mockData: Team[] = [
           name: "bulbasaur",
           pokedexId: 1,
           sprite: "1.png",
-          types: ["POISON", "GRASS"]
+          types: [{ name: "POISON" }, { name: "GRASS" }]
         }
       },
       {
@@ -29,14 +29,14 @@ const mockData: Team[] = [
           name: "pikachu",
           pokedexId: 25,
           sprite: "25.png",
-          types: ["ELECTRIC"]
+          types: [{ name: "ELECTRIC" }]
         }
       }
     ],
     name: "Team 1"
   },
   {
-    createdAt: "2018-06-08T21:15:14.723Z",
+    insertedAt: "2018-06-08T21:15:14.723Z",
     id: "2",
     members: [
       {
@@ -47,7 +47,7 @@ const mockData: Team[] = [
           name: "charmander",
           pokedexId: 4,
           sprite: "4.png",
-          types: ["FIRE"]
+          types: [{ name: "FIRE" }]
         }
       },
       {
@@ -58,7 +58,7 @@ const mockData: Team[] = [
           name: "pikachu",
           pokedexId: 25,
           sprite: "25.png",
-          types: ["ELECTRIC"]
+          types: [{ name: "ELECTRIC" }]
         }
       },
       {
@@ -69,7 +69,7 @@ const mockData: Team[] = [
           name: "haunter",
           pokedexId: 93,
           sprite: "93.png",
-          types: ["GHOST", "POISON"]
+          types: [{ name: "GHOST" }, { name: "POISON" }]
         }
       }
     ],

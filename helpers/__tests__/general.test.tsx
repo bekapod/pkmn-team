@@ -23,7 +23,7 @@ describe("General helpers", () => {
           name: "pikachu",
           pokedexId: 25,
           sprite: "pikachu.png",
-          types: ["ELECTRIC"]
+          types: [{ name: "ELECTRIC" }]
         })
       ).toBe("Pikachu");
     });
@@ -37,7 +37,7 @@ describe("General helpers", () => {
           name: "pikachu",
           pokedexId: 25,
           sprite: "pikachu.png",
-          types: ["ELECTRIC"]
+          types: [{ name: "ELECTRIC" }]
         })
       ).toBe("#25 Pikachu");
     });
@@ -75,17 +75,26 @@ describe("General helpers", () => {
 
   describe("sortTypes", () => {
     it("sorts types alphabetically", () => {
-      expect(sortTypes(["ICE", "BUG", "PSYCHIC", "ELECTRIC"])).toEqual([
-        "BUG",
-        "ELECTRIC",
-        "ICE",
-        "PSYCHIC"
-      ]);
+      expect(
+        sortTypes([
+          { name: "ICE" },
+          { name: "BUG" },
+          { name: "PSYCHIC" },
+          { name: "ELECTRIC" }
+        ])
+      ).toEqual(["BUG", "ELECTRIC", "ICE", "PSYCHIC"]);
     });
 
     it("sorts types alphabetically including duplicates", () => {
       expect(
-        sortTypes(["ICE", "BUG", "PSYCHIC", "BUG", "ELECTRIC", "ELECTRIC"])
+        sortTypes([
+          { name: "ICE" },
+          { name: "BUG" },
+          { name: "PSYCHIC" },
+          { name: "BUG" },
+          { name: "ELECTRIC" },
+          { name: "ELECTRIC" }
+        ])
       ).toEqual(["BUG", "BUG", "ELECTRIC", "ELECTRIC", "ICE", "PSYCHIC"]);
     });
   });

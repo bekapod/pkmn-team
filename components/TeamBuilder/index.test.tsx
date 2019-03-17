@@ -4,37 +4,37 @@ import { MockedProvider, MockedResponse } from "react-apollo/test-utils";
 import { fireEvent, render } from "react-testing-library";
 import wait from "waait";
 import TeamBuilder from ".";
-import { getAllPokemon } from "../../queries/pokemon";
+import { getPokemon } from "../../queries/pokemon";
 import { Team, TeamMember } from "../../types";
 
 const mocks: ReadonlyArray<MockedResponse> = [
   {
     request: {
-      query: getAllPokemon
+      query: getPokemon
     },
     result: {
       data: {
-        allPokemon: [
+        pokemon: [
           {
             id: "4",
             name: "charmander",
             pokedexId: 4,
             sprite: "4.png",
-            types: ["FIRE"]
+            types: [{ name: "FIRE" }]
           },
           {
             id: "25",
             name: "pikachu",
             pokedexId: 25,
             sprite: "25.png",
-            types: ["ELECTRIC"]
+            types: [{ name: "ELECTRIC" }]
           },
           {
             id: "93",
             name: "haunter",
             pokedexId: 93,
             sprite: "93.png",
-            types: ["GHOST", "POISON"]
+            types: [{ name: "GHOST" }, { name: "POISON" }]
           }
         ]
       },
@@ -53,7 +53,7 @@ describe("<TeamBuilder />", () => {
         name: "charmander",
         pokedexId: 4,
         sprite: "4.png",
-        types: ["FIRE"]
+        types: [{ name: "FIRE" }]
       }
     },
     {
@@ -64,7 +64,7 @@ describe("<TeamBuilder />", () => {
         name: "pikachu",
         pokedexId: 25,
         sprite: "25.png",
-        types: ["ELECTRIC"]
+        types: [{ name: "ELECTRIC" }]
       }
     },
     {
@@ -75,7 +75,7 @@ describe("<TeamBuilder />", () => {
         name: "haunter",
         pokedexId: 93,
         sprite: "93.png",
-        types: ["GHOST", "POISON"]
+        types: [{ name: "GHOST" }, { name: "POISON" }]
       }
     }
   ];
@@ -182,8 +182,10 @@ describe("<TeamBuilder />", () => {
         expect(mutation).toBeCalledTimes(1);
         expect(mutation).toHaveBeenCalledWith({
           variables: {
-            name: "My Team",
-            members: [{ order: 1, pokedexId: 4 }]
+            team: {
+              name: "My Team",
+              members: [{ order: 1, pokemonId: "4" }]
+            }
           }
         });
       });
@@ -234,7 +236,7 @@ describe("<TeamBuilder />", () => {
 
   describe("when editing a team", () => {
     const team: Team = {
-      createdAt: "2018-06-08T21:15:14.723Z",
+      insertedAt: "2018-06-08T21:15:14.723Z",
       id: "cji6gz8gwhblk0a9639btq2hd",
       members: [
         {
@@ -245,7 +247,7 @@ describe("<TeamBuilder />", () => {
             name: "bulbasaur",
             pokedexId: 1,
             sprite: "1.png",
-            types: ["POISON", "GRASS"]
+            types: [{ name: "POISON" }, { name: "GRASS" }]
           }
         },
         {
@@ -256,7 +258,7 @@ describe("<TeamBuilder />", () => {
             name: "charmander",
             pokedexId: 4,
             sprite: "4.png",
-            types: ["FIRE"]
+            types: [{ name: "FIRE" }]
           }
         },
         {
@@ -267,7 +269,7 @@ describe("<TeamBuilder />", () => {
             name: "squirtle",
             pokedexId: 7,
             sprite: "7.png",
-            types: ["WATER"]
+            types: [{ name: "WATER" }]
           }
         },
         {
@@ -278,7 +280,7 @@ describe("<TeamBuilder />", () => {
             name: "pikachu",
             pokedexId: 25,
             sprite: "25.png",
-            types: ["ELECTRIC"]
+            types: [{ name: "ELECTRIC" }]
           }
         }
       ],
@@ -356,13 +358,15 @@ describe("<TeamBuilder />", () => {
         expect(mutation).toBeCalledTimes(1);
         expect(mutation).toHaveBeenCalledWith({
           variables: {
-            id: team.id,
-            name: "My Team",
-            members: [
-              { order: 2, pokedexId: 4 },
-              { order: 4, pokedexId: 25 },
-              { order: 5, pokedexId: 93 }
-            ]
+            team: {
+              id: team.id,
+              name: "My Team",
+              members: [
+                { order: 2, pokemonId: "4" },
+                { order: 4, pokemonId: "25" },
+                { order: 5, pokemonId: "93" }
+              ]
+            }
           }
         });
       });
