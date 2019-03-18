@@ -3,7 +3,9 @@ import gql from "graphql-tag";
 export const createTeam = gql`
   mutation($team: CreateTeamInput!) {
     createTeam(input: $team) {
-      id
+      team {
+        id
+      }
     }
   }
 `;
@@ -11,7 +13,19 @@ export const createTeam = gql`
 export const updateTeam = gql`
   mutation($team: UpdateTeamInput!) {
     updateTeam(input: $team) {
-      id
+      team {
+        id
+      }
+    }
+  }
+`;
+
+export const deleteTeam = gql`
+  mutation($team: DeleteTeamInput!) {
+    deleteTeam(input: $team) {
+      team {
+        id
+      }
     }
   }
 `;

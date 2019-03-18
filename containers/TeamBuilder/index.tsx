@@ -9,7 +9,7 @@ import {
   QueryResult
 } from "react-apollo";
 import TeamBuilder from "../../components/TeamBuilder";
-import { createTeam, updateTeam } from "../../mutations/team";
+import { createTeam, updateTeam, deleteTeam } from "../../mutations/team";
 import { getCurrentSearchPokemon } from "../../queries/search";
 import { getTeamById } from "../../queries/team";
 import { Pokemon, Team } from "../../types";
@@ -28,7 +28,7 @@ interface QueryProps {
         };
       };
     }) => void;
-    result: MutationResult<{ createTeam: Team }>;
+    result: MutationResult<{ createTeam: { team: Team } }>;
   };
   updateTeamMutation: {
     mutation: (mutation: {
@@ -40,7 +40,17 @@ interface QueryProps {
         };
       };
     }) => void;
-    result: MutationResult<{ updateTeam: Team }>;
+    result: MutationResult<{ updateTeam: { team: Team } }>;
+  };
+  deleteTeamMutation: {
+    mutation: (mutation: {
+      variables: {
+        team: {
+          id: string;
+        };
+      };
+    }) => void;
+    result: MutationResult<{ deleteTeam: { team: Team } }>;
   };
   getTeamQuery?: QueryResult<{ teams: Team }, OperationVariables>;
   getCurrentSearchPokemonQuery: QueryResult<
@@ -57,6 +67,11 @@ const mutations = {
   ),
   updateTeamMutation: ({ render }: any) => (
     <Mutation mutation={updateTeam}>
+      {(mutation, result) => render({ mutation, result })}
+    </Mutation>
+  ),
+  deleteTeamMutation: ({ render }: any) => (
+    <Mutation mutation={deleteTeam}>
       {(mutation, result) => render({ mutation, result })}
     </Mutation>
   )
@@ -97,6 +112,14 @@ class TeamBuilderContainer extends PureComponent<Props> {
             mutation: updateTeamMutation,
             result: { loading: updateTeamLoading, error: updateTeamError }
           },
+          deleteTeamMutation: {
+            mutation: deleteTeamMutation,
+            result: {
+              data: deletedTeam,
+              loading: deleteTeamLoading,
+              error: deleteTeamError
+            }
+          },
           getCurrentSearchPokemonQuery,
           getTeamQuery
         }: QueryProps) => {
@@ -114,9 +137,13 @@ class TeamBuilderContainer extends PureComponent<Props> {
               currentSearchPokemon={currentSearchPokemon}
               createTeamMutation={createTeamMutation}
               updateTeamMutation={updateTeamMutation}
-              createdTeamId={createdTeam && createdTeam.createTeam.id}
-              loading={createTeamLoading || updateTeamLoading}
-              error={createTeamError || updateTeamError}
+              deleteTeamMutation={deleteTeamMutation}
+              createdTeamId={createdTeam && createdTeam.createTeam.team.id}
+              deletedTeamId={deletedTeam && deletedTeam.deleteTeam.team.id}
+              loading={
+                createTeamLoading || updateTeamLoading || deleteTeamLoading
+              }
+              error={createTeamError || updateTeamError || deleteTeamError}
             />
           );
         }}

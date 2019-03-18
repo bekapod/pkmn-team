@@ -143,5 +143,6 @@ describe("<TeamBuilderContainer />", () => {
     expect(queryByValue(team.name)).toBeTruthy();
     expect(queryAllByTestId(/pokemon-(\w+)/)).toHaveLength(team.members.length);
     expect(queryByText(/Save team/)).toBeTruthy();
+    expect(queryByText(/Delete team/)).toBeTruthy();
   });
 });

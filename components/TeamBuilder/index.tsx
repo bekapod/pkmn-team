@@ -3,7 +3,9 @@ import { getOr, propOr, get } from "lodash/fp";
 import Router from "next/router";
 import React, { ChangeEvent, Component } from "react";
 import isEqual from "react-fast-compare";
+import { css } from "styled-components/macro";
 import { getUniqueId } from "../../helpers/general";
+import * as variables from "../../helpers/variables";
 import { Pokemon, Team, TeamMember } from "../../types";
 import CenteredRow from "../CenteredRow";
 import { CtaButton } from "../Cta";
@@ -17,6 +19,7 @@ interface Props {
   team?: Team;
   currentSearchPokemon?: Pokemon;
   createdTeamId?: string;
+  deletedTeamId?: string;
   loading?: boolean;
   error?: ApolloError;
   createTeamMutation: (mutation: {
@@ -36,6 +39,13 @@ interface Props {
       };
     };
   }) => void;
+  deleteTeamMutation: (mutation: {
+    variables: {
+      team: {
+        id: string;
+      };
+    };
+  }) => void;
 }
 
 interface State {
@@ -52,6 +62,7 @@ class TeamBuilder extends Component<Props, State> {
 
     this.handleTeamNameChange = this.handleTeamNameChange.bind(this);
     this.handleUpsertTeam = this.handleUpsertTeam.bind(this);
+    this.handleDeleteTeam = this.handleDeleteTeam.bind(this);
     this.handleAddPokemonToTeam = this.handleAddPokemonToTeam.bind(this);
     this.handleRemovePokemonFromTeam = this.handleRemovePokemonFromTeam.bind(
       this
@@ -170,11 +181,26 @@ class TeamBuilder extends Component<Props, State> {
     }
   }
 
+  public handleDeleteTeam(): void {
+    const { team, deleteTeamMutation } = this.props;
+
+    if (team) {
+      deleteTeamMutation({
+        variables: {
+          team: {
+            id: team.id
+          }
+        }
+      });
+    }
+  }
+
   public render(): JSX.Element {
     const {
       team,
       currentSearchPokemon,
       createdTeamId,
+      deletedTeamId,
       loading,
       error
     } = this.props;
@@ -184,6 +210,10 @@ class TeamBuilder extends Component<Props, State> {
 
     if (createdTeamId) {
       Router.push(`/team/edit/${createdTeamId}`);
+    }
+
+    if (deletedTeamId) {
+      Router.push("/");
     }
 
     return (
@@ -209,13 +239,31 @@ class TeamBuilder extends Component<Props, State> {
             <LoadingIcon key="Loading icon" spinner />
           ) : null}
 
-          <CtaButton
-            key={team ? "Save button" : "Create button"}
-            onClick={this.handleUpsertTeam}
-            disabled={!isTouched || !!error || !!loading || !isValid}
-          >
-            {team ? "Save team" : "Create this team!"}
-          </CtaButton>
+          <div>
+            <CtaButton
+              key={team ? "Save button" : "Create button"}
+              onClick={this.handleUpsertTeam}
+              disabled={!isTouched || !!error || !!loading || !isValid}
+              css={css`
+                display: inline-block;
+                margin-right: ${variables.spacing.md}px;
+              `}
+            >
+              {team ? "Save team" : "Create this team!"}
+            </CtaButton>
+
+            {!!team && (
+              <CtaButton
+                key="Delete team"
+                onClick={this.handleDeleteTeam}
+                css={css`
+                  display: inline-block;
+                `}
+              >
+                Delete team
+              </CtaButton>
+            )}
+          </div>
         </CenteredRow>
 
         <TeamView

@@ -89,6 +89,7 @@ describe("<TeamBuilder />", () => {
             <TeamBuilder
               updateTeamMutation={fnStub}
               createTeamMutation={fnStub}
+              deleteTeamMutation={fnStub}
             />
           </MockedProvider>
         );
@@ -107,6 +108,7 @@ describe("<TeamBuilder />", () => {
             <TeamBuilder
               updateTeamMutation={fnStub}
               createTeamMutation={fnStub}
+              deleteTeamMutation={fnStub}
               currentSearchPokemon={threeTeamMembers[0].pokemon}
             />
           </MockedProvider>
@@ -129,6 +131,7 @@ describe("<TeamBuilder />", () => {
             <TeamBuilder
               updateTeamMutation={fnStub}
               createTeamMutation={fnStub}
+              deleteTeamMutation={fnStub}
               loading
             />
           </MockedProvider>
@@ -144,6 +147,7 @@ describe("<TeamBuilder />", () => {
             <TeamBuilder
               updateTeamMutation={fnStub}
               createTeamMutation={fnStub}
+              deleteTeamMutation={fnStub}
               error={{
                 extraInfo: null,
                 graphQLErrors: [],
@@ -166,6 +170,7 @@ describe("<TeamBuilder />", () => {
             <TeamBuilder
               updateTeamMutation={fnStub}
               createTeamMutation={mutation}
+              deleteTeamMutation={fnStub}
               currentSearchPokemon={threeTeamMembers[0].pokemon}
             />
           </MockedProvider>
@@ -198,6 +203,7 @@ describe("<TeamBuilder />", () => {
             <TeamBuilder
               updateTeamMutation={fnStub}
               createTeamMutation={mutation}
+              deleteTeamMutation={fnStub}
               currentSearchPokemon={threeTeamMembers[0].pokemon}
             />
           </MockedProvider>
@@ -220,6 +226,7 @@ describe("<TeamBuilder />", () => {
             <TeamBuilder
               updateTeamMutation={fnStub}
               createTeamMutation={fnStub}
+              deleteTeamMutation={fnStub}
               createdTeamId="34242"
             />
           </MockedProvider>
@@ -296,6 +303,7 @@ describe("<TeamBuilder />", () => {
               team={team}
               updateTeamMutation={fnStub}
               createTeamMutation={fnStub}
+              deleteTeamMutation={fnStub}
             />
           </MockedProvider>
         );
@@ -317,6 +325,7 @@ describe("<TeamBuilder />", () => {
               team={team}
               updateTeamMutation={fnStub}
               createTeamMutation={fnStub}
+              deleteTeamMutation={fnStub}
             />
           </MockedProvider>
         );
@@ -340,6 +349,7 @@ describe("<TeamBuilder />", () => {
               team={team}
               updateTeamMutation={mutation}
               createTeamMutation={fnStub}
+              deleteTeamMutation={fnStub}
               currentSearchPokemon={threeTeamMembers[2].pokemon}
             />
           </MockedProvider>
@@ -380,6 +390,7 @@ describe("<TeamBuilder />", () => {
               team={team}
               updateTeamMutation={mutation}
               createTeamMutation={fnStub}
+              deleteTeamMutation={fnStub}
             />
           </MockedProvider>
         );
@@ -393,6 +404,47 @@ describe("<TeamBuilder />", () => {
 
         expect(mutation).toBeCalledTimes(0);
       });
+
+      it("calls deleteTeamMutation when delete team button is clicked", () => {
+        const fnStub = (): null => null;
+        const mutation = jest.fn();
+        const { getByText } = render(
+          <MockedProvider mocks={mocks} addTypename={false}>
+            <TeamBuilder
+              team={team}
+              updateTeamMutation={fnStub}
+              createTeamMutation={fnStub}
+              deleteTeamMutation={mutation}
+            />
+          </MockedProvider>
+        );
+
+        expect(mutation).toBeCalledTimes(0);
+
+        fireEvent.click(getByText(/Delete team/));
+
+        expect(mutation).toBeCalledTimes(1);
+      });
+    });
+  });
+
+  describe("when team has been successfully deleted", () => {
+    it("redirects to dashboard", async () => {
+      const fnStub = (): null => null;
+      render(
+        <MockedProvider mocks={mocks} addTypename={false}>
+          <TeamBuilder
+            updateTeamMutation={fnStub}
+            createTeamMutation={fnStub}
+            deleteTeamMutation={fnStub}
+            deletedTeamId="34242"
+          />
+        </MockedProvider>
+      );
+
+      await wait(0);
+
+      expect(global.appHistory.find(entry => entry === "/")).toBeTruthy();
     });
   });
 });

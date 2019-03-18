@@ -67,6 +67,7 @@ export const TabBar = styled.div`
 
 export const TabScroller = styled.div`
   display: inline-flex;
+  min-width: 100%;
   padding-top: ${variables.spacing.md + variables.spacing.xs}px;
 
   > * {
