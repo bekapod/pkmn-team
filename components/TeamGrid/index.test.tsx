@@ -10,7 +10,7 @@ describe("<TeamGrid />", () => {
       <TeamGrid>
         <TeamCard
           team={{
-            createdAt: "2018-06-08T21:15:14.723Z",
+            insertedAt: "2018-06-08T21:15:14.723Z",
             id: "1",
             members: [
               {
@@ -21,7 +21,7 @@ describe("<TeamGrid />", () => {
                   name: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
-                  types: ["ELECTRIC"]
+                  types: [{ name: "ELECTRIC" }]
                 }
               }
             ],
@@ -30,7 +30,7 @@ describe("<TeamGrid />", () => {
         />
         <TeamCard
           team={{
-            createdAt: "2018-06-08T21:15:14.723Z",
+            insertedAt: "2018-06-08T21:15:14.723Z",
             id: "2",
             members: [
               {
@@ -41,7 +41,7 @@ describe("<TeamGrid />", () => {
                   name: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
-                  types: ["ELECTRIC"]
+                  types: [{ name: "ELECTRIC" }]
                 }
               }
             ],

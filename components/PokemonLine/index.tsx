@@ -17,7 +17,11 @@ interface Props {
 interface RowProps {
   outdent: number;
   compact: boolean;
-  types: Type[];
+  types: { name: Type }[];
+}
+
+interface RowImageProps {
+  compact: boolean;
 }
 
 const Row = styled.div`
@@ -57,7 +61,7 @@ const RowImage = styled.img`
   margin-right: ${variables.spacing.md}px;
 
   ${media.mediumOnly`
-    ${({ compact }: RowProps) =>
+    ${({ compact }: RowImageProps) =>
       compact
         ? `
         margin-right: 0;

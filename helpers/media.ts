@@ -1,28 +1,20 @@
 import { css } from "styled-components/macro";
+import { BaseThemedCssFunction } from "styled-components";
 
-const sizes: { [key: string]: number } = {
-  large: 1280,
-  medium: 768
+const sizes: { [key: string]: string } = {
+  large: "(min-width: 1280px)",
+  medium: "(min-width: 768px)",
+  mediumOnly: "(min-width: 768px) and (max-width: 1279px)"
 };
 
-const standardMediaQueries: {
-  [key: string]: (_: TemplateStringsArray) => TemplateStringsArray;
+export const media: {
+  [key: string]: BaseThemedCssFunction<any>;
 } = Object.keys(sizes).reduce((accumulator: { [key: string]: any }, label) => {
   const size = sizes[label];
   accumulator[label] = (...args: any[]) => css`
-    @media (min-width: ${size}px) {
+    @media ${size} {
       ${css({}, ...args)};
     }
   `;
   return accumulator;
 }, {});
-
-export const media = {
-  ...standardMediaQueries,
-  mediumOnly: (...args: any[]) => css`
-    @media (min-width: ${sizes.medium}px) and (max-width: ${sizes.large -
-        1}px) {
-      ${css({}, ...args)};
-    }
-  `
-};

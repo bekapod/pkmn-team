@@ -6,7 +6,7 @@ import { Team } from "../../types";
 
 describe("<TeamCard />", () => {
   const team: Team = {
-    createdAt: "2018-06-08T21:15:14.723Z",
+    insertedAt: "2018-06-08T21:15:14.723Z",
     id: "1",
     members: [
       {
@@ -17,7 +17,7 @@ describe("<TeamCard />", () => {
           name: "pikachu",
           pokedexId: 25,
           sprite: "25.png",
-          types: ["ELECTRIC"]
+          types: [{ name: "ELECTRIC" }]
         }
       },
       {
@@ -28,7 +28,7 @@ describe("<TeamCard />", () => {
           name: "pikachu",
           pokedexId: 25,
           sprite: "25.png",
-          types: ["ELECTRIC"]
+          types: [{ name: "ELECTRIC" }]
         }
       },
       {
@@ -39,7 +39,7 @@ describe("<TeamCard />", () => {
           name: "pikachu",
           pokedexId: 25,
           sprite: "25.png",
-          types: ["ELECTRIC"]
+          types: [{ name: "ELECTRIC" }]
         }
       }
     ],

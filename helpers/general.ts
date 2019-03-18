@@ -1,4 +1,4 @@
-import { equals, prop, toUpper, get, compose } from "lodash/fp";
+import { equals, prop, toUpper, getOr } from "lodash/fp";
 import uuid from "uuid/v4";
 import { Pokemon, Type } from "../types"; // eslint-disable-line import/named
 import * as variables from "./variables";
@@ -15,12 +15,8 @@ export const getTypeColor = (type: Type): string =>
 
 export const sortTypes = (types: { name: Type }[]): Type[] =>
   types
-    .map(
-      compose(
-        toUpper,
-        get("name")
-      )
-    )
+    .map(getOr("NORMAL" as Type, "name"))
+    .map(type => toUpper(type) as Type)
     .sort((x: Type, y: Type) => {
       if (equals(x, y)) {
         return 0;

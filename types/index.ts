@@ -31,7 +31,7 @@ export interface Pokemon {
 }
 
 export interface TeamMember {
-  id?: string;
+  id: string;
   order: number;
   pokemon: Pokemon;
 }

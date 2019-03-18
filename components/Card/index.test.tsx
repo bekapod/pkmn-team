@@ -8,7 +8,9 @@ describe("Card components", () => {
     const { queryByText } = render(
       <CardLink href="/team/edit/1/">
         <CardWrapper>
-          <CardHeader types={["ELECTRIC", "PSYCHIC"]}>Heading</CardHeader>
+          <CardHeader types={[{ name: "ELECTRIC" }, { name: "PSYCHIC" }]}>
+            Heading
+          </CardHeader>
           <CardContent>Content</CardContent>
         </CardWrapper>
       </CardLink>
