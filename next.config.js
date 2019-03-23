@@ -2,7 +2,7 @@ const path = require("path");
 const withPlugins = require("next-compose-plugins");
 const withTypescript = require("@zeit/next-typescript");
 
-require("dotEnv").config();
+require("dotenv").config();
 const dotEnv = require("dotenv-webpack");
 
 if (dotEnv.error) {
