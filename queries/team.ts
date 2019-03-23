@@ -10,6 +10,7 @@ export const getAllTeams = gql`
         id
         order
         pokemon {
+          id
           pokedexId
           name
           types {
@@ -32,6 +33,7 @@ export const getTeamById = gql`
         id
         order
         pokemon {
+          id
           pokedexId
           name
           types {

@@ -10,6 +10,17 @@ export const getPokemon = gql`
         name
       }
       sprite
+      moves(version: "yellow") {
+        levelLearnedAt
+        learnMethod
+        version
+        move {
+          name
+          types {
+            name
+          }
+        }
+      }
     }
   }
 `;
