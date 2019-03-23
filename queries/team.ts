@@ -38,6 +38,17 @@ export const getTeamById = gql`
             name
           }
           sprite
+          moves(version: "yellow") {
+            levelLearnedAt
+            learnMethod
+            version
+            move {
+              name
+              types {
+                name
+              }
+            }
+          }
         }
       }
     }

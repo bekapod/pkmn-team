@@ -25,6 +25,7 @@ import PokemonSearch from "../../containers/PokemonSearch";
 import * as variables from "../../helpers/variables";
 import { Pokemon, TeamMember } from "../../types";
 import { CtaButton } from "../Cta";
+import MoveList from "../MoveList";
 import PokemonCard from "../PokemonCard";
 import PokemonLine from "../PokemonLine";
 import Tabs from "../Tabs";
@@ -286,6 +287,7 @@ class TeamView extends Component<Props, State> {
                         pokemon: pkmn
                       })}
                     />
+                    <MoveList moves={pkmn.moves} />
                   </TabContent>
                 );
               })(teamMembers)}

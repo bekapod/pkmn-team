@@ -22,6 +22,30 @@ export type Type =
   | "UNKNOWN"
   | "SHADOW";
 
+export interface Move {
+  name: string;
+  types: { name: Type }[];
+}
+
+export interface PokemonMove {
+  levelLearnedAt: number;
+  learnMethod: string;
+  version: string;
+  move: Move;
+}
+
+export interface MoveVariation {
+  levelLearnedAt: number;
+  learnMethod: string;
+  version: string;
+}
+
+export interface DeduplicatedMove {
+  name: string;
+  types: { name: Type }[];
+  variations: MoveVariation[];
+}
+
 export interface Pokemon {
   id: string;
   pokedexId: number;
