@@ -1,26 +1,35 @@
 import gql from "graphql-tag";
+import { Moves } from "./moves";
+
+export const PokemonDetailsWithoutMoves = gql`
+  fragment PokemonDetailsWithoutMoves on Pokemon {
+    id
+    pokedexId
+    name
+    types {
+      name
+    }
+    sprite
+  }
+`;
+
+export const PokemonDetails = gql`
+  fragment PokemonDetails on Pokemon {
+    ...PokemonDetailsWithoutMoves
+
+    moves(version: "yellow") {
+      ...Moves
+    }
+  }
+  ${PokemonDetailsWithoutMoves}
+  ${Moves}
+`;
 
 export const getPokemon = gql`
   query {
     pokemon {
-      id
-      pokedexId
-      name
-      types {
-        name
-      }
-      sprite
-      moves(version: "yellow") {
-        levelLearnedAt
-        learnMethod
-        version
-        move {
-          name
-          types {
-            name
-          }
-        }
-      }
+      ...PokemonDetails
     }
   }
+  ${PokemonDetails}
 `;

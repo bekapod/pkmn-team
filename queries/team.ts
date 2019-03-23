@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import { PokemonDetails, PokemonDetailsWithoutMoves } from "./pokemon";
 
 export const getAllTeams = gql`
   query {
@@ -10,17 +11,12 @@ export const getAllTeams = gql`
         id
         order
         pokemon {
-          id
-          pokedexId
-          name
-          types {
-            name
-          }
-          sprite
+          ...PokemonDetailsWithoutMoves
         }
       }
     }
   }
+  ${PokemonDetailsWithoutMoves}
 `;
 
 export const getTeamById = gql`
@@ -33,26 +29,10 @@ export const getTeamById = gql`
         id
         order
         pokemon {
-          id
-          pokedexId
-          name
-          types {
-            name
-          }
-          sprite
-          moves(version: "yellow") {
-            levelLearnedAt
-            learnMethod
-            version
-            move {
-              name
-              types {
-                name
-              }
-            }
-          }
+          ...PokemonDetails
         }
       }
     }
   }
+  ${PokemonDetails}
 `;
