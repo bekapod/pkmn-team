@@ -27,7 +27,6 @@ module.exports = {
     "!<rootDir>/.storybook/",
     "!<rootDir>/@types/",
     "!<rootDir>/node_modules/",
-    "!<rootDir>/src/helpers/test.tsx",
     "!<rootDir>/**/*.story.tsx",
     "!<rootDir>/next.config.js"
   ],

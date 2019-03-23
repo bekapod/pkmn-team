@@ -1,7 +1,6 @@
-// tslint:disable-next-line:no-implicit-dependencies
 import { addDecorator, configure } from "@storybook/react";
 import React, { Fragment } from "react";
-import { GlobalStyle } from "../src/index";
+import { GlobalStyle } from "../components/Page";
 
 function requireAll(requireContext) {
   return requireContext.keys().map(requireContext);
