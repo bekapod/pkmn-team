@@ -52,6 +52,7 @@ export interface Pokemon {
   name: string;
   types: { name: Type }[];
   sprite: string;
+  moves: PokemonMove[];
 }
 
 export interface TeamMember {
