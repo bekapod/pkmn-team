@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components/macro";
 import * as variables from "../../helpers/variables";
 import { lineHeight } from "../../helpers/verticalRhythm";
+import Label from "../Label";
 
 interface Props {
   id: string;
@@ -42,14 +43,6 @@ const CardMetaItem = styled.div`
   }
 `;
 
-const CardMetaLabel = styled.span`
-  color: ${variables.colors.gray};
-  font-size: ${variables.fontSizes.xs}px;
-  font-weight: 900;
-  line-height: ${lineHeight("xs")};
-  text-transform: uppercase;
-`;
-
 const CardMetaValue = styled.span`
   color: ${variables.colors.grayDark};
   font-size: ${variables.fontSizes.md}px;
@@ -61,7 +54,7 @@ const CardMeta = ({ id, items = [] }: Props): JSX.Element => (
   <CardMetaWrapper data-testid={`card-meta-${id}`}>
     {items.map(({ label, value }) => (
       <CardMetaItem key={`Team: ${id}, Label: ${label}`}>
-        <CardMetaLabel>{label}</CardMetaLabel>
+        <Label>{label}</Label>
         <CardMetaValue>{value}</CardMetaValue>
       </CardMetaItem>
     ))}

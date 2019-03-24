@@ -30,18 +30,15 @@ export const getTypeColor = (type: Type): string =>
   variables.colors[type] || variables.colors.primary;
 
 export const sortTypes = (types: { name: Type }[]): Type[] =>
-  types
-    .map(getOr("NORMAL" as Type, "name"))
-    .map(type => toUpper(type) as Type)
-    .sort((x: Type, y: Type) => {
-      if (equals(x, y)) {
-        return 0;
-      }
-      if (x > y) {
-        return 1;
-      }
-      return -1;
-    });
+  types.map(getOr("NORMAL" as Type, "name")).sort((x: Type, y: Type) => {
+    if (equals(x, y)) {
+      return 0;
+    }
+    if (x > y) {
+      return 1;
+    }
+    return -1;
+  });
 
 export const capitalizePokemonName = (pokemon: Pokemon): string =>
   capitalize(prop("name", pokemon));

@@ -1,37 +1,37 @@
 import {} from "styled-components/cssprop"; // eslint-disable-line import/no-unresolved
 
 export type Type =
-  | "NORMAL"
-  | "FIGHTING"
-  | "FLYING"
-  | "POISON"
-  | "GROUND"
-  | "ROCK"
-  | "BUG"
-  | "GHOST"
-  | "STEEL"
-  | "FIRE"
-  | "WATER"
-  | "GRASS"
-  | "ELECTRIC"
-  | "PSYCHIC"
-  | "ICE"
-  | "DRAGON"
-  | "DARK"
-  | "FAIRY"
-  | "UNKNOWN"
-  | "SHADOW";
+  | "normal"
+  | "fighting"
+  | "flying"
+  | "poison"
+  | "ground"
+  | "rock"
+  | "bug"
+  | "ghost"
+  | "steel"
+  | "fire"
+  | "water"
+  | "grass"
+  | "electric"
+  | "psychic"
+  | "ice"
+  | "dragon"
+  | "dark"
+  | "fairy"
+  | "unknown"
+  | "shadow"
+  | "physical"
+  | "special"
+  | "status";
 
 export interface Move {
   name: string;
   types: { name: Type }[];
-}
-
-export interface PokemonMove {
-  levelLearnedAt: number;
-  learnMethod: string;
-  version: string;
-  move: Move;
+  damageClass: "physical" | "special" | "status";
+  accuracy?: number;
+  power?: number;
+  pp: number;
 }
 
 export interface MoveVariation {
@@ -40,9 +40,11 @@ export interface MoveVariation {
   version: string;
 }
 
-export interface DeduplicatedMove {
-  name: string;
-  types: { name: Type }[];
+export interface PokemonMove extends MoveVariation {
+  move: Move;
+}
+
+export interface DeduplicatedMove extends Move {
   variations: MoveVariation[];
 }
 

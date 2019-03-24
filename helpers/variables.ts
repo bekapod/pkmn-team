@@ -1,4 +1,4 @@
-export const colors = {
+export const colors: { [key: string]: string } = {
   primary: "#e84118",
   primaryDark: "#c23616",
   secondary: "#273c75",
@@ -14,26 +14,30 @@ export const colors = {
 
   error: "#e84118",
 
-  BUG: "#A8B820",
-  DARK: "#705848",
-  DRAGON: "#7038F8",
-  ELECTRIC: "#F8D030",
-  FAIRY: "#EE99AC",
-  FIGHTING: "#C03028",
-  FIRE: "#F08030",
-  FLYING: "#A890F0",
-  GHOST: "#705898",
-  GRASS: "#78C850",
-  GROUND: "#E0C068",
-  ICE: "#98D8D8",
-  NORMAL: "#A8A878",
-  POISON: "#A040A0",
-  PSYCHIC: "#F85888",
-  ROCK: "#B8A038",
-  SHADOW: "#604E82",
-  STEEL: "#B8B8D0",
-  UNKNOWN: "#68A090",
-  WATER: "#6890F0"
+  bug: "#A8B820",
+  dark: "#705848",
+  dragon: "#7038F8",
+  electric: "#F8D030",
+  fairy: "#EE99AC",
+  fighting: "#C03028",
+  fire: "#F08030",
+  flying: "#A890F0",
+  ghost: "#705898",
+  grass: "#78C850",
+  ground: "#E0C068",
+  ice: "#98D8D8",
+  normal: "#A8A878",
+  poison: "#A040A0",
+  psychic: "#F85888",
+  rock: "#B8A038",
+  shadow: "#604E82",
+  steel: "#B8B8D0",
+  unknown: "#68A090",
+  water: "#6890F0",
+
+  physical: "#c23616",
+  special: "#192a56",
+  status: "#7f8fa6"
 };
 
 export const fonts = {

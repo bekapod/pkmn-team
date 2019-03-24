@@ -7,6 +7,10 @@ export const Moves = gql`
     version
     move {
       name
+      power
+      accuracy
+      pp
+      damageClass
       types {
         name
       }
