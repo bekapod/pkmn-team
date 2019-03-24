@@ -27,7 +27,7 @@
     "waait": "^1.0.2"
   },
   "scripts": {
-    "start": "next start",
+    "start": "NODE_ENV=production node -r dotenv/config server.js",
     "build": "next build",
     "dev": "node -r dotenv/config server.js",
     "test": "jest",
