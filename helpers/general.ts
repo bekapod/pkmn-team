@@ -6,13 +6,15 @@ import {
   groupBy,
   omit,
   defaultTo,
-  partition
+  partition,
+  get
 } from "lodash/fp";
 import uuid from "uuid/v4";
 import { compose } from "redux";
 import {
   Pokemon,
   Type,
+  TypeSlug,
   PokemonMove,
   DeduplicatedMove,
   MoveVariation
@@ -26,15 +28,18 @@ export const percentage = (val: number): number => (val > 100 ? 100 : val);
 export const capitalize = (word: string = ""): string =>
   `${toUpper(word.charAt(0))}${word.slice(1)}`;
 
-export const getTypeColor = (type: Type): string =>
+export const getTypeColor = (type: TypeSlug): string =>
   variables.colors[type] || variables.colors.primary;
 
-export const sortTypes = (types: { name: Type }[]): Type[] =>
-  types.map(getOr("NORMAL" as Type, "name")).sort((x: Type, y: Type) => {
-    if (equals(x, y)) {
+export const sortTypes = (types: Type[]): Type[] =>
+  types.sort((x: Type, y: Type) => {
+    const xSlug = get("slug", x);
+    const ySlug = get("slug", y);
+
+    if (equals(xSlug, ySlug)) {
       return 0;
     }
-    if (x > y) {
+    if (xSlug > ySlug) {
       return 1;
     }
     return -1;

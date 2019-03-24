@@ -5,14 +5,16 @@ import MoveLine from ".";
 import { DeduplicatedMove } from "../../types";
 
 const move: DeduplicatedMove = {
-  name: "substitute",
-  damageClass: "PHYSICAL",
+  name: "Substitute",
+  slug: "substitute",
+  damageClass: "physical",
   accuracy: 80,
   power: 100,
   pp: 10,
   types: [
     {
-      name: "NORMAL"
+      name: "Normal",
+      slug: "normal"
     }
   ],
   variations: [

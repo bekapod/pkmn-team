@@ -5,13 +5,13 @@ import TypeTag from ".";
 
 describe("<TypeTag />", () => {
   it("renders with ELECTRIC type", () => {
-    const { queryByText } = render(<TypeTag type="ELECTRIC">ELECTRIC</TypeTag>);
+    const { queryByText } = render(<TypeTag type="electric">Electric</TypeTag>);
 
     expect(queryByText(/Electric/i)).toBeTruthy();
   });
 
   it("renders with PSYCHIC type", () => {
-    const { queryByText } = render(<TypeTag type="PSYCHIC">PSYCHIC</TypeTag>);
+    const { queryByText } = render(<TypeTag type="psychic">Psychic</TypeTag>);
 
     expect(queryByText(/Psychic/i)).toBeTruthy();
   });

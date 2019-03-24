@@ -13,10 +13,64 @@ jest.mock("../../containers/PokemonSearch", () => () => (
 describe("<TeamView />", () => {
   const pokemon: Pokemon = {
     id: "4",
-    name: "charmander",
+    name: "Charmander",
+    slug: "charmander",
     pokedexId: 4,
     sprite: "4.png",
-    types: [{ name: "FIRE" }]
+    types: [{ name: "Fire", slug: "fire" }],
+    moves: [
+      {
+        version: "yellow",
+        move: {
+          types: [
+            {
+              name: "Normal",
+              slug: "normal"
+            }
+          ],
+          name: "Substitute",
+          slug: "substitute",
+          damageClass: "status",
+          pp: 20
+        },
+        levelLearnedAt: 0,
+        learnMethod: "machine"
+      },
+      {
+        version: "yellow",
+        move: {
+          types: [
+            {
+              name: "Normal",
+              slug: "normal"
+            }
+          ],
+          name: "Slash",
+          slug: "slash",
+          damageClass: "physical",
+          pp: 20
+        },
+        levelLearnedAt: 30,
+        learnMethod: "level-up"
+      },
+      {
+        version: "yellow",
+        move: {
+          types: [
+            {
+              name: "Psychic",
+              slug: "psychic"
+            }
+          ],
+          name: "Rest",
+          slug: "rest",
+          damageClass: "status",
+          pp: 20
+        },
+        levelLearnedAt: 0,
+        learnMethod: "machine"
+      }
+    ]
   };
 
   const threeTeamMembers: TeamMember[] = [
@@ -25,10 +79,64 @@ describe("<TeamView />", () => {
       order: 1,
       pokemon: {
         id: "4",
-        name: "charmander",
+        name: "Charmander",
+        slug: "charmander",
         pokedexId: 4,
         sprite: "4.png",
-        types: [{ name: "FIRE" }]
+        types: [{ name: "Fire", slug: "fire" }],
+        moves: [
+          {
+            version: "yellow",
+            move: {
+              types: [
+                {
+                  name: "Normal",
+                  slug: "normal"
+                }
+              ],
+              name: "Substitute",
+              slug: "substitute",
+              damageClass: "status",
+              pp: 20
+            },
+            levelLearnedAt: 0,
+            learnMethod: "machine"
+          },
+          {
+            version: "yellow",
+            move: {
+              types: [
+                {
+                  name: "Normal",
+                  slug: "normal"
+                }
+              ],
+              name: "Slash",
+              slug: "slash",
+              damageClass: "physical",
+              pp: 20
+            },
+            levelLearnedAt: 30,
+            learnMethod: "level-up"
+          },
+          {
+            version: "yellow",
+            move: {
+              types: [
+                {
+                  name: "Psychic",
+                  slug: "psychic"
+                }
+              ],
+              name: "Rest",
+              slug: "rest",
+              damageClass: "status",
+              pp: 20
+            },
+            levelLearnedAt: 0,
+            learnMethod: "machine"
+          }
+        ]
       }
     },
     {
@@ -36,10 +144,64 @@ describe("<TeamView />", () => {
       order: 2,
       pokemon: {
         id: "25",
-        name: "pikachu",
+        name: "Pikachu",
+        slug: "pikachu",
         pokedexId: 25,
         sprite: "25.png",
-        types: [{ name: "ELECTRIC" }]
+        types: [{ name: "Electric", slug: "electric" }],
+        moves: [
+          {
+            version: "yellow",
+            move: {
+              types: [
+                {
+                  name: "Normal",
+                  slug: "normal"
+                }
+              ],
+              name: "Substitute",
+              slug: "substitute",
+              damageClass: "status",
+              pp: 20
+            },
+            levelLearnedAt: 0,
+            learnMethod: "machine"
+          },
+          {
+            version: "yellow",
+            move: {
+              types: [
+                {
+                  name: "Psychic",
+                  slug: "psychic"
+                }
+              ],
+              name: "Rest",
+              slug: "rest",
+              damageClass: "status",
+              pp: 20
+            },
+            levelLearnedAt: 0,
+            learnMethod: "machine"
+          },
+          {
+            version: "yellow",
+            move: {
+              types: [
+                {
+                  name: "Normal",
+                  slug: "normal"
+                }
+              ],
+              name: "Flash",
+              slug: "flash",
+              damageClass: "status",
+              pp: 20
+            },
+            levelLearnedAt: 0,
+            learnMethod: "machine"
+          }
+        ]
       }
     },
     {
@@ -47,81 +209,76 @@ describe("<TeamView />", () => {
       order: 3,
       pokemon: {
         id: "93",
-        name: "haunter",
+        name: "Haunter",
+        slug: "haunter",
         pokedexId: 93,
         sprite: "93.png",
-        types: [{ name: "GHOST" }, { name: "POISON" }]
+        types: [
+          { name: "Ghost", slug: "ghost" },
+          { name: "Poison", slug: "poison" }
+        ],
+        moves: [
+          {
+            version: "yellow",
+            move: {
+              types: [
+                {
+                  name: "Normal",
+                  slug: "normal"
+                }
+              ],
+              name: "Substitute",
+              slug: "substitute",
+              damageClass: "status",
+              pp: 20
+            },
+            levelLearnedAt: 0,
+            learnMethod: "machine"
+          },
+          {
+            version: "yellow",
+            move: {
+              types: [
+                {
+                  name: "Psychic",
+                  slug: "psychic"
+                }
+              ],
+              name: "Rest",
+              slug: "rest",
+              damageClass: "status",
+              pp: 20
+            },
+            levelLearnedAt: 0,
+            learnMethod: "machine"
+          },
+          {
+            version: "yellow",
+            move: {
+              types: [
+                {
+                  name: "Normal",
+                  slug: "normal"
+                }
+              ],
+              name: "Explosion",
+              slug: "explosion",
+              damageClass: "physical",
+              pp: 20
+            },
+            levelLearnedAt: 0,
+            learnMethod: "machine"
+          }
+        ]
       }
     }
   ];
 
   const sixTeamMembers: TeamMember[] = [
-    {
-      id: "1",
-      order: 1,
-      pokemon: {
-        id: "4",
-        name: "charmander",
-        pokedexId: 4,
-        sprite: "4.png",
-        types: [{ name: "FIRE" }]
-      }
-    },
-    {
-      id: "2",
-      order: 2,
-      pokemon: {
-        id: "25",
-        name: "pikachu",
-        pokedexId: 25,
-        sprite: "25.png",
-        types: [{ name: "ELECTRIC" }]
-      }
-    },
-    {
-      id: "3",
-      order: 3,
-      pokemon: {
-        id: "93",
-        name: "haunter",
-        pokedexId: 93,
-        sprite: "93.png",
-        types: [{ name: "GHOST" }, { name: "POISON" }]
-      }
-    },
-    {
-      id: "4",
-      order: 4,
-      pokemon: {
-        id: "4",
-        name: "charmander",
-        pokedexId: 4,
-        sprite: "4.png",
-        types: [{ name: "FIRE" }]
-      }
-    },
-    {
-      id: "5",
-      order: 5,
-      pokemon: {
-        id: "25",
-        name: "pikachu",
-        pokedexId: 25,
-        sprite: "25.png",
-        types: [{ name: "ELECTRIC" }]
-      }
-    },
-    {
-      id: "6",
-      order: 6,
-      pokemon: {
-        id: "93",
-        name: "haunter",
-        pokedexId: 93,
-        sprite: "93.png",
-        types: [{ name: "GHOST" }, { name: "POISON" }]
-      }
-    }
+    ...threeTeamMembers,
+    { ...threeTeamMembers[0], id: "4" },
+    { ...threeTeamMembers[1], id: "5" },
+    { ...threeTeamMembers[2], id: "6" }
   ];
 
   it("applies props from Tabs component correctly", async () => {

@@ -17,7 +17,7 @@ interface Props {
 interface RowProps {
   outdent: number;
   compact: boolean;
-  types: { name: Type }[];
+  types: Type[];
 }
 
 interface RowImageProps {
@@ -100,7 +100,7 @@ class PokemonLine extends PureComponent<Props> {
           <InlineList>
             {sortTypes(types).map((type: Type) => (
               <li key={`Pokemon: ${pokedexId}, Type: ${type}`}>
-                <TypeTag type={type}>{type}</TypeTag>
+                <TypeTag type={type.slug}>{type.name}</TypeTag>
               </li>
             ))}
           </InlineList>

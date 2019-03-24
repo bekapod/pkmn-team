@@ -1,6 +1,6 @@
 import {} from "styled-components/cssprop"; // eslint-disable-line import/no-unresolved
 
-export type Type =
+export type TypeSlug =
   | "normal"
   | "fighting"
   | "flying"
@@ -25,9 +25,15 @@ export type Type =
   | "special"
   | "status";
 
+export interface Type {
+  name: string;
+  slug: TypeSlug;
+}
+
 export interface Move {
   name: string;
-  types: { name: Type }[];
+  slug: string;
+  types: Type[];
   damageClass: "physical" | "special" | "status";
   accuracy?: number;
   power?: number;
@@ -52,9 +58,10 @@ export interface Pokemon {
   id: string;
   pokedexId: number;
   name: string;
-  types: { name: Type }[];
+  slug: string;
+  types: Type[];
   sprite: string;
-  moves: PokemonMove[];
+  moves?: PokemonMove[];
 }
 
 export interface TeamMember {

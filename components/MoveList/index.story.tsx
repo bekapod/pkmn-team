@@ -8,16 +8,18 @@ const moves: PokemonMove[] = [
   {
     version: "yellow",
     move: {
-      damageClass: "STATUS",
+      damageClass: "status",
       accuracy: undefined,
       power: undefined,
       pp: 10,
       types: [
         {
-          name: "NORMAL"
+          name: "Normal",
+          slug: "normal"
         }
       ],
-      name: "substitute"
+      name: "Substitute",
+      slug: "substitute"
     },
     levelLearnedAt: 0,
     learnMethod: "machine"
@@ -25,16 +27,18 @@ const moves: PokemonMove[] = [
   {
     version: "yellow",
     move: {
-      damageClass: "SPECIAL",
+      damageClass: "special",
       accuracy: 100,
       power: 90,
       pp: 10,
       types: [
         {
-          name: "PSYCHIC"
+          name: "Psychic",
+          slug: "psychic"
         }
       ],
-      name: "psychic"
+      name: "Psychic",
+      slug: "psychic"
     },
     levelLearnedAt: 0,
     learnMethod: "machine"
@@ -42,16 +46,18 @@ const moves: PokemonMove[] = [
   {
     version: "yellow",
     move: {
-      damageClass: "PHYSICAL",
+      damageClass: "physical",
       accuracy: 100,
       power: 250,
       pp: 5,
       types: [
         {
-          name: "NORMAL"
+          name: "Normal",
+          slug: "normal"
         }
       ],
-      name: "explosion"
+      name: "Explosion",
+      slug: "explosion"
     },
     levelLearnedAt: 0,
     learnMethod: "machine"

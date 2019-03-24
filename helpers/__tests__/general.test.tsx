@@ -20,10 +20,11 @@ describe("General helpers", () => {
       expect(
         capitalizePokemonName({
           id: "25",
-          name: "pikachu",
+          name: "Pikachu",
+          slug: "pikachu",
           pokedexId: 25,
           sprite: "pikachu.png",
-          types: [{ name: "ELECTRIC" }]
+          types: [{ name: "Electric", slug: "electric" }]
         })
       ).toBe("Pikachu");
     });
@@ -34,10 +35,11 @@ describe("General helpers", () => {
       expect(
         formatPokemonName({
           id: "25",
-          name: "pikachu",
+          name: "Pikachu",
+          slug: "pikachu",
           pokedexId: 25,
           sprite: "pikachu.png",
-          types: [{ name: "ELECTRIC" }]
+          types: [{ name: "Electric", slug: "electric" }]
         })
       ).toBe("#25 Pikachu");
     });
@@ -45,7 +47,7 @@ describe("General helpers", () => {
 
   describe("getTypeColor", () => {
     it("gets the colour for a specific type", () => {
-      expect(getTypeColor("ELECTRIC")).toBe("#F8D030");
+      expect(getTypeColor("electric")).toBe("#F8D030");
     });
   });
 
@@ -77,10 +79,10 @@ describe("General helpers", () => {
     it("sorts types alphabetically", () => {
       expect(
         sortTypes([
-          { name: "ICE" },
-          { name: "BUG" },
-          { name: "PSYCHIC" },
-          { name: "ELECTRIC" }
+          { name: "Ice", slug: "ice" },
+          { name: "Bug", slug: "bug" },
+          { name: "Psychic", slug: "psychic" },
+          { name: "Electric", slug: "electric" }
         ])
       ).toEqual(["BUG", "ELECTRIC", "ICE", "PSYCHIC"]);
     });
@@ -88,12 +90,12 @@ describe("General helpers", () => {
     it("sorts types alphabetically including duplicates", () => {
       expect(
         sortTypes([
-          { name: "ICE" },
-          { name: "BUG" },
-          { name: "PSYCHIC" },
-          { name: "BUG" },
-          { name: "ELECTRIC" },
-          { name: "ELECTRIC" }
+          { name: "Ice", slug: "ice" },
+          { name: "Bug", slug: "bug" },
+          { name: "Psychic", slug: "psychic" },
+          { name: "Bug", slug: "bug" },
+          { name: "Electric", slug: "electric" },
+          { name: "Electric", slug: "electric" }
         ])
       ).toEqual(["BUG", "BUG", "ELECTRIC", "ELECTRIC", "ICE", "PSYCHIC"]);
     });

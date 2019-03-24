@@ -9,10 +9,11 @@ describe("<PokemonCard />", () => {
       <PokemonCard
         pokemon={{
           id: "25",
-          name: "pikachu",
+          name: "Pikachu",
+          slug: "pikachu",
           pokedexId: 25,
           sprite: "25.png",
-          types: [{ name: "ELECTRIC" }]
+          types: [{ name: "Electric", slug: "electric" }]
         }}
       />
     );
@@ -28,10 +29,11 @@ describe("<PokemonCard />", () => {
           memberId="7"
           pokemon={{
             id: "25",
-            name: "pikachu",
+            name: "Pikachu",
+            slug: "pikachu",
             pokedexId: 25,
             sprite: "25.png",
-            types: [{ name: "ELECTRIC" }]
+            types: [{ name: "Electric", slug: "electric" }]
           }}
         />
       );
@@ -50,10 +52,11 @@ describe("<PokemonCard />", () => {
         <PokemonCard
           pokemon={{
             id: "25",
-            name: "pikachu",
+            name: "Pikachu",
+            slug: "pikachu",
             pokedexId: 25,
             sprite: "25.png",
-            types: [{ name: "ELECTRIC" }]
+            types: [{ name: "Electric", slug: "electric" }]
           }}
           renderCardActions={renderCardActions}
         />
@@ -69,10 +72,14 @@ describe("<PokemonCard />", () => {
         <PokemonCard
           pokemon={{
             id: "25",
-            name: "bulbasaur",
+            name: "Bulbasaur",
+            slug: "bulbasaur",
             pokedexId: 1,
             sprite: "1.png",
-            types: [{ name: "POISON" }, { name: "GRASS" }]
+            types: [
+              { name: "Poison", slug: "poison" },
+              { name: "Grass", slug: "grass" }
+            ]
           }}
         />
       );

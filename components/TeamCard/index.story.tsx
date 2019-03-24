@@ -13,10 +13,11 @@ const team: Team = {
       order: 1,
       pokemon: {
         id: "25",
-        name: "pikachu",
+        name: "Pikachu",
+        slug: "pikachu",
         pokedexId: 25,
         sprite: "25.png",
-        types: [{ name: "ELECTRIC" }]
+        types: [{ name: "Electric", slug: "electric" }]
       }
     },
     {
@@ -24,10 +25,11 @@ const team: Team = {
       order: 2,
       pokemon: {
         id: "25",
-        name: "pikachu",
+        name: "Pikachu",
+        slug: "pikachu",
         pokedexId: 25,
         sprite: "25.png",
-        types: [{ name: "ELECTRIC" }]
+        types: [{ name: "Electric", slug: "electric" }]
       }
     },
     {
@@ -35,10 +37,11 @@ const team: Team = {
       order: 3,
       pokemon: {
         id: "25",
-        name: "pikachu",
+        name: "Pikachu",
+        slug: "pikachu",
         pokedexId: 25,
         sprite: "25.png",
-        types: [{ name: "ELECTRIC" }]
+        types: [{ name: "Electric", slug: "electric" }]
       }
     }
   ],

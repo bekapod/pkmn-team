@@ -17,20 +17,23 @@ const mocks: ReadonlyArray<MockedResponse> = [
         pokemon: [
           {
             id: "4",
-            name: "charmander",
+            name: "Charmander",
+            slug: "charmander",
             pokedexId: 4,
             sprite: "4.png",
-            types: [{ name: "FIRE" }],
+            types: [{ name: "Fire", slug: "fire" }],
             moves: [
               {
                 version: "yellow",
                 move: {
                   types: [
                     {
-                      name: "normal"
+                      name: "Normal",
+                      slug: "normal"
                     }
                   ],
-                  name: "substitute"
+                  name: "Substitute",
+                  slug: "substitute"
                 },
                 levelLearnedAt: 0,
                 learnMethod: "machine"
@@ -40,10 +43,12 @@ const mocks: ReadonlyArray<MockedResponse> = [
                 move: {
                   types: [
                     {
-                      name: "normal"
+                      name: "Normal",
+                      slug: "normal"
                     }
                   ],
-                  name: "slash"
+                  name: "Slash",
+                  slug: "slash"
                 },
                 levelLearnedAt: 30,
                 learnMethod: "level-up"
@@ -53,10 +58,12 @@ const mocks: ReadonlyArray<MockedResponse> = [
                 move: {
                   types: [
                     {
-                      name: "psychic"
+                      name: "Psychic",
+                      slug: "psychic"
                     }
                   ],
-                  name: "rest"
+                  name: "Rest",
+                  slug: "rest"
                 },
                 levelLearnedAt: 0,
                 learnMethod: "machine"
@@ -65,20 +72,23 @@ const mocks: ReadonlyArray<MockedResponse> = [
           },
           {
             id: "25",
-            name: "pikachu",
+            name: "Pikachu",
+            slug: "pikachu",
             pokedexId: 25,
             sprite: "25.png",
-            types: [{ name: "ELECTRIC" }],
+            types: [{ name: "Electric", slug: "electric" }],
             moves: [
               {
                 version: "yellow",
                 move: {
                   types: [
                     {
-                      name: "normal"
+                      name: "Normal",
+                      slug: "normal"
                     }
                   ],
-                  name: "substitute"
+                  name: "Substitute",
+                  slug: "substitute"
                 },
                 levelLearnedAt: 0,
                 learnMethod: "machine"
@@ -88,10 +98,12 @@ const mocks: ReadonlyArray<MockedResponse> = [
                 move: {
                   types: [
                     {
-                      name: "psychic"
+                      name: "Psychic",
+                      slug: "psychic"
                     }
                   ],
-                  name: "rest"
+                  name: "Rest",
+                  slug: "rest"
                 },
                 levelLearnedAt: 0,
                 learnMethod: "machine"
@@ -101,10 +113,12 @@ const mocks: ReadonlyArray<MockedResponse> = [
                 move: {
                   types: [
                     {
-                      name: "normal"
+                      name: "Normal",
+                      slug: "normal"
                     }
                   ],
-                  name: "flash"
+                  name: "Flash",
+                  slug: "flash"
                 },
                 levelLearnedAt: 0,
                 learnMethod: "machine"
@@ -113,20 +127,26 @@ const mocks: ReadonlyArray<MockedResponse> = [
           },
           {
             id: "93",
-            name: "haunter",
+            name: "Haunter",
+            slug: "haunter",
             pokedexId: 93,
             sprite: "93.png",
-            types: [{ name: "GHOST" }, { name: "POISON" }],
+            types: [
+              { name: "Ghost", slug: "ghost" },
+              { name: "Poison", slug: "poison" }
+            ],
             moves: [
               {
                 version: "yellow",
                 move: {
                   types: [
                     {
-                      name: "normal"
+                      name: "Normal",
+                      slug: "normal"
                     }
                   ],
-                  name: "substitute"
+                  name: "Substitute",
+                  slug: "substitute"
                 },
                 levelLearnedAt: 0,
                 learnMethod: "machine"
@@ -136,10 +156,12 @@ const mocks: ReadonlyArray<MockedResponse> = [
                 move: {
                   types: [
                     {
-                      name: "psychic"
+                      name: "Psychic",
+                      slug: "psychic"
                     }
                   ],
-                  name: "rest"
+                  name: "Rest",
+                  slug: "rest"
                 },
                 levelLearnedAt: 0,
                 learnMethod: "machine"
@@ -149,10 +171,12 @@ const mocks: ReadonlyArray<MockedResponse> = [
                 move: {
                   types: [
                     {
-                      name: "normal"
+                      name: "Normal",
+                      slug: "normal"
                     }
                   ],
-                  name: "explosion"
+                  name: "Explosion",
+                  slug: "explosion"
                 },
                 levelLearnedAt: 0,
                 learnMethod: "machine"

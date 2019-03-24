@@ -7,7 +7,12 @@ import CardHeading from "../CardHeading";
 storiesOf("Card", module).add("default", () => (
   <CardLink href="/">
     <CardWrapper>
-      <CardHeader types={[{ name: "ELECTRIC" }, { name: "PSYCHIC" }]}>
+      <CardHeader
+        types={[
+          { name: "Electric", slug: "electric" },
+          { name: "Psychic", slug: "psychic" }
+        ]}
+      >
         <CardHeading>Cupcake ipsum dolor sit amet</CardHeading>
       </CardHeader>
       <CardContent>

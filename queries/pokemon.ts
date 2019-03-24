@@ -8,6 +8,7 @@ export const PokemonDetailsWithoutMoves = gql`
     name
     types {
       name
+      slug
     }
     sprite
   }

@@ -13,6 +13,7 @@ export const Moves = gql`
       damageClass
       types {
         name
+        slug
       }
     }
   }

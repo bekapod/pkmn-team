@@ -2,10 +2,10 @@ import styled from "styled-components/macro";
 import { getTypeColor } from "../../helpers/general";
 import * as variables from "../../helpers/variables";
 import { lineHeight } from "../../helpers/verticalRhythm";
-import { Type } from "../../types"; // eslint-disable-line import/named
+import { TypeSlug } from "../../types"; // eslint-disable-line import/named
 
 interface Props {
-  type: Type;
+  type: TypeSlug;
 }
 
 const TypeTag = styled.span`

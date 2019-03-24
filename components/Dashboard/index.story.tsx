@@ -14,10 +14,14 @@ const mockData: Team[] = [
         order: 1,
         pokemon: {
           id: "1",
-          name: "bulbasaur",
+          name: "Bulbasaur",
+          slug: "bulbasaur",
           pokedexId: 1,
           sprite: "1.png",
-          types: [{ name: "POISON" }, { name: "GRASS" }]
+          types: [
+            { name: "Poison", slug: "poison" },
+            { name: "Grass", slug: "grass" }
+          ]
         }
       },
       {
@@ -25,10 +29,11 @@ const mockData: Team[] = [
         order: 2,
         pokemon: {
           id: "25",
-          name: "pikachu",
+          name: "Pikachu",
+          slug: "pikachu",
           pokedexId: 25,
           sprite: "25.png",
-          types: [{ name: "ELECTRIC" }]
+          types: [{ name: "Electric", slug: "electric" }]
         }
       }
     ],
@@ -43,10 +48,11 @@ const mockData: Team[] = [
         order: 1,
         pokemon: {
           id: "4",
-          name: "charmander",
+          name: "Charmander",
+          slug: "charmander",
           pokedexId: 4,
           sprite: "4.png",
-          types: [{ name: "FIRE" }]
+          types: [{ name: "Fire", slug: "fire" }]
         }
       },
       {
@@ -54,10 +60,11 @@ const mockData: Team[] = [
         order: 2,
         pokemon: {
           id: "25",
-          name: "pikachu",
+          name: "Pikachu",
+          slug: "pikachu",
           pokedexId: 25,
           sprite: "25.png",
-          types: [{ name: "ELECTRIC" }]
+          types: [{ name: "Electric", slug: "electric" }]
         }
       },
       {
@@ -65,10 +72,14 @@ const mockData: Team[] = [
         order: 3,
         pokemon: {
           id: "93",
-          name: "haunter",
+          name: "Haunter",
+          slug: "haunter",
           pokedexId: 93,
           sprite: "93.png",
-          types: [{ name: "GHOST" }, { name: "POISON" }]
+          types: [
+            { name: "Ghost", slug: "ghost" },
+            { name: "Poison", slug: "poison" }
+          ]
         }
       }
     ],

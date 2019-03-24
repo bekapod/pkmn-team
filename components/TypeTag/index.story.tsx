@@ -4,5 +4,5 @@ import React from "react";
 import TypeTag from ".";
 
 storiesOf("TypeTag", module).add("default", () => (
-  <TypeTag type="ELECTRIC">ELECTRIC</TypeTag>
+  <TypeTag type="electric">Electric</TypeTag>
 ));

@@ -18,10 +18,11 @@ describe("<TeamGrid />", () => {
                 order: 1,
                 pokemon: {
                   id: "25",
-                  name: "pikachu",
+                  name: "Pikachu",
+                  slug: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
-                  types: [{ name: "ELECTRIC" }]
+                  types: [{ name: "Electric", slug: "electric" }]
                 }
               }
             ],
@@ -38,10 +39,11 @@ describe("<TeamGrid />", () => {
                 order: 1,
                 pokemon: {
                   id: "25",
-                  name: "pikachu",
+                  name: "Pikachu",
+                  slug: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
-                  types: [{ name: "ELECTRIC" }]
+                  types: [{ name: "Electric", slug: "electric" }]
                 }
               }
             ],

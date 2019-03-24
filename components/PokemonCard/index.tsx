@@ -53,7 +53,7 @@ const PokemonCard = ({
                 memberId ? `Member: ${memberId}` : ""
               } Pokemon: ${pokedexId}, Type: ${type}`}
             >
-              <TypeTag type={type}>{type}</TypeTag>
+              <TypeTag type={type.slug}>{type.name}</TypeTag>
             </li>
           ))}
         </InlineList>

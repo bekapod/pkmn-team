@@ -8,10 +8,11 @@ storiesOf("PokemonCard", module)
     <PokemonCard
       pokemon={{
         id: "25",
-        name: "pikachu",
+        name: "Pikachu",
+        slug: "pikachu",
         pokedexId: 25,
         sprite: "25.png",
-        types: [{ name: "ELECTRIC" }]
+        types: [{ name: "Electric", slug: "electric" }]
       }}
     />
   ))
@@ -19,10 +20,11 @@ storiesOf("PokemonCard", module)
     <PokemonCard
       pokemon={{
         id: "25",
-        name: "pikachu",
+        name: "Pikachu",
+        slug: "pikachu",
         pokedexId: 25,
         sprite: "25.png",
-        types: [{ name: "ELECTRIC" }]
+        types: [{ name: "Electric", slug: "electric" }]
       }}
       renderCardActions={(): JSX.Element => (
         <div>Card actions that should be rendered</div>

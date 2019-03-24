@@ -9,7 +9,7 @@ import { getTypeGradient } from "../../helpers/gradients";
 interface Props extends DeduplicatedMove {}
 
 interface RowProps {
-  types: { name: Type }[];
+  types: Type[];
 }
 
 const Row = styled.div`
@@ -44,7 +44,7 @@ const Value = styled(Label)`
 `;
 
 const MoveLine = ({ name, types, damageClass, pp, accuracy, power }: Props) => (
-  <Row types={[...types, { name: damageClass }]}>
+  <Row types={[...types, { name: damageClass, slug: damageClass }]}>
     <Value>{name}</Value>
     <div>
       <Label>PP</Label> <Value>{pp}</Value>
@@ -57,7 +57,7 @@ const MoveLine = ({ name, types, damageClass, pp, accuracy, power }: Props) => (
     </div>
     <div>
       {types.map(type => (
-        <TypeTag key={type.name} type={type.name}>
+        <TypeTag key={type.slug} type={type.slug}>
           {type.name}
         </TypeTag>
       ))}

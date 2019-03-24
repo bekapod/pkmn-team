@@ -5,7 +5,7 @@ import * as variables from "../../helpers/variables";
 import { Type } from "../../types"; // eslint-disable-line import/named
 
 interface CardHeaderProps {
-  types: { name: Type }[];
+  types: Type[];
 }
 
 export const CardLink = styled.a`

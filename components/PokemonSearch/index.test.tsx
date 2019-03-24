@@ -8,24 +8,30 @@ describe("<PokemonSearch />", () => {
   const pokemon: Pokemon[] = [
     {
       id: "4",
-      name: "charmander",
+      name: "Charmander",
+      slug: "charmander",
       pokedexId: 4,
       sprite: "4.png",
-      types: [{ name: "FIRE" }]
+      types: [{ name: "Fire", slug: "fire" }]
     },
     {
       id: "25",
-      name: "pikachu",
+      name: "Pikachu",
+      slug: "pikachu",
       pokedexId: 25,
       sprite: "25.png",
-      types: [{ name: "ELECTRIC" }]
+      types: [{ name: "Electric", slug: "electric" }]
     },
     {
       id: "93",
-      name: "haunter",
+      name: "Haunter",
+      slug: "haunter",
       pokedexId: 93,
       sprite: "93.png",
-      types: [{ name: "GHOST" }, { name: "POISON" }]
+      types: [
+        { name: "Ghost", slug: "ghost" },
+        { name: "Poison", slug: "poison" }
+      ]
     }
   ];
 

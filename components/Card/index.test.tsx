@@ -8,7 +8,12 @@ describe("Card components", () => {
     const { queryByText } = render(
       <CardLink href="/team/edit/1/">
         <CardWrapper>
-          <CardHeader types={[{ name: "ELECTRIC" }, { name: "PSYCHIC" }]}>
+          <CardHeader
+            types={[
+              { name: "Electric", slug: "electric" },
+              { name: "Psychic", slug: "psychic" }
+            ]}
+          >
             Heading
           </CardHeader>
           <CardContent>Content</CardContent>
