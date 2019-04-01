@@ -99,7 +99,7 @@ class PokemonLine extends PureComponent<Props> {
           <RowTitle>{formatPokemonName(pokemon)}</RowTitle>
           <InlineList>
             {sortTypes(types).map((type: Type) => (
-              <li key={`Pokemon: ${pokedexId}, Type: ${type}`}>
+              <li key={`Pokemon: ${pokedexId}, Type: ${type.slug}`}>
                 <TypeTag type={type.slug}>{type.name}</TypeTag>
               </li>
             ))}

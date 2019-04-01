@@ -51,7 +51,7 @@ const PokemonCard = ({
             <li
               key={`${
                 memberId ? `Member: ${memberId}` : ""
-              } Pokemon: ${pokedexId}, Type: ${type}`}
+              } Pokemon: ${pokedexId}, Type: ${type.slug}`}
             >
               <TypeTag type={type.slug}>{type.name}</TypeTag>
             </li>

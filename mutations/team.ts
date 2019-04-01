@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import { TeamDetails } from "../queries/team";
 
 export const createTeam = gql`
   mutation($team: CreateTeamInput!) {
@@ -14,10 +15,11 @@ export const updateTeam = gql`
   mutation($team: UpdateTeamInput!) {
     updateTeam(input: $team) {
       team {
-        id
+        ...TeamDetails
       }
     }
   }
+  ${TeamDetails}
 `;
 
 export const deleteTeam = gql`

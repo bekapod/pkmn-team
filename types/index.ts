@@ -77,20 +77,12 @@ export interface Team {
   insertedAt: string;
 }
 
-export interface TeamBuilderState {
+export interface TeamInput {
+  id?: string;
   name: string;
-  members: { [key: string]: TeamMember };
-}
-
-export interface PokemonSearchState {
-  currentSelection?: Pokemon;
-  highlightedIndex: number;
-  inputValue?: string;
-  filteredList: Pokemon[];
-  unfilteredList: Pokemon[];
-}
-
-export interface State {
-  teamBuilder: TeamBuilderState;
-  pokemonSearch: PokemonSearchState;
+  members: {
+    id?: string;
+    order: number;
+    pokemonId: string;
+  }[];
 }

@@ -110,7 +110,11 @@ class TeamBuilderContainer extends PureComponent<Props> {
           },
           updateTeamMutation: {
             mutation: updateTeamMutation,
-            result: { loading: updateTeamLoading, error: updateTeamError }
+            result: {
+              data: updatedTeam,
+              loading: updateTeamLoading,
+              error: updateTeamError
+            }
           },
           deleteTeamMutation: {
             mutation: deleteTeamMutation,
@@ -123,7 +127,10 @@ class TeamBuilderContainer extends PureComponent<Props> {
           getCurrentSearchPokemonQuery,
           getTeamQuery
         }: QueryProps) => {
-          const team = getOr(undefined, ["data", "teams", "0"], getTeamQuery);
+          const team =
+            getOr(undefined, ["updateTeam", "team"], updatedTeam) ||
+            getOr({}, ["data", "teams", "0"], getTeamQuery);
+
           const currentSearchPokemon = getOr(
             undefined,
             ["data", "currentSearchPokemon"],

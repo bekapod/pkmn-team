@@ -1,5 +1,6 @@
 import { placeholder } from "polished";
 import styled from "styled-components/macro";
+import { DebounceInput } from "react-debounce-input";
 import * as variables from "../../helpers/variables";
 import { lineHeight } from "../../helpers/verticalRhythm";
 
@@ -7,7 +8,7 @@ interface Props {
   isInvalid?: boolean;
 }
 
-const TextInput = styled.input`
+const TextInput = styled(DebounceInput)`
   width: 300px;
   padding: 0 ${variables.spacing.sm}px;
   font-family: ${variables.fonts.base};

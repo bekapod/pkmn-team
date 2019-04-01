@@ -29,8 +29,8 @@ export const PokemonDetails = gql`
 export const getPokemon = gql`
   query {
     pokemon {
-      ...PokemonDetails
+      ...PokemonDetailsWithoutMoves
     }
   }
-  ${PokemonDetails}
+  ${PokemonDetailsWithoutMoves}
 `;

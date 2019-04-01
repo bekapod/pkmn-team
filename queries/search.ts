@@ -1,11 +1,11 @@
 import gql from "graphql-tag";
-import { PokemonDetails } from "./pokemon";
+import { PokemonDetailsWithoutMoves } from "./pokemon";
 
 export const getCurrentSearchPokemon = gql`
   query {
     currentSearchPokemon @client {
-      ...PokemonDetails
+      ...PokemonDetailsWithoutMoves
     }
   }
-  ${PokemonDetails}
+  ${PokemonDetailsWithoutMoves}
 `;

@@ -1,44 +1,26 @@
 import { ApolloError } from "apollo-client";
-import { getOr, propOr, get } from "lodash/fp";
+import { map, merge, getOr, isEmpty } from "lodash/fp";
 import Router from "next/router";
 import React, { ChangeEvent, Component } from "react";
-import isEqual from "react-fast-compare";
 import { css } from "styled-components/macro";
-import { getUniqueId } from "../../helpers/general";
 import * as variables from "../../helpers/variables";
-import { Pokemon, Team, TeamMember } from "../../types";
+import { Pokemon, Team, TeamMember, TeamInput } from "../../types";
 import CenteredRow from "../CenteredRow";
 import { CtaButton } from "../Cta";
 import ErrorMessage from "../ErrorMessage";
 import GiantInput from "../GiantInput";
 import LoadingIcon from "../LoadingIcon";
 import TeamView from "../TeamView";
-import { validate } from "./helpers";
 
 interface Props {
-  team?: Team;
+  team: Team;
   currentSearchPokemon?: Pokemon;
   createdTeamId?: string;
   deletedTeamId?: string;
   loading?: boolean;
   error?: ApolloError;
-  createTeamMutation: (mutation: {
-    variables: {
-      team: {
-        name: string;
-        members: { pokemonId: string; order: number }[];
-      };
-    };
-  }) => void;
-  updateTeamMutation: (mutation: {
-    variables: {
-      team: {
-        id: string;
-        name: string;
-        members: { pokemonId: string; order: number }[];
-      };
-    };
-  }) => void;
+  createTeamMutation: (mutation: { variables: { team: TeamInput } }) => void;
+  updateTeamMutation: (mutation: { variables: { team: TeamInput } }) => void;
   deleteTeamMutation: (mutation: {
     variables: {
       team: {
@@ -48,15 +30,21 @@ interface Props {
   }) => void;
 }
 
-interface State {
-  isValid: boolean;
-  isTouched: boolean;
-  errors: { [key: string]: string };
-  teamMembers: TeamMember[];
-  teamName: string;
-}
+const transformMembersToInput = map(
+  ({ id, order, pokemon: { id: pokemonId } }) => ({
+    id,
+    order,
+    pokemonId
+  })
+);
 
-class TeamBuilder extends Component<Props, State> {
+const transformTeamToInput = ({ id, name, members }: Team): TeamInput => ({
+  id,
+  name,
+  members: transformMembersToInput(members)
+});
+
+class TeamBuilder extends Component<Props> {
   public constructor(props: Props) {
     super(props);
 
@@ -68,116 +56,57 @@ class TeamBuilder extends Component<Props, State> {
       this
     );
     this.handleReorderTeamMembers = this.handleReorderTeamMembers.bind(this);
-
-    this.state = {
-      errors: {},
-      isTouched: false,
-      isValid: false,
-      teamMembers: getOr([], ["team", "members"], props),
-      teamName: getOr("", ["team", "name"], props)
-    };
-
-    this.state = {
-      ...this.state,
-      ...validate(this.state)
-    };
-  }
-
-  public componentDidUpdate(prevProps: Props): void {
-    const { team } = this.props;
-
-    if (!isEqual(team, prevProps.team)) {
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState(() => ({
-        errors: {},
-        isTouched: false,
-        isValid: false,
-        teamMembers: getOr([], ["team", "members"], this.props),
-        teamName: getOr("", ["team", "name"], this.props)
-      }));
-    }
   }
 
   public handleTeamNameChange(e: ChangeEvent<HTMLInputElement>): void {
     const { value } = e.target;
+    const { team } = this.props;
+    const newTeam = merge(transformTeamToInput(team), { name: value });
 
-    this.setState(state => {
-      const newState = {
-        ...state,
-        teamName: value
-      };
-
-      return {
-        ...newState,
-        ...validate(newState, { setTouched: true })
-      };
-    });
+    this.handleUpsertTeam(newTeam);
   }
 
   public handleAddPokemonToTeam(pokemon: Pokemon, order: number): void {
-    this.setState(state => {
-      const newState = {
-        ...state,
-        teamMembers: [
-          ...state.teamMembers,
-          { id: getUniqueId(), order, pokemon }
-        ]
-      };
+    const { team } = this.props;
 
-      return {
-        ...newState,
-        ...validate(newState, { setTouched: true })
-      };
+    const newTeam = merge(transformTeamToInput(team), {
+      members: [{ order, pokemonId: pokemon.id }]
     });
+
+    this.handleUpsertTeam(newTeam);
   }
 
   public handleRemovePokemonFromTeam(memberId: string): void {
-    this.setState(state => ({
-      isTouched: true,
-      teamMembers: state.teamMembers.filter(
-        teamMember => teamMember.id !== memberId
+    const { team } = this.props;
+    const transformedTeam = transformTeamToInput(team);
+
+    const newTeam: TeamInput = {
+      ...transformedTeam,
+      members: transformedTeam.members.filter(
+        member => getOr(null, "id", member) !== memberId
       )
-    }));
+    };
+
+    this.handleUpsertTeam(newTeam);
   }
 
   public handleReorderTeamMembers(members: TeamMember[]): void {
-    this.setState(() => ({
-      isTouched: true,
-      teamMembers: members
-    }));
+    const { team } = this.props;
+    const newTeam = merge(transformTeamToInput(team), {
+      members: transformMembersToInput(members)
+    });
+
+    this.handleUpsertTeam(newTeam);
   }
 
-  public handleUpsertTeam(): void {
-    const { team, createTeamMutation, updateTeamMutation } = this.props;
-    const { teamName, teamMembers, isValid } = this.state;
-    const teamId = getOr(undefined, "id", team);
+  public handleUpsertTeam(newTeam: TeamInput): void {
+    const { createTeamMutation, updateTeamMutation } = this.props;
+    const variables = { team: newTeam };
 
-    if (isValid && teamName && teamMembers) {
-      const input = teamMembers.map(member => ({
-        pokemonId: get(["pokemon", "id"], member),
-        order: get(["order"], member)
-      }));
-
-      if (teamId) {
-        updateTeamMutation({
-          variables: {
-            team: {
-              id: teamId,
-              name: teamName,
-              members: input
-            }
-          }
-        });
-      } else {
-        createTeamMutation({
-          variables: {
-            team: {
-              name: teamName,
-              members: input
-            }
-          }
-        });
-      }
+    if (newTeam.id) {
+      updateTeamMutation({ variables });
+    } else {
+      createTeamMutation({ variables });
     }
   }
 
@@ -204,17 +133,22 @@ class TeamBuilder extends Component<Props, State> {
       loading,
       error
     } = this.props;
-    const { teamName, teamMembers, errors, isTouched, isValid } = this.state;
-    const nameErrorMessage = propOr(undefined, "name", errors);
-    const nameHasError = isTouched && !!nameErrorMessage;
+
+    const teamIsEmpty = isEmpty(team);
 
     if (createdTeamId) {
-      Router.push(`/team/edit/${createdTeamId}`);
+      const url = `/team/edit/${createdTeamId}`;
+      Router.replace(url, url, { shallow: true });
     }
 
     if (deletedTeamId) {
       Router.push("/");
     }
+
+    const inputHandlers = {
+      onChange: teamIsEmpty ? () => {} : this.handleTeamNameChange, // empty func required for debounced input
+      onBlur: teamIsEmpty ? this.handleTeamNameChange : null
+    };
 
     return (
       <>
@@ -222,14 +156,10 @@ class TeamBuilder extends Component<Props, State> {
           <GiantInput
             aria-label="Choose a team name"
             placeholder="Choose a team name"
-            onChange={this.handleTeamNameChange}
-            value={teamName}
-            isInvalid={nameHasError}
+            value={team.name}
+            debounceTimeout={500}
+            {...inputHandlers}
           />
-
-          {isTouched && nameHasError && nameErrorMessage && (
-            <ErrorMessage>{nameErrorMessage}</ErrorMessage>
-          )}
 
           {!!error && (
             <ErrorMessage key="Error message">{error.message}</ErrorMessage>
@@ -239,35 +169,21 @@ class TeamBuilder extends Component<Props, State> {
             <LoadingIcon key="Loading icon" spinner />
           ) : null}
 
-          <div>
+          {!isEmpty(team) && (
             <CtaButton
-              key={team ? "Save button" : "Create button"}
-              onClick={this.handleUpsertTeam}
-              disabled={!isTouched || !!error || !!loading || !isValid}
+              key="Delete team"
+              onClick={this.handleDeleteTeam}
               css={css`
                 display: inline-block;
-                margin-right: ${variables.spacing.md}px;
               `}
             >
-              {team ? "Save team" : "Create this team!"}
+              Delete team
             </CtaButton>
-
-            {!!team && (
-              <CtaButton
-                key="Delete team"
-                onClick={this.handleDeleteTeam}
-                css={css`
-                  display: inline-block;
-                `}
-              >
-                Delete team
-              </CtaButton>
-            )}
-          </div>
+          )}
         </CenteredRow>
 
         <TeamView
-          teamMembers={teamMembers}
+          teamMembers={getOr([], "members", team)}
           currentSearchPokemon={currentSearchPokemon}
           addPokemonToTeam={this.handleAddPokemonToTeam}
           removePokemonFromTeam={this.handleRemovePokemonFromTeam}
