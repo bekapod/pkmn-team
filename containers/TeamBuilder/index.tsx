@@ -28,7 +28,7 @@ interface QueryProps {
         };
       };
     }) => void;
-    result: MutationResult<{ createTeam: { team: Team } }>;
+    result: MutationResult<{ createTeam: Team }>;
   };
   updateTeamMutation: {
     mutation: (mutation: {
@@ -40,7 +40,7 @@ interface QueryProps {
         };
       };
     }) => void;
-    result: MutationResult<{ updateTeam: { team: Team } }>;
+    result: MutationResult<{ updateTeam: Team }>;
   };
   deleteTeamMutation: {
     mutation: (mutation: {
@@ -50,9 +50,9 @@ interface QueryProps {
         };
       };
     }) => void;
-    result: MutationResult<{ deleteTeam: { team: Team } }>;
+    result: MutationResult<{ deleteTeam: Team }>;
   };
-  getTeamQuery?: QueryResult<{ teams: Team }, OperationVariables>;
+  getTeamQuery?: QueryResult<{ team: Team }, OperationVariables>;
   getCurrentSearchPokemonQuery: QueryResult<
     { currentSearchPokemon: Pokemon },
     OperationVariables
@@ -128,8 +128,8 @@ class TeamBuilderContainer extends PureComponent<Props> {
           getTeamQuery
         }: QueryProps) => {
           const team =
-            getOr(undefined, ["updateTeam", "team"], updatedTeam) ||
-            getOr({}, ["data", "teams", "0"], getTeamQuery);
+            getOr(undefined, ["updateTeam"], updatedTeam) ||
+            getOr({}, ["data", "team"], getTeamQuery);
 
           const currentSearchPokemon = getOr(
             undefined,
@@ -145,8 +145,8 @@ class TeamBuilderContainer extends PureComponent<Props> {
               createTeamMutation={createTeamMutation}
               updateTeamMutation={updateTeamMutation}
               deleteTeamMutation={deleteTeamMutation}
-              createdTeamId={createdTeam && createdTeam.createTeam.team.id}
-              deletedTeamId={deletedTeam && deletedTeam.deleteTeam.team.id}
+              createdTeamId={createdTeam && createdTeam.createTeam.id}
+              deletedTeamId={deletedTeam && deletedTeam.deleteTeam.id}
               loading={
                 createTeamLoading || updateTeamLoading || deleteTeamLoading
               }

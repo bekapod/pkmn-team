@@ -33,7 +33,7 @@ export interface Type {
 export interface Move {
   name: string;
   slug: string;
-  types: Type[];
+  type: Type;
   damageClass: "physical" | "special" | "status";
   accuracy?: number;
   power?: number;

@@ -5,7 +5,7 @@ export const TeamDetails = gql`
   fragment TeamDetails on Team {
     id
     name
-    insertedAt
+    createdAt
     members {
       id
       order
@@ -22,7 +22,7 @@ export const getAllTeams = gql`
     teams {
       id
       name
-      insertedAt
+      createdAt
       members {
         id
         order
@@ -37,7 +37,7 @@ export const getAllTeams = gql`
 
 export const getTeamById = gql`
   query($id: ID!) {
-    teams(id: $id) {
+    team(id: $id) {
       ...TeamDetails
     }
   }

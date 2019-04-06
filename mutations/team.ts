@@ -3,20 +3,16 @@ import { TeamDetails } from "../queries/team";
 
 export const createTeam = gql`
   mutation($team: CreateTeamInput!) {
-    createTeam(input: $team) {
-      team {
-        id
-      }
+    createTeam(data: $team) {
+      id
     }
   }
 `;
 
 export const updateTeam = gql`
   mutation($team: UpdateTeamInput!) {
-    updateTeam(input: $team) {
-      team {
-        ...TeamDetails
-      }
+    updateTeam(data: $team) {
+      ...TeamDetails
     }
   }
   ${TeamDetails}
@@ -24,10 +20,8 @@ export const updateTeam = gql`
 
 export const deleteTeam = gql`
   mutation($team: DeleteTeamInput!) {
-    deleteTeam(input: $team) {
-      team {
-        id
-      }
+    deleteTeam(data: $team) {
+      id
     }
   }
 `;

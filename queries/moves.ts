@@ -11,7 +11,7 @@ export const Moves = gql`
       accuracy
       pp
       damageClass
-      types {
+      type {
         name
         slug
       }

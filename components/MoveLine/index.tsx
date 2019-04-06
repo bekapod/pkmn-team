@@ -43,8 +43,8 @@ const Value = styled(Label)`
   height: ${variables.spacing.xl}px;
 `;
 
-const MoveLine = ({ name, types, damageClass, pp, accuracy, power }: Props) => (
-  <Row types={[...types, { name: damageClass, slug: damageClass }]}>
+const MoveLine = ({ name, type, damageClass, pp, accuracy, power }: Props) => (
+  <Row types={[type, { name: damageClass, slug: damageClass }]}>
     <Value>{name}</Value>
     <div>
       <Label>PP</Label> <Value>{pp}</Value>
@@ -56,11 +56,9 @@ const MoveLine = ({ name, types, damageClass, pp, accuracy, power }: Props) => (
       <Label>Power</Label> <Value>{power || "n/a"}</Value>
     </div>
     <div>
-      {types.map(type => (
-        <TypeTag key={type.slug} type={type.slug}>
-          {type.name}
-        </TypeTag>
-      ))}
+      <TypeTag key={type.slug} type={type.slug}>
+        {type.name}
+      </TypeTag>
       <TypeTag type={damageClass}>{damageClass}</TypeTag>
     </div>
   </Row>

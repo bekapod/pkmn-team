@@ -1,9 +1,8 @@
 import { ApolloError } from "apollo-client";
-import { map, merge, getOr, isEmpty } from "lodash/fp";
+import { map, merge, getOr, isEmpty, concat } from "lodash/fp";
 import Router from "next/router";
 import React, { ChangeEvent, Component } from "react";
 import { css } from "styled-components/macro";
-import * as variables from "../../helpers/variables";
 import { Pokemon, Team, TeamMember, TeamInput } from "../../types";
 import CenteredRow from "../CenteredRow";
 import { CtaButton } from "../Cta";
@@ -68,9 +67,12 @@ class TeamBuilder extends Component<Props> {
 
   public handleAddPokemonToTeam(pokemon: Pokemon, order: number): void {
     const { team } = this.props;
+    const teamInput = transformTeamToInput(team);
 
-    const newTeam = merge(transformTeamToInput(team), {
-      members: [{ order, pokemonId: pokemon.id }]
+    const newTeam = merge(teamInput, {
+      members: concat(getOr([], "members", teamInput), [
+        { order, pokemonId: pokemon.id }
+      ])
     });
 
     this.handleUpsertTeam(newTeam);

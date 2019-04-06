@@ -18,7 +18,7 @@ export const PokemonDetails = gql`
   fragment PokemonDetails on Pokemon {
     ...PokemonDetailsWithoutMoves
 
-    moves(version: "yellow") {
+    moves {
       ...Moves
     }
   }
