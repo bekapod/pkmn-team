@@ -1,9 +1,6 @@
 import Document, {
   AnyPageProps,
-  Head,
-  Main,
   NextDocumentContext,
-  NextScript,
   DefaultDocumentIProps
 } from "next/document";
 import React from "react";
@@ -11,37 +8,40 @@ import { resetServerContext } from "react-beautiful-dnd";
 import { ServerStyleSheet } from "styled-components/macro";
 
 interface Props extends AnyPageProps {
-  styleTags: any;
+  styles: any;
 }
 
 interface DocumentProps extends DefaultDocumentIProps {
-  styleTags: any;
+  styles: any;
 }
 
 class MyDocument extends Document<Props> {
-  public static getInitialProps({
-    renderPage
-  }: NextDocumentContext): DocumentProps {
+  public static async getInitialProps(
+    ctx: NextDocumentContext
+  ): Promise<DocumentProps> {
     resetServerContext();
     const sheet = new ServerStyleSheet();
-    const page = renderPage(
-      (App: React.ComponentType<AnyPageProps>) => (props: AnyPageProps) =>
-        sheet.collectStyles(<App {...props} />)
-    );
-    const styleTags = sheet.getStyleElement();
-    return { ...page, styleTags };
-  }
+    const originalRenderPage = ctx.renderPage;
 
-  public render(): JSX.Element {
-    return (
-      <html lang="en">
-        <Head>{this.props.styleTags}</Head>
-        <body>
-          <Main />
-          <NextScript />
-        </body>
-      </html>
-    );
+    try {
+      ctx.renderPage = () =>
+        originalRenderPage({
+          enhanceApp: App => props => sheet.collectStyles(<App {...props} />)
+        });
+
+      const initialProps = await Document.getInitialProps(ctx);
+      return {
+        ...initialProps,
+        styles: (
+          <>
+            {initialProps.styles}
+            {sheet.getStyleElement()}
+          </>
+        )
+      };
+    } finally {
+      sheet.seal();
+    }
   }
 }
 
