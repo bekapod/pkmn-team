@@ -1,29 +1,31 @@
-import React, { Component, KeyboardEvent, MouseEventHandler } from "react";
+import { Component, KeyboardEvent, MouseEventHandler } from "react";
 import wait from "waait";
 
-interface RenderProps {
-  getTabItemProps: (
-    _: string
-  ) => {
-    id: string;
-    role: string;
-    "aria-selected": boolean;
-    tabIndex: number;
-    onClick: MouseEventHandler;
-    onKeyDown: (e: KeyboardEvent) => any;
-  };
-  getTabContentProps: (
-    _: string
-  ) => { "aria-hidden": boolean; "aria-labelledby": string };
-}
+export type GetTabItemProps = (
+  _: string
+) => {
+  id: string;
+  role: string;
+  "aria-selected": boolean;
+  tabIndex: number;
+  onClick: MouseEventHandler;
+  onKeyDown: (e: KeyboardEvent) => any;
+};
+
+export type GetTabContentProps = (
+  _: string
+) => { "aria-hidden": boolean; "aria-labelledby": string };
 
 interface State {
   selectedItem?: string;
 }
 
 interface Props {
+  render: (
+    getTabItemProps: GetTabItemProps,
+    getTabContentProps: GetTabContentProps
+  ) => JSX.Element;
   selectedItem: string;
-  children: (_: RenderProps) => JSX.Element;
 }
 
 class Tabs extends Component<Props> {
@@ -128,14 +130,9 @@ class Tabs extends Component<Props> {
   }
 
   public render(): JSX.Element {
-    const { children: Children } = this.props;
+    const { render } = this.props;
 
-    return (
-      <Children
-        getTabItemProps={this.getTabItemProps}
-        getTabContentProps={this.getTabContentProps}
-      />
-    );
+    return render(this.getTabItemProps, this.getTabContentProps);
   }
 }
 

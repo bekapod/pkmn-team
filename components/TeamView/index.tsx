@@ -28,7 +28,7 @@ import { CtaButton } from "../Cta";
 import MoveList from "../MoveList";
 import PokemonCard from "../PokemonCard";
 import PokemonLine from "../PokemonLine";
-import Tabs from "../Tabs";
+import Tabs, { GetTabItemProps, GetTabContentProps } from "../Tabs"; // eslint-disable-line import/named
 import BinIcon from "../BinIcon";
 import {
   TabBar,
@@ -62,6 +62,7 @@ class TeamView extends Component<Props, State> {
 
     this.onDragEnd = this.onDragEnd.bind(this);
     this.emptyBin = this.emptyBin.bind(this);
+    this.renderTabs = this.renderTabs.bind(this);
     this.renderCardActions = this.renderCardActions.bind(this);
   }
 
@@ -123,6 +124,152 @@ class TeamView extends Component<Props, State> {
     });
   }
 
+  public renderTabs(
+    getTabItemProps: GetTabItemProps,
+    getTabContentProps: GetTabContentProps
+  ): JSX.Element {
+    const { teamMembers, currentSearchPokemon } = this.props;
+    const { deletedItems } = this.state;
+    const addPokemonTabItemProps = getTabItemProps("add-pokemon");
+    const addPokemonTabContentProps = getTabContentProps("add-pokemon");
+
+    return (
+      <>
+        <TabBar>
+          <DragDropContext
+            onBeforeDragStart={this.onDragStart}
+            onDragEnd={this.onDragEnd}
+          >
+            <Droppable droppableId="teamview-tabs" direction="horizontal">
+              {droppableProvided => (
+                <div
+                  {...droppableProvided.droppableProps}
+                  ref={droppableProvided.innerRef}
+                >
+                  <TabScroller>
+                    {droppableProvided.placeholder}
+
+                    {teamMembers.map(
+                      ({ id, pokemon }: TeamMember, index: number) => {
+                        const tabItemProps = getTabItemProps(id);
+                        return (
+                          <Draggable key={id} draggableId={id} index={index}>
+                            {draggableProvided => (
+                              <TabItem
+                                {...tabItemProps}
+                                {...draggableProvided.draggableProps}
+                                {...draggableProvided.dragHandleProps}
+                                ref={draggableProvided.innerRef}
+                                data-testid={`tab-item-${id}`}
+                                style={{
+                                  ...draggableProvided.draggableProps.style
+                                }}
+                              >
+                                <PokemonLine pokemon={pokemon} />
+                              </TabItem>
+                            )}
+                          </Draggable>
+                        );
+                      }
+                    )}
+
+                    {lt(size(teamMembers), 6) ? (
+                      <TabItem
+                        {...addPokemonTabItemProps}
+                        key="Add new Pokemon"
+                        data-testid="tab-item-add-pokemon"
+                        data-add-button
+                      >
+                        <AddButton aria-label="Add new pokemon to team">
+                          +
+                        </AddButton>
+                      </TabItem>
+                    ) : null}
+                  </TabScroller>
+                </div>
+              )}
+            </Droppable>
+
+            <Droppable droppableId="teamview-bin" direction="horizontal">
+              {(droppableProvided, droppableSnapshot) => (
+                <Bin
+                  {...droppableProvided.droppableProps}
+                  ref={droppableProvided.innerRef}
+                  data-bin
+                  css={css`
+                    width: calc((100% - 80px) / ${teamMembers.length + 1});
+
+                    ${droppableSnapshot.isDraggingOver
+                      ? `
+                        --background: ${variables.colors.grayDark};
+                        --helperOpacity: 1;
+                        color: ${variables.colors.white};
+                      `
+                      : ""}
+                  `}
+                >
+                  {droppableProvided.placeholder}
+                  <span className="zig-zag-helper" />
+                  <BinIcon />
+                  {deletedItems.map(({ id, pokemon }) => (
+                    <TabItem
+                      key={id}
+                      aria-selected={false}
+                      data-testid={`binned-item-${id}`}
+                      data-binned-item
+                      onAnimationEnd={this.emptyBin}
+                    >
+                      <PokemonLine pokemon={pokemon} compact />
+                    </TabItem>
+                  ))}
+                </Bin>
+              )}
+            </Droppable>
+          </DragDropContext>
+        </TabBar>
+
+        {map(({ id, pokemon: pkmn }) => {
+          const tabContentProps = getTabContentProps(id);
+          return (
+            <TabContent
+              {...tabContentProps}
+              key={id}
+              data-testid={`tab-content-${id}`}
+            >
+              <PokemonCard
+                memberId={id}
+                pokemon={pkmn}
+                renderCardActions={this.renderCardActions({
+                  memberId: id,
+                  pokemon: pkmn
+                })}
+              />
+              <MoveList moves={pkmn.moves} />
+            </TabContent>
+          );
+        })(teamMembers)}
+
+        {lt(size(teamMembers), 6) ? (
+          <TabContent
+            {...addPokemonTabContentProps}
+            key="Pokemon search"
+            data-testid="tab-content-add-pokemon"
+          >
+            <PokemonSearch />
+            {currentSearchPokemon ? (
+              <PokemonCard
+                pokemon={currentSearchPokemon}
+                renderCardActions={this.renderCardActions({
+                  pokemon: currentSearchPokemon
+                })}
+              />
+            ) : null}
+          </TabContent>
+        ) : null}
+      </>
+    );
+  }
+
   public renderCardActions({
     memberId,
     pokemon
@@ -156,8 +303,7 @@ class TeamView extends Component<Props, State> {
   }
 
   public render(): JSX.Element {
-    const { teamMembers, currentSearchPokemon } = this.props;
-    const { deletedItems } = this.state;
+    const { teamMembers } = this.props;
 
     return (
       <Tabs
@@ -165,154 +311,8 @@ class TeamView extends Component<Props, State> {
           getOr("add-pokemon", "id"),
           first
         )(teamMembers)}
-      >
-        {({ getTabItemProps, getTabContentProps }) => {
-          const addPokemonTabItemProps = getTabItemProps("add-pokemon");
-          const addPokemonTabContentProps = getTabContentProps("add-pokemon");
-          return (
-            <>
-              <TabBar>
-                <DragDropContext
-                  onBeforeDragStart={this.onDragStart}
-                  onDragEnd={this.onDragEnd}
-                >
-                  <Droppable droppableId="teamview-tabs" direction="horizontal">
-                    {droppableProvided => (
-                      <div
-                        {...droppableProvided.droppableProps}
-                        ref={droppableProvided.innerRef}
-                      >
-                        <TabScroller>
-                          {droppableProvided.placeholder}
-
-                          {teamMembers.map(
-                            ({ id, pokemon }: TeamMember, index: number) => {
-                              const tabItemProps = getTabItemProps(id);
-                              return (
-                                <Draggable
-                                  key={id}
-                                  draggableId={id}
-                                  index={index}
-                                >
-                                  {draggableProvided => (
-                                    <TabItem
-                                      {...tabItemProps}
-                                      {...draggableProvided.draggableProps}
-                                      {...draggableProvided.dragHandleProps}
-                                      ref={draggableProvided.innerRef}
-                                      data-testid={`tab-item-${id}`}
-                                      style={{
-                                        ...draggableProvided.draggableProps
-                                          .style
-                                      }}
-                                    >
-                                      <PokemonLine pokemon={pokemon} />
-                                    </TabItem>
-                                  )}
-                                </Draggable>
-                              );
-                            }
-                          )}
-
-                          {lt(size(teamMembers), 6) ? (
-                            <TabItem
-                              {...addPokemonTabItemProps}
-                              key="Add new Pokemon"
-                              data-testid="tab-item-add-pokemon"
-                              data-add-button
-                            >
-                              <AddButton aria-label="Add new pokemon to team">
-                                +
-                              </AddButton>
-                            </TabItem>
-                          ) : null}
-                        </TabScroller>
-                      </div>
-                    )}
-                  </Droppable>
-
-                  <Droppable droppableId="teamview-bin" direction="horizontal">
-                    {(droppableProvided, droppableSnapshot) => (
-                      <Bin
-                        {...droppableProvided.droppableProps}
-                        ref={droppableProvided.innerRef}
-                        data-bin
-                        css={css`
-                          width: calc(
-                            (100% - 80px) / ${teamMembers.length + 1}
-                          );
-
-                          ${droppableSnapshot.isDraggingOver
-                            ? `
-                              --background: ${variables.colors.grayDark};
-                              --helperOpacity: 1;
-                              color: ${variables.colors.white};
-                            `
-                            : ""}
-                        `}
-                      >
-                        {droppableProvided.placeholder}
-                        <span className="zig-zag-helper" />
-                        <BinIcon />
-                        {deletedItems.map(({ id, pokemon }) => (
-                          <TabItem
-                            key={id}
-                            aria-selected={false}
-                            data-testid={`binned-item-${id}`}
-                            data-binned-item
-                            onAnimationEnd={this.emptyBin}
-                          >
-                            <PokemonLine pokemon={pokemon} compact />
-                          </TabItem>
-                        ))}
-                      </Bin>
-                    )}
-                  </Droppable>
-                </DragDropContext>
-              </TabBar>
-
-              {map(({ id, pokemon: pkmn }) => {
-                const tabContentProps = getTabContentProps(id);
-                return (
-                  <TabContent
-                    {...tabContentProps}
-                    key={id}
-                    data-testid={`tab-content-${id}`}
-                  >
-                    <PokemonCard
-                      memberId={id}
-                      pokemon={pkmn}
-                      renderCardActions={this.renderCardActions({
-                        memberId: id,
-                        pokemon: pkmn
-                      })}
-                    />
-                    <MoveList moves={pkmn.moves} />
-                  </TabContent>
-                );
-              })(teamMembers)}
-
-              {lt(size(teamMembers), 6) ? (
-                <TabContent
-                  {...addPokemonTabContentProps}
-                  key="Pokemon search"
-                  data-testid="tab-content-add-pokemon"
-                >
-                  <PokemonSearch />
-                  {currentSearchPokemon ? (
-                    <PokemonCard
-                      pokemon={currentSearchPokemon}
-                      renderCardActions={this.renderCardActions({
-                        pokemon: currentSearchPokemon
-                      })}
-                    />
-                  ) : null}
-                </TabContent>
-              ) : null}
-            </>
-          );
-        }}
-      </Tabs>
+        render={this.renderTabs}
+      />
     );
   }
 }
