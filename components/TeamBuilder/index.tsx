@@ -1,7 +1,7 @@
 import { ApolloError } from "apollo-client";
 import { map, merge, getOr, isEmpty, concat } from "lodash/fp";
 import Router from "next/router";
-import React, { ChangeEvent, Component } from "react";
+import React, { FocusEvent, Component } from "react";
 import { css } from "styled-components/macro";
 import { Pokemon, Team, TeamMember, TeamInput } from "../../types";
 import CenteredRow from "../CenteredRow";
@@ -57,7 +57,7 @@ class TeamBuilder extends Component<Props> {
     this.handleReorderTeamMembers = this.handleReorderTeamMembers.bind(this);
   }
 
-  public handleTeamNameChange(e: ChangeEvent<HTMLInputElement>): void {
+  public handleTeamNameChange(e: FocusEvent<HTMLInputElement>): void {
     const { value } = e.target;
     const { team } = this.props;
     const newTeam = merge(transformTeamToInput(team), { name: value });
@@ -136,8 +136,6 @@ class TeamBuilder extends Component<Props> {
       error
     } = this.props;
 
-    const teamIsEmpty = isEmpty(team);
-
     if (createdTeamId) {
       const url = `/team/edit/${createdTeamId}`;
       Router.replace(url, url, { shallow: true });
@@ -147,20 +145,14 @@ class TeamBuilder extends Component<Props> {
       Router.push("/");
     }
 
-    const inputHandlers = {
-      onChange: teamIsEmpty ? () => {} : this.handleTeamNameChange, // empty func required for debounced input
-      onBlur: teamIsEmpty ? this.handleTeamNameChange : null
-    };
-
     return (
       <>
         <CenteredRow stackVertically>
           <GiantInput
             aria-label="Choose a team name"
             placeholder="Choose a team name"
-            value={team.name}
-            debounceTimeout={500}
-            {...inputHandlers}
+            defaultValue={team.name}
+            onBlur={this.handleTeamNameChange}
           />
 
           {!!error && (
@@ -173,7 +165,6 @@ class TeamBuilder extends Component<Props> {
 
           {!isEmpty(team) && (
             <CtaButton
-              key="Delete team"
               onClick={this.handleDeleteTeam}
               css={css`
                 display: inline-block;
