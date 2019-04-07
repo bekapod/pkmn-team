@@ -16,7 +16,7 @@ interface Props {
 }
 
 const TeamCard = ({
-  team: { id, name, members, insertedAt }
+  team: { id, name, members, createdAt }
 }: Props): JSX.Element => {
   const pokemon: Pokemon[] = compose([reject(isNil), map(get("pokemon"))])(
     members
@@ -35,7 +35,7 @@ const TeamCard = ({
               id={id}
               items={[
                 { label: "Pkmn", value: members.length },
-                { label: "Created", value: dateFormat(insertedAt, "d/m/yy") }
+                { label: "Created", value: dateFormat(createdAt, "d/m/yy") }
               ]}
             />
 
