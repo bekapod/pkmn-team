@@ -1,4 +1,4 @@
-import { getOr } from "lodash/fp";
+import { getOr, get } from "lodash/fp";
 import React, { PureComponent } from "react";
 import { adopt } from "react-adopt";
 import {
@@ -31,8 +31,8 @@ interface QueryProps {
     mutation: (mutation: {
       variables: {
         team: TeamInput;
-        optimisticResponse: { __typename: "Mutation"; updateTeam: Team };
       };
+      optimisticResponse: { __typename: "Mutation"; updateTeam: Team };
     }) => void;
     result: MutationResult<{ updateTeam: Team }>;
   };
@@ -121,26 +121,41 @@ class TeamBuilderContainer extends PureComponent<Props> {
           getCurrentSearchPokemonQuery,
           getTeamQuery
         }: QueryProps) => {
+          const {
+            data: getTeam = {},
+            loading: getTeamLoading = false,
+            error: getTeamError = undefined
+          } = getTeamQuery || {};
+
           const team =
             getOr(undefined, ["updateTeam"], updatedTeam) ||
-            getOr({}, ["data", "team"], getTeamQuery);
+            getOr({}, ["team"], getTeam);
 
           return (
             <TeamBuilder
               {...this.props}
               team={team}
-              currentSearchPokemon={
-                getCurrentSearchPokemonQuery.data.currentSearchPokemon
-              }
+              currentSearchPokemon={get(
+                ["data", "currentSearchPokemon"],
+                getCurrentSearchPokemonQuery
+              )}
               createTeamMutation={createTeamMutation}
               updateTeamMutation={updateTeamMutation}
               deleteTeamMutation={deleteTeamMutation}
               createdTeamId={createdTeam && createdTeam.createTeam.id}
               deletedTeamId={deletedTeam && deletedTeam.deleteTeam.id}
               loading={
-                createTeamLoading || updateTeamLoading || deleteTeamLoading
+                createTeamLoading ||
+                updateTeamLoading ||
+                deleteTeamLoading ||
+                getTeamLoading
               }
-              error={createTeamError || updateTeamError || deleteTeamError}
+              error={
+                createTeamError ||
+                updateTeamError ||
+                deleteTeamError ||
+                getTeamError
+              }
             />
           );
         }}
