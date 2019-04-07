@@ -1,12 +1,15 @@
 import React from "react";
 import styled from "styled-components/macro";
+import isEqual from "react-fast-compare";
 import { DeduplicatedMove, Type } from "../../types";
 import TypeTag from "../TypeTag";
 import Label from "../Label";
 import * as variables from "../../helpers/variables";
 import { getTypeGradient } from "../../helpers/gradients";
 
-interface Props extends DeduplicatedMove {}
+interface Props extends DeduplicatedMove {
+  style: any;
+}
 
 interface RowProps {
   types: Type[];
@@ -40,28 +43,41 @@ const Row = styled.div`
 const Value = styled(Label)`
   color: ${variables.colors.grayDarker};
   font-size: ${variables.fontSizes.sm}px;
-  height: ${variables.spacing.xl}px;
 `;
 
-const MoveLine = ({ name, type, damageClass, pp, accuracy, power }: Props) => (
-  <Row types={[type, { name: damageClass, slug: damageClass }]}>
-    <Value>{name}</Value>
-    <div>
-      <Label>PP</Label> <Value>{pp}</Value>
-    </div>
-    <div>
-      <Label>Accuracy</Label> <Value>{accuracy || "n/a"}</Value>
-    </div>
-    <div>
-      <Label>Power</Label> <Value>{power || "n/a"}</Value>
-    </div>
-    <div>
-      <TypeTag key={type.slug} type={type.slug}>
-        {type.name}
-      </TypeTag>
-      <TypeTag type={damageClass}>{damageClass}</TypeTag>
-    </div>
-  </Row>
+const MoveLine = React.memo(
+  ({
+    name,
+    type,
+    damageClass,
+    pp,
+    accuracy,
+    power,
+    ...props
+  }: Props): JSX.Element => (
+    <Row types={[type, { name: damageClass, slug: damageClass }]} {...props}>
+      <Value>{name}</Value>
+      <div>
+        <Label>PP</Label>
+        <Value>{pp}</Value>
+      </div>
+      <div>
+        <Label>Accuracy</Label>
+        <Value>{accuracy || "n/a"}</Value>
+      </div>
+      <div>
+        <Label>Power</Label>
+        <Value>{power || "n/a"}</Value>
+      </div>
+      <div>
+        <TypeTag key={type.slug} type={type.slug}>
+          {type.name}
+        </TypeTag>
+        <TypeTag type={damageClass}>{damageClass}</TypeTag>
+      </div>
+    </Row>
+  ),
+  (prevProps, nextProps) => isEqual(prevProps, nextProps)
 );
 
 export default MoveLine;

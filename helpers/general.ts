@@ -7,18 +7,19 @@ import {
   omit,
   defaultTo,
   partition,
-  get
+  get,
+  sortBy
 } from "lodash/fp";
 import uuid from "uuid/v4";
 import { compose } from "redux";
 import {
   Pokemon,
   Type,
-  TypeSlug,
+  TypeSlug, // eslint-disable-line import/named
   PokemonMove,
   DeduplicatedMove,
   MoveVariation
-} from "../types"; // eslint-disable-line import/named
+} from "../types";
 import * as variables from "./variables";
 
 export const getUniqueId = uuid;
@@ -64,50 +65,24 @@ const deduplicateMoves = (moves: {
     };
   });
 
-const sortMovesByName = (moves: DeduplicatedMove[]): DeduplicatedMove[] =>
-  [...moves].sort((x: DeduplicatedMove, y: DeduplicatedMove) => {
-    const xName = x.name;
-    const yName = y.name;
+type SortMovesByName = (moves: DeduplicatedMove[]) => DeduplicatedMove[];
+const sortMovesByName: SortMovesByName = sortBy((move: DeduplicatedMove) =>
+  get("name", move)
+);
 
-    if (xName === yName) {
-      return 0;
-    }
-
-    if (xName > yName) {
-      return 1;
-    }
-
-    return -1;
-  });
-
-const sortMoves = (moves: DeduplicatedMove[]): DeduplicatedMove[] =>
-  [...moves].sort((x: DeduplicatedMove, y: DeduplicatedMove) => {
-    const xLevel = getOr(
-      0,
-      "levelLearnedAt",
-      x.variations.find(variation => variation.learnMethod !== "machine")
-    );
-    const yLevel = getOr(
-      0,
-      "levelLearnedAt",
-      y.variations.find(variation => variation.learnMethod !== "machine")
-    );
-    if (xLevel === yLevel) {
-      return 0;
-    }
-    if (xLevel > yLevel) {
-      return 1;
-    }
-    return -1;
-  });
+type SortMoves = (moves: DeduplicatedMove[]) => DeduplicatedMove[];
+const sortMoves: SortMoves = sortBy((move: DeduplicatedMove) =>
+  getOr(
+    0,
+    "levelLearnedAt",
+    move.variations.find(variation => variation.learnMethod !== "machine")
+  )
+);
 
 export const combineDuplicatePokemonMoves: (
   moves: PokemonMove[]
 ) => DeduplicatedMove[] = compose(
-  (partitions: DeduplicatedMove[][]) => [
-    ...partitions[0],
-    ...sortMovesByName(partitions[1])
-  ],
+  (partitions: DeduplicatedMove[][]) => [...partitions[0], ...partitions[1]],
   partition((move: DeduplicatedMove) =>
     defaultTo(
       false,
@@ -115,6 +90,7 @@ export const combineDuplicatePokemonMoves: (
     )
   ),
   sortMoves,
+  sortMovesByName,
   deduplicateMoves,
   groupByMoveName
 );
