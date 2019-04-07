@@ -6,9 +6,11 @@ export const TeamDetails = gql`
     id
     name
     createdAt
+    __typename
     members {
       id
       order
+      __typename
       pokemon {
         ...PokemonDetails
       }
@@ -23,9 +25,11 @@ export const getAllTeams = gql`
       id
       name
       createdAt
+      __typename
       members {
         id
         order
+        __typename
         pokemon {
           ...PokemonDetailsWithoutMoves
         }

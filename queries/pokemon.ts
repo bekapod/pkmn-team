@@ -6,9 +6,11 @@ export const PokemonDetailsWithoutMoves = gql`
     id
     pokedexId
     name
+    __typename
     types {
       name
       slug
+      __typename
     }
     sprite
   }

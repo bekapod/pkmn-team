@@ -5,12 +5,14 @@ export const Moves = gql`
     levelLearnedAt
     learnMethod
     version
+    __typename
     move {
       name
       power
       accuracy
       pp
       damageClass
+      __typename
       type {
         name
         slug

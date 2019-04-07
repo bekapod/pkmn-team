@@ -28,6 +28,7 @@ export type TypeSlug =
 export interface Type {
   name: string;
   slug: TypeSlug;
+  __typename?: "Type";
 }
 
 export interface Move {
@@ -38,6 +39,7 @@ export interface Move {
   accuracy?: number;
   power?: number;
   pp: number;
+  __typename?: "Move";
 }
 
 export interface MoveVariation {
@@ -48,6 +50,7 @@ export interface MoveVariation {
 
 export interface PokemonMove extends MoveVariation {
   move: Move;
+  __typename?: "PokemonMove";
 }
 
 export interface DeduplicatedMove extends Move {
@@ -62,19 +65,22 @@ export interface Pokemon {
   types: Type[];
   sprite: string;
   moves?: PokemonMove[];
+  __typename?: "Pokemon";
 }
 
 export interface TeamMember {
   id: string;
   order: number;
   pokemon: Pokemon;
+  __typename?: "TeamMember";
 }
 
 export interface Team {
   id: string;
   name: string;
   members: TeamMember[];
-  insertedAt: string;
+  createdAt: string;
+  __typename?: "Team";
 }
 
 export interface TeamInput {

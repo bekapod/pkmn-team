@@ -1,5 +1,5 @@
 import { ApolloError } from "apollo-client";
-import { map, merge, getOr, isEmpty, concat } from "lodash/fp";
+import { map, merge, getOr, isEmpty, concat, get, find, pipe } from "lodash/fp";
 import Router from "next/router";
 import React, { FocusEvent, Component } from "react";
 import { css } from "styled-components/macro";
@@ -10,6 +10,7 @@ import ErrorMessage from "../ErrorMessage";
 import GiantInput from "../GiantInput";
 import LoadingIcon from "../LoadingIcon";
 import TeamView from "../TeamView";
+import { getUniqueId } from "../../helpers/general";
 
 interface Props {
   team: Team;
@@ -19,7 +20,10 @@ interface Props {
   loading?: boolean;
   error?: ApolloError;
   createTeamMutation: (mutation: { variables: { team: TeamInput } }) => void;
-  updateTeamMutation: (mutation: { variables: { team: TeamInput } }) => void;
+  updateTeamMutation: (mutation: {
+    variables: { team: TeamInput };
+    optimisticResponse: { __typename: "Mutation"; updateTeam: Team };
+  }) => void;
   deleteTeamMutation: (mutation: {
     variables: {
       team: {
@@ -84,9 +88,7 @@ class TeamBuilder extends Component<Props> {
 
     const newTeam: TeamInput = {
       ...transformedTeam,
-      members: transformedTeam.members.filter(
-        member => getOr(null, "id", member) !== memberId
-      )
+      members: transformedTeam.members.filter(({ id }) => id !== memberId)
     };
 
     this.handleUpsertTeam(newTeam);
@@ -102,11 +104,36 @@ class TeamBuilder extends Component<Props> {
   }
 
   public handleUpsertTeam(newTeam: TeamInput): void {
-    const { createTeamMutation, updateTeamMutation } = this.props;
+    const {
+      team,
+      currentSearchPokemon,
+      createTeamMutation,
+      updateTeamMutation
+    } = this.props;
     const variables = { team: newTeam };
 
     if (newTeam.id) {
-      updateTeamMutation({ variables });
+      updateTeamMutation({
+        variables,
+        optimisticResponse: {
+          __typename: "Mutation",
+          updateTeam: {
+            id: newTeam.id,
+            name: newTeam.name,
+            createdAt: team.createdAt,
+            __typename: "Team",
+            members: newTeam.members.map(member => ({
+              order: member.order,
+              id: member.id || getUniqueId(),
+              pokemon: pipe(
+                find(({ id }) => member.id === id),
+                get("pokemon")
+              )(team.members) || { ...currentSearchPokemon, moves: [] },
+              __typename: "TeamMember"
+            }))
+          }
+        }
+      });
     } else {
       createTeamMutation({ variables });
     }

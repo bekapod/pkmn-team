@@ -12,7 +12,7 @@ import TeamBuilder from "../../components/TeamBuilder";
 import { createTeam, updateTeam, deleteTeam } from "../../mutations/team";
 import { getCurrentSearchPokemon } from "../../queries/search";
 import { getTeamById } from "../../queries/team";
-import { Pokemon, Team } from "../../types";
+import { Pokemon, Team, TeamInput } from "../../types";
 
 interface Props {
   query?: { teamId?: string };
@@ -22,10 +22,7 @@ interface QueryProps {
   createTeamMutation: {
     mutation: (mutation: {
       variables: {
-        team: {
-          name: string;
-          members: { pokemonId: string; order: number }[];
-        };
+        team: TeamInput;
       };
     }) => void;
     result: MutationResult<{ createTeam: Team }>;
@@ -33,11 +30,8 @@ interface QueryProps {
   updateTeamMutation: {
     mutation: (mutation: {
       variables: {
-        team: {
-          id: string;
-          name: string;
-          members: { pokemonId: string; order: number }[];
-        };
+        team: TeamInput;
+        optimisticResponse: { __typename: "Mutation"; updateTeam: Team };
       };
     }) => void;
     result: MutationResult<{ updateTeam: Team }>;
