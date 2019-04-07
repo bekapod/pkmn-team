@@ -1,10 +1,10 @@
 // tslint:disable-next-line:no-implicit-dependencies
 import { storiesOf } from "@storybook/react";
 import React from "react";
-import TeamBuilder from ".";
 import { action } from "@storybook/addon-actions";
 import { MockedResponse } from "react-apollo/test-links";
 import { MockedProvider } from "react-apollo/test-utils";
+import TeamBuilder from ".";
 import { getPokemon } from "../../queries/pokemon";
 import { TeamMember, Team } from "../../types";
 

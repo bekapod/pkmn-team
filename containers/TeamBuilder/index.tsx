@@ -131,17 +131,13 @@ class TeamBuilderContainer extends PureComponent<Props> {
             getOr(undefined, ["updateTeam"], updatedTeam) ||
             getOr({}, ["data", "team"], getTeamQuery);
 
-          const currentSearchPokemon = getOr(
-            undefined,
-            ["data", "currentSearchPokemon"],
-            getCurrentSearchPokemonQuery
-          );
-
           return (
             <TeamBuilder
               {...this.props}
               team={team}
-              currentSearchPokemon={currentSearchPokemon}
+              currentSearchPokemon={
+                getCurrentSearchPokemonQuery.data.currentSearchPokemon
+              }
               createTeamMutation={createTeamMutation}
               updateTeamMutation={updateTeamMutation}
               deleteTeamMutation={deleteTeamMutation}
