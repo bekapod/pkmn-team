@@ -119,8 +119,8 @@ export const TabContent = styled.div`
 `;
 
 export const Bin = styled.div`
-  --background: transparent;
-  --helperOpacity: 0;
+  --background: ${variables.colors.primary};
+  --color: ${rgba(variables.colors.white, 0.75)};
 
   ${baseTransition}
   opacity: 0;
@@ -129,24 +129,18 @@ export const Bin = styled.div`
   bottom: 0;
   z-index: 1;
   height: 99px;
-  color: ${rgba(variables.colors.white, 0.5)};
+  color: var(--color);
   background: var(--background);
   transform: translateX(-50%);
-  transition-property: all;
+  transition-property: opacity;
   pointer-events: none;
+
+  &[data-react-beautiful-dnd-droppable] {
+    overflow: visible;
+  }
 
   .is-dragging & {
     opacity: 1;
-  }
-
-  &::before {
-    content: "";
-    width: 150vw;
-    background: ${rgba(variables.colors.grayDark, 0.5)};
-    position: absolute;
-    top: 0;
-    left: -50vw;
-    height: 100%;
   }
 
   [data-binned-item] {
@@ -172,10 +166,7 @@ export const Bin = styled.div`
 
     &::before,
     &:after {
-      ${baseTransition}
-
       content: "";
-      opacity: var(--helperOpacity);
       position: absolute;
       top: 41px;
       left: calc(-41px - 16.5px);
@@ -184,18 +175,17 @@ export const Bin = styled.div`
       transform: rotate(-90deg);
       background: linear-gradient(
           -45deg,
-          ${variables.colors.grayDark} ${variables.sizes.zigzag}px,
+          var(--background) ${variables.sizes.zigzag}px,
           transparent 0
         ),
         linear-gradient(
           45deg,
-          ${variables.colors.grayDark} ${variables.sizes.zigzag}px,
+          var(--background) ${variables.sizes.zigzag}px,
           transparent 0
         );
       background-repeat: repeat-x;
       background-position: left top;
       background-size: ${variables.sizes.zigzag}px 46px;
-      transition-property: opacity;
     }
 
     &::after {

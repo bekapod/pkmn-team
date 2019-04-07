@@ -4,12 +4,13 @@ import * as variables from "../../helpers/variables";
 
 interface Props {
   isBig?: boolean;
+  color?: string;
   children: ReactNode | ReactNodeArray;
 }
 
 const StyledError = styled.div`
-  color: ${variables.colors.error};
-  font-weight: 700;
+  color: ${({ color }: Props) => color || variables.colors.error};
+  font-weight: 400;
 
   ${({ isBig }: Props) =>
     isBig
@@ -26,8 +27,8 @@ const StyledError = styled.div`
   }
 `;
 
-const ErrorMessage = ({ isBig, children }: Props): JSX.Element => (
-  <StyledError isBig={isBig} role="alert">
+const ErrorMessage = ({ children, ...props }: Props): JSX.Element => (
+  <StyledError role="alert" {...props}>
     {children}
   </StyledError>
 );

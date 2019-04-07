@@ -1,8 +1,7 @@
 import { ApolloError } from "apollo-client";
-import { map, merge, getOr, isEmpty, concat, get, find, pipe } from "lodash/fp";
+import { map, merge, getOr, concat, get, find, pipe } from "lodash/fp";
 import Router from "next/router";
-import React, { FocusEvent, Component } from "react";
-import { css } from "styled-components/macro";
+import React, { FocusEvent, Component, KeyboardEvent } from "react";
 import { Pokemon, Team, TeamMember, TeamInput } from "../../types";
 import CenteredRow from "../CenteredRow";
 import { CtaButton } from "../Cta";
@@ -11,6 +10,8 @@ import GiantInput from "../GiantInput";
 import LoadingIcon from "../LoadingIcon";
 import TeamView from "../TeamView";
 import { getUniqueId } from "../../helpers/general";
+import StickyBar from "../StickyBar";
+import * as variables from "../../helpers/variables";
 
 interface Props {
   team: Team;
@@ -51,6 +52,8 @@ class TeamBuilder extends Component<Props> {
   public constructor(props: Props) {
     super(props);
 
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.handleSaveTeam = this.handleSaveTeam.bind(this);
     this.handleTeamNameChange = this.handleTeamNameChange.bind(this);
     this.handleUpsertTeam = this.handleUpsertTeam.bind(this);
     this.handleDeleteTeam = this.handleDeleteTeam.bind(this);
@@ -61,8 +64,23 @@ class TeamBuilder extends Component<Props> {
     this.handleReorderTeamMembers = this.handleReorderTeamMembers.bind(this);
   }
 
-  public handleTeamNameChange(e: FocusEvent<HTMLInputElement>): void {
-    const { value } = e.target;
+  public handleKeyPress(e: KeyboardEvent<HTMLInputElement>): void {
+    if (e.key === "Enter") {
+      this.handleTeamNameChange(e);
+    }
+  }
+
+  public handleSaveTeam(): void {
+    const { team } = this.props;
+    const newTeam = transformTeamToInput(team);
+
+    this.handleUpsertTeam(newTeam);
+  }
+
+  public handleTeamNameChange(
+    e: FocusEvent<HTMLInputElement> | KeyboardEvent<HTMLInputElement>
+  ): void {
+    const { value } = e.target as HTMLInputElement;
     const { team } = this.props;
     const newTeam = merge(transformTeamToInput(team), { name: value });
 
@@ -110,11 +128,11 @@ class TeamBuilder extends Component<Props> {
       createTeamMutation,
       updateTeamMutation
     } = this.props;
-    const variables = { team: newTeam };
+    const mutationVariables = { team: newTeam };
 
     if (newTeam.id) {
       updateTeamMutation({
-        variables,
+        variables: mutationVariables,
         optimisticResponse: {
           __typename: "Mutation",
           updateTeam: {
@@ -135,7 +153,7 @@ class TeamBuilder extends Component<Props> {
         }
       });
     } else {
-      createTeamMutation({ variables });
+      createTeamMutation({ variables: mutationVariables });
     }
   }
 
@@ -174,32 +192,42 @@ class TeamBuilder extends Component<Props> {
 
     return (
       <>
+        <StickyBar>
+          {!error && !loading ? (
+            <>
+              <CtaButton onClick={this.handleSaveTeam} small>
+                Save team
+              </CtaButton>
+              <CtaButton onClick={this.handleDeleteTeam} small>
+                Delete team
+              </CtaButton>
+            </>
+          ) : null}
+
+          {!!error && (
+            <ErrorMessage key="Error message" color={variables.colors.white}>
+              {error.message}
+            </ErrorMessage>
+          )}
+
+          {loading && !error ? (
+            <LoadingIcon
+              key="Loading icon"
+              spinner
+              small
+              color={variables.colors.white}
+            />
+          ) : null}
+        </StickyBar>
+
         <CenteredRow stackVertically>
           <GiantInput
             aria-label="Choose a team name"
             placeholder="Choose a team name"
             defaultValue={team.name}
             onBlur={this.handleTeamNameChange}
+            onKeyPress={this.handleKeyPress}
           />
-
-          {!!error && (
-            <ErrorMessage key="Error message">{error.message}</ErrorMessage>
-          )}
-
-          {loading && !error ? (
-            <LoadingIcon key="Loading icon" spinner />
-          ) : null}
-
-          {!isEmpty(team) && (
-            <CtaButton
-              onClick={this.handleDeleteTeam}
-              css={css`
-                display: inline-block;
-              `}
-            >
-              Delete team
-            </CtaButton>
-          )}
         </CenteredRow>
 
         <TeamView

@@ -33,6 +33,10 @@ export const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
   }
 
+  body {
+    --scroll-bar: 0;
+  }
+
   ${selection({
     "background-color": variables.colors.selection,
     color: variables.colors.grayDark

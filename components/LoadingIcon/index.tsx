@@ -7,6 +7,8 @@ import { lineHeight } from "../../helpers/verticalRhythm";
 
 interface Props {
   spinner?: boolean;
+  small?: boolean;
+  color?: string;
 }
 
 const Styled = styled.div`
@@ -24,28 +26,35 @@ const Styled = styled.div`
 
 const StyledSpinner = styled.div`
   position: relative;
-  font-size: ${variables.fontSizes.xxs}px;
-  border: 10px solid ${rgba(variables.colors.secondary, 0.15)};
-  border-left: 10px solid ${variables.colors.secondary};
+  border: ${({ small, color }: Props) =>
+    `${small ? "5px" : "10px"} solid ${rgba(
+      color || variables.colors.secondary,
+      0.15
+    )}`};
+  border-left: ${({ small, color }: Props) =>
+    `${small ? "5px" : "10px"} solid ${color || variables.colors.secondary}`};
   transform: translateZ(0);
   animation: ${spin} 1s linear infinite;
 
   &,
   &:after {
-    width: ${variables.spacing.xl}px;
-    height: ${variables.spacing.xl}px;
+    width: ${({ small }: Props) =>
+      small ? variables.spacing.lg : variables.spacing.xl}px;
+    height: ${({ small }: Props) =>
+      small ? variables.spacing.lg : variables.spacing.xl}px;
     border-radius: 50%;
   }
 `;
 
 const loadingText = "Loading";
 
-const LoadingIcon = ({ spinner }: Props): JSX.Element =>
+const LoadingIcon = ({ spinner, ...props }: Props): JSX.Element =>
   spinner ? (
     <StyledSpinner
       data-testid="loading-spinner"
       role="img"
       aria-label={loadingText}
+      {...props}
     />
   ) : (
     <Styled>{loadingText}</Styled>

@@ -201,9 +201,8 @@ class TeamView extends Component<Props, State> {
 
                     ${droppableSnapshot.isDraggingOver
                       ? `
-                        --background: ${variables.colors.grayDark};
-                        --helperOpacity: 1;
-                        color: ${variables.colors.white};
+                        --background: ${variables.colors.primaryDark};
+                        --color: ${variables.colors.white};
                       `
                       : ""}
                   `}
