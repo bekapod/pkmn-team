@@ -60,6 +60,8 @@ export const AddButton = styled.span`
 `;
 
 export const TabBar = styled.div`
+  margin-top: -${variables.spacing.xs}px;
+
   [data-react-beautiful-dnd-droppable] {
     overflow-x: auto;
   }
@@ -108,13 +110,13 @@ export const TabItem = styled.div`
 export const TabContent = styled.div`
   padding: ${variables.spacing.lg}px;
   background-color: ${variables.colors.gray};
+  grid-gap: ${variables.gutters.grid}px;
 
   ${(props: TabContentProps) =>
     props["aria-hidden"] ? "display: none !important;" : "display: grid;"}
 
   ${media.medium`
     grid-template-columns: 1fr 1fr;
-    grid-gap: ${variables.gutters.grid}px;
   `}
 `;
 

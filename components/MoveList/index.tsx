@@ -18,6 +18,7 @@ interface RowProps {
 }
 
 const StyledList = styled(List)`
+  width: auto !important;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -45,7 +46,7 @@ const MoveList = ({ moves }: Props): JSX.Element => {
 
   return (
     <StyledList
-      height={itemHeight * 5}
+      height={itemHeight * 10}
       itemSize={itemHeight}
       itemCount={size(combinedMoves)}
       width={500}
