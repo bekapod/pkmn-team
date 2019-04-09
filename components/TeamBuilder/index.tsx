@@ -1,7 +1,18 @@
 import { ApolloError } from "apollo-client";
-import { map, merge, getOr, concat, get, find, pipe } from "lodash/fp";
+import {
+  map,
+  merge,
+  getOr,
+  concat,
+  get,
+  find,
+  pipe,
+  isNil,
+  isEmpty
+} from "lodash/fp";
 import Router from "next/router";
-import React, { FocusEvent, Component, KeyboardEvent } from "react";
+import React, { FocusEvent, KeyboardEvent, useEffect, useState } from "react";
+import { ValidationError } from "yup";
 import { Pokemon, Team, TeamMember, TeamInput } from "../../types";
 import CenteredRow from "../CenteredRow";
 import { CtaButton } from "../Cta";
@@ -12,9 +23,10 @@ import TeamView from "../TeamView";
 import { getUniqueId } from "../../helpers/general";
 import StickyBar from "../StickyBar";
 import * as variables from "../../helpers/variables";
+import { updateTeamSchema, createTeamSchema } from "../../helpers/validation";
 
 interface Props {
-  team: Team;
+  team?: Team;
   currentSearchPokemon?: Pokemon;
   createdTeamId?: string;
   deletedTeamId?: string;
@@ -42,92 +54,42 @@ const transformMembersToInput = map(
   })
 );
 
-const transformTeamToInput = ({ id, name, members }: Team): TeamInput => ({
+const transformTeamToInput = (
+  { id, name = "", members = [] }: Team = {
+    id: "",
+    name: "",
+    createdAt: "",
+    members: []
+  }
+): TeamInput => ({
   id,
   name,
   members: transformMembersToInput(members)
 });
 
-class TeamBuilder extends Component<Props> {
-  public constructor(props: Props) {
-    super(props);
-
-    this.handleKeyPress = this.handleKeyPress.bind(this);
-    this.handleSaveTeam = this.handleSaveTeam.bind(this);
-    this.handleTeamNameChange = this.handleTeamNameChange.bind(this);
-    this.handleUpsertTeam = this.handleUpsertTeam.bind(this);
-    this.handleDeleteTeam = this.handleDeleteTeam.bind(this);
-    this.handleAddPokemonToTeam = this.handleAddPokemonToTeam.bind(this);
-    this.handleRemovePokemonFromTeam = this.handleRemovePokemonFromTeam.bind(
-      this
-    );
-    this.handleReorderTeamMembers = this.handleReorderTeamMembers.bind(this);
+const validateTeam = async (
+  team: TeamInput,
+  teamAlreadyExists: boolean = true
+): Promise<{ team?: TeamInput; error?: ValidationError }> => {
+  console.log("team", team);
+  try {
+    console.log(teamAlreadyExists);
+    const schema = teamAlreadyExists ? updateTeamSchema : createTeamSchema;
+    const validTeam = await schema.validate(team);
+    return { team: validTeam };
+  } catch (error) {
+    return { error };
   }
+};
 
-  public handleKeyPress(e: KeyboardEvent<HTMLInputElement>): void {
-    if (e.key === "Enter") {
-      this.handleTeamNameChange(e);
-    }
-  }
-
-  public handleSaveTeam(): void {
-    const { team } = this.props;
-    const newTeam = transformTeamToInput(team);
-
-    this.handleUpsertTeam(newTeam);
-  }
-
-  public handleTeamNameChange(
-    e: FocusEvent<HTMLInputElement> | KeyboardEvent<HTMLInputElement>
-  ): void {
-    const { value } = e.target as HTMLInputElement;
-    const { team } = this.props;
-    const newTeam = merge(transformTeamToInput(team), { name: value });
-
-    this.handleUpsertTeam(newTeam);
-  }
-
-  public handleAddPokemonToTeam(pokemon: Pokemon, order: number): void {
-    const { team } = this.props;
-    const teamInput = transformTeamToInput(team);
-
-    const newTeam = merge(teamInput, {
-      members: concat(getOr([], "members", teamInput), [
-        { order, pokemonId: pokemon.id }
-      ])
-    });
-
-    this.handleUpsertTeam(newTeam);
-  }
-
-  public handleRemovePokemonFromTeam(memberId: string): void {
-    const { team } = this.props;
-    const transformedTeam = transformTeamToInput(team);
-
-    const newTeam: TeamInput = {
-      ...transformedTeam,
-      members: transformedTeam.members.filter(({ id }) => id !== memberId)
-    };
-
-    this.handleUpsertTeam(newTeam);
-  }
-
-  public handleReorderTeamMembers(members: TeamMember[]): void {
-    const { team } = this.props;
-    const newTeam = merge(transformTeamToInput(team), {
-      members: transformMembersToInput(members)
-    });
-
-    this.handleUpsertTeam(newTeam);
-  }
-
-  public handleUpsertTeam(newTeam: TeamInput): void {
-    const {
-      team,
-      currentSearchPokemon,
-      createTeamMutation,
-      updateTeamMutation
-    } = this.props;
+const useUpsertTeam = (
+  newTeam: TeamInput,
+  currentTeam: Props["team"],
+  currentSearchPokemon: Props["currentSearchPokemon"],
+  createTeamMutation: Props["createTeamMutation"],
+  updateTeamMutation: Props["updateTeamMutation"]
+): void => {
+  useEffect(() => {
     const mutationVariables = { team: newTeam };
 
     if (newTeam.id) {
@@ -138,7 +100,7 @@ class TeamBuilder extends Component<Props> {
           updateTeam: {
             id: newTeam.id,
             name: newTeam.name,
-            createdAt: team.createdAt,
+            createdAt: getOr("", "createdAt", currentTeam),
             __typename: "Team",
             members: newTeam.members.map(member => ({
               order: member.order,
@@ -146,7 +108,10 @@ class TeamBuilder extends Component<Props> {
               pokemon: pipe(
                 find(({ id }) => member.id === id),
                 get("pokemon")
-              )(team.members) || { ...currentSearchPokemon, moves: [] },
+              )(getOr([], "members", currentTeam)) || {
+                ...currentSearchPokemon,
+                moves: []
+              },
               __typename: "TeamMember"
             }))
           }
@@ -155,11 +120,14 @@ class TeamBuilder extends Component<Props> {
     } else {
       createTeamMutation({ variables: mutationVariables });
     }
-  }
+  });
+};
 
-  public handleDeleteTeam(): void {
-    const { team, deleteTeamMutation } = this.props;
-
+const useDeleteTeam = (
+  team: Props["team"],
+  deleteTeamMutation: Props["deleteTeamMutation"]
+): void => {
+  useEffect(() => {
     if (team) {
       deleteTeamMutation({
         variables: {
@@ -169,17 +137,24 @@ class TeamBuilder extends Component<Props> {
         }
       });
     }
-  }
+  });
+};
 
-  public render(): JSX.Element {
-    const {
-      team,
-      currentSearchPokemon,
-      createdTeamId,
-      deletedTeamId,
-      loading,
-      error
-    } = this.props;
+const TeamBuilder = React.memo(
+  ({
+    team,
+    currentSearchPokemon,
+    createdTeamId,
+    deletedTeamId,
+    loading,
+    error
+  }: Props): JSX.Element => {
+    const [validationErrors, setValidationErrors] = useState<
+      ValidationError | undefined
+    >(undefined);
+    const [teamInput, setTeamInput] = useState<TeamInput | undefined>(
+      undefined
+    );
 
     if (createdTeamId) {
       const url = `/team/edit/${createdTeamId}`;
@@ -190,16 +165,79 @@ class TeamBuilder extends Component<Props> {
       Router.push("/");
     }
 
+    useEffect(() => {
+      console.log("team input", teamInput);
+      console.log("validation errors", validationErrors);
+    });
+
+    const prepareUpsertTeam = async (newTeam: TeamInput): Promise<void> => {
+      console.log("new team", newTeam, team);
+      const validationResponse = await validateTeam(newTeam, !isEmpty(team));
+      const { team: validTeam, error: transformError } = validationResponse;
+
+      if (!isNil(transformError)) {
+        setValidationErrors(transformError);
+        setTeamInput(undefined);
+      } else {
+        setValidationErrors(undefined);
+        setTeamInput(validTeam);
+      }
+    };
+
+    const handleTeamNameChange = (
+      e: FocusEvent<HTMLInputElement> | KeyboardEvent<HTMLInputElement>
+    ): void => {
+      const { value } = e.target as HTMLInputElement;
+      console.log("transformed", transformTeamToInput(team));
+      prepareUpsertTeam(merge(transformTeamToInput(team), { name: value }));
+    };
+
+    const handleAddPokemonToTeam = (pokemon: Pokemon, order: number): void => {
+      const transformedTeam = transformTeamToInput(team);
+
+      prepareUpsertTeam(
+        merge(transformedTeam, {
+          members: concat(getOr([], "members", transformedTeam), [
+            { order, pokemonId: pokemon.id }
+          ])
+        })
+      );
+    };
+
+    const handleRemovePokemonFromTeam = (memberId: string): void => {
+      const transformedTeam = transformTeamToInput(team);
+
+      prepareUpsertTeam({
+        ...transformedTeam,
+        members: transformedTeam.members.filter(({ id }) => id !== memberId)
+      });
+    };
+
+    const handleReorderTeamMembers = (members: TeamMember[]): void => {
+      prepareUpsertTeam(
+        merge(transformTeamToInput(team), {
+          members: transformMembersToInput(members)
+        })
+      );
+    };
+
+    const handleSaveTeam = (): void => {
+      prepareUpsertTeam(transformTeamToInput(team));
+    };
+
+    const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>): void => {
+      if (e.key === "Enter") {
+        handleTeamNameChange(e);
+      }
+    };
+
     return (
       <>
         <StickyBar>
           {!error && !loading ? (
             <>
-              <CtaButton onClick={this.handleSaveTeam} small>
+              <CtaButton onClick={handleSaveTeam} small>
                 Save team
-              </CtaButton>
-              <CtaButton onClick={this.handleDeleteTeam} small>
-                Delete team
               </CtaButton>
             </>
           ) : null}
@@ -209,6 +247,18 @@ class TeamBuilder extends Component<Props> {
               {error.message}
             </ErrorMessage>
           )}
+
+          {getOr([], ["error", "details"], team).map(({ field, errors }) => (
+            <ErrorMessage key={field} color={variables.colors.white}>
+              {errors.map(message => message)}
+            </ErrorMessage>
+          ))}
+
+          {/* {getOr([], "errors", validationErrors).map(({ field, errors }) => (
+          <ErrorMessage key={field} color={variables.colors.white}>
+            {errors.map(message => message)}
+          </ErrorMessage>
+        ))} */}
 
           {loading && !error ? (
             <LoadingIcon
@@ -224,22 +274,22 @@ class TeamBuilder extends Component<Props> {
           <GiantInput
             aria-label="Choose a team name"
             placeholder="Choose a team name"
-            defaultValue={team.name}
-            onBlur={this.handleTeamNameChange}
-            onKeyPress={this.handleKeyPress}
+            defaultValue={getOr("", "name", team)}
+            onBlur={handleTeamNameChange}
+            onKeyPress={handleKeyPress}
           />
         </CenteredRow>
 
         <TeamView
           teamMembers={getOr([], "members", team)}
           currentSearchPokemon={currentSearchPokemon}
-          addPokemonToTeam={this.handleAddPokemonToTeam}
-          removePokemonFromTeam={this.handleRemovePokemonFromTeam}
-          reorderTeamMembers={this.handleReorderTeamMembers}
+          addPokemonToTeam={handleAddPokemonToTeam}
+          removePokemonFromTeam={handleRemovePokemonFromTeam}
+          reorderTeamMembers={handleReorderTeamMembers}
         />
       </>
     );
   }
-}
+);
 
 export default TeamBuilder;
