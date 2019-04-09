@@ -25,6 +25,14 @@ export type TypeSlug =
   | "special"
   | "status";
 
+export interface Error {
+  message: string;
+  details: {
+    field: string;
+    errors: string[];
+  };
+}
+
 export interface Type {
   name: string;
   slug: TypeSlug;
@@ -80,6 +88,7 @@ export interface Team {
   name: string;
   members: TeamMember[];
   createdAt: string;
+  error?: Error;
   __typename?: "Team";
 }
 

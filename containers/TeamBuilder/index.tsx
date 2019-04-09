@@ -73,11 +73,13 @@ const mutations = {
 
 const queries = {
   getCurrentSearchPokemonQuery: ({ render }: any) => (
-    <Query query={getCurrentSearchPokemon}>{render}</Query>
+    <Query query={getCurrentSearchPokemon} errorPolicy="all">
+      {render}
+    </Query>
   ),
   getTeamQuery: ({ teamId, render }: any) =>
     teamId ? (
-      <Query query={getTeamById} variables={{ id: teamId }}>
+      <Query query={getTeamById} variables={{ id: teamId }} errorPolicy="all">
         {render}
       </Query>
     ) : (
@@ -128,6 +130,7 @@ class TeamBuilderContainer extends PureComponent<Props> {
           } = getTeamQuery || {};
 
           const team =
+            getOr(undefined, ["createTeam"], createdTeam) ||
             getOr(undefined, ["updateTeam"], updatedTeam) ||
             getOr({}, ["team"], getTeam);
 
