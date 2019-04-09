@@ -1,5 +1,4 @@
 import React from "react";
-// tslint:disable-next-line:no-implicit-dependencies
 import { fireEvent, render } from "react-testing-library";
 import PokemonSearch from ".";
 import { Pokemon } from "../../types";
@@ -56,7 +55,7 @@ describe("<PokemonSearch />", () => {
     expect(setCurrentSearchPokemon).toBeCalledTimes(0);
 
     fireEvent.change(getByPlaceholderText(/Find by name/), {
-      target: { value: "hau" }
+      target: { value: "Hau" }
     });
 
     expect(setCurrentSearchPokemon).toBeCalledTimes(0);

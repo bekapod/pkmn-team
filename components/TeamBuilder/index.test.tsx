@@ -113,10 +113,10 @@ describe("<TeamBuilder />", () => {
     });
 
     describe("when user attempts to submit form", () => {
-      it("displays an error message for invalid team name when user has not entered a team name", async () => {
+      it.only("displays an error message for invalid team name when user has not entered a team name", async () => {
         const fnStub = (): null => null;
         const { getByText, queryByText } = render(
-          <MockedProvider mocks={mocks} addTypename={false}>
+          <MockedProvider mocks={mocks}>
             <TeamBuilder
               updateTeamMutation={fnStub}
               createTeamMutation={fnStub}
@@ -130,8 +130,9 @@ describe("<TeamBuilder />", () => {
 
         expect(queryByText(/Team name is required/)).toBeFalsy();
 
-        fireEvent.click(getByText(/Add charmander to team/));
-        fireEvent.click(getByText(/Create this team!/));
+        fireEvent.click(getByText(/Add Charmander to team/));
+        fireEvent.click(getByText(/Save team/));
+        getByText(/Team name is required/);
 
         expect(queryByText(/Team name is required/)).toBeTruthy();
       });
@@ -255,7 +256,7 @@ describe("<TeamBuilder />", () => {
 
   describe("when editing a team", () => {
     const team: Team = {
-      insertedAt: "2018-06-08T21:15:14.723Z",
+      createdAt: "2018-06-08T21:15:14.723Z",
       id: "cji6gz8gwhblk0a9639btq2hd",
       members: [
         {

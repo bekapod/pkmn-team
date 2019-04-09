@@ -1,14 +1,17 @@
 import React from "react";
-// tslint:disable-next-line:no-implicit-dependencies
 import { fireEvent, render } from "react-testing-library";
 import wait from "waait";
-import Tabs from ".";
+import Tabs, { GetTabItemProps, GetTabContentProps } from "."; // eslint-disable-line import/named
 
 describe("<Tabs />", () => {
   const items = ["1", "2", "3", "4"];
   const tabs = (
-    <Tabs selectedItem="1">
-      {({ getTabItemProps, getTabContentProps }) => (
+    <Tabs
+      selectedItem="1"
+      render={(
+        getTabItemProps: GetTabItemProps,
+        getTabContentProps: GetTabContentProps
+      ) => (
         <>
           {items.map(item => {
             const tabItemProps = getTabItemProps(item);
@@ -23,7 +26,7 @@ describe("<Tabs />", () => {
           })}
         </>
       )}
-    </Tabs>
+    />
   );
 
   it("renders correct attributes", () => {
