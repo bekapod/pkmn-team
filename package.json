@@ -66,6 +66,7 @@
     "@types/yup": "^0.26.12",
     "@typescript-eslint/eslint-plugin": "^1.4.0",
     "@typescript-eslint/parser": "^1.4.0",
+    "@zeit/next-bundle-analyzer": "^0.1.2",
     "@zeit/next-typescript": "^1.1.1",
     "babel-loader": "8.0.4",
     "babel-plugin-macros": "^2.4.5",

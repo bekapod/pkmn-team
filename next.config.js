@@ -1,14 +1,17 @@
+/* eslint-disable @typescript-eslint/no-var-requires, no-param-reassign */
 const path = require("path");
+const withPlugins = require("next-compose-plugins");
 const withTypescript = require("@zeit/next-typescript");
+const withBundleAnalyzer = require("@zeit/next-bundle-analyzer");
 
 require("dotenv").config();
-const dotEnv = require("dotenv-webpack");
+const DotEnv = require("dotenv-webpack");
 
-if (dotEnv.error) {
-  throw dotEnv.error;
+if (DotEnv.error) {
+  throw DotEnv.error;
 }
 
-const nextConfig = withTypescript({
+const nextConfig = {
   webpack: config => {
     // Fixes npm packages that depend on `fs` module
     config.node = {
@@ -18,7 +21,7 @@ const nextConfig = withTypescript({
 
     config.plugins = [
       ...config.plugins,
-      new dotEnv({
+      new DotEnv({
         path: path.join(__dirname, ".env"),
         systemvars: true
       })
@@ -26,6 +29,30 @@ const nextConfig = withTypescript({
 
     return config;
   }
-});
+};
 
-module.exports = nextConfig;
+module.exports = withPlugins(
+  [
+    [withTypescript],
+    [
+      withBundleAnalyzer,
+      {
+        analyzeServer: ["server", "both"].includes(process.env.BUNDLE_ANALYZE),
+        analyzeBrowser: ["browser", "both"].includes(
+          process.env.BUNDLE_ANALYZE
+        ),
+        bundleAnalyzerConfig: {
+          server: {
+            analyzerMode: "static",
+            reportFilename: "../bundles/server.html"
+          },
+          browser: {
+            analyzerMode: "static",
+            reportFilename: "./bundles/client.html"
+          }
+        }
+      }
+    ]
+  ],
+  nextConfig
+);
