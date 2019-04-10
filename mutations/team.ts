@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import { TeamDetails } from "../queries/team";
+import { PokemonDetails } from "../queries/pokemon";
 import { Error } from "../queries/error";
 
 export const createTeam = gql`
@@ -17,13 +17,24 @@ export const createTeam = gql`
 export const updateTeam = gql`
   mutation($team: UpdateTeamInput!) {
     updateTeam(data: $team) {
-      ...TeamDetails
+      id
+      name
+      createdAt
+      __typename
+      members {
+        id
+        order
+        __typename
+        pokemon {
+          ...PokemonDetails
+        }
+      }
       error {
         ...Error
       }
     }
   }
-  ${TeamDetails}
+  ${PokemonDetails}
   ${Error}
 `;
 

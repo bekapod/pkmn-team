@@ -136,7 +136,6 @@ class TeamBuilderContainer extends PureComponent<Props> {
 
           return (
             <TeamBuilder
-              {...this.props}
               team={team}
               currentSearchPokemon={get(
                 ["data", "currentSearchPokemon"],
