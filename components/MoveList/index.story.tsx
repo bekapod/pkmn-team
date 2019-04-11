@@ -12,12 +12,10 @@ const moves: PokemonMove[] = [
       accuracy: undefined,
       power: undefined,
       pp: 10,
-      types: [
-        {
-          name: "Normal",
-          slug: "normal"
-        }
-      ],
+      type: {
+        name: "Normal",
+        slug: "normal"
+      },
       name: "Substitute",
       slug: "substitute"
     },
@@ -31,12 +29,10 @@ const moves: PokemonMove[] = [
       accuracy: 100,
       power: 90,
       pp: 10,
-      types: [
-        {
-          name: "Psychic",
-          slug: "psychic"
-        }
-      ],
+      type: {
+        name: "Psychic",
+        slug: "psychic"
+      },
       name: "Psychic",
       slug: "psychic"
     },
@@ -50,12 +46,10 @@ const moves: PokemonMove[] = [
       accuracy: 100,
       power: 250,
       pp: 5,
-      types: [
-        {
-          name: "Normal",
-          slug: "normal"
-        }
-      ],
+      type: {
+        name: "Normal",
+        slug: "normal"
+      },
       name: "Explosion",
       slug: "explosion"
     },

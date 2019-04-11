@@ -11,12 +11,10 @@ const move: DeduplicatedMove = {
   accuracy: 80,
   power: 100,
   pp: 10,
-  types: [
-    {
-      name: "Normal",
-      slug: "normal"
-    }
-  ],
+  type: {
+    name: "Normal",
+    slug: "normal"
+  },
   variations: [
     {
       levelLearnedAt: 0,
