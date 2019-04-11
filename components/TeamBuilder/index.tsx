@@ -12,7 +12,13 @@ import {
   isEqual
 } from "lodash/fp";
 import Router from "next/router";
-import React, { FocusEvent, KeyboardEvent, useEffect, useState } from "react";
+import React, {
+  FocusEvent,
+  KeyboardEvent,
+  useEffect,
+  useState,
+  useCallback
+} from "react";
 import { ValidationError } from "yup";
 import { Pokemon, Team, TeamMember, TeamInput, Error } from "../../types";
 import CenteredRow from "../CenteredRow";
@@ -189,68 +195,86 @@ const TeamBuilder = ({
     updateTeamMutation
   ]);
 
-  const prepareUpsertTeam = async (newTeam: TeamInput): Promise<void> => {
-    const validationResponse = await validateTeam(newTeam, !isEmpty(team));
-    const { team: validTeam, error: transformError } = validationResponse;
+  const prepareUpsertTeam = useCallback(
+    async (newTeam: TeamInput): Promise<void> => {
+      const validationResponse = await validateTeam(newTeam, !isEmpty(team));
+      const { team: validTeam, error: transformError } = validationResponse;
 
-    if (!isNil(transformError)) {
-      setValidationErrors(transformError);
-      setTeamInput(undefined);
-    } else {
-      setValidationErrors(undefined);
-      setTeamInput(validTeam);
-    }
-  };
+      if (!isNil(transformError)) {
+        setValidationErrors(transformError);
+        setTeamInput(undefined);
+      } else {
+        setValidationErrors(undefined);
+        setTeamInput(validTeam);
+      }
+    },
+    [team]
+  );
 
-  const handleTeamNameChange = (
-    e: FocusEvent<HTMLInputElement> | KeyboardEvent<HTMLInputElement>
-  ): void => {
-    const { value } = e.target as HTMLInputElement;
-    prepareUpsertTeam(merge(transformTeamToInput(team), { name: value }));
-  };
+  const handleTeamNameChange = useCallback(
+    (
+      e: FocusEvent<HTMLInputElement> | KeyboardEvent<HTMLInputElement>
+    ): void => {
+      const { value } = e.target as HTMLInputElement;
+      prepareUpsertTeam(merge(transformTeamToInput(team), { name: value }));
+    },
+    [prepareUpsertTeam, team]
+  );
 
-  const handleAddPokemonToTeam = (pokemon: Pokemon, order: number): void => {
-    const transformedTeam = transformTeamToInput(team);
+  const handleAddPokemonToTeam = useCallback(
+    (pokemon: Pokemon, order: number): void => {
+      const transformedTeam = transformTeamToInput(team);
 
-    prepareUpsertTeam(
-      merge(transformedTeam, {
-        members: concat(getOr([], "members", transformedTeam), [
-          { order, pokemonId: pokemon.id }
-        ])
-      })
-    );
-  };
+      prepareUpsertTeam(
+        merge(transformedTeam, {
+          members: concat(getOr([], "members", transformedTeam), [
+            { order, pokemonId: pokemon.id }
+          ])
+        })
+      );
+    },
+    [prepareUpsertTeam, team]
+  );
 
-  const handleRemovePokemonFromTeam = (memberId: string): void => {
-    const transformedTeam = transformTeamToInput(team);
+  const handleRemovePokemonFromTeam = useCallback(
+    (memberId: string): void => {
+      const transformedTeam = transformTeamToInput(team);
 
-    prepareUpsertTeam({
-      ...transformedTeam,
-      members: transformedTeam.members.filter(({ id }) => id !== memberId)
-    });
-  };
+      prepareUpsertTeam({
+        ...transformedTeam,
+        members: transformedTeam.members.filter(({ id }) => id !== memberId)
+      });
+    },
+    [prepareUpsertTeam, team]
+  );
 
-  const handleReorderTeamMembers = (members: TeamMember[]): void => {
-    prepareUpsertTeam(
-      merge(transformTeamToInput(team), {
-        members: transformMembersToInput(members)
-      })
-    );
-  };
+  const handleReorderTeamMembers = useCallback(
+    (members: TeamMember[]): void => {
+      prepareUpsertTeam(
+        merge(transformTeamToInput(team), {
+          members: transformMembersToInput(members)
+        })
+      );
+    },
+    [prepareUpsertTeam, team]
+  );
 
-  const handleSaveTeam = (): void => {
+  const handleSaveTeam = useCallback((): void => {
     prepareUpsertTeam(transformTeamToInput(team));
-  };
+  }, [prepareUpsertTeam, team]);
 
-  const handleDeleteTeam = (): void => {
+  const handleDeleteTeam = useCallback((): void => {
     deleteTeam(team, deleteTeamMutation);
-  };
+  }, [team, deleteTeamMutation]);
 
-  const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>): void => {
-    if (e.key === "Enter") {
-      handleTeamNameChange(e);
-    }
-  };
+  const handleKeyPress = useCallback(
+    (e: KeyboardEvent<HTMLInputElement>): void => {
+      if (e.key === "Enter") {
+        handleTeamNameChange(e);
+      }
+    },
+    [handleTeamNameChange]
+  );
 
   return (
     <>
