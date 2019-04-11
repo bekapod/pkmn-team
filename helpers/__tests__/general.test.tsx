@@ -84,7 +84,12 @@ describe("General helpers", () => {
           { name: "Psychic", slug: "psychic" },
           { name: "Electric", slug: "electric" }
         ])
-      ).toEqual(["BUG", "ELECTRIC", "ICE", "PSYCHIC"]);
+      ).toEqual([
+        { name: "Bug", slug: "bug" },
+        { name: "Electric", slug: "electric" },
+        { name: "Ice", slug: "ice" },
+        { name: "Psychic", slug: "psychic" }
+      ]);
     });
 
     it("sorts types alphabetically including duplicates", () => {
@@ -97,7 +102,14 @@ describe("General helpers", () => {
           { name: "Electric", slug: "electric" },
           { name: "Electric", slug: "electric" }
         ])
-      ).toEqual(["BUG", "BUG", "ELECTRIC", "ELECTRIC", "ICE", "PSYCHIC"]);
+      ).toEqual([
+        { name: "Bug", slug: "bug" },
+        { name: "Bug", slug: "bug" },
+        { name: "Electric", slug: "electric" },
+        { name: "Electric", slug: "electric" },
+        { name: "Ice", slug: "ice" },
+        { name: "Psychic", slug: "psychic" }
+      ]);
     });
   });
 });

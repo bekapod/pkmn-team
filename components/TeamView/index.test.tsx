@@ -22,12 +22,10 @@ describe("<TeamView />", () => {
       {
         version: "yellow",
         move: {
-          types: [
-            {
-              name: "Normal",
-              slug: "normal"
-            }
-          ],
+          type: {
+            name: "Normal",
+            slug: "normal"
+          },
           name: "Substitute",
           slug: "substitute",
           damageClass: "status",
@@ -39,12 +37,10 @@ describe("<TeamView />", () => {
       {
         version: "yellow",
         move: {
-          types: [
-            {
-              name: "Normal",
-              slug: "normal"
-            }
-          ],
+          type: {
+            name: "Normal",
+            slug: "normal"
+          },
           name: "Slash",
           slug: "slash",
           damageClass: "physical",
@@ -56,12 +52,10 @@ describe("<TeamView />", () => {
       {
         version: "yellow",
         move: {
-          types: [
-            {
-              name: "Psychic",
-              slug: "psychic"
-            }
-          ],
+          type: {
+            name: "Psychic",
+            slug: "psychic"
+          },
           name: "Rest",
           slug: "rest",
           damageClass: "status",
@@ -88,12 +82,10 @@ describe("<TeamView />", () => {
           {
             version: "yellow",
             move: {
-              types: [
-                {
-                  name: "Normal",
-                  slug: "normal"
-                }
-              ],
+              type: {
+                name: "Normal",
+                slug: "normal"
+              },
               name: "Substitute",
               slug: "substitute",
               damageClass: "status",
@@ -105,12 +97,10 @@ describe("<TeamView />", () => {
           {
             version: "yellow",
             move: {
-              types: [
-                {
-                  name: "Normal",
-                  slug: "normal"
-                }
-              ],
+              type: {
+                name: "Normal",
+                slug: "normal"
+              },
               name: "Slash",
               slug: "slash",
               damageClass: "physical",
@@ -122,12 +112,10 @@ describe("<TeamView />", () => {
           {
             version: "yellow",
             move: {
-              types: [
-                {
-                  name: "Psychic",
-                  slug: "psychic"
-                }
-              ],
+              type: {
+                name: "Psychic",
+                slug: "psychic"
+              },
               name: "Rest",
               slug: "rest",
               damageClass: "status",
@@ -153,12 +141,10 @@ describe("<TeamView />", () => {
           {
             version: "yellow",
             move: {
-              types: [
-                {
-                  name: "Normal",
-                  slug: "normal"
-                }
-              ],
+              type: {
+                name: "Normal",
+                slug: "normal"
+              },
               name: "Substitute",
               slug: "substitute",
               damageClass: "status",
@@ -170,12 +156,10 @@ describe("<TeamView />", () => {
           {
             version: "yellow",
             move: {
-              types: [
-                {
-                  name: "Psychic",
-                  slug: "psychic"
-                }
-              ],
+              type: {
+                name: "Psychic",
+                slug: "psychic"
+              },
               name: "Rest",
               slug: "rest",
               damageClass: "status",
@@ -187,12 +171,10 @@ describe("<TeamView />", () => {
           {
             version: "yellow",
             move: {
-              types: [
-                {
-                  name: "Normal",
-                  slug: "normal"
-                }
-              ],
+              type: {
+                name: "Normal",
+                slug: "normal"
+              },
               name: "Flash",
               slug: "flash",
               damageClass: "status",
@@ -221,12 +203,10 @@ describe("<TeamView />", () => {
           {
             version: "yellow",
             move: {
-              types: [
-                {
-                  name: "Normal",
-                  slug: "normal"
-                }
-              ],
+              type: {
+                name: "Normal",
+                slug: "normal"
+              },
               name: "Substitute",
               slug: "substitute",
               damageClass: "status",
@@ -238,12 +218,10 @@ describe("<TeamView />", () => {
           {
             version: "yellow",
             move: {
-              types: [
-                {
-                  name: "Psychic",
-                  slug: "psychic"
-                }
-              ],
+              type: {
+                name: "Psychic",
+                slug: "psychic"
+              },
               name: "Rest",
               slug: "rest",
               damageClass: "status",
@@ -255,12 +233,10 @@ describe("<TeamView />", () => {
           {
             version: "yellow",
             move: {
-              types: [
-                {
-                  name: "Normal",
-                  slug: "normal"
-                }
-              ],
+              type: {
+                name: "Normal",
+                slug: "normal"
+              },
               name: "Explosion",
               slug: "explosion",
               damageClass: "physical",

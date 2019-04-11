@@ -89,7 +89,7 @@
     "prettier-eslint": "^8.8.2",
     "prop-types": "^15.7.2",
     "react-test-renderer": "^16.7.0",
-    "react-testing-library": "^5.4.4",
+    "react-testing-library": "^6.0.0",
     "redux-mock-store": "^1.5.3",
     "typescript": "^3.2.2"
   }

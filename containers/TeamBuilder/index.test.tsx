@@ -75,64 +75,92 @@ describe("<TeamBuilderContainer />", () => {
 
         result: {
           data: {
-            teams: [
-              {
-                insertedAt: "2018-06-08T21:15:14.723Z",
-                id: "cji6gz8gwhblk0a9639btq2hd",
-                members: [
-                  {
-                    id: "cji6gz8gwhbll0a96aahx3ivv",
-                    order: 1,
-                    pokemon: {
-                      name: "bulbasaur",
-                      pokedexId: 1,
-                      sprite: "1.png",
-                      types: [{ name: "POISON" }, { name: "GRASS" }]
-                    }
-                  },
-                  {
-                    id: "cji6gz8gwhblm0a96eja18t10",
-                    order: 2,
-                    pokemon: {
-                      name: "charmander",
-                      pokedexId: 4,
-                      sprite: "4.png",
-                      types: [{ name: "FIRE" }]
-                    }
-                  },
-                  {
-                    id: "cji6gz8gwhbln0a96q7wmx9zj",
-                    order: 3,
-                    pokemon: {
-                      id: "7",
-                      name: "squirtle",
-                      pokedexId: 7,
-                      sprite: "7.png",
-                      types: [{ name: "WATER" }]
-                    }
-                  },
-                  {
-                    id: "cji6gz8gwhblo0a96wgoki379",
-                    order: 4,
-                    pokemon: {
-                      id: "25",
-                      name: "pikachu",
-                      pokedexId: 25,
-                      sprite: "25.png",
-                      types: [{ name: "ELECTRIC" }]
-                    }
+            team: {
+              __typename: "Team",
+              createdAt: "2018-06-08T21:15:14.723Z",
+              id: "cji6gz8gwhblk0a9639btq2hd",
+              members: [
+                {
+                  __typename: "TeamMember",
+                  id: "cji6gz8gwhbll0a96aahx3ivv",
+                  order: 1,
+                  pokemon: {
+                    __typename: "Pokemon",
+                    id: "1",
+                    name: "Bulbasaur",
+                    slug: "bulbasaur",
+                    pokedexId: 1,
+                    sprite: "1.png",
+                    types: [
+                      { __typename: "Type", name: "Poison", slug: "poison" },
+                      { __typename: "Type", name: "Grass", slug: "grass" }
+                    ],
+                    moves: []
                   }
-                ],
-                name: "Starters Team"
-              }
-            ]
+                },
+                {
+                  __typename: "TeamMember",
+                  id: "cji6gz8gwhblm0a96eja18t10",
+                  order: 2,
+                  pokemon: {
+                    __typename: "Pokemon",
+                    id: "4",
+                    name: "Charmander",
+                    slug: "charmander",
+                    pokedexId: 4,
+                    sprite: "4.png",
+                    types: [{ __typename: "Type", name: "Fire", slug: "fire" }],
+                    moves: []
+                  }
+                },
+                {
+                  __typename: "TeamMember",
+                  id: "cji6gz8gwhbln0a96q7wmx9zj",
+                  order: 3,
+                  pokemon: {
+                    __typename: "Pokemon",
+                    id: "7",
+                    name: "Squirtle",
+                    slug: "squirtle",
+                    pokedexId: 7,
+                    sprite: "7.png",
+                    types: [
+                      { __typename: "Type", name: "Water", slug: "water" }
+                    ],
+                    moves: []
+                  }
+                },
+                {
+                  __typename: "TeamMember",
+                  id: "cji6gz8gwhblo0a96wgoki379",
+                  order: 4,
+                  pokemon: {
+                    __typename: "Pokemon",
+                    id: "25",
+                    name: "Pikachu",
+                    slug: "pikachu",
+                    pokedexId: 25,
+                    sprite: "25.png",
+                    types: [
+                      {
+                        __typename: "Type",
+                        name: "Electric",
+                        slug: "electric"
+                      }
+                    ],
+                    moves: []
+                  }
+                }
+              ],
+              name: "Starters Team"
+            }
           }
         }
       }
     ];
-    const team = mocksWithTeam[2].result.data.teams[0];
+    const { team } = mocksWithTeam[2].result.data;
     const { getByValue, queryByValue, queryAllByTestId, queryByText } = render(
-      <MockedProvider mocks={mocksWithTeam} addTypename={false}>
+      <MockedProvider mocks={mocksWithTeam}>
         <TeamBuilderContainer query={{ teamId: team.id }} />
       </MockedProvider>
     );

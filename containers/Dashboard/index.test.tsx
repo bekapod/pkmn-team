@@ -16,163 +16,230 @@ const mocks: ReadonlyArray<MockedResponse> = [
       data: {
         teams: [
           {
-            insertedAt: "2018-06-08T21:15:14.723Z",
-            id: "cji6gz8gwhblk0a9639btq2hd",
+            __typename: "Team",
+            createdAt: "2018-06-08T21:15:14.723Z",
+            id: "cji6gz8gwhblk0a9639btq2hdczx",
             members: [
               {
-                id: "cji6gz8gwhbll0a96aahx3ivv",
+                __typename: "TeamMember",
+                id: "cji6gz8gwhbll0a96aahx3ivvyuizxc",
                 order: 1,
                 pokemon: {
-                  name: "bulbasaur",
+                  __typename: "Pokemon",
+                  id: "1",
+                  name: "Bulbasaur",
+                  slug: "bulbasaur",
                   pokedexId: 1,
                   sprite: "1.png",
-                  types: [{ name: "POISON" }, { name: "GRASS" }]
+                  types: [
+                    { __typename: "Type", name: "Poison", slug: "poison" },
+                    { __typename: "Type", name: "Grass", slug: "grass" }
+                  ]
                 }
               },
               {
-                id: "cji6gz8gwhblm0a96eja18t10",
+                __typename: "TeamMember",
+                id: "cji6gz8gwhblm0a96eja18t10rty",
                 order: 2,
                 pokemon: {
-                  name: "charmander",
+                  __typename: "Pokemon",
+                  id: "4",
+                  name: "Charmander",
+                  slug: "charmander",
                   pokedexId: 4,
                   sprite: "4.png",
-                  types: [{ name: "FIRE" }]
+                  types: [{ __typename: "Type", name: "Fire", slug: "fire" }]
                 }
               },
               {
-                id: "cji6gz8gwhbln0a96q7wmx9zj",
+                __typename: "TeamMember",
+                id: "cji6gz8gwhbln0a96q7wmx9zjqwe",
                 order: 3,
                 pokemon: {
+                  __typename: "Pokemon",
                   id: "7",
-                  name: "squirtle",
+                  name: "Squirtle",
+                  slug: "squirtle",
                   pokedexId: 7,
                   sprite: "7.png",
-                  types: [{ name: "WATER" }]
+                  types: [{ __typename: "Type", name: "Water", slug: "water" }]
                 }
               },
               {
-                id: "cji6gz8gwhblo0a96wgoki379",
+                __typename: "TeamMember",
+                id: "cji6gz8gwhblo0a96wgoki379das",
                 order: 4,
                 pokemon: {
+                  __typename: "Pokemon",
                   id: "25",
-                  name: "pikachu",
+                  name: "Pikachu",
+                  slug: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
-                  types: [{ name: "ELECTRIC" }]
+                  types: [
+                    { __typename: "Type", name: "Electric", slug: "electric" }
+                  ]
                 }
               }
             ],
             name: "Starters Team"
           },
           {
-            insertedAt: "2018-06-08T23:06:11.936Z",
-            id: "cji6kxx7gp5n80a96mgw7gc45",
+            __typename: "Team",
+            createdAt: "2018-06-08T23:06:11.936Z",
+            id: "cji6kxx7gp5n80a96mgw7gc45qaz",
             loading: false,
             members: [
               {
-                id: "cji6kxx7hp5n90a96r5rpx50u",
+                __typename: "TeamMember",
+                id: "cji6kxx7hp5n90a96r5rpx50uwsx",
                 order: 1,
                 pokemon: {
+                  __typename: "Pokemon",
                   id: "25",
-                  name: "pikachu",
+                  name: "Pikachu",
+                  slug: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
-                  types: [{ name: "ELECTRIC" }]
+                  types: [
+                    { __typename: "Type", name: "Electric", slug: "electric" }
+                  ]
                 }
               },
               {
-                id: "cji6kxx7hp5na0a96hb6e0643",
+                __typename: "TeamMember",
+                id: "cji6kxx7hp5na0a96hb6e0643edc",
                 order: 2,
                 pokemon: {
+                  __typename: "Pokemon",
                   id: "25",
-                  name: "pikachu",
+                  name: "Pikachu",
+                  slug: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
-                  types: [{ name: "ELECTRIC" }]
+                  types: [
+                    { __typename: "Type", name: "Electric", slug: "electric" }
+                  ]
                 }
               },
               {
-                id: "cji6kxx7hp5nb0a9629wdve5s",
+                __typename: "TeamMember",
+                id: "cji6kxx7hp5nb0a9629wdve5srfv",
                 order: 3,
                 pokemon: {
+                  __typename: "Pokemon",
                   id: "25",
-                  name: "pikachu",
+                  name: "Pikachu",
+                  slug: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
-                  types: [{ name: "ELECTRIC" }]
+                  types: [
+                    { __typename: "Type", name: "Electric", slug: "electric" }
+                  ]
                 }
               },
               {
-                id: "cji6kxx7hp5nc0a969th9ll1f",
+                __typename: "TeamMember",
+                id: "cji6kxx7hp5nb0a9629wdve5stgb",
                 order: 4,
                 pokemon: {
+                  __typename: "Pokemon",
                   id: "25",
-                  name: "pikachu",
+                  name: "Pikachu",
+                  slug: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
-                  types: [{ name: "ELECTRIC" }]
+                  types: [
+                    { __typename: "Type", name: "Electric", slug: "electric" }
+                  ]
                 }
               },
               {
-                id: "cji6kxx7hp5nd0a968aj6f6qj",
+                __typename: "TeamMember",
+                id: "cji6kxx7hp5nb0a9629wdve5syhn",
                 order: 5,
                 pokemon: {
+                  __typename: "Pokemon",
                   id: "25",
-                  name: "pikachu",
+                  name: "Pikachu",
+                  slug: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
-                  types: [{ name: "ELECTRIC" }]
+                  types: [
+                    { __typename: "Type", name: "Electric", slug: "electric" }
+                  ]
                 }
               },
               {
-                id: "cji6kxx7hp5ne0a964tf72wol",
+                __typename: "TeamMember",
+                id: "cji6kxx7hp5nb0a9629wdve5sujm",
                 order: 6,
                 pokemon: {
+                  __typename: "Pokemon",
                   id: "25",
-                  name: "pikachu",
+                  name: "Pikachu",
+                  slug: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
-                  types: [{ name: "ELECTRIC" }]
+                  types: [
+                    { __typename: "Type", name: "Electric", slug: "electric" }
+                  ]
                 }
               }
             ],
             name: "Pikachu Team"
           },
           {
-            insertedAt: "2018-06-08T23:07:46.587Z",
-            id: "cji6kzy8pprbq0a964rc3ikk3",
+            __typename: "Team",
+            createdAt: "2018-06-08T23:07:46.587Z",
+            id: "cji6kzy8pprbq0a964rc3ikk3ik,",
             members: [
               {
-                id: "cji6kzy8pprbr0a967jhcik0n",
-                order: 1,
-                pokemon: {
-                  id: "25",
-                  name: "pikachu",
-                  pokedexId: 25,
-                  sprite: "25.png",
-                  types: [{ name: "ELECTRIC" }]
-                }
-              },
-              {
-                id: "cji6kzy8pprbs0a96349zeq46",
-                order: 2,
-                pokemon: {
-                  id: "25",
-                  name: "pikachu",
-                  pokedexId: 25,
-                  sprite: "25.png",
-                  types: [{ name: "ELECTRIC" }]
-                }
-              },
-              {
-                id: "cji6kzy8pprbt0a96v5isjwvt",
+                __typename: "TeamMember",
+                id: "cji6kxx7hp5nb0a9629wdve5s",
                 order: 3,
                 pokemon: {
+                  __typename: "Pokemon",
                   id: "25",
-                  name: "pikachu",
+                  name: "Pikachu",
+                  slug: "pikachu",
                   pokedexId: 25,
                   sprite: "25.png",
-                  types: [{ name: "ELECTRIC" }]
+                  types: [
+                    { __typename: "Type", name: "Electric", slug: "electric" }
+                  ]
+                }
+              },
+              {
+                __typename: "TeamMember",
+                id: "cji6kxx7hp5nb0a9629wdve5sol.",
+                order: 3,
+                pokemon: {
+                  __typename: "Pokemon",
+                  id: "25",
+                  name: "Pikachu",
+                  slug: "pikachu",
+                  pokedexId: 25,
+                  sprite: "25.png",
+                  types: [
+                    { __typename: "Type", name: "Electric", slug: "electric" }
+                  ]
+                }
+              },
+              {
+                __typename: "TeamMember",
+                id: "cji6kxx7hp5nb0a9629wdve5sp;/",
+                order: 3,
+                pokemon: {
+                  __typename: "Pokemon",
+                  id: "25",
+                  name: "Pikachu",
+                  slug: "pikachu",
+                  pokedexId: 25,
+                  sprite: "25.png",
+                  types: [
+                    { __typename: "Type", name: "Electric", slug: "electric" }
+                  ]
                 }
               }
             ],
@@ -187,7 +254,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
 describe("<DashboardContainer />", () => {
   it("renders with correct number of team members", async () => {
     const { getAllByTestId } = render(
-      <MockedProvider mocks={mocks} addTypename={false}>
+      <MockedProvider mocks={mocks}>
         <DashboardContainer />
       </MockedProvider>
     );

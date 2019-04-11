@@ -17,6 +17,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
       data: {
         pokemon: [
           {
+            __typename: "Pokemon",
             id: "4",
             name: "charmander",
             pokedexId: 4,
@@ -24,11 +25,15 @@ const mocks: ReadonlyArray<MockedResponse> = [
             types: [{ name: "FIRE" }],
             moves: [
               {
+                __typename: "PokemonMove",
                 version: "yellow",
                 move: {
+                  __typename: "Move",
                   types: [
                     {
-                      name: "normal"
+                      __typename: "Type",
+                      name: "Normal",
+                      slug: "normal"
                     }
                   ],
                   name: "substitute"
@@ -37,11 +42,15 @@ const mocks: ReadonlyArray<MockedResponse> = [
                 learnMethod: "machine"
               },
               {
+                __typename: "PokemonMove",
                 version: "yellow",
                 move: {
+                  __typename: "Move",
                   types: [
                     {
-                      name: "normal"
+                      __typename: "Move",
+                      name: "Normal",
+                      slug: "normal"
                     }
                   ],
                   name: "slash"
@@ -50,11 +59,15 @@ const mocks: ReadonlyArray<MockedResponse> = [
                 learnMethod: "level-up"
               },
               {
+                __typename: "PokemonMove",
                 version: "yellow",
                 move: {
+                  __typename: "Move",
                   types: [
                     {
-                      name: "psychic"
+                      __typename: "Type",
+                      name: "Psychic",
+                      slug: "psychic"
                     }
                   ],
                   name: "rest"
@@ -65,18 +78,23 @@ const mocks: ReadonlyArray<MockedResponse> = [
             ]
           },
           {
+            __typename: "Pokemon",
             id: "25",
             name: "pikachu",
             pokedexId: 25,
             sprite: "25.png",
-            types: [{ name: "ELECTRIC" }],
+            types: [{ __typename: "Type", name: "Electric", slug: "electric" }],
             moves: [
               {
+                __typename: "PokemonMove",
                 version: "yellow",
                 move: {
+                  __typename: "Move",
                   types: [
                     {
-                      name: "normal"
+                      __typename: "Type",
+                      name: "Normal",
+                      slug: "normal"
                     }
                   ],
                   name: "substitute"
@@ -85,11 +103,14 @@ const mocks: ReadonlyArray<MockedResponse> = [
                 learnMethod: "machine"
               },
               {
+                __typename: "PokemonMove",
                 version: "yellow",
                 move: {
                   types: [
                     {
-                      name: "psychic"
+                      __typename: "Type",
+                      name: "Psychic",
+                      slug: "psychic"
                     }
                   ],
                   name: "rest"
@@ -98,11 +119,15 @@ const mocks: ReadonlyArray<MockedResponse> = [
                 learnMethod: "machine"
               },
               {
+                __typename: "PokemonMove",
                 version: "yellow",
                 move: {
+                  __typename: "Move",
                   types: [
                     {
-                      name: "normal"
+                      __typename: "Type",
+                      name: "Normal",
+                      slug: "normal"
                     }
                   ],
                   name: "flash"
@@ -113,18 +138,26 @@ const mocks: ReadonlyArray<MockedResponse> = [
             ]
           },
           {
+            __typename: "Pokemon",
             id: "93",
             name: "haunter",
             pokedexId: 93,
             sprite: "93.png",
-            types: [{ name: "GHOST" }, { name: "POISON" }],
+            types: [
+              { __typename: "Type", name: "Ghost", slug: "ghost" },
+              { __typename: "Type", name: "Poison", slug: "poison" }
+            ],
             moves: [
               {
+                __typename: "PokemonMove",
                 version: "yellow",
                 move: {
+                  __typename: "Move",
                   types: [
                     {
-                      name: "normal"
+                      __typename: "Type",
+                      name: "Normal",
+                      slug: "normal"
                     }
                   ],
                   name: "substitute"
@@ -133,11 +166,15 @@ const mocks: ReadonlyArray<MockedResponse> = [
                 learnMethod: "machine"
               },
               {
+                __typename: "PokemonMove",
                 version: "yellow",
                 move: {
+                  __typename: "Move",
                   types: [
                     {
-                      name: "psychic"
+                      __typename: "Type",
+                      name: "Psychic",
+                      slug: "psychic"
                     }
                   ],
                   name: "rest"
@@ -146,11 +183,15 @@ const mocks: ReadonlyArray<MockedResponse> = [
                 learnMethod: "machine"
               },
               {
+                __typename: "PokemonMove",
                 version: "yellow",
                 move: {
+                  __typename: "Move",
                   types: [
                     {
-                      name: "normal"
+                      __typename: "Type",
+                      name: "Normal",
+                      slug: "normal"
                     }
                   ],
                   name: "explosion"
@@ -186,7 +227,7 @@ const threeTeamMembers: TeamMember[] = [
 ];
 
 const team: Team = {
-  insertedAt: "2018-06-08T21:15:14.723Z",
+  createdAt: "2018-06-08T21:15:14.723Z",
   id: "cji6gz8gwhblk0a9639btq2hd",
   members: threeTeamMembers,
   name: "Starters Team"
@@ -194,7 +235,7 @@ const team: Team = {
 
 storiesOf("TeamBuilder", module)
   .add("with empty state", () => (
-    <MockedProvider mocks={mocks} addTypename={false}>
+    <MockedProvider mocks={mocks}>
       <TeamBuilder
         updateTeamMutation={action("team-builder-update")}
         createTeamMutation={action("team-builder-create")}
@@ -204,7 +245,7 @@ storiesOf("TeamBuilder", module)
     </MockedProvider>
   ))
   .add("with team state", () => (
-    <MockedProvider mocks={mocks} addTypename={false}>
+    <MockedProvider mocks={mocks}>
       <TeamBuilder
         team={team}
         updateTeamMutation={action("team-builder-update")}
