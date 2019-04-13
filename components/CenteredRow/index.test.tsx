@@ -1,10 +1,9 @@
 import React from "react";
-// tslint:disable-next-line:no-implicit-dependencies
 import { render } from "react-testing-library";
 import CenteredRow from ".";
 
-describe("<CenteredRow />", () => {
-  it("renders all children", () => {
+describe("<CenteredRow />", (): void => {
+  it("renders all children", (): void => {
     const { queryByText } = render(
       <CenteredRow>
         <span>Child 1</span>
@@ -16,8 +15,8 @@ describe("<CenteredRow />", () => {
     expect(queryByText(/Child 2/)).toBeTruthy();
   });
 
-  describe("with stackVertically prop", () => {
-    it("renders all children", () => {
+  describe("with stackVertically prop", (): void => {
+    it("renders all children", (): void => {
       const { queryByText } = render(
         <CenteredRow stackVertically>
           <span>Child 1</span>

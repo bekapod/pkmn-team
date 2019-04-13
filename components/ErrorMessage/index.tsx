@@ -9,10 +9,10 @@ interface Props {
 }
 
 const StyledError = styled.div`
-  color: ${({ color }: Props) => color || variables.colors.error};
+  color: ${({ color }: Props): string => color || variables.colors.error};
   font-weight: 400;
 
-  ${({ isBig }: Props) =>
+  ${({ isBig }: Props): string =>
     isBig
       ? `
     margin: ${variables.spacing.xl}px 0;

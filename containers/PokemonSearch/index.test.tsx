@@ -1,8 +1,6 @@
 import React from "react";
 import { MockedProvider, MockedResponse } from "react-apollo/test-utils";
-// tslint:disable-next-line:no-implicit-dependencies
 import { fireEvent, render } from "react-testing-library";
-// tslint:disable-next-line:no-implicit-dependencies
 import wait from "waait";
 import PokemonSearchContainer from ".";
 import { getPokemon } from "../../queries/pokemon";
@@ -52,8 +50,10 @@ const mocks: ReadonlyArray<MockedResponse> = [
   }
 ];
 
-describe("<PokemonSearchContainer />", () => {
-  it("renders pokemon search input and list of pokemon", async () => {
+describe("<PokemonSearchContainer />", (): void => {
+  it("renders pokemon search input and list of pokemon", async (): Promise<
+    void
+  > => {
     const { queryByPlaceholderText, queryByText } = render(
       <MockedProvider mocks={mocks}>
         <PokemonSearchContainer />
@@ -66,7 +66,9 @@ describe("<PokemonSearchContainer />", () => {
     expect(queryByText(/Pikachu/)).toBeTruthy();
   });
 
-  it("shows list of matching pokemon when user begins to search", async () => {
+  it("shows list of matching pokemon when user begins to search", async (): Promise<
+    void
+  > => {
     const { getByPlaceholderText, queryByText } = render(
       <MockedProvider mocks={mocks}>
         <PokemonSearchContainer />
@@ -84,7 +86,9 @@ describe("<PokemonSearchContainer />", () => {
     expect(queryByText(/Charmander/)).toBeFalsy();
   });
 
-  it("shows full list of pokemon when user has cleared their search", async () => {
+  it("shows full list of pokemon when user has cleared their search", async (): Promise<
+    void
+  > => {
     const { getByPlaceholderText, queryByText } = render(
       <MockedProvider mocks={mocks}>
         <PokemonSearchContainer />
@@ -108,7 +112,9 @@ describe("<PokemonSearchContainer />", () => {
     expect(queryByText(/Charmander/)).toBeTruthy();
   });
 
-  it("doesn't show any pokemon when none are matched", async () => {
+  it("doesn't show any pokemon when none are matched", async (): Promise<
+    void
+  > => {
     const { getByPlaceholderText, queryByText } = render(
       <MockedProvider mocks={mocks}>
         <PokemonSearchContainer />

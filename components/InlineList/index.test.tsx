@@ -1,10 +1,9 @@
 import React from "react";
-// tslint:disable-next-line:no-implicit-dependencies
 import { render } from "react-testing-library";
 import InlineList from ".";
 
-describe("<InlineList />", () => {
-  it("renders children", () => {
+describe("<InlineList />", (): void => {
+  it("renders children", (): void => {
     const { queryByText } = render(
       <InlineList>
         <li>Item 1</li>

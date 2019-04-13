@@ -1,4 +1,3 @@
-import { placeholder } from "polished";
 import styled from "styled-components/macro";
 import * as variables from "../../helpers/variables";
 import { lineHeight } from "../../helpers/verticalRhythm";
@@ -15,7 +14,7 @@ const TextInput = styled.input`
   font-weight: 900;
   line-height: ${lineHeight("base")};
   background-color: ${variables.colors.white};
-  box-shadow: ${({ isInvalid }: Props) =>
+  box-shadow: ${({ isInvalid }: Props): string =>
     isInvalid
       ? `0 0 0 ${variables.spacing.xs}px ${variables.colors.error}`
       : "none"};
@@ -26,10 +25,10 @@ const TextInput = styled.input`
     box-shadow: 0 0 0 ${variables.spacing.xs}px ${variables.colors.secondary};
   }
 
-  ${placeholder({
-    color: variables.colors.gray,
-    "text-transform": "uppercase"
-  })};
+  ::placeholder {
+    color: ${variables.colors.gray};
+    text-transform: uppercase;
+  }
 `;
 
 export default TextInput;

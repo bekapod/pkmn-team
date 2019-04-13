@@ -1,11 +1,10 @@
-// tslint:disable-next-line:no-implicit-dependencies
 import { storiesOf } from "@storybook/react";
 import React from "react";
 import TeamCard from ".";
 import { Team } from "../../types";
 
 const team: Team = {
-  insertedAt: "2018-06-08T21:15:14.723Z",
+  createdAt: "2018-06-08T21:15:14.723Z",
   id: "1",
   members: [
     {
@@ -48,4 +47,7 @@ const team: Team = {
   name: "Pikachu Team"
 };
 
-storiesOf("TeamCard", module).add("default", () => <TeamCard team={team} />);
+storiesOf("TeamCard", module).add(
+  "default",
+  (): JSX.Element => <TeamCard team={team} />
+);

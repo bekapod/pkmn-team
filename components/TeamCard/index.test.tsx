@@ -1,12 +1,11 @@
 import React from "react";
-// tslint:disable-next-line:no-implicit-dependencies
 import { fireEvent, render } from "react-testing-library";
 import TeamCard from ".";
 import { Team } from "../../types";
 
-describe("<TeamCard />", () => {
+describe("<TeamCard />", (): void => {
   const team: Team = {
-    insertedAt: "2018-06-08T21:15:14.723Z",
+    createdAt: "2018-06-08T21:15:14.723Z",
     id: "1",
     members: [
       {
@@ -49,24 +48,28 @@ describe("<TeamCard />", () => {
     name: "Pikachu Team"
   };
 
-  it("renders team name and pokemon", () => {
+  it("renders team name and pokemon", (): void => {
     const { queryByText, getAllByText } = render(<TeamCard team={team} />);
 
     expect(queryByText(/Pikachu Team/)).toBeTruthy();
     expect(getAllByText(/#25 Pikachu/)).toHaveLength(3);
   });
 
-  it("renders a link to team edit page", () => {
+  it("renders a link to team edit page", (): void => {
     const { getByTestId } = render(<TeamCard team={team} />);
 
     expect(
-      global.appHistory.find(entry => entry === `/team/edit/${team.id}/`)
+      global.appHistory.find(
+        (entry): boolean => entry === `/team/edit/${team.id}/`
+      )
     ).toBeFalsy();
 
     fireEvent.click(getByTestId(`team-link-${team.id}`));
 
     expect(
-      global.appHistory.find(entry => entry === `/team/edit/${team.id}/`)
+      global.appHistory.find(
+        (entry): boolean => entry === `/team/edit/${team.id}/`
+      )
     ).toBeTruthy();
   });
 });

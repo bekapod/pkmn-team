@@ -8,15 +8,15 @@ import {
   sortTypes
 } from "../general";
 
-describe("General helpers", () => {
-  describe("capitalize", () => {
-    it("capitalizes the first letter of a string", () => {
+describe("General helpers", (): void => {
+  describe("capitalize", (): void => {
+    it("capitalizes the first letter of a string", (): void => {
       expect(capitalize("mr mime")).toBe("Mr mime");
     });
   });
 
-  describe("capitalizePokemonName", () => {
-    it("capitalizes the name of a pokemon", () => {
+  describe("capitalizePokemonName", (): void => {
+    it("capitalizes the name of a pokemon", (): void => {
       expect(
         capitalizePokemonName({
           id: "25",
@@ -30,8 +30,8 @@ describe("General helpers", () => {
     });
   });
 
-  describe("formatPokemonName", () => {
-    it("prepends pokedex id to capitalized pokemon name", () => {
+  describe("formatPokemonName", (): void => {
+    it("prepends pokedex id to capitalized pokemon name", (): void => {
       expect(
         formatPokemonName({
           id: "25",
@@ -45,14 +45,14 @@ describe("General helpers", () => {
     });
   });
 
-  describe("getTypeColor", () => {
-    it("gets the colour for a specific type", () => {
+  describe("getTypeColor", (): void => {
+    it("gets the colour for a specific type", (): void => {
       expect(getTypeColor("electric")).toBe("#F8D030");
     });
   });
 
-  describe("getUniqueId", () => {
-    it("returns a random string", () => {
+  describe("getUniqueId", (): void => {
+    it("returns a random string", (): void => {
       const first = getUniqueId();
       const second = getUniqueId();
 
@@ -61,22 +61,22 @@ describe("General helpers", () => {
     });
   });
 
-  describe("percentage", () => {
-    it("returns passed in value when less than 100", () => {
+  describe("percentage", (): void => {
+    it("returns passed in value when less than 100", (): void => {
       expect(percentage(56)).toBe(56);
     });
 
-    it("returns passed in value when equals 100", () => {
+    it("returns passed in value when equals 100", (): void => {
       expect(percentage(100)).toBe(100);
     });
 
-    it("returns 100 when greater than 100", () => {
+    it("returns 100 when greater than 100", (): void => {
       expect(percentage(150)).toBe(100);
     });
   });
 
-  describe("sortTypes", () => {
-    it("sorts types alphabetically", () => {
+  describe("sortTypes", (): void => {
+    it("sorts types alphabetically", (): void => {
       expect(
         sortTypes([
           { name: "Ice", slug: "ice" },
@@ -92,7 +92,7 @@ describe("General helpers", () => {
       ]);
     });
 
-    it("sorts types alphabetically including duplicates", () => {
+    it("sorts types alphabetically including duplicates", (): void => {
       expect(
         sortTypes([
           { name: "Ice", slug: "ice" },

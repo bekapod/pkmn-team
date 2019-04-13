@@ -1,4 +1,3 @@
-// tslint:disable-next-line:no-implicit-dependencies
 import { storiesOf } from "@storybook/react";
 import React from "react";
 import { action } from "@storybook/addon-actions";
@@ -228,24 +227,30 @@ const team: Team = {
 };
 
 storiesOf("TeamBuilder", module)
-  .add("with empty state", () => (
-    <MockedProvider mocks={mocks}>
-      <TeamBuilder
-        updateTeamMutation={action("team-builder-update")}
-        createTeamMutation={action("team-builder-create")}
-        deleteTeamMutation={action("team-builder-delete")}
-        currentSearchPokemon={threeTeamMembers[0].pokemon}
-      />
-    </MockedProvider>
-  ))
-  .add("with team state", () => (
-    <MockedProvider mocks={mocks}>
-      <TeamBuilder
-        team={team}
-        updateTeamMutation={action("team-builder-update")}
-        createTeamMutation={action("team-builder-create")}
-        deleteTeamMutation={action("team-builder-delete")}
-        currentSearchPokemon={threeTeamMembers[0].pokemon}
-      />
-    </MockedProvider>
-  ));
+  .add(
+    "with empty state",
+    (): JSX.Element => (
+      <MockedProvider mocks={mocks}>
+        <TeamBuilder
+          updateTeamMutation={action("team-builder-update")}
+          createTeamMutation={action("team-builder-create")}
+          deleteTeamMutation={action("team-builder-delete")}
+          currentSearchPokemon={threeTeamMembers[0].pokemon}
+        />
+      </MockedProvider>
+    )
+  )
+  .add(
+    "with team state",
+    (): JSX.Element => (
+      <MockedProvider mocks={mocks}>
+        <TeamBuilder
+          team={team}
+          updateTeamMutation={action("team-builder-update")}
+          createTeamMutation={action("team-builder-create")}
+          deleteTeamMutation={action("team-builder-delete")}
+          currentSearchPokemon={threeTeamMembers[0].pokemon}
+        />
+      </MockedProvider>
+    )
+  );

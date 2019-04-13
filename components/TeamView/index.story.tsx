@@ -1,4 +1,3 @@
-// tslint:disable-next-line:no-implicit-dependencies
 import { storiesOf } from "@storybook/react";
 import React from "react";
 import { action } from "@storybook/addon-actions";
@@ -219,14 +218,17 @@ const threeTeamMembers: TeamMember[] = [
   }
 ];
 
-storiesOf("TeamView", module).add("default", () => (
-  <MockedProvider mocks={mocks}>
-    <TeamView
-      teamMembers={threeTeamMembers}
-      addPokemonToTeam={action("team-view-add")}
-      removePokemonFromTeam={action("team-view-remove")}
-      reorderTeamMembers={action("team-view-reorder")}
-      currentSearchPokemon={threeTeamMembers[0].pokemon}
-    />
-  </MockedProvider>
-));
+storiesOf("TeamView", module).add(
+  "default",
+  (): JSX.Element => (
+    <MockedProvider mocks={mocks}>
+      <TeamView
+        teamMembers={threeTeamMembers}
+        addPokemonToTeam={action("team-view-add")}
+        removePokemonFromTeam={action("team-view-remove")}
+        reorderTeamMembers={action("team-view-reorder")}
+        currentSearchPokemon={threeTeamMembers[0].pokemon}
+      />
+    </MockedProvider>
+  )
+);

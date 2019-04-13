@@ -51,7 +51,7 @@ const mocks: ReadonlyArray<MockedResponse> = [
   }
 ];
 
-describe("<TeamBuilder />", () => {
+describe("<TeamBuilder />", (): void => {
   const threeTeamMembers: TeamMember[] = [
     {
       id: "1",
@@ -94,9 +94,9 @@ describe("<TeamBuilder />", () => {
     }
   ];
 
-  describe("when creating a team", () => {
-    describe("when user has not entered any information", () => {
-      it("displays empty team name input", () => {
+  describe("when creating a team", (): void => {
+    describe("when user has not entered any information", (): void => {
+      it("displays empty team name input", (): void => {
         const fnStub = (): null => null;
         const { getByLabelText } = render(
           <MockedProvider mocks={mocks}>
@@ -114,8 +114,10 @@ describe("<TeamBuilder />", () => {
       });
     });
 
-    describe("when user attempts to submit form", () => {
-      it("displays an error message for invalid team name when user has not entered a team name", async () => {
+    describe("when user attempts to submit form", (): void => {
+      it("displays an error message for invalid team name when user has not entered a team name", async (): Promise<
+        void
+      > => {
         const fnStub = (): null => null;
         const { getByText, queryByText } = render(
           <MockedProvider mocks={mocks}>
@@ -140,7 +142,7 @@ describe("<TeamBuilder />", () => {
         expect(queryByText(/You should give your team a name./)).toBeTruthy();
       });
 
-      it("displays a loading spinner when create is in progress", () => {
+      it("displays a loading spinner when create is in progress", (): void => {
         const fnStub = (): null => null;
         const { queryByTestId } = render(
           <MockedProvider mocks={mocks}>
@@ -156,7 +158,7 @@ describe("<TeamBuilder />", () => {
         expect(queryByTestId("loading-spinner")).toBeTruthy();
       });
 
-      it("displays an error message if create team failed", () => {
+      it("displays an error message if create team failed", (): void => {
         const fnStub = (): null => null;
         const { queryByText } = render(
           <MockedProvider mocks={mocks}>
@@ -178,7 +180,9 @@ describe("<TeamBuilder />", () => {
         expect(queryByText(/An error happened./)).toBeTruthy();
       });
 
-      it("calls createTeamMutation when user enters a team name", async () => {
+      it("calls createTeamMutation when user enters a team name", async (): Promise<
+        void
+      > => {
         const fnStub = (): null => null;
         const mutation = jest.fn();
         const { getByLabelText } = render(
@@ -213,7 +217,9 @@ describe("<TeamBuilder />", () => {
         });
       });
 
-      it("does not call createTeamMutation when user submits team creation form with invalid data", async () => {
+      it("does not call createTeamMutation when user submits team creation form with invalid data", async (): Promise<
+        void
+      > => {
         const fnStub = (): null => null;
         const mutation = jest.fn();
         const { getByText } = render(
@@ -238,8 +244,8 @@ describe("<TeamBuilder />", () => {
       });
     });
 
-    describe("when team has been successfully created", () => {
-      it("redirects to team edit form", async () => {
+    describe("when team has been successfully created", (): void => {
+      it("redirects to team edit form", async (): Promise<void> => {
         const fnStub = (): null => null;
         render(
           <MockedProvider mocks={mocks}>
@@ -255,13 +261,15 @@ describe("<TeamBuilder />", () => {
         await wait(0);
 
         expect(
-          global.appHistory.find(entry => entry === "/team/edit/34242")
+          global.appHistory.find(
+            (entry): boolean => entry === "/team/edit/34242"
+          )
         ).toBeTruthy();
       });
     });
   });
 
-  describe("when editing a team", () => {
+  describe("when editing a team", (): void => {
     const team: Team = {
       createdAt: "2018-06-08T21:15:14.723Z",
       id: "cji6gz8gwhblk0a9639btq2hd",
@@ -321,8 +329,8 @@ describe("<TeamBuilder />", () => {
       name: "Starters Team"
     };
 
-    describe("when user's team is found", () => {
-      it("renders team name and members", () => {
+    describe("when user's team is found", (): void => {
+      it("renders team name and members", (): void => {
         const fnStub = (): null => null;
         const { getByValue, getByTestId } = render(
           <MockedProvider mocks={mocks}>
@@ -343,8 +351,10 @@ describe("<TeamBuilder />", () => {
       });
     });
 
-    describe("when user attempts to submit form", () => {
-      it("displays an error message for invalid team name when user has not entered a team name", async () => {
+    describe("when user attempts to submit form", (): void => {
+      it("displays an error message for invalid team name when user has not entered a team name", async (): Promise<
+        void
+      > => {
         const fnStub = (): null => null;
         const { getByLabelText, queryByText } = render(
           <MockedProvider mocks={mocks}>
@@ -369,7 +379,9 @@ describe("<TeamBuilder />", () => {
         expect(queryByText(/You should give your team a name/)).toBeTruthy();
       });
 
-      it("calls updateTeamMutation when user submits team edit form with valid data", async () => {
+      it("calls updateTeamMutation when user submits team edit form with valid data", async (): Promise<
+        void
+      > => {
         const fnStub = (): null => null;
         const mutation = jest.fn();
         const { getByLabelText } = render(
@@ -427,7 +439,9 @@ describe("<TeamBuilder />", () => {
         });
       });
 
-      it("does not call updateTeamMutation when user submits team edit form with invalid data", async () => {
+      it("does not call updateTeamMutation when user submits team edit form with invalid data", async (): Promise<
+        void
+      > => {
         const fnStub = (): null => null;
         const mutation = jest.fn();
         const { getByLabelText } = render(
@@ -453,7 +467,9 @@ describe("<TeamBuilder />", () => {
         expect(mutation).toBeCalledTimes(0);
       });
 
-      it("calls deleteTeamMutation when delete team button is clicked", async () => {
+      it("calls deleteTeamMutation when delete team button is clicked", async (): Promise<
+        void
+      > => {
         const fnStub = (): null => null;
         const mutation = jest.fn();
         const { getByText } = render(
@@ -478,8 +494,8 @@ describe("<TeamBuilder />", () => {
     });
   });
 
-  describe("when team has been successfully deleted", () => {
-    it("redirects to dashboard", async () => {
+  describe("when team has been successfully deleted", (): void => {
+    it("redirects to dashboard", async (): Promise<void> => {
       const fnStub = (): null => null;
       render(
         <MockedProvider mocks={mocks}>
@@ -494,7 +510,9 @@ describe("<TeamBuilder />", () => {
 
       await wait(0);
 
-      expect(global.appHistory.find(entry => entry === "/")).toBeTruthy();
+      expect(
+        global.appHistory.find((entry): boolean => entry === "/")
+      ).toBeTruthy();
     });
   });
 });

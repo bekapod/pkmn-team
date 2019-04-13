@@ -1,47 +1,53 @@
-// tslint:disable:no-empty
-// tslint:disable-next-line:no-implicit-dependencies
+/* eslint-disable no-console */
 import Router from "next/router";
-import React, { ComponentType, DetailedReactHTMLElement } from "react";
-// tslint:disable-next-line:no-implicit-dependencies
+import React, { ComponentType } from "react";
 import "react-testing-library/cleanup-after-each";
 
-beforeEach(() => {
-  global.appHistory = [];
-});
+beforeEach(
+  (): void => {
+    global.appHistory = [];
+  }
+);
 
 // this is just a little hack to silence a warning that we'll get until react
 // fixes this: https://github.com/facebook/react/pull/14853
 const originalError = console.error;
-beforeAll(() => {
-  console.error = (...args) => {
-    if (/Warning.*not wrapped in act/.test(args[0])) {
-      return;
-    }
-    originalError.call(console, ...args);
-  };
-});
+beforeAll(
+  (): void => {
+    console.error = (...args: any[]): void => {
+      if (/Warning.*not wrapped in act/.test(args[0])) {
+        return;
+      }
+      originalError.call(console, ...args);
+    };
+  }
+);
 
-afterAll(() => {
-  console.error = originalError;
-});
+afterAll(
+  (): void => {
+    console.error = originalError;
+  }
+);
 
 const mockedRouter = {
-  back: () => {},
-  beforePopState: () => true,
-  prefetch: async () => {
-    const Component = (): DetailedReactHTMLElement<any, HTMLElement> =>
+  back: (): void => {},
+  beforePopState: (): boolean => true,
+  prefetch: async (): Promise<
+    () => React.DetailedReactHTMLElement<{}, HTMLElement>
+  > => {
+    const Component = (): React.DetailedReactHTMLElement<{}, HTMLElement> =>
       React.createElement("div");
     await true;
     return Component;
   },
-  push: async (route: string) => {
+  push: async (route: string): Promise<boolean> => {
     await global.appHistory.push(route);
     return true;
   },
-  reload: async () => {
+  reload: async (): Promise<void> => {
     await null;
   },
-  replace: async (route: string) => {
+  replace: async (route: string): Promise<boolean> => {
     global.appHistory = [route];
     await 0;
     return true;
@@ -54,12 +60,12 @@ const mockedRouter = {
   route: "",
 
   events: {
-    off: () => {},
-    on: () => {}
+    off: (): void => {},
+    on: (): void => {}
   }
 };
 
 Router.router = mockedRouter;
 
-window.scrollTo = () => {};
-window.scroll = () => {};
+window.scrollTo = (): void => {};
+window.scroll = (): void => {};

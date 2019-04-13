@@ -15,14 +15,16 @@ export const getTypeGradient = (types: Type[]): string => {
 
   const gradientString: string = compose(
     join(", "),
-    flatMap((type: Type) => {
-      const colourStops = [
-        getColourStopCss(type, getColourStop(index)),
-        getColourStopCss(type, getColourStop(add(1, index)))
-      ];
-      index = add(1, index);
-      return colourStops;
-    }),
+    flatMap(
+      (type: Type): string[] => {
+        const colourStops = [
+          getColourStopCss(type, getColourStop(index)),
+          getColourStopCss(type, getColourStop(add(1, index)))
+        ];
+        index = add(1, index);
+        return colourStops;
+      }
+    ),
     sortTypes
   )(types);
 

@@ -35,15 +35,17 @@ const Row = styled.div`
     content: "";
     position: absolute;
     top: calc(${variables.spacing.sm}px / 2 * -1);
-    left: ${({ outdent }: RowProps) => `-${outdent}px`};
+    left: ${({ outdent }: RowProps): string => `-${outdent}px`};
     display: block;
-    width: ${({ outdent }: RowProps) => `calc(100% + (${outdent}px * 2))`};
+    width: ${({ outdent }: RowProps): string =>
+      `calc(100% + (${outdent}px * 2))`};
     height: ${variables.spacing.sm}px;
-    background-image: ${({ types }: RowProps) => getTypeGradient(types)};
+    background-image: ${({ types }: RowProps): string =>
+      getTypeGradient(types)};
   }
 
   ${media.mediumOnly`
-    ${({ compact }: RowProps) =>
+    ${({ compact }: RowProps): string =>
       compact
         ? `
           flex-direction: column;
@@ -61,7 +63,7 @@ const RowImage = styled.img`
   margin-right: ${variables.spacing.md}px;
 
   ${media.mediumOnly`
-    ${({ compact }: RowImageProps) =>
+    ${({ compact }: RowImageProps): string =>
       compact
         ? `
         margin-right: 0;
@@ -98,11 +100,13 @@ class PokemonLine extends PureComponent<Props> {
         <div>
           <RowTitle>{formatPokemonName(pokemon)}</RowTitle>
           <InlineList>
-            {sortTypes(types).map((type: Type) => (
-              <li key={`Pokemon: ${pokedexId}, Type: ${type.slug}`}>
-                <TypeTag type={type.slug}>{type.name}</TypeTag>
-              </li>
-            ))}
+            {sortTypes(types).map(
+              (type: Type): JSX.Element => (
+                <li key={`Pokemon: ${pokedexId}, Type: ${type.slug}`}>
+                  <TypeTag type={type.slug}>{type.name}</TypeTag>
+                </li>
+              )
+            )}
           </InlineList>
         </div>
       </Row>

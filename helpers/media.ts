@@ -9,9 +9,11 @@ const sizes: { [key: string]: string } = {
 
 export const media: {
   [key: string]: BaseThemedCssFunction<any>;
-} = Object.keys(sizes).reduce((accumulator: { [key: string]: any }, label) => {
+} = Object.keys(sizes).reduce((accumulator: { [key: string]: any }, label): {
+  [key: string]: any;
+} => {
   const size = sizes[label];
-  accumulator[label] = (...args: any[]) => css`
+  accumulator[label] = (...args: any[]): any => css`
     @media ${size} {
       ${css({}, ...args)};
     }

@@ -17,7 +17,7 @@ const TypeTag = styled.span`
   text-shadow: 0 1px 0px ${variables.colors.grayDarker},
     1px 0 0px ${variables.colors.grayDark};
   text-transform: uppercase;
-  background-color: ${({ type }: Props) => getTypeColor(type)};
+  background-color: ${({ type }: Props): string => getTypeColor(type)};
   border-radius: ${variables.sizes.borderRadiusSm}px 0;
 `;
 

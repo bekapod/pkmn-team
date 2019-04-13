@@ -3,7 +3,7 @@ import { fireEvent, render } from "react-testing-library";
 import PokemonSearch from ".";
 import { Pokemon } from "../../types";
 
-describe("<PokemonSearch />", () => {
+describe("<PokemonSearch />", (): void => {
   const pokemon: Pokemon[] = [
     {
       id: "4",
@@ -34,7 +34,7 @@ describe("<PokemonSearch />", () => {
     }
   ];
 
-  it("renders search input", () => {
+  it("renders search input", (): void => {
     const fnStub = (): null => null;
     const { queryByPlaceholderText } = render(
       <PokemonSearch pokemon={pokemon} setCurrentSearchPokemon={fnStub} />
@@ -43,7 +43,7 @@ describe("<PokemonSearch />", () => {
     expect(queryByPlaceholderText(/Find by name/)).toBeTruthy();
   });
 
-  it("calls setCurrentSelection when user clicks a pokemon result", () => {
+  it("calls setCurrentSelection when user clicks a pokemon result", (): void => {
     const setCurrentSearchPokemon = jest.fn();
     const { getByPlaceholderText, getByTestId } = render(
       <PokemonSearch

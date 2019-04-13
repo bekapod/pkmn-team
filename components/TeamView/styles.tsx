@@ -79,9 +79,9 @@ export const TabScroller = styled.div`
 `;
 
 export const TabItem = styled.div`
-  color: ${(props: TabItemProps) =>
+  color: ${(props: TabItemProps): string =>
     props["aria-selected"] ? "initial" : variables.colors.white};
-  background-color: ${(props: TabItemProps) =>
+  background-color: ${(props: TabItemProps): string =>
     props["aria-selected"]
       ? variables.colors.white
       : variables.colors.grayDark};
@@ -112,7 +112,7 @@ export const TabContent = styled.div`
   background-color: ${variables.colors.gray};
   grid-gap: ${variables.gutters.grid}px;
 
-  ${(props: TabContentProps) =>
+  ${(props: TabContentProps): string =>
     props["aria-hidden"] ? "display: none !important;" : "display: grid;"}
 
   ${media.medium`

@@ -8,7 +8,7 @@ interface Props {
   };
 }
 
-export default ({ query }: Props) => (
+export default ({ query }: Props): JSX.Element => (
   <Page title={query.teamId ? "Edit Team" : "Create Team"}>
     <TeamBuilder query={query} />
   </Page>

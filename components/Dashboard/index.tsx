@@ -19,9 +19,11 @@ const Dashboard = ({ teams }: Props): JSX.Element => (
     </CenteredRow>
     {teams && (
       <TeamGrid>
-        {teams.map(team => (
-          <TeamCard key={`Team: ${team.id}`} team={team} />
-        ))}
+        {teams.map(
+          (team): JSX.Element => (
+            <TeamCard key={`Team: ${team.id}`} team={team} />
+          )
+        )}
       </TeamGrid>
     )}
   </Fragment>

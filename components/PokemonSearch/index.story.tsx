@@ -1,4 +1,3 @@
-// tslint:disable-next-line:no-implicit-dependencies
 import { storiesOf } from "@storybook/react";
 import React from "react";
 import { action } from "@storybook/addon-actions";
@@ -35,9 +34,12 @@ const pokemon: Pokemon[] = [
   }
 ];
 
-storiesOf("PokemonSearch", module).add("default", () => (
-  <PokemonSearch
-    pokemon={pokemon}
-    setCurrentSearchPokemon={action("pokemon-result-clicked")}
-  />
-));
+storiesOf("PokemonSearch", module).add(
+  "default",
+  (): JSX.Element => (
+    <PokemonSearch
+      pokemon={pokemon}
+      setCurrentSearchPokemon={action("pokemon-result-clicked")}
+    />
+  )
+);

@@ -33,18 +33,20 @@ export const getTypeColor = (type: TypeSlug): string =>
   variables.colors[type] || variables.colors.primary;
 
 export const sortTypes = (types: Type[]): Type[] =>
-  types.sort((x: Type, y: Type) => {
-    const xSlug = get("slug", x);
-    const ySlug = get("slug", y);
+  types.sort(
+    (x: Type, y: Type): -1 | 0 | 1 => {
+      const xSlug = get("slug", x);
+      const ySlug = get("slug", y);
 
-    if (equals(xSlug, ySlug)) {
-      return 0;
+      if (equals(xSlug, ySlug)) {
+        return 0;
+      }
+      if (xSlug > ySlug) {
+        return 1;
+      }
+      return -1;
     }
-    if (xSlug > ySlug) {
-      return 1;
-    }
-    return -1;
-  });
+  );
 
 export const capitalizePokemonName = (pokemon: Pokemon): string =>
   capitalize(prop("name", pokemon));
@@ -57,37 +59,48 @@ const groupByMoveName = groupBy("move.name");
 const deduplicateMoves = (moves: {
   [key: string]: PokemonMove[];
 }): DeduplicatedMove[] =>
-  Object.keys(moves).map(moveKey => {
-    const moveList = moves[moveKey];
-    return {
-      ...moveList[0].move,
-      variations: moveList.map(omit("move")) as MoveVariation[]
-    };
-  });
+  Object.keys(moves).map(
+    (moveKey): DeduplicatedMove => {
+      const moveList = moves[moveKey];
+      return {
+        ...moveList[0].move,
+        variations: moveList.map(omit("move")) as MoveVariation[]
+      };
+    }
+  );
 
 type SortMovesByName = (moves: DeduplicatedMove[]) => DeduplicatedMove[];
-const sortMovesByName: SortMovesByName = sortBy((move: DeduplicatedMove) =>
-  get("name", move)
+const sortMovesByName: SortMovesByName = sortBy(
+  (move: DeduplicatedMove): string => get("name", move)
 );
 
 type SortMoves = (moves: DeduplicatedMove[]) => DeduplicatedMove[];
-const sortMoves: SortMoves = sortBy((move: DeduplicatedMove) =>
-  getOr(
-    0,
-    "levelLearnedAt",
-    move.variations.find(variation => variation.learnMethod !== "machine")
-  )
+const sortMoves: SortMoves = sortBy(
+  (move: DeduplicatedMove): number =>
+    getOr(
+      0,
+      "levelLearnedAt",
+      move.variations.find(
+        (variation): boolean => variation.learnMethod !== "machine"
+      )
+    )
 );
 
 export const combineDuplicatePokemonMoves: (
   moves: PokemonMove[]
 ) => DeduplicatedMove[] = compose(
-  (partitions: DeduplicatedMove[][]) => [...partitions[0], ...partitions[1]],
-  partition((move: DeduplicatedMove) =>
-    defaultTo(
-      false,
-      move.variations.find(variation => variation.learnMethod === "level-up")
-    )
+  (partitions: DeduplicatedMove[][]): DeduplicatedMove[] => [
+    ...partitions[0],
+    ...partitions[1]
+  ],
+  partition(
+    (move: DeduplicatedMove): false | MoveVariation =>
+      defaultTo(
+        false,
+        move.variations.find(
+          (variation): boolean => variation.learnMethod === "level-up"
+        )
+      )
   ),
   sortMoves,
   sortMovesByName,

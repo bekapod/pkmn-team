@@ -1,6 +1,8 @@
 import { string, array, object, number } from "yup";
 
-export const idValidation = string().required("Your team does not exist.");
+export const idValidation = string()
+  .required("Your team does not exist.")
+  .nullable();
 
 export const nameValidation = string().required(
   "You should give your team a name."

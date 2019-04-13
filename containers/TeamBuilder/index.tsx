@@ -54,30 +54,30 @@ interface QueryProps {
 }
 
 const mutations = {
-  createTeamMutation: ({ render }: any) => (
+  createTeamMutation: ({ render }: any): JSX.Element => (
     <Mutation mutation={createTeam}>
-      {(mutation, result) => render({ mutation, result })}
+      {(mutation, result): JSX.Element => render({ mutation, result })}
     </Mutation>
   ),
-  updateTeamMutation: ({ render }: any) => (
+  updateTeamMutation: ({ render }: any): JSX.Element => (
     <Mutation mutation={updateTeam}>
-      {(mutation, result) => render({ mutation, result })}
+      {(mutation, result): JSX.Element => render({ mutation, result })}
     </Mutation>
   ),
-  deleteTeamMutation: ({ render }: any) => (
+  deleteTeamMutation: ({ render }: any): JSX.Element => (
     <Mutation mutation={deleteTeam}>
-      {(mutation, result) => render({ mutation, result })}
+      {(mutation, result): JSX.Element => render({ mutation, result })}
     </Mutation>
   )
 };
 
 const queries = {
-  getCurrentSearchPokemonQuery: ({ render }: any) => (
+  getCurrentSearchPokemonQuery: ({ render }: any): JSX.Element => (
     <Query query={getCurrentSearchPokemon} errorPolicy="all">
       {render}
     </Query>
   ),
-  getTeamQuery: ({ teamId, render }: any) =>
+  getTeamQuery: ({ teamId, render }: any): JSX.Element =>
     teamId ? (
       <Query query={getTeamById} variables={{ id: teamId }} errorPolicy="all">
         {render}
@@ -122,7 +122,7 @@ class TeamBuilderContainer extends PureComponent<Props> {
           },
           getCurrentSearchPokemonQuery,
           getTeamQuery
-        }: QueryProps) => {
+        }: QueryProps): JSX.Element => {
           const {
             data: getTeam = {},
             loading: getTeamLoading = false,

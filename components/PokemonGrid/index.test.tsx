@@ -1,10 +1,9 @@
 import React from "react";
-// tslint:disable-next-line:no-implicit-dependencies
 import { render } from "react-testing-library";
 import PokemonGrid from ".";
 
-describe("<PokemonGrid />", () => {
-  it("renders children", () => {
+describe("<PokemonGrid />", (): void => {
+  it("renders children", (): void => {
     const { queryByText } = render(
       <PokemonGrid>
         <div>Pokemon 1</div>

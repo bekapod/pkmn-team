@@ -1,10 +1,9 @@
 import React from "react";
-// tslint:disable-next-line:no-implicit-dependencies
 import { render } from "react-testing-library";
 import CardMeta from ".";
 
-describe("<CardMeta />", () => {
-  it("renders list of items", () => {
+describe("<CardMeta />", (): void => {
+  it("renders list of items", (): void => {
     const { queryByText } = render(
       <CardMeta
         id="1"
@@ -21,7 +20,7 @@ describe("<CardMeta />", () => {
     expect(queryByText(/2/)).toBeTruthy();
   });
 
-  it("doesn't render any items if none are passed in", () => {
+  it("doesn't render any items if none are passed in", (): void => {
     const { getByTestId } = render(<CardMeta id="1" />);
 
     expect(getByTestId("card-meta-1").children).toHaveLength(0);

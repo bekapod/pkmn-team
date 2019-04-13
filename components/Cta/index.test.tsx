@@ -1,17 +1,16 @@
 import React from "react";
-// tslint:disable-next-line:no-implicit-dependencies
 import { fireEvent, render } from "react-testing-library";
 import { CtaButton, CtaInternalLink } from ".";
 
-describe("<CtaInternalLink />", () => {
-  it("renders a link", () => {
+describe("<CtaInternalLink />", (): void => {
+  it("renders a link", (): void => {
     const { getByText } = render(<CtaInternalLink>Dashboard</CtaInternalLink>);
 
     expect(getByText(/Dashboard/).tagName).toBe("A");
   });
 
-  describe("when secondary prop is passed", () => {
-    it("renders a link", () => {
+  describe("when secondary prop is passed", (): void => {
+    it("renders a link", (): void => {
       const { getByText } = render(
         <CtaInternalLink secondary>Dashboard</CtaInternalLink>
       );
@@ -20,8 +19,8 @@ describe("<CtaInternalLink />", () => {
     });
   });
 
-  describe("when small prop is passed", () => {
-    it("renders a link", () => {
+  describe("when small prop is passed", (): void => {
+    it("renders a link", (): void => {
       const { getByText } = render(
         <CtaInternalLink small>Dashboard</CtaInternalLink>
       );
@@ -31,8 +30,8 @@ describe("<CtaInternalLink />", () => {
   });
 });
 
-describe("<CtaButton />", () => {
-  it("renders a button", () => {
+describe("<CtaButton />", (): void => {
+  it("renders a button", (): void => {
     const onClick = (): null => null;
     const { getByText } = render(
       <CtaButton onClick={onClick}>Create Team</CtaButton>
@@ -41,7 +40,7 @@ describe("<CtaButton />", () => {
     expect(getByText(/Create Team/).tagName).toBe("BUTTON");
   });
 
-  it("calls onClick", () => {
+  it("calls onClick", (): void => {
     const spy = jest.fn();
     const { getByText } = render(
       <CtaButton onClick={spy}>Create Team</CtaButton>
@@ -52,8 +51,8 @@ describe("<CtaButton />", () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  describe("when secondary prop is passed", () => {
-    it("renders a button", () => {
+  describe("when secondary prop is passed", (): void => {
+    it("renders a button", (): void => {
       const onClick = (): null => null;
       const { getByText } = render(
         <CtaButton secondary onClick={onClick}>
@@ -65,8 +64,8 @@ describe("<CtaButton />", () => {
     });
   });
 
-  describe("when small prop is passed", () => {
-    it("renders a button", () => {
+  describe("when small prop is passed", (): void => {
+    it("renders a button", (): void => {
       const onClick = (): null => null;
       const { getByText } = render(
         <CtaButton small onClick={onClick}>

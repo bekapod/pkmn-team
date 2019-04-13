@@ -1,16 +1,18 @@
 import React from "react";
-// tslint:disable-next-line:no-implicit-dependencies
 import { fireEvent, render } from "react-testing-library";
 import ShallowRenderer from "react-test-renderer/shallow";
 import wait from "waait";
 import TeamView from ".";
 import { Pokemon, TeamMember } from "../../types";
 
-jest.mock("../../containers/PokemonSearch", () => () => (
-  <div data-testid="mocked-PokemonSearch" />
-));
+jest.mock(
+  "../../containers/PokemonSearch",
+  (): React.FunctionComponent => (): JSX.Element => (
+    <div data-testid="mocked-PokemonSearch" />
+  )
+);
 
-describe("<TeamView />", () => {
+describe("<TeamView />", (): void => {
   const pokemon: Pokemon = {
     id: "4",
     name: "Charmander",
@@ -257,7 +259,7 @@ describe("<TeamView />", () => {
     { ...threeTeamMembers[2], id: "6" }
   ];
 
-  it("applies props from Tabs component correctly", async () => {
+  it("applies props from Tabs component correctly", async (): Promise<void> => {
     const fnStub = (): null => null;
     const { getByTestId } = render(
       <TeamView
@@ -301,8 +303,8 @@ describe("<TeamView />", () => {
     expect(document.activeElement).toBe(getByTestId("tab-content-add-pokemon"));
   });
 
-  describe("with less than 6 team members", () => {
-    it("renders a tab for each pokemon plus a tab for pokemon search", () => {
+  describe("with less than 6 team members", (): void => {
+    it("renders a tab for each pokemon plus a tab for pokemon search", (): void => {
       const fnStub = (): null => null;
       const { queryByTestId, queryAllByTestId } = render(
         <TeamView
@@ -320,8 +322,8 @@ describe("<TeamView />", () => {
     });
   });
 
-  describe("with 6 team members", () => {
-    it("renders a tab for each pokemon plus a tab for pokemon search", () => {
+  describe("with 6 team members", (): void => {
+    it("renders a tab for each pokemon plus a tab for pokemon search", (): void => {
       const fnStub = (): null => null;
       const { queryByTestId, queryAllByTestId } = render(
         <TeamView
@@ -339,8 +341,8 @@ describe("<TeamView />", () => {
     });
   });
 
-  describe("with a search pokemon selected", () => {
-    it("renders the currently selected pokemon", () => {
+  describe("with a search pokemon selected", (): void => {
+    it("renders the currently selected pokemon", (): void => {
       const fnStub = (): null => null;
       const { queryByText } = render(
         <TeamView
@@ -360,11 +362,11 @@ describe("<TeamView />", () => {
     });
   });
 
-  describe("when using drag & drop re-ordering", () => {
-    it("does not re-order team when user drags a team member to an invalid position", () => {
+  describe("when using drag & drop re-ordering", (): void => {
+    it("does not re-order team when user drags a team member to an invalid position", (): void => {
       const fnStub = (): null => null;
       const reorderTeamMembers = jest.fn();
-      const renderer = new ShallowRenderer();
+      const renderer = ShallowRenderer.createRenderer();
       renderer.render(
         <TeamView
           teamMembers={threeTeamMembers}
@@ -374,10 +376,15 @@ describe("<TeamView />", () => {
         />
       );
 
-      const instance = renderer.getMountedInstance();
+      const instance = renderer.getMountedInstance() as TeamView;
 
       instance.onDragEnd({
+        reason: "DROP",
+        draggableId: "",
+        type: "",
+        mode: "FLUID",
         source: {
+          droppableId: "teamview-tabs",
           index: 0
         },
         destination: null
@@ -386,10 +393,10 @@ describe("<TeamView />", () => {
       expect(reorderTeamMembers).toBeCalledTimes(0);
     });
 
-    it("does not re-order team when invalid item is dragged", () => {
+    it("does not re-order team when invalid item is dragged", (): void => {
       const fnStub = (): null => null;
       const reorderTeamMembers = jest.fn();
-      const renderer = new ShallowRenderer();
+      const renderer = ShallowRenderer.createRenderer();
       renderer.render(
         <TeamView
           teamMembers={threeTeamMembers}
@@ -399,10 +406,15 @@ describe("<TeamView />", () => {
         />
       );
 
-      const instance = renderer.getMountedInstance();
+      const instance = renderer.getMountedInstance() as TeamView;
 
       instance.onDragEnd({
+        reason: "DROP",
+        draggableId: "",
+        type: "",
+        mode: "FLUID",
         source: {
+          droppableId: "teamview-tabs",
           index: 5
         },
         destination: {
@@ -414,10 +426,10 @@ describe("<TeamView />", () => {
       expect(reorderTeamMembers).toBeCalledTimes(0);
     });
 
-    it("re-orders team when user drags a team member to another valid position", () => {
+    it("re-orders team when user drags a team member to another valid position", (): void => {
       const fnStub = (): null => null;
       const reorderTeamMembers = jest.fn();
-      const renderer = new ShallowRenderer();
+      const renderer = ShallowRenderer.createRenderer();
       renderer.render(
         <TeamView
           teamMembers={threeTeamMembers}
@@ -427,10 +439,15 @@ describe("<TeamView />", () => {
         />
       );
 
-      const instance = renderer.getMountedInstance();
+      const instance = renderer.getMountedInstance() as TeamView;
 
       instance.onDragEnd({
+        reason: "DROP",
+        draggableId: "",
+        type: "",
+        mode: "FLUID",
         source: {
+          droppableId: "teamview-tabs",
           index: 0
         },
         destination: {
@@ -446,11 +463,13 @@ describe("<TeamView />", () => {
       ]);
     });
 
-    it("removes team member from team when user drags team member to bin", async () => {
+    it("removes team member from team when user drags team member to bin", async (): Promise<
+      void
+    > => {
       const fnStub = (): null => null;
       const reorderTeamMembers = jest.fn();
       const removePokemonFromTeam = jest.fn();
-      const renderer = new ShallowRenderer();
+      const renderer = ShallowRenderer.createRenderer();
       renderer.render(
         <TeamView
           teamMembers={threeTeamMembers}
@@ -460,10 +479,15 @@ describe("<TeamView />", () => {
         />
       );
 
-      const instance = renderer.getMountedInstance();
+      const instance = renderer.getMountedInstance() as TeamView;
 
       instance.onDragEnd({
+        reason: "DROP",
+        draggableId: "",
+        type: "",
+        mode: "FLUID",
         source: {
+          droppableId: "teamview-tabs",
           index: 2
         },
         destination: {
@@ -482,11 +506,13 @@ describe("<TeamView />", () => {
       expect(instance.state.deletedItems).toEqual([]);
     });
 
-    it("does not remove any team members when invalid item dragged", async () => {
+    it("does not remove any team members when invalid item dragged", async (): Promise<
+      void
+    > => {
       const fnStub = (): null => null;
       const reorderTeamMembers = jest.fn();
       const removePokemonFromTeam = jest.fn();
-      const renderer = new ShallowRenderer();
+      const renderer = ShallowRenderer.createRenderer();
       renderer.render(
         <TeamView
           teamMembers={threeTeamMembers}
@@ -496,10 +522,15 @@ describe("<TeamView />", () => {
         />
       );
 
-      const instance = renderer.getMountedInstance();
+      const instance = renderer.getMountedInstance() as TeamView;
 
       instance.onDragEnd({
+        reason: "DROP",
+        draggableId: "",
+        type: "",
+        mode: "FLUID",
         source: {
+          droppableId: "teamview-tabs",
           index: 5
         },
         destination: {

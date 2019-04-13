@@ -26,21 +26,21 @@ const Styled = styled.div`
 
 const StyledSpinner = styled.div`
   position: relative;
-  border: ${({ small, color }: Props) =>
+  border: ${({ small, color }: Props): string =>
     `${small ? "5px" : "10px"} solid ${rgba(
       color || variables.colors.secondary,
       0.15
     )}`};
-  border-left: ${({ small, color }: Props) =>
+  border-left: ${({ small, color }: Props): string =>
     `${small ? "5px" : "10px"} solid ${color || variables.colors.secondary}`};
   transform: translateZ(0);
   animation: ${spin} 1s linear infinite;
 
   &,
   &:after {
-    width: ${({ small }: Props) =>
+    width: ${({ small }: Props): number =>
       small ? variables.spacing.lg : variables.spacing.xl}px;
-    height: ${({ small }: Props) =>
+    height: ${({ small }: Props): number =>
       small ? variables.spacing.lg : variables.spacing.xl}px;
     border-radius: 50%;
   }

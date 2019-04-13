@@ -14,7 +14,7 @@ function createClient({ headers }: InitApolloOptions<{}>): ApolloClient<{}> {
             _: any,
             variables: { pokemon: Pokemon },
             { cache }: { cache: InMemoryCache }
-          ) => {
+          ): { currentSearchPokemon: Pokemon } => {
             const data = { currentSearchPokemon: variables.pokemon };
             cache.writeData({ data });
             return data;
@@ -22,7 +22,7 @@ function createClient({ headers }: InitApolloOptions<{}>): ApolloClient<{}> {
         }
       }
     },
-    request: async operation => {
+    request: async (operation): Promise<void> => {
       operation.setContext({
         fetchOptions: {
           credentials: "include"

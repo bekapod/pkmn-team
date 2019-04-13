@@ -52,12 +52,14 @@ const CardMetaValue = styled.span`
 
 const CardMeta = ({ id, items = [] }: Props): JSX.Element => (
   <CardMetaWrapper data-testid={`card-meta-${id}`}>
-    {items.map(({ label, value }) => (
-      <CardMetaItem key={`Team: ${id}, Label: ${label}`}>
-        <Label>{label}</Label>
-        <CardMetaValue>{value}</CardMetaValue>
-      </CardMetaItem>
-    ))}
+    {items.map(
+      ({ label, value }): JSX.Element => (
+        <CardMetaItem key={`Team: ${id}, Label: ${label}`}>
+          <Label>{label}</Label>
+          <CardMetaValue>{value}</CardMetaValue>
+        </CardMetaItem>
+      )
+    )}
   </CardMetaWrapper>
 );
 

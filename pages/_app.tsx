@@ -1,11 +1,18 @@
 import { ApolloClient } from "apollo-boost";
-import App, { Container, DefaultAppIProps, NextAppContext } from "next/app";
+import App, {
+  Container,
+  DefaultAppIProps,
+  AppProps,
+  NextAppContext
+} from "next/app";
 import { DefaultQuery } from "next/router";
 import React from "react";
 import { ApolloProvider } from "react-apollo";
 import withData from "../hocs/withData";
 
-interface Props extends DefaultAppIProps {
+interface Props
+  extends DefaultAppIProps,
+    AppProps<Record<string, string | string[] | undefined>> {
   apollo: ApolloClient<{}>;
 }
 
@@ -64,11 +71,13 @@ class MyApp extends App<Props> {
   }
 
   private checkBodyMutation(mutations: MutationRecord[]): void {
-    mutations.forEach(({ type }) => {
-      if (type === "childList") {
-        this.setScrollbarWidth();
+    mutations.forEach(
+      ({ type }): void => {
+        if (type === "childList") {
+          this.setScrollbarWidth();
+        }
       }
-    });
+    );
   }
 
   private setScrollbarWidth = (): void => {

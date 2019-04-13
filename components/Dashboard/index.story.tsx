@@ -1,4 +1,3 @@
-// tslint:disable-next-line:no-implicit-dependencies
 import { storiesOf } from "@storybook/react";
 import React from "react";
 import Dashboard from ".";
@@ -6,7 +5,7 @@ import { Team } from "../../types";
 
 const mockData: Team[] = [
   {
-    insertedAt: "2018-06-08T21:15:14.723Z",
+    createdAt: "2018-06-08T21:15:14.723Z",
     id: "1",
     members: [
       {
@@ -40,7 +39,7 @@ const mockData: Team[] = [
     name: "Team 1"
   },
   {
-    insertedAt: "2018-06-08T21:15:14.723Z",
+    createdAt: "2018-06-08T21:15:14.723Z",
     id: "2",
     members: [
       {
@@ -88,5 +87,5 @@ const mockData: Team[] = [
 ];
 
 storiesOf("Dashboard", module)
-  .add("with teams", () => <Dashboard teams={mockData} />)
-  .add("without teams", () => <Dashboard teams={[]} />);
+  .add("with teams", (): JSX.Element => <Dashboard teams={mockData} />)
+  .add("without teams", (): JSX.Element => <Dashboard teams={[]} />);

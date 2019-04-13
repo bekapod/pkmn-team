@@ -1,10 +1,9 @@
 import React from "react";
-// tslint:disable-next-line:no-implicit-dependencies
 import { render } from "react-testing-library";
 import PokemonCard from ".";
 
-describe("<PokemonCard />", () => {
-  it("renders pokemon name and types", () => {
+describe("<PokemonCard />", (): void => {
+  it("renders pokemon name and types", (): void => {
     const { queryByText } = render(
       <PokemonCard
         pokemon={{
@@ -22,8 +21,8 @@ describe("<PokemonCard />", () => {
     expect(queryByText(/Electric/i)).toBeTruthy();
   });
 
-  describe("when pokemon is part of a team (has a member id)", () => {
-    it("renders pokemon name and types", () => {
+  describe("when pokemon is part of a team (has a member id)", (): void => {
+    it("renders pokemon name and types", (): void => {
       const { queryByText } = render(
         <PokemonCard
           memberId="7"
@@ -43,8 +42,8 @@ describe("<PokemonCard />", () => {
     });
   });
 
-  describe("when a renderCardActions function is passed", () => {
-    it("renders the card actions", () => {
+  describe("when a renderCardActions function is passed", (): void => {
+    it("renders the card actions", (): void => {
       const renderCardActions = (): JSX.Element => (
         <div>Card actions that should be rendered</div>
       );
@@ -66,8 +65,8 @@ describe("<PokemonCard />", () => {
     });
   });
 
-  describe("when a pokemon with more than one type is passed", () => {
-    it("renders all types", () => {
+  describe("when a pokemon with more than one type is passed", (): void => {
+    it("renders all types", (): void => {
       const { queryByText } = render(
         <PokemonCard
           pokemon={{

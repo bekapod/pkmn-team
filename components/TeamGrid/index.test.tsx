@@ -1,16 +1,15 @@
 import React from "react";
-// tslint:disable-next-line:no-implicit-dependencies
 import { render } from "react-testing-library";
 import TeamCard from "../TeamCard";
 import TeamGrid from ".";
 
-describe("<TeamGrid />", () => {
-  it("renders children", () => {
+describe("<TeamGrid />", (): void => {
+  it("renders children", (): void => {
     const { getAllByText } = render(
       <TeamGrid>
         <TeamCard
           team={{
-            insertedAt: "2018-06-08T21:15:14.723Z",
+            createdAt: "2018-06-08T21:15:14.723Z",
             id: "1",
             members: [
               {
@@ -31,7 +30,7 @@ describe("<TeamGrid />", () => {
         />
         <TeamCard
           team={{
-            insertedAt: "2018-06-08T21:15:14.723Z",
+            createdAt: "2018-06-08T21:15:14.723Z",
             id: "2",
             members: [
               {

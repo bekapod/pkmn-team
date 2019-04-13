@@ -1,10 +1,9 @@
 import React from "react";
-// tslint:disable-next-line:no-implicit-dependencies
 import { render } from "react-testing-library";
 import Page from ".";
 
-describe("<Page />", () => {
-  it("renders regular content", () => {
+describe("<Page />", (): void => {
+  it("renders regular content", (): void => {
     const { queryByText } = render(
       <Page title="My Page">
         <div>Test Content</div>

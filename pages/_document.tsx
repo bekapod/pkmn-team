@@ -1,9 +1,11 @@
 import Document, {
   AnyPageProps,
   NextDocumentContext,
-  DefaultDocumentIProps
+  DefaultDocumentIProps,
+  RenderPageResponse
 } from "next/document";
 import React from "react";
+// @ts-ignore
 import { resetServerContext } from "react-beautiful-dnd";
 import { ServerStyleSheet } from "styled-components/macro";
 
@@ -24,9 +26,11 @@ class MyDocument extends Document<Props> {
     const originalRenderPage = ctx.renderPage;
 
     try {
-      ctx.renderPage = () =>
+      ctx.renderPage = (): RenderPageResponse =>
         originalRenderPage({
-          enhanceApp: App => props => sheet.collectStyles(<App {...props} />)
+          enhanceApp: (App): React.ComponentType<Props> => (
+            props
+          ): JSX.Element => sheet.collectStyles(<App {...props} />)
         });
 
       const initialProps = await Document.getInitialProps(ctx);

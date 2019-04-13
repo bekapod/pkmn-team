@@ -46,7 +46,7 @@ const resultItem = (
   const isHighlighted = index === highlightedIndex;
   const props = {
     ...itemProps,
-    onClick: () => onClick(pkmn, index),
+    onClick: (): void => onClick(pkmn, index),
     style: {
       ...style,
       backgroundColor: isHighlighted ? variables.colors.grayLight : "initial",
@@ -95,24 +95,30 @@ class PokemonSearch extends PureComponent<Props, State> {
   }
 
   public onResultClick(pokemon: Pokemon, index: number): void {
-    this.setState(() => {
-      const { setCurrentSearchPokemon } = this.props;
-      setCurrentSearchPokemon({ variables: { pokemon } });
-      return {
-        highlightedIndex: index
-      };
-    });
+    this.setState(
+      (): Pick<State, "highlightedIndex"> => {
+        const { setCurrentSearchPokemon } = this.props;
+        setCurrentSearchPokemon({ variables: { pokemon } });
+        return {
+          highlightedIndex: index
+        };
+      }
+    );
   }
 
   public setInputValue(e: React.ChangeEvent<HTMLInputElement>): void {
     const { pokemon } = this.props;
     const { value } = e.target;
 
-    this.setState(() => ({
-      filteredList: pokemon.filter(({ name }) => name.includes(value)),
-      highlightedIndex: 0,
-      inputValue: value
-    }));
+    this.setState(
+      (): Pick<State, "filteredList" | "highlightedIndex" | "inputValue"> => ({
+        filteredList: pokemon.filter(
+          ({ name }): boolean => name.includes(value)
+        ),
+        highlightedIndex: 0,
+        inputValue: value
+      })
+    );
   }
 
   public keyboardNavigation(e: React.KeyboardEvent): void {
@@ -149,9 +155,11 @@ class PokemonSearch extends PureComponent<Props, State> {
         }
       }
 
-      this.setState(() => ({
-        highlightedIndex: newHighlightedIndex
-      }));
+      this.setState(
+        (): Pick<State, "highlightedIndex"> => ({
+          highlightedIndex: newHighlightedIndex
+        })
+      );
     }
   }
 

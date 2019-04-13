@@ -1,8 +1,6 @@
 import React from "react";
 import { MockedProvider, MockedResponse } from "react-apollo/test-utils";
-// tslint:disable-next-line:no-implicit-dependencies
 import { render } from "react-testing-library";
-// tslint:disable-next-line:no-implicit-dependencies
 import wait from "waait";
 import { createTeam, updateTeam } from "../../mutations/team";
 import { getTeamById } from "../../queries/team";
@@ -49,8 +47,8 @@ const mocks: ReadonlyArray<MockedResponse> = [
   }
 ];
 
-describe("<TeamBuilderContainer />", () => {
-  it("renders team creation form", async () => {
+describe("<TeamBuilderContainer />", (): void => {
+  it("renders team creation form", async (): Promise<void> => {
     const { queryByPlaceholderText } = render(
       <MockedProvider mocks={mocks} addTypename={false}>
         <TeamBuilderContainer />
@@ -62,7 +60,7 @@ describe("<TeamBuilderContainer />", () => {
     expect(queryByPlaceholderText(/Choose a team name/)).toBeTruthy();
   });
 
-  it("renders team edit form", async () => {
+  it("renders team edit form", async (): Promise<void> => {
     const mocksWithTeam: ReadonlyArray<MockedResponse> = [
       ...mocks,
       {

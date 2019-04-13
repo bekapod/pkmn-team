@@ -3,7 +3,7 @@ import { fireEvent, render } from "react-testing-library";
 import wait from "waait";
 import Tabs, { GetTabItemProps, GetTabContentProps } from "."; // eslint-disable-line import/named
 
-describe("<Tabs />", () => {
+describe("<Tabs />", (): void => {
   const items = ["1", "2", "3", "4"];
   const tabs = (
     <Tabs
@@ -11,25 +11,30 @@ describe("<Tabs />", () => {
       render={(
         getTabItemProps: GetTabItemProps,
         getTabContentProps: GetTabContentProps
-      ) => (
+      ): JSX.Element => (
         <>
-          {items.map(item => {
-            const tabItemProps = getTabItemProps(item);
-            const tabContentProps = getTabContentProps(item);
+          {items.map(
+            (item): JSX.Element => {
+              const tabItemProps = getTabItemProps(item);
+              const tabContentProps = getTabContentProps(item);
 
-            return (
-              <div key={item}>
-                <div data-testid={`tab-item-${item}`} {...tabItemProps} />
-                <div data-testid={`tab-content-${item}`} {...tabContentProps} />
-              </div>
-            );
-          })}
+              return (
+                <div key={item}>
+                  <div data-testid={`tab-item-${item}`} {...tabItemProps} />
+                  <div
+                    data-testid={`tab-content-${item}`}
+                    {...tabContentProps}
+                  />
+                </div>
+              );
+            }
+          )}
         </>
       )}
     />
   );
 
-  it("renders correct attributes", () => {
+  it("renders correct attributes", (): void => {
     const { getByTestId } = render(tabs);
 
     expect(getByTestId("tab-item-1").getAttribute("aria-selected")).toBe(
@@ -55,7 +60,7 @@ describe("<Tabs />", () => {
     );
   });
 
-  it("changes the selected item on item click", () => {
+  it("changes the selected item on item click", (): void => {
     const { getByTestId } = render(tabs);
 
     expect(getByTestId("tab-item-1").getAttribute("aria-selected")).toBe(
@@ -81,7 +86,9 @@ describe("<Tabs />", () => {
     );
   });
 
-  it("changes the selected item on enter key and focuses tab content", async () => {
+  it("changes the selected item on enter key and focuses tab content", async (): Promise<
+    void
+  > => {
     const { getByTestId } = render(tabs);
 
     expect(getByTestId("tab-item-1").getAttribute("aria-selected")).toBe(

@@ -39,13 +39,15 @@ const TeamCard = ({
               ]}
             />
 
-            {members.map(({ id: memberId, pokemon: memberPkmn }) => (
-              <PokemonLine
-                key={`Team Member: ${memberId}`}
-                pokemon={memberPkmn}
-                outdent={variables.spacing.sm}
-              />
-            ))}
+            {members.map(
+              ({ id: memberId, pokemon: memberPkmn }): JSX.Element => (
+                <PokemonLine
+                  key={`Team Member: ${memberId}`}
+                  pokemon={memberPkmn}
+                  outdent={variables.spacing.sm}
+                />
+              )
+            )}
           </CardContent>
         </CardWrapper>
       </CardLink>

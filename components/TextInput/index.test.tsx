@@ -1,10 +1,9 @@
 import React from "react";
-// tslint:disable-next-line:no-implicit-dependencies
 import { render } from "react-testing-library";
 import TextInput from ".";
 
-describe("<TextInput />", () => {
-  it("renders with correct attributes", () => {
+describe("<TextInput />", (): void => {
+  it("renders with correct attributes", (): void => {
     const { getByPlaceholderText } = render(
       <TextInput type="text" placeholder="Text Input" />
     );
@@ -14,7 +13,7 @@ describe("<TextInput />", () => {
     );
   });
 
-  it("renders with correct attributes when invalid", () => {
+  it("renders with correct attributes when invalid", (): void => {
     const { getByPlaceholderText } = render(
       <TextInput type="text" placeholder="Text Input" isInvalid />
     );

@@ -1,4 +1,3 @@
-// tslint:disable-next-line:no-implicit-dependencies
 import { storiesOf } from "@storybook/react";
 import React from "react";
 import MoveLine from ".";
@@ -24,4 +23,7 @@ const move: DeduplicatedMove = {
   ]
 };
 
-storiesOf("MoveLine", module).add("default", () => <MoveLine {...move} />);
+storiesOf("MoveLine", module).add(
+  "default",
+  (): JSX.Element => <MoveLine {...move} />
+);

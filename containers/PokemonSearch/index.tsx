@@ -17,13 +17,13 @@ interface QueryProps {
 }
 
 const queries = {
-  getAllPokemonQuery: ({ render }: any) => (
+  getAllPokemonQuery: ({ render }: any): JSX.Element => (
     <Query query={getPokemon}>{render}</Query>
   )
 };
 
 const mutations = {
-  setCurrentSearchPokemonMutation: ({ render }: any) => (
+  setCurrentSearchPokemonMutation: ({ render }: any): JSX.Element => (
     <Mutation mutation={setCurrentSearchPokemon}>{render}</Mutation>
   )
 };
@@ -35,7 +35,7 @@ const PokemonSearchContainer = (): JSX.Element => (
     {({
       getAllPokemonQuery: { data, loading, error },
       setCurrentSearchPokemonMutation
-    }: QueryProps) => {
+    }: QueryProps): JSX.Element => {
       return (
         <PokemonSearch
           pokemon={getOr([], "pokemon", data)}

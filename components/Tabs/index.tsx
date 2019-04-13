@@ -60,13 +60,13 @@ class Tabs extends Component<Props> {
   }
 
   public onTabItemClick(id: string): () => void {
-    return () => {
-      this.setState(() => ({ selectedItem: id }));
+    return (): void => {
+      this.setState((): Pick<State, "selectedItem"> => ({ selectedItem: id }));
     };
   }
 
   public onTabItemKey(id: string): (e: KeyboardEvent) => Promise<void> {
-    return async (e: KeyboardEvent) => {
+    return async (e: KeyboardEvent): Promise<void> => {
       if (e.key === "Enter") {
         const ref = this.contentRefs[id];
         this.onTabItemClick(id)();
@@ -74,10 +74,12 @@ class Tabs extends Component<Props> {
         if (ref instanceof HTMLElement) {
           await wait(1);
 
-          this.setState(() => {
-            ref.setAttribute("tabindex", "-1");
-            ref.focus();
-          });
+          this.setState(
+            (): void => {
+              ref.setAttribute("tabindex", "-1");
+              ref.focus();
+            }
+          );
         }
       }
     };
@@ -124,7 +126,7 @@ class Tabs extends Component<Props> {
   }
 
   public addTabContentRef(id: string): (element: HTMLElement) => void {
-    return (element: HTMLElement) => {
+    return (element: HTMLElement): void => {
       this.contentRefs[id] = element;
     };
   }

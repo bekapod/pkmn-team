@@ -1,8 +1,8 @@
 import { getTypeGradient } from "../gradients";
 
-describe("Gradients helpers", () => {
-  describe("getTypeGradient", () => {
-    it("returns correct css gradient for an array of types", () => {
+describe("Gradients helpers", (): void => {
+  describe("getTypeGradient", (): void => {
+    it("returns correct css gradient for an array of types", (): void => {
       expect(
         getTypeGradient([
           { name: "Grass", slug: "grass" },
@@ -16,7 +16,7 @@ describe("Gradients helpers", () => {
       );
     });
 
-    it("returns correct css gradient for an array of types including duplicates", () => {
+    it("returns correct css gradient for an array of types including duplicates", (): void => {
       expect(
         getTypeGradient([
           { name: "Electric", slug: "electric" },
@@ -34,13 +34,13 @@ describe("Gradients helpers", () => {
       );
     });
 
-    it("returns correct css gradient for a single type", () => {
+    it("returns correct css gradient for a single type", (): void => {
       expect(getTypeGradient([{ name: "Electric", slug: "electric" }])).toBe(
         "linear-gradient(90deg, #F8D030 0%, #F8D030 100%);"
       );
     });
 
-    it("returns correct css gradient for over 10 types", () => {
+    it("returns correct css gradient for over 10 types", (): void => {
       expect(
         getTypeGradient([
           { name: "Grass", slug: "grass" },

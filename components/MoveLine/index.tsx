@@ -8,7 +8,7 @@ import * as variables from "../../helpers/variables";
 import { getTypeGradient } from "../../helpers/gradients";
 
 interface Props extends DeduplicatedMove {
-  style: any;
+  style?: any;
 }
 
 interface RowProps {
@@ -36,7 +36,8 @@ const Row = styled.div`
     display: block;
     width: 100%;
     height: ${variables.spacing.sm}px;
-    background-image: ${({ types }: RowProps) => getTypeGradient(types)};
+    background-image: ${({ types }: RowProps): string =>
+      getTypeGradient(types)};
   }
 `;
 
@@ -77,7 +78,7 @@ const MoveLine = React.memo(
       </div>
     </Row>
   ),
-  (prevProps, nextProps) => isEqual(prevProps, nextProps)
+  (prevProps, nextProps): boolean => isEqual(prevProps, nextProps)
 );
 
 export default MoveLine;

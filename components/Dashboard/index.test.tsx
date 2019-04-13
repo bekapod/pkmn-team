@@ -1,13 +1,12 @@
 import { flatten } from "lodash/fp";
 import React from "react";
-// tslint:disable-next-line:no-implicit-dependencies
 import { render } from "react-testing-library";
 import Dashboard from ".";
 import { Team } from "../../types";
 
 const mockData: Team[] = [
   {
-    insertedAt: "2018-06-08T21:15:14.723Z",
+    createdAt: "2018-06-08T21:15:14.723Z",
     id: "1",
     members: [
       {
@@ -41,7 +40,7 @@ const mockData: Team[] = [
     name: "Team 1"
   },
   {
-    insertedAt: "2018-06-08T21:15:14.723Z",
+    createdAt: "2018-06-08T21:15:14.723Z",
     id: "2",
     members: [
       {
@@ -88,26 +87,31 @@ const mockData: Team[] = [
   }
 ];
 
-describe("<Dashboard />", () => {
-  it("renders all teams with associated pokemon", () => {
+describe("<Dashboard />", (): void => {
+  it("renders all teams with associated pokemon", (): void => {
     const { queryByText } = render(<Dashboard teams={mockData} />);
 
-    const expectedTeams = mockData.map(team => team.name);
+    const expectedTeams = mockData.map((team): string => team.name);
     const expectedPokemon = flatten(
-      mockData.map(team => team.members.map(member => member.pokemon.name))
+      mockData.map(
+        (team): string[] =>
+          team.members.map((member): string => member.pokemon.name)
+      )
     );
 
     expect(queryByText(/Create a team/)).toBeTruthy();
-    expectedTeams.forEach(teamName =>
-      expect(queryByText(teamName)).toBeTruthy()
+    expectedTeams.forEach(
+      (teamName): HTMLElement | null =>
+        expect(queryByText(teamName)).toBeTruthy()
     );
-    expectedPokemon.forEach(pokemonName =>
-      expect(queryByText(new RegExp(pokemonName, "i"))).toBeTruthy()
+    expectedPokemon.forEach(
+      (pokemonName): HTMLElement | null =>
+        expect(queryByText(new RegExp(pokemonName, "i"))).toBeTruthy()
     );
   });
 
-  describe("when dashboard has no data", () => {
-    it("renders correctly", () => {
+  describe("when dashboard has no data", (): void => {
+    it("renders correctly", (): void => {
       const { queryAllByTestId, queryByText } = render(
         <Dashboard teams={[]} />
       );

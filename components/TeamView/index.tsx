@@ -96,7 +96,9 @@ class TeamView extends Component<Props, State> {
           teamMembers,
           result.source.index,
           get(["destination", "index"], result)
-        ).map((member, index) => set("order", add(index, 1), member))
+        ).map(
+          (member, index): TeamMember => set("order", add(index, 1), member)
+        )
       );
 
       document.body.classList.remove("is-dragging");
@@ -106,9 +108,11 @@ class TeamView extends Component<Props, State> {
       const binnedMember = nth(result.source.index, teamMembers);
 
       if (binnedMember) {
-        this.setState(state => ({
-          deletedItems: [...state.deletedItems, binnedMember]
-        }));
+        this.setState(
+          (state): Pick<State, "deletedItems"> => ({
+            deletedItems: [...state.deletedItems, binnedMember]
+          })
+        );
         removePokemonFromTeam(get("id", binnedMember));
       }
     }
@@ -117,11 +121,15 @@ class TeamView extends Component<Props, State> {
   public emptyBin(): void {
     document.body.classList.remove("is-dragging");
 
-    wait(250).then(() => {
-      this.setState(() => ({
-        deletedItems: []
-      }));
-    });
+    wait(250).then(
+      (): void => {
+        this.setState(
+          (): Pick<State, "deletedItems"> => ({
+            deletedItems: []
+          })
+        );
+      }
+    );
   }
 
   public renderTabs(
@@ -141,7 +149,7 @@ class TeamView extends Component<Props, State> {
             onDragEnd={this.onDragEnd}
           >
             <Droppable droppableId="teamview-tabs" direction="horizontal">
-              {droppableProvided => (
+              {(droppableProvided): JSX.Element => (
                 <div
                   {...droppableProvided.droppableProps}
                   ref={droppableProvided.innerRef}
@@ -150,11 +158,14 @@ class TeamView extends Component<Props, State> {
                     {droppableProvided.placeholder}
 
                     {teamMembers.map(
-                      ({ id, pokemon }: TeamMember, index: number) => {
+                      (
+                        { id, pokemon }: TeamMember,
+                        index: number
+                      ): JSX.Element => {
                         const tabItemProps = getTabItemProps(id);
                         return (
                           <Draggable key={id} draggableId={id} index={index}>
-                            {draggableProvided => (
+                            {(draggableProvided): JSX.Element => (
                               <TabItem
                                 {...tabItemProps}
                                 {...draggableProvided.draggableProps}
@@ -191,7 +202,7 @@ class TeamView extends Component<Props, State> {
             </Droppable>
 
             <Droppable droppableId="teamview-bin" direction="horizontal">
-              {(droppableProvided, droppableSnapshot) => (
+              {(droppableProvided, droppableSnapshot): JSX.Element => (
                 <Bin
                   {...droppableProvided.droppableProps}
                   ref={droppableProvided.innerRef}
@@ -210,43 +221,47 @@ class TeamView extends Component<Props, State> {
                   {droppableProvided.placeholder}
                   <span className="zig-zag-helper" />
                   <BinIcon />
-                  {deletedItems.map(({ id, pokemon }) => (
-                    <TabItem
-                      key={id}
-                      aria-selected={false}
-                      data-testid={`binned-item-${id}`}
-                      data-binned-item
-                      onAnimationEnd={this.emptyBin}
-                    >
-                      <PokemonLine pokemon={pokemon} compact />
-                    </TabItem>
-                  ))}
+                  {deletedItems.map(
+                    ({ id, pokemon }): JSX.Element => (
+                      <TabItem
+                        key={id}
+                        aria-selected={false}
+                        data-testid={`binned-item-${id}`}
+                        data-binned-item
+                        onAnimationEnd={this.emptyBin}
+                      >
+                        <PokemonLine pokemon={pokemon} compact />
+                      </TabItem>
+                    )
+                  )}
                 </Bin>
               )}
             </Droppable>
           </DragDropContext>
         </TabBar>
 
-        {map(({ id, pokemon: pkmn }) => {
-          const tabContentProps = getTabContentProps(id);
-          return (
-            <TabContent
-              {...tabContentProps}
-              key={id}
-              data-testid={`tab-content-${id}`}
-            >
-              <PokemonCard
-                memberId={id}
-                pokemon={pkmn}
-                renderCardActions={this.renderCardActions({
-                  memberId: id,
-                  pokemon: pkmn
-                })}
-              />
-              <MoveList moves={pkmn.moves} />
-            </TabContent>
-          );
-        })(teamMembers)}
+        {map(
+          ({ id, pokemon: pkmn }): JSX.Element => {
+            const tabContentProps = getTabContentProps(id);
+            return (
+              <TabContent
+                {...tabContentProps}
+                key={id}
+                data-testid={`tab-content-${id}`}
+              >
+                <PokemonCard
+                  memberId={id}
+                  pokemon={pkmn}
+                  renderCardActions={this.renderCardActions({
+                    memberId: id,
+                    pokemon: pkmn
+                  })}
+                />
+                <MoveList moves={pkmn.moves} />
+              </TabContent>
+            );
+          }
+        )(teamMembers)}
 
         {lt(size(teamMembers), 6) ? (
           <TabContent
@@ -279,8 +294,8 @@ class TeamView extends Component<Props, State> {
     const { teamMembers, addPokemonToTeam, removePokemonFromTeam } = this.props;
 
     const onClick = memberId
-      ? () => removePokemonFromTeam(memberId)
-      : () =>
+      ? (): void => removePokemonFromTeam(memberId)
+      : (): void =>
           addPokemonToTeam(
             pokemon,
             compose(
@@ -294,7 +309,7 @@ class TeamView extends Component<Props, State> {
       ? `Remove ${pokemon.name} from team`
       : `Add ${pokemon.name} to team`;
 
-    return () => (
+    return (): JSX.Element => (
       <CtaButton small onClick={onClick}>
         {buttonText}
       </CtaButton>

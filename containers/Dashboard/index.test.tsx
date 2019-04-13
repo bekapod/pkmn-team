@@ -1,8 +1,6 @@
 import React from "react";
 import { MockedProvider, MockedResponse } from "react-apollo/test-utils";
-// tslint:disable-next-line:no-implicit-dependencies
 import { render } from "react-testing-library";
-// tslint:disable-next-line:no-implicit-dependencies
 import wait from "waait";
 import DashboardContainer from ".";
 import { getAllTeams } from "../../queries/team";
@@ -251,8 +249,8 @@ const mocks: ReadonlyArray<MockedResponse> = [
   }
 ];
 
-describe("<DashboardContainer />", () => {
-  it("renders with correct number of team members", async () => {
+describe("<DashboardContainer />", (): void => {
+  it("renders with correct number of team members", async (): Promise<void> => {
     const { getAllByTestId } = render(
       <MockedProvider mocks={mocks}>
         <DashboardContainer />

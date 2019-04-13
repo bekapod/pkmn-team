@@ -1,4 +1,3 @@
-// tslint:disable-next-line:no-implicit-dependencies
 import { storiesOf } from "@storybook/react";
 import React from "react";
 import MoveList from ".";
@@ -59,5 +58,5 @@ const moves: PokemonMove[] = [
 ];
 
 storiesOf("MoveList", module)
-  .add("with moves", () => <MoveList moves={moves} />)
-  .add("without moves", () => <MoveList moves={[]} />);
+  .add("with moves", (): JSX.Element => <MoveList moves={moves} />)
+  .add("without moves", (): JSX.Element => <MoveList moves={[]} />);

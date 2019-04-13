@@ -92,12 +92,14 @@ export interface Team {
   __typename?: "Team";
 }
 
+export interface TeamMemberInput {
+  id?: string;
+  order: number;
+  pokemonId: string;
+}
+
 export interface TeamInput {
   id?: string;
   name: string;
-  members: {
-    id?: string;
-    order: number;
-    pokemonId: string;
-  }[];
+  members: TeamMemberInput[];
 }

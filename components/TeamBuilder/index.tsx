@@ -20,7 +20,14 @@ import React, {
   useCallback
 } from "react";
 import { ValidationError } from "yup";
-import { Pokemon, Team, TeamMember, TeamInput, Error } from "../../types";
+import {
+  Pokemon,
+  Team,
+  TeamMember,
+  TeamInput,
+  Error,
+  TeamMemberInput
+} from "../../types";
 import CenteredRow from "../CenteredRow";
 import { CtaButton } from "../Cta";
 import ErrorMessage from "../ErrorMessage";
@@ -54,7 +61,7 @@ interface Props {
 }
 
 const transformMembersToInput = map(
-  ({ id, order, pokemon: { id: pokemonId } }) => ({
+  ({ id, order, pokemon: { id: pokemonId } }): TeamMemberInput => ({
     id,
     order,
     pokemonId
@@ -106,18 +113,20 @@ const upsertTeam = (
           name: newTeam.name,
           createdAt: getOr("", "createdAt", currentTeam),
           __typename: "Team",
-          members: newTeam.members.map(member => ({
-            order: member.order,
-            id: member.id || getUniqueId(),
-            pokemon: pipe(
-              find(({ id }) => member.id === id),
-              get("pokemon")
-            )(getOr([], "members", currentTeam)) || {
-              ...currentSearchPokemon,
-              moves: []
-            },
-            __typename: "TeamMember"
-          }))
+          members: newTeam.members.map(
+            (member): TeamMember => ({
+              order: member.order,
+              id: member.id || getUniqueId(),
+              pokemon: pipe(
+                find(({ id }): boolean => member.id === id),
+                get("pokemon")
+              )(getOr([], "members", currentTeam)) || {
+                ...currentSearchPokemon,
+                moves: []
+              },
+              __typename: "TeamMember"
+            })
+          )
         }
       }
     });
@@ -160,10 +169,10 @@ const TeamBuilder = ({
   const errors = [
     ...[getOr(null, "message", error)],
     ...getOr([], ["error", "details"], team).map(
-      ({ errors: errorMessages }: Error["details"]) => errorMessages
+      ({ errors: errorMessages }: Error["details"]): string[] => errorMessages
     ),
     ...getOr([], "errors", validationErrors)
-  ].filter(message => !isNil(message));
+  ].filter((message): boolean => !isNil(message));
 
   if (createdTeamId) {
     const url = `/team/edit/${createdTeamId}`;
@@ -174,7 +183,7 @@ const TeamBuilder = ({
     Router.push("/");
   }
 
-  useEffect(() => {
+  useEffect((): void => {
     if (isNil(validationErrors) && !isNil(teamInput)) {
       upsertTeam(
         teamInput,
@@ -242,7 +251,9 @@ const TeamBuilder = ({
 
       prepareUpsertTeam({
         ...transformedTeam,
-        members: transformedTeam.members.filter(({ id }) => id !== memberId)
+        members: transformedTeam.members.filter(
+          ({ id }): boolean => id !== memberId
+        )
       });
     },
     [prepareUpsertTeam, team]
@@ -290,11 +301,13 @@ const TeamBuilder = ({
           </>
         ) : null}
 
-        {errors.map(message => (
-          <ErrorMessage key={message} color={variables.colors.white}>
-            {message}
-          </ErrorMessage>
-        ))}
+        {errors.map(
+          (message): JSX.Element => (
+            <ErrorMessage key={message} color={variables.colors.white}>
+              {message}
+            </ErrorMessage>
+          )
+        )}
 
         {loading ? (
           <LoadingIcon
@@ -327,6 +340,9 @@ const TeamBuilder = ({
   );
 };
 
-export default React.memo(TeamBuilder, (prevProps: Props, nextProps: Props) => {
-  return isEqual(prevProps, nextProps);
-});
+export default React.memo(
+  TeamBuilder,
+  (prevProps: Props, nextProps: Props): boolean => {
+    return isEqual(prevProps, nextProps);
+  }
+);

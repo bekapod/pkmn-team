@@ -1,10 +1,9 @@
 import React from "react";
-// tslint:disable-next-line:no-implicit-dependencies
 import { render } from "react-testing-library";
 import Autocomplete, { AutocompleteDropdown } from ".";
 
-describe("<Autocomplete />", () => {
-  it("renders all children", () => {
+describe("<Autocomplete />", (): void => {
+  it("renders all children", (): void => {
     const { getByText } = render(
       <Autocomplete>
         <AutocompleteDropdown>

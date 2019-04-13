@@ -7,8 +7,9 @@ interface Props {
   children: ReactNode | ReactNodeArray;
 }
 
-const CardHeading = styled(({ headingType = "h2", ...props }: Props) =>
-  React.createElement(headingType, props)
+const CardHeading = styled(
+  ({ headingType = "h2", ...props }: Props): JSX.Element =>
+    React.createElement(headingType, props)
 )`
   overflow: hidden;
   margin: ${variables.spacing.lg}px 0;

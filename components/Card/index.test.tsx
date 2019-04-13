@@ -1,10 +1,9 @@
 import React from "react";
-// tslint:disable-next-line:no-implicit-dependencies
 import { render } from "react-testing-library";
 import { CardContent, CardHeader, CardLink, CardWrapper } from ".";
 
-describe("Card components", () => {
-  it("renders children correctly", () => {
+describe("Card components", (): void => {
+  it("renders children correctly", (): void => {
     const { queryByText } = render(
       <CardLink href="/team/edit/1/">
         <CardWrapper>

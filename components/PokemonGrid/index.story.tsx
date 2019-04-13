@@ -1,4 +1,3 @@
-// tslint:disable-next-line:no-implicit-dependencies
 import { storiesOf } from "@storybook/react";
 import React from "react";
 import PokemonGrid from ".";
@@ -18,13 +17,16 @@ const pokemon = (
 );
 
 storiesOf("PokemonGrid", module)
-  .add("with pokemon", () => (
-    <PokemonGrid>
-      {pokemon}
-      {pokemon}
-      {pokemon}
-      {pokemon}
-      {pokemon}
-    </PokemonGrid>
-  ))
-  .add("empty", () => <PokemonGrid />);
+  .add(
+    "with pokemon",
+    (): JSX.Element => (
+      <PokemonGrid>
+        {pokemon}
+        {pokemon}
+        {pokemon}
+        {pokemon}
+        {pokemon}
+      </PokemonGrid>
+    )
+  )
+  .add("empty", (): JSX.Element => <PokemonGrid />);

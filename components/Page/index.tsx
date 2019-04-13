@@ -1,4 +1,4 @@
-import { normalize, selection } from "polished";
+import { normalize } from "polished";
 import React, { Fragment, ReactNode, ReactNodeArray } from "react";
 import { createGlobalStyle } from "styled-components/macro";
 import * as variables from "../../helpers/variables";
@@ -37,10 +37,10 @@ export const GlobalStyle = createGlobalStyle`
     --scroll-bar: 0;
   }
 
-  ${selection({
-    "background-color": variables.colors.selection,
-    color: variables.colors.grayDark
-  })}
+  ::selection {
+    background-color: ${variables.colors.selection};
+    color: ${variables.colors.grayDark};
+  }
 
   h1 {
     margin: ${variables.spacing.lg}px 0;

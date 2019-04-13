@@ -47,15 +47,17 @@ const PokemonCard = ({
         />
 
         <InlineList>
-          {sortTypes(types).map((type: Type) => (
-            <li
-              key={`${
-                memberId ? `Member: ${memberId}` : ""
-              } Pokemon: ${pokedexId}, Type: ${type.slug}`}
-            >
-              <TypeTag type={type.slug}>{type.name}</TypeTag>
-            </li>
-          ))}
+          {sortTypes(types).map(
+            (type: Type): JSX.Element => (
+              <li
+                key={`${
+                  memberId ? `Member: ${memberId}` : ""
+                } Pokemon: ${pokedexId}, Type: ${type.slug}`}
+              >
+                <TypeTag type={type.slug}>{type.name}</TypeTag>
+              </li>
+            )
+          )}
         </InlineList>
 
         {renderCardActions ? (

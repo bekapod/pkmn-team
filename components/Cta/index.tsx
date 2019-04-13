@@ -17,14 +17,14 @@ const not = (value: any): boolean => !value;
 const styles = css`
   display: block;
   width: 100%;
-  padding: ${({ small }: Props) =>
+  padding: ${({ small }: Props): string =>
     cond([
       [not, always(`${variables.spacing.md}px ${variables.spacing.lg}px`)],
       [T, always(`${variables.spacing.xs}px ${variables.spacing.md}px`)]
     ])(small)};
   color: ${variables.colors.white};
   font-family: ${variables.fonts.base};
-  font-size: ${({ small }: Props) =>
+  font-size: ${({ small }: Props): string =>
     cond([
       [not, always(`${variables.fontSizes.md}px`)],
       [T, always(`${variables.fontSizes.sm}px`)]
@@ -33,7 +33,7 @@ const styles = css`
   line-height: ${lineHeight("md")};
   text-decoration: none;
   text-transform: uppercase;
-  background-color: ${({ secondary }: Props) =>
+  background-color: ${({ secondary }: Props): string =>
     cond([
       [not, always(variables.colors.primaryDark)],
       [T, always(variables.colors.secondaryDark)]
@@ -42,7 +42,7 @@ const styles = css`
   border-radius: ${variables.sizes.borderRadius}px 0;
   ${radialIn};
   &::before {
-    background-color: ${({ secondary }: Props) =>
+    background-color: ${({ secondary }: Props): string =>
       cond([
         [not, always(variables.colors.primary)],
         [T, always(variables.colors.secondary)]
@@ -62,7 +62,7 @@ const styles = css`
 `;
 
 export const CtaInternalLink = styled(
-  ({ secondary, small, ...props }: Props) => <a {...props} /> // eslint-disable-line jsx-a11y/anchor-has-content, @typescript-eslint/no-unused-vars
+  ({ secondary, small, ...props }: Props): JSX.Element => <a {...props} /> // eslint-disable-line jsx-a11y/anchor-has-content, @typescript-eslint/no-unused-vars
 )`
   ${styles};
 `;

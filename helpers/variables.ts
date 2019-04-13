@@ -47,7 +47,6 @@ export const fonts = {
 export const fontSizes = {
   base: 18,
   xxs: 5,
-  // tslint:disable-next-line:object-literal-sort-keys
   xs: 14,
   sm: 16,
   md: 22,
@@ -58,7 +57,6 @@ export const fontSizes = {
 
 export const spacing = {
   xxl: 99,
-  // tslint:disable-next-line:object-literal-sort-keys
   xl: 66,
   lg: 33,
   md: 16.5,

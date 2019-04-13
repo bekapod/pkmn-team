@@ -39,9 +39,10 @@ const Row = ({ data, index, style }: RowProps): JSX.Element => {
 };
 
 const MoveList = ({ moves }: Props): JSX.Element => {
-  const combinedMoves = useMemo(() => combineDuplicatePokemonMoves(moves), [
-    moves
-  ]);
+  const combinedMoves = useMemo(
+    (): DeduplicatedMove[] => combineDuplicatePokemonMoves(moves),
+    [moves]
+  );
   const itemHeight = variables.spacing.xl;
 
   return (

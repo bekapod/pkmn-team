@@ -1,4 +1,5 @@
 import styled from "styled-components/macro";
+import { FlattenSimpleInterpolation } from "styled-components";
 import * as variables from "../../helpers/variables";
 import { lineHeight } from "../../helpers/verticalRhythm";
 import TextInput from "../TextInput";
@@ -16,7 +17,7 @@ const GiantInput = styled(TextInput)`
   line-height: ${lineHeight("lg")};
   text-align: center;
 
-  ${({ fullWidth }: Props) =>
+  ${({ fullWidth }: Props): string | FlattenSimpleInterpolation =>
     fullWidth ? "" : media.medium`max-width: 600px;`}
 `;
 

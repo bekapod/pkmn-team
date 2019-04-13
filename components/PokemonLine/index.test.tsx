@@ -1,10 +1,9 @@
 import React from "react";
-// tslint:disable-next-line:no-implicit-dependencies
 import { render } from "react-testing-library";
 import PokemonLine from ".";
 
-describe("<PokemonLine />", () => {
-  it("renders pokemon name and types", () => {
+describe("<PokemonLine />", (): void => {
+  it("renders pokemon name and types", (): void => {
     const { queryByText } = render(
       <PokemonLine
         pokemon={{
@@ -22,8 +21,8 @@ describe("<PokemonLine />", () => {
     expect(queryByText(/Electric/i)).toBeTruthy();
   });
 
-  describe("when outdent is passed", () => {
-    it("renders pokemon name and types", () => {
+  describe("when outdent is passed", (): void => {
+    it("renders pokemon name and types", (): void => {
       const { queryByText } = render(
         <PokemonLine
           pokemon={{
@@ -43,8 +42,8 @@ describe("<PokemonLine />", () => {
     });
   });
 
-  describe("when a pokemon with more than one type is passed", () => {
-    it("renders all types", () => {
+  describe("when a pokemon with more than one type is passed", (): void => {
+    it("renders all types", (): void => {
       const { queryByText } = render(
         <PokemonLine
           pokemon={{

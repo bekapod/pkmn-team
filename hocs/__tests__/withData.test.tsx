@@ -1,13 +1,12 @@
 import App, { Container } from "next/app";
 import Router from "next/router";
 import React from "react";
-// tslint:disable-next-line:no-implicit-dependencies
 import ShallowRenderer from "react-test-renderer/shallow";
 import withData from "../withData";
 
-describe("withData", () => {
-  it("returns the wrapped component with its own props and scrollToTop prop", () => {
-    const renderer = new ShallowRenderer();
+describe("withData", (): void => {
+  it("returns the wrapped component with its own props and scrollToTop prop", (): void => {
+    const renderer = ShallowRenderer.createRenderer();
     class TestComponent extends App {
       public render(): JSX.Element {
         const { Component, pageProps } = this.props;
@@ -26,8 +25,7 @@ describe("withData", () => {
         apolloState={{}}
         router={Router}
         pageProps={{}}
-        // tslint:disable-next-line:jsx-no-lambda
-        Component={() => <div />}
+        Component={(): JSX.Element => <div />}
       >
         <div />
       </ComponentWithData>
