@@ -8,11 +8,11 @@ import {
   find,
   pipe,
   isNil,
-  isEmpty,
-  isEqual
+  isEmpty
 } from "lodash/fp";
 import Router from "next/router";
 import React, { FocusEvent, KeyboardEvent, useState, useCallback } from "react";
+import isEqual from "react-fast-compare";
 import { ValidationError } from "yup";
 import {
   Pokemon,
@@ -314,7 +314,5 @@ const TeamBuilder = ({
 
 export default React.memo(
   TeamBuilder,
-  (prevProps: Props, nextProps: Props): boolean => {
-    return isEqual(prevProps, nextProps);
-  }
+  (prevProps: Props, nextProps: Props): boolean => isEqual(prevProps, nextProps)
 );
