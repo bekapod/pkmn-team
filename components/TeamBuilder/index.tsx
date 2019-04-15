@@ -8,17 +8,11 @@ import {
   find,
   pipe,
   isNil,
-  isEmpty,
-  isEqual
+  isEmpty
 } from "lodash/fp";
 import Router from "next/router";
-import React, {
-  FocusEvent,
-  KeyboardEvent,
-  useEffect,
-  useState,
-  useCallback
-} from "react";
+import React, { FocusEvent, KeyboardEvent, useState, useCallback } from "react";
+import isEqual from "react-fast-compare";
 import { ValidationError } from "yup";
 import {
   Pokemon,
@@ -81,6 +75,34 @@ const transformTeamToInput = (
   members: transformMembersToInput(members)
 });
 
+const generateOptimisticResponse = (
+  newTeam: TeamInput,
+  currentTeam: Team,
+  currentSearchPokemon: Pokemon | {} = {}
+): { __typename: "Mutation"; updateTeam: Team } => ({
+  __typename: "Mutation",
+  updateTeam: {
+    id: newTeam.id || "",
+    name: newTeam.name,
+    createdAt: getOr("", "createdAt", currentTeam),
+    __typename: "Team",
+    members: newTeam.members.map(
+      (member): TeamMember => ({
+        order: member.order,
+        id: member.id || getUniqueId(),
+        pokemon: pipe(
+          find(({ id }): boolean => member.id === id),
+          get("pokemon")
+        )(getOr([], "members", currentTeam)) || {
+          ...currentSearchPokemon,
+          moves: []
+        },
+        __typename: "TeamMember"
+      })
+    )
+  }
+});
+
 const validateTeam = async (
   team: TeamInput,
   teamAlreadyExists: boolean = true
@@ -91,62 +113,6 @@ const validateTeam = async (
     return { team: validTeam };
   } catch (error) {
     return { error };
-  }
-};
-
-const upsertTeam = (
-  newTeam: TeamInput,
-  currentTeam: Props["team"],
-  currentSearchPokemon: Props["currentSearchPokemon"],
-  createTeamMutation: Props["createTeamMutation"],
-  updateTeamMutation: Props["updateTeamMutation"]
-): void => {
-  const mutationVariables = { team: newTeam };
-
-  if (newTeam.id) {
-    updateTeamMutation({
-      variables: mutationVariables,
-      optimisticResponse: {
-        __typename: "Mutation",
-        updateTeam: {
-          id: newTeam.id,
-          name: newTeam.name,
-          createdAt: getOr("", "createdAt", currentTeam),
-          __typename: "Team",
-          members: newTeam.members.map(
-            (member): TeamMember => ({
-              order: member.order,
-              id: member.id || getUniqueId(),
-              pokemon: pipe(
-                find(({ id }): boolean => member.id === id),
-                get("pokemon")
-              )(getOr([], "members", currentTeam)) || {
-                ...currentSearchPokemon,
-                moves: []
-              },
-              __typename: "TeamMember"
-            })
-          )
-        }
-      }
-    });
-  } else {
-    createTeamMutation({ variables: mutationVariables });
-  }
-};
-
-const deleteTeam = (
-  team: Props["team"],
-  deleteTeamMutation: Props["deleteTeamMutation"]
-): void => {
-  if (team) {
-    deleteTeamMutation({
-      variables: {
-        team: {
-          id: team.id
-        }
-      }
-    });
   }
 };
 
@@ -162,10 +128,8 @@ const TeamBuilder = ({
   deleteTeamMutation
 }: Props): JSX.Element => {
   const [validationErrors, setValidationErrors] = useState<
-    ValidationError | undefined
+    ValidationError | { message: string } | undefined
   >(undefined);
-  const [teamInput, setTeamInput] = useState<TeamInput | undefined>(undefined);
-
   const errors = [
     ...[getOr(null, "message", error)],
     ...getOr([], ["error", "details"], team).map(
@@ -183,58 +147,66 @@ const TeamBuilder = ({
     Router.push("/");
   }
 
-  useEffect((): void => {
-    if (isNil(validationErrors) && !isNil(teamInput)) {
-      upsertTeam(
-        teamInput,
-        team,
-        currentSearchPokemon,
-        createTeamMutation,
-        updateTeamMutation
-      );
-      setValidationErrors(undefined);
-      setTeamInput(undefined);
-    }
-  }, [
-    teamInput,
-    validationErrors,
-    team,
-    currentSearchPokemon,
-    createTeamMutation,
-    updateTeamMutation
-  ]);
-
-  const prepareUpsertTeam = useCallback(
+  const upsertTeam = useCallback(
     async (newTeam: TeamInput): Promise<void> => {
       const validationResponse = await validateTeam(newTeam, !isEmpty(team));
       const { team: validTeam, error: transformError } = validationResponse;
 
       if (!isNil(transformError)) {
         setValidationErrors(transformError);
-        setTeamInput(undefined);
+      } else if (!validTeam) {
+        setValidationErrors({ message: "Unexpected error happened." });
       } else {
         setValidationErrors(undefined);
-        setTeamInput(validTeam);
+
+        const mutationVariables = { team: newTeam };
+
+        if (validTeam.id && team) {
+          const optimisticResponse = generateOptimisticResponse(
+            newTeam,
+            team,
+            currentSearchPokemon
+          );
+
+          updateTeamMutation({
+            variables: mutationVariables,
+            optimisticResponse
+          });
+        } else {
+          createTeamMutation({ variables: mutationVariables });
+        }
       }
     },
-    [team]
+    [team, currentSearchPokemon, updateTeamMutation, createTeamMutation]
   );
+
+  const deleteTeam = useCallback((): void => {
+    if (team) {
+      deleteTeamMutation({
+        variables: {
+          team: {
+            id: team.id
+          }
+        }
+      });
+    }
+  }, [team, deleteTeamMutation]);
 
   const handleTeamNameChange = useCallback(
     (
       e: FocusEvent<HTMLInputElement> | KeyboardEvent<HTMLInputElement>
     ): void => {
       const { value } = e.target as HTMLInputElement;
-      prepareUpsertTeam(merge(transformTeamToInput(team), { name: value }));
+      upsertTeam(merge(transformTeamToInput(team), { name: value }));
     },
-    [prepareUpsertTeam, team]
+    [upsertTeam, team]
   );
 
   const handleAddPokemonToTeam = useCallback(
     (pokemon: Pokemon, order: number): void => {
       const transformedTeam = transformTeamToInput(team);
 
-      prepareUpsertTeam(
+      upsertTeam(
         merge(transformedTeam, {
           members: concat(getOr([], "members", transformedTeam), [
             { order, pokemonId: pokemon.id }
@@ -242,41 +214,41 @@ const TeamBuilder = ({
         })
       );
     },
-    [prepareUpsertTeam, team]
+    [upsertTeam, team]
   );
 
   const handleRemovePokemonFromTeam = useCallback(
     (memberId: string): void => {
       const transformedTeam = transformTeamToInput(team);
 
-      prepareUpsertTeam({
+      upsertTeam({
         ...transformedTeam,
         members: transformedTeam.members.filter(
           ({ id }): boolean => id !== memberId
         )
       });
     },
-    [prepareUpsertTeam, team]
+    [upsertTeam, team]
   );
 
   const handleReorderTeamMembers = useCallback(
     (members: TeamMember[]): void => {
-      prepareUpsertTeam(
+      upsertTeam(
         merge(transformTeamToInput(team), {
           members: transformMembersToInput(members)
         })
       );
     },
-    [prepareUpsertTeam, team]
+    [upsertTeam, team]
   );
 
   const handleSaveTeam = useCallback((): void => {
-    prepareUpsertTeam(transformTeamToInput(team));
-  }, [prepareUpsertTeam, team]);
+    upsertTeam(transformTeamToInput(team));
+  }, [upsertTeam, team]);
 
   const handleDeleteTeam = useCallback((): void => {
-    deleteTeam(team, deleteTeamMutation);
-  }, [team, deleteTeamMutation]);
+    deleteTeam();
+  }, [deleteTeam]);
 
   const handleKeyPress = useCallback(
     (e: KeyboardEvent<HTMLInputElement>): void => {
@@ -342,7 +314,5 @@ const TeamBuilder = ({
 
 export default React.memo(
   TeamBuilder,
-  (prevProps: Props, nextProps: Props): boolean => {
-    return isEqual(prevProps, nextProps);
-  }
+  (prevProps: Props, nextProps: Props): boolean => isEqual(prevProps, nextProps)
 );
