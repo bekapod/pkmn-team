@@ -94,6 +94,12 @@ export const GlobalStyles = createGlobalStyle`
     background-color: var(--color-selection);
     color: var(--color-gray-dark);
   }
+
+  p {
+    margin: var(--spacing-md) 0;
+    font-size: var(--font-size-base);
+    line-height: var(--spacing-md);
+  }
 `;
 
 export const theme = {
