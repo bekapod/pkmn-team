@@ -17,7 +17,8 @@ const withTheme = makeDecorator({
 });
 
 export const parameters = {
-  actions: { argTypesRegex: '^on[A-Z].*' }
+  actions: { argTypesRegex: '^on[A-Z].*' },
+  grid: { cellSize: 24 }
 };
 
 export const decorators = [withTheme];
