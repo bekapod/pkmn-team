@@ -6,6 +6,7 @@ export const GlobalStyles = createGlobalStyle`
     --color-primary-dark: #c23616;
     --color-secondary: #273c75;
     --color-secondary-dark: #192a56;
+    --color-secondary-transparent: #273c7515;
     --color-selection: #fbc531;
     --color-tertiary: #fbc531;
 
