@@ -10,9 +10,6 @@ query AllPokemon {
       types {
         name
         slug
-        pokemon {
-          name
-        }
       }
       learnableMoves {
         version
