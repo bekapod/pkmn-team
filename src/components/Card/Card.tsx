@@ -34,7 +34,7 @@ export const CardHeader = styled.header<CardHeaderProps>`
 
 export const CardHeading = styled.h2`
   overflow: hidden;
-  margin: var(--spacing-lg) 0;
+  margin: var(--spacing-md) 0;
   font-size: var(--font-size-lg);
   text-align: center;
   text-overflow: ellipsis;

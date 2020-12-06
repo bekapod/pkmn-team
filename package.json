@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "generate:types": "graphql-codegen --config codegen.yml",
-    "start:storybook": "start-storybook -p 6006",
+    "start:storybook": "start-storybook -p 6006 -s ./public",
     "build:storybook": "build-storybook"
   },
   "dependencies": {
