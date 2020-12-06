@@ -20,7 +20,12 @@
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./src/*"],
+      "~lib/*": ["./src/lib/*"]
+    }
   },
   "exclude": [
     "node_modules"

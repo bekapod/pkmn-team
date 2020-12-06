@@ -1,6 +1,7 @@
 {
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
+  "reportUnusedDisableDirectives": true,
   "extends": [
     "airbnb",
     "plugin:import/errors",
@@ -24,6 +25,7 @@
         "argsIgnorePattern": "^_"
       }
     ],
+    "import/no-unresolved": "off",
     "import/no-extraneous-dependencies": "off",
     "import/prefer-default-export": "off",
     "import/extensions": [
@@ -32,6 +34,7 @@
     ]
   },
   "settings": {
+    "import/parser": "@typescript-eslint/parser",
     "import/resolver": {
       "node": {
         "extensions": [".js", ".ts", ".tsx"]
