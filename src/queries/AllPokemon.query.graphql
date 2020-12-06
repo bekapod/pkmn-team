@@ -1,0 +1,32 @@
+query AllPokemon {
+  allPokemonOrderedByPokedexId {
+    before
+    after
+    data {
+      name
+      slug
+      pokedexId
+      sprite
+      types {
+        name
+        slug
+        pokemon {
+          name
+        }
+      }
+      learnableMoves {
+        version
+        learnMethod
+        levelLearnedAt
+        move {
+          name
+          slug
+          type {
+            name
+            slug
+          }
+        }
+      }
+    }
+  }
+}
