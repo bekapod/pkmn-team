@@ -7,7 +7,7 @@ export const InlineList = styled.ul`
   padding: 0;
   list-style: none;
 
-  & > * {
-    margin-right: var(--spacing-md);
+  & > *:not(:last-child) {
+    margin-right: var(--spacing-sm);
   }
 `;
