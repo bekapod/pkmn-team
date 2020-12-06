@@ -9,18 +9,18 @@ import { TypeTag } from '../TypeTag';
 
 export type PokemonLineProps = {
   pokemon: Pokemon;
-  outdent: string;
-  compact: boolean;
+  outdent?: string;
+  compact?: boolean;
 };
 
 interface RowProps {
-  outdent: string;
-  compact: boolean;
+  outdent?: string;
+  compact?: boolean;
   types: Type[];
 }
 
 interface RowImageProps {
-  compact: boolean;
+  compact?: boolean;
 }
 
 const Row = styled.div<RowProps>`
