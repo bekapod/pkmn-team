@@ -1,5 +1,6 @@
 import { css } from 'styled-components/macro';
 import type {
+  DefaultTheme,
   FlattenInterpolation,
   Interpolation,
   ThemeProps
@@ -14,14 +15,16 @@ const sizes: { [key: string]: string } = {
 export const media = Object.keys(sizes).reduce(
   (
     accumulator: {
-      [key: string]: (
-        ...args: Interpolation<ThemeProps<unknown>>[]
-      ) => FlattenInterpolation<ThemeProps<unknown>>;
+      [key: string]: <T>(
+        ...args: Interpolation<ThemeProps<DefaultTheme> & T>[]
+      ) => FlattenInterpolation<ThemeProps<DefaultTheme> & T>;
     },
     label
   ) => {
     const size = sizes[label];
-    accumulator[label] = (...args: Interpolation<ThemeProps<unknown>>[]) => css`
+    accumulator[label] = <T>(
+      ...args: Interpolation<ThemeProps<DefaultTheme> & T>[]
+    ) => css`
       @media ${size} {
         ${css({}, ...args)};
       }
