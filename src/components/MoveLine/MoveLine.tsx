@@ -4,6 +4,7 @@ import { HTMLAttributes, memo } from 'react';
 import { TypeTag } from '../TypeTag';
 import { Label } from '../Label';
 import { InlineList } from '../InlineList';
+import { CtaButton } from '../Cta';
 import { getTypeGradient } from '~/lib/gradients';
 import { Move, Type } from '~/generated/graphql';
 
@@ -16,16 +17,15 @@ export type MoveLineProps = Move & HTMLAttributes<HTMLDivElement>;
 const Row = styled.div`
   position: relative;
   display: grid;
-  grid-template-columns: 3fr 2fr 2fr 2fr 3fr;
-  padding: 0 var(--spacing-md);
-  line-height: var(--spacing-xl);
-  text-align: center;
-  > :first-child {
-    text-align: left;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-column-gap: var(--spacing-md);
+  align-items: center;
+  padding: var(--spacing-md);
+
+  .is-compressed-list & {
+    grid-template: 1fr 1fr / 1fr 1fr;
   }
-  > :last-child {
-    text-align: right;
-  }
+
   &::before {
     content: '';
     position: absolute;
@@ -41,6 +41,7 @@ const Row = styled.div`
 const Value = styled(Label)`
   color: var(--color-gray-darker);
   font-size: var(--font-size-sm);
+  line-height: 1;
 
   &:nth-child(even) {
     margin-left: var(--spacing-xs);
@@ -48,8 +49,46 @@ const Value = styled(Label)`
 `;
 
 const TypeList = styled(InlineList)`
-  align-items: center;
+  display: flex;
   justify-content: flex-end;
+  flex-grow: 1;
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+
+  .is-spacious-list & {
+    justify-content: center;
+  }
+
+  > * {
+    margin-right: var(--spacing-sm);
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+`;
+
+const Actions = styled.ul`
+  display: flex;
+  justify-content: flex-end;
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+
+  .is-compressed-list & {
+    width: 100%;
+    grid-column: span 2;
+    justify-content: space-between;
+  }
+
+  > * {
+    margin-right: var(--spacing-sm);
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
 `;
 
 export const MoveLine = memo<MoveLineProps>(
@@ -61,18 +100,6 @@ export const MoveLine = memo<MoveLineProps>(
       <div>
         <Value>{name}</Value>
       </div>
-      <div>
-        <Label>PP</Label>
-        <Value>{pp}</Value>
-      </div>
-      <div>
-        <Label>Accuracy</Label>
-        <Value>{accuracy || 'n/a'}</Value>
-      </div>
-      <div>
-        <Label>Power</Label>
-        <Value>{power || 'n/a'}</Value>
-      </div>
       <TypeList>
         {!!type && (
           <TypeTag key={type.slug} type={type.slug}>
@@ -81,6 +108,19 @@ export const MoveLine = memo<MoveLineProps>(
         )}
         <TypeTag type={damageClass}>{damageClass}</TypeTag>
       </TypeList>
+
+      <Actions>
+        <li>
+          <CtaButton type="button" size="tiny">
+            Learn
+          </CtaButton>
+        </li>
+        <li>
+          <CtaButton type="button" size="tiny" secondary>
+            Details
+          </CtaButton>
+        </li>
+      </Actions>
     </Row>
   ),
   isEqual

@@ -8,6 +8,7 @@ import type {
 
 const sizes: { [key: string]: string } = {
   large: '(min-width: 1280px)',
+  mediumLarge: '(min-width: 980px)',
   medium: '(min-width: 768px)',
   mediumOnly: '(min-width: 768px) and (max-width: 1279px)'
 };

@@ -51,6 +51,5 @@ const reducer = (state: TeamMember[], action: Action) => {
 export function useTeamMembersReducer(
   teamMembers: TeamMember[]
 ): [TeamMember[], Dispatch<Action>] {
-  console.log(teamMembers);
   return useReducer(reducer, teamMembers);
 }

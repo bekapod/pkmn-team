@@ -1,4 +1,5 @@
 import styled from 'styled-components/macro';
+import { media } from '~/lib/media';
 
 export const StickyBar = styled.div`
   position: sticky;
@@ -23,6 +24,10 @@ export const StickyBar = styled.div`
     height: 100%;
     margin-left: calc(var(--gutter-page) * -1);
     background-color: var(--color-secondary-dark);
+
+    ${media.medium`
+      margin-left: calc(var(--gutter-page-md) * -1);
+    `}
   }
   &::after {
     content: '';
@@ -45,5 +50,9 @@ export const StickyBar = styled.div`
     background-repeat: repeat-x;
     background-position: left top;
     background-size: var(--zig-zag) var(--zig-zag);
+
+    ${media.medium`
+      margin-left: calc(var(--gutter-page-md) * -1);
+    `}
   }
 `;

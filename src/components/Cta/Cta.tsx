@@ -1,5 +1,5 @@
 import type { ButtonHTMLAttributes } from 'react';
-import { always, cond, T } from 'lodash/fp';
+import { always, cond, equals, T } from 'lodash/fp';
 import styled from 'styled-components/macro';
 import { css } from 'styled-components';
 import type { StyledComponent } from 'styled-components';
@@ -8,7 +8,7 @@ import { media } from '~lib/media';
 
 export type CtaProps = {
   secondary?: boolean;
-  small?: boolean;
+  size?: 'default' | 'small' | 'tiny';
 };
 
 const not = (value: unknown): boolean => !value;
@@ -16,20 +16,31 @@ const not = (value: unknown): boolean => !value;
 const styles = css`
   display: block;
   width: 100%;
-  padding: ${({ small }: CtaProps): string =>
+  padding: ${({ size = 'default' }: CtaProps) =>
     cond([
-      [not, always(`var(--spacing-md) var(--spacing-lg)`)],
-      [T, always(`var(--spacing-xs) var(--spacing-md)`)]
-    ])(small)};
+      [equals('small'), always(`var(--spacing-sm) var(--spacing-md)`)],
+      [equals('tiny'), always(`var(--spacing-xs) var(--spacing-sm)`)],
+      [T, always(`var(--spacing-md) var(--spacing-lg)`)]
+    ])(size)};
   color: var(--color-white);
   font-family: var(--font-base);
-  font-size: ${({ small }: CtaProps): string =>
+  font-size: ${({ size }: CtaProps) =>
     cond([
-      [not, always(`var(--font-size-md)`)],
-      [T, always(`var(--font-size-sm)`)]
-    ])(small)};
-  font-weight: 900;
-  line-height: var(--spacing-md);
+      [equals('small'), always(`var(--font-size-sm)`)],
+      [equals('tiny'), always(`var(--font-size-xs)`)],
+      [T, always(`var(--font-size-md)`)]
+    ])(size)};
+  font-weight: ${({ size = 'default' }: CtaProps) =>
+    cond([
+      [equals('tiny'), always(700)],
+      [T, always(900)]
+    ])(size)};
+  line-height: ${({ size }: CtaProps) =>
+    cond([
+      [equals('small'), always(`var(--spacing-md)`)],
+      [equals('tiny'), always(`var(--spacing-sm)`)],
+      [T, always(`var(--spacing-md)`)]
+    ])(size)};
   text-decoration: none;
   text-transform: uppercase;
   background-color: ${({ secondary }: CtaProps): string =>

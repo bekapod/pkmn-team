@@ -27,10 +27,10 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
       <StickyBar>
         {!loading ? (
           <>
-            <CtaButton key="save" small>
+            <CtaButton type="button" key="save" size="small">
               Save team
             </CtaButton>
-            <CtaButton key="delete" small>
+            <CtaButton type="button" key="delete" size="small">
               Delete team
             </CtaButton>
           </>

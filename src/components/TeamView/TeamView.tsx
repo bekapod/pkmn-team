@@ -131,7 +131,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = ({
         : `Add ${pokemon.name} to team`;
 
       return (): JSX.Element => (
-        <CtaButton small onClick={onClick}>
+        <CtaButton size="small" onClick={onClick}>
           {buttonText}
         </CtaButton>
       );
@@ -237,7 +237,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = ({
                     data-binned-item
                     onAnimationEnd={emptyBin}
                   >
-                    <PokemonLine pokemon={pokemon} compact />
+                    <PokemonLine pokemon={pokemon} />
                   </TabItem>
                 ))}
               </Bin>

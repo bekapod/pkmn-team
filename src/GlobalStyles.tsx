@@ -66,7 +66,8 @@ export const GlobalStyles = createGlobalStyle`
     --spacing-xxl: calc(var(--baseline) * 4rem);
 
     --gutter-grid: 32px;
-    --gutter-page: 40px;
+    --gutter-page: 20px;
+    --gutter-page-md: 40px;
 
     --border-radius: 0.75rem;
     --border-radius-sm: 0.25rem;

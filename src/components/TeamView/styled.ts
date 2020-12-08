@@ -65,7 +65,7 @@ export const TabBar = styled.div`
 export const TabScroller = styled.div`
   display: inline-flex;
   min-width: 100%;
-  padding-top: calc(var(--spacing-md) + var(--spacing-xs));
+  padding-top: calc(var(--spacing-md) + var(--spacing-sm));
   > * {
     flex: 1 0 auto;
     min-width: 250px;
@@ -97,12 +97,18 @@ export const TabItem = styled.div`
 `;
 
 export const TabContent = styled.div<TabContentProps>`
-  padding: var(--spacing-lg);
+  padding: var(--spacing-lg) var(--gutter-page);
   background-color: var(--color-gray);
   grid-gap: var(--gutter-grid);
   ${props =>
     props['aria-hidden'] ? 'display: none !important;' : 'display: grid;'}
+
   ${media.medium`
+    padding-left: var(--gutter-page-md);
+    padding-right: var(--gutter-page-md);
+  `}
+
+  ${media.mediumLarge`
     grid-template-columns: 1fr 1fr;
   `}
 `;
