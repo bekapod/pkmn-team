@@ -1,4 +1,4 @@
-import { keyframes } from 'styled-components/macro';
+import { keyframes } from 'styled-components';
 
 export const baseTransition = `
   transition-duration: 0.3s;

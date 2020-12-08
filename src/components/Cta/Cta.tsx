@@ -1,6 +1,7 @@
 import type { ButtonHTMLAttributes } from 'react';
 import { always, cond, T } from 'lodash/fp';
-import styled, { css } from 'styled-components/macro';
+import styled from 'styled-components/macro';
+import { css } from 'styled-components';
 import type { StyledComponent } from 'styled-components';
 import { radialIn } from '~lib/animations';
 import { media } from '~lib/media';
