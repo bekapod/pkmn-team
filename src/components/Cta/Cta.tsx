@@ -1,6 +1,7 @@
-import type { FunctionComponent } from 'react';
+import type { ButtonHTMLAttributes } from 'react';
 import { always, cond, T } from 'lodash/fp';
 import styled, { css } from 'styled-components/macro';
+import type { StyledComponent } from 'styled-components';
 import { radialIn } from '~lib/animations';
 import { media } from '~lib/media';
 
@@ -56,10 +57,14 @@ const styles = css`
   `}
 `;
 
-export const CtaInternalLink: FunctionComponent<CtaProps> = styled.a`
+export const CtaInternalLink: StyledComponent<'a', CtaProps> = styled.a`
   ${styles};
 `;
 
-export const CtaButton: FunctionComponent<CtaProps> = styled.button`
+export const CtaButton: StyledComponent<
+  'button',
+  Record<string, unknown>,
+  CtaProps & ButtonHTMLAttributes<HTMLButtonElement>
+> = styled.button`
   ${styles};
 `;

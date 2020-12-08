@@ -13,6 +13,7 @@ module.exports = {
         ...config,
         plugins: [
           ...config.plugins,
+          'babel-plugin-styled-components',
           [
             'babel-plugin-module-resolver',
             {

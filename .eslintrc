@@ -1,21 +1,14 @@
 {
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
   "reportUnusedDisableDirectives": true,
   "extends": [
-    "airbnb",
     "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended"
   ],
+  "plugins": ["@typescript-eslint", "react", "react-hooks", "import", "jsx-a11y"],
   "rules": {
-    "react/prop-types": "off",
-    "react/jsx-filename-extension": "off",
-    "react/jsx-one-expression-per-line": "off",
-    "react/jsx-props-no-spreading": "off",
-    "react/jsx-wrap-multilines": "off",
-    "react/react-in-jsx-scope": "off",
     "@typescript-eslint/no-unused-vars": [
       "error",
       {
@@ -26,12 +19,16 @@
       }
     ],
     "import/no-unresolved": "off",
-    "import/no-extraneous-dependencies": "off",
-    "import/prefer-default-export": "off",
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
     "import/extensions": [
       "error",
-      "never"
-    ]
+      "never",
+      {
+        "json": "always"
+      }
+    ],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   },
   "settings": {
     "import/parser": "@typescript-eslint/parser",

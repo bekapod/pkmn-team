@@ -171,6 +171,7 @@ export type TeamInput = {
 
 /** 'TeamMember' input values */
 export type TeamMemberInput = {
+  id: Scalars['String'];
   order: Scalars['Int'];
   pokemon: Scalars['ID'];
   learnedMoves: Array<TeamMemberMoveInput>;
@@ -361,6 +362,7 @@ export type Team = {
 
 export type TeamMember = {
   __typename?: 'TeamMember';
+  id: Scalars['String'];
   order: Scalars['Int'];
   pokemon: Pokemon;
   learnedMoves: Array<TeamMemberMove>;
@@ -421,10 +423,6 @@ export type AllPokemonQuery = (
       & { types: Array<(
         { __typename?: 'Type' }
         & Pick<Type, 'name' | 'slug'>
-        & { pokemon: Array<(
-          { __typename?: 'Pokemon' }
-          & Pick<Pokemon, 'name'>
-        )> }
       )>, learnableMoves: Array<(
         { __typename?: 'PokemonMove' }
         & Pick<PokemonMove, 'version' | 'learnMethod' | 'levelLearnedAt'>
@@ -455,9 +453,6 @@ export const AllPokemonDocument = gql`
       types {
         name
         slug
-        pokemon {
-          name
-        }
       }
       learnableMoves {
         version

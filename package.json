@@ -19,11 +19,16 @@
     "next": "10.0.3",
     "next-urql": "^2.1.1",
     "react": "17.0.1",
+    "react-beautiful-dnd": "^13.0.0",
     "react-dom": "17.0.1",
+    "react-fast-compare": "^3.2.0",
+    "react-icons": "^4.1.0",
     "react-is": "^17.0.1",
     "react-window": "^1.8.6",
     "styled-components": "^5.2.1",
-    "urql": "^1.11.4"
+    "urql": "^1.11.4",
+    "uuid": "^8.3.2",
+    "waait": "^1.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -38,8 +43,10 @@
     "@types/lodash": "^4.14.165",
     "@types/node": "^14.14.10",
     "@types/react": "^17.0.0",
+    "@types/react-beautiful-dnd": "^13.0.0",
     "@types/react-window": "^1.8.2",
     "@types/styled-components": "^5.1.4",
+    "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.9.0",
     "@typescript-eslint/parser": "^4.9.0",
     "babel-loader": "^8.2.2",

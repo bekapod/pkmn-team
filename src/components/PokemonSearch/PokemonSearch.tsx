@@ -75,17 +75,23 @@ export const PokemonSearch: FunctionComponent<PokemonSearchProps> = ({
     listContainer.current?.scrollToItem(highlightedIndex, 'center');
   }, [highlightedIndex]);
 
-  const onResultClick = useCallback((pkmn: Pokemon, index: number) => {
-    setCurrentSearchPokemon(pkmn);
-    setHighlightedIndex(index);
-  }, []);
+  const onResultClick = useCallback(
+    (pkmn: Pokemon, index: number) => {
+      setCurrentSearchPokemon(pkmn);
+      setHighlightedIndex(index);
+    },
+    [setCurrentSearchPokemon]
+  );
 
-  const updateList = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.currentTarget;
-    setFilteredList(pokemon.filter(({ name }) => name.includes(value)));
-    setHighlightedIndex(0);
-    setInputValue(value);
-  }, []);
+  const updateList = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const { value } = e.currentTarget;
+      setFilteredList(pokemon.filter(({ name }) => name.includes(value)));
+      setHighlightedIndex(0);
+      setInputValue(value);
+    },
+    [pokemon]
+  );
 
   const keyboardNavigation = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
@@ -115,7 +121,7 @@ export const PokemonSearch: FunctionComponent<PokemonSearchProps> = ({
         }
       }
     },
-    []
+    [filteredList, highlightedIndex, setCurrentSearchPokemon]
   );
 
   if (loading) {
