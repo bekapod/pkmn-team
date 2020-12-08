@@ -102,11 +102,13 @@ export const MoveLine = memo<MoveLineProps>(
       </div>
       <TypeList>
         {!!type && (
-          <TypeTag key={type.slug} type={type.slug}>
+          <TypeTag as="li" key={type.slug} type={type.slug}>
             {type.name}
           </TypeTag>
         )}
-        <TypeTag type={damageClass}>{damageClass}</TypeTag>
+        <TypeTag as="li" type={damageClass}>
+          {damageClass}
+        </TypeTag>
       </TypeList>
 
       <Actions>
