@@ -10,8 +10,8 @@ module.exports = {
       const path = require('path');
       const appDirectory = process.cwd();
       const tsConfig = require(path.resolve(appDirectory, 'tsconfig.json'));
-      const baseUrl = tsConfig?.compilerOptions?.baseUrl ?? '.';
-      const pathAliases = tsConfig?.compilerOptions?.paths ?? {};
+      const baseUrl = tsConfig.compilerOptions.baseUrl;
+      const pathAliases = tsConfig.compilerOptions.paths;
 
       return {
         ...config,
