@@ -28,9 +28,9 @@ jobs:
       - name: Linting
         uses: Borales/actions-yarn@v2.3.0
         with:
-          cmd: eslint ./
+          cmd: yarn eslint ./
 
       - name: Typechecking
         uses: Borales/actions-yarn@v2.3.0
         with:
-          cmd: tsc
+          cmd: yarn tsc
