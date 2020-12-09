@@ -4,26 +4,38 @@ import { HTMLAttributes, memo } from 'react';
 import { TypeTag } from '../TypeTag';
 import { Label } from '../Label';
 import { InlineList } from '../InlineList';
-import { CtaButton } from '../Cta';
 import { getTypeGradient } from '~/lib/gradients';
 import { Move, Type } from '~/generated/graphql';
 
-type RowProps = {
+type RowProps = HTMLAttributes<HTMLDivElement> & {
   types: Pick<Type, 'name' | 'slug'>[];
+  hasPopover: boolean;
+  isHighlighted?: boolean;
 };
 
-export type MoveLineProps = Move & HTMLAttributes<HTMLDivElement>;
+export type MoveLineProps = Move &
+  HTMLAttributes<HTMLDivElement> & {
+    isOpen: boolean;
+    isHighlighted?: boolean;
+    renderLineActions: () => JSX.Element;
+  };
 
-const Row = styled.div`
+const Row = styled.div<RowProps>`
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template: ${({ hasPopover }) =>
+    hasPopover ? '1fr 2fr / 1fr 1fr 1fr' : '1fr / 1fr 1fr 1fr'};
   grid-column-gap: var(--spacing-md);
+  grid-row-gap: var(--spacing-sm);
   align-items: center;
   padding: var(--spacing-md);
 
+  ${({ isHighlighted = false }) =>
+    isHighlighted ? `background-color: var(--color-tertiary)` : ''}
+
   .is-compressed-list & {
-    grid-template: 1fr 1fr / 1fr 1fr;
+    grid-template: ${({ hasPopover }) =>
+      hasPopover ? '1fr 1fr 3fr / 1fr 1fr' : '1fr 1fr / 1fr 1fr'};
   }
 
   &::before {
@@ -38,14 +50,35 @@ const Row = styled.div`
   }
 `;
 
+const Stat = styled.div`
+  margin-right: var(--spacing-sm);
+  white-space: nowrap;
+`;
+
 const Value = styled(Label)`
   color: var(--color-gray-darker);
-  font-size: var(--font-size-sm);
   line-height: 1;
 
   &:nth-child(even) {
     margin-left: var(--spacing-xs);
   }
+`;
+
+const MoveDetails = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  grid-column: span 3;
+  align-self: flex-start;
+
+  .is-compressed-list & {
+    grid-column: span 2;
+  }
+`;
+
+const MoveDescription = styled.p`
+  width: 100%;
+  margin: 0;
 `;
 
 const TypeList = styled(InlineList)`
@@ -69,7 +102,7 @@ const TypeList = styled(InlineList)`
   }
 `;
 
-const Actions = styled.ul`
+const Actions = styled.div`
   display: flex;
   justify-content: flex-end;
   margin: 0;
@@ -91,10 +124,25 @@ const Actions = styled.ul`
   }
 `;
 
+const printStat = (stat?: string | number | null) => `${stat ?? '-'}`;
+
 export const MoveLine = memo<MoveLineProps>(
-  ({ name, type, damageClass, pp, accuracy, power, ...props }) => (
+  ({
+    name,
+    type,
+    damageClass,
+    pp,
+    accuracy,
+    power,
+    effect,
+    target,
+    isOpen,
+    renderLineActions,
+    ...props
+  }) => (
     <Row
       types={[{ name: damageClass, slug: damageClass }].concat(type ?? [])}
+      hasPopover={isOpen}
       {...props}
     >
       <div>
@@ -111,18 +159,33 @@ export const MoveLine = memo<MoveLineProps>(
         </TypeTag>
       </TypeList>
 
-      <Actions>
-        <li>
-          <CtaButton type="button" size="tiny">
-            Learn
-          </CtaButton>
-        </li>
-        <li>
-          <CtaButton type="button" size="tiny" secondary>
-            Details
-          </CtaButton>
-        </li>
-      </Actions>
+      <Actions>{renderLineActions()}</Actions>
+
+      {isOpen && (
+        <MoveDetails>
+          <Stat>
+            <Label>PP</Label>
+            <Value>{printStat(pp)}</Value>
+          </Stat>
+
+          <Stat>
+            <Label>Accuracy</Label>
+            <Value>{printStat(accuracy)}</Value>
+          </Stat>
+
+          <Stat>
+            <Label>Power</Label>
+            <Value>{printStat(power)}</Value>
+          </Stat>
+
+          <Stat>
+            <Label>Target</Label>
+            <Value>{printStat(target)}</Value>
+          </Stat>
+
+          <MoveDescription>{effect}</MoveDescription>
+        </MoveDetails>
+      )}
     </Row>
   ),
   isEqual

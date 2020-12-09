@@ -11,6 +11,8 @@ export default {
     accuracy: 80,
     power: 100,
     pp: 10,
+    effect:
+      'Caramels topping croissant liquorice brownie cake jujubes toffee oat cake.',
     type: {
       _id: '1',
       _ts: '',
@@ -18,7 +20,8 @@ export default {
       slug: 'normal',
       moves: [],
       pokemon: []
-    }
+    },
+    renderLineActions: () => <div />
   }
 } as Meta<MoveLineProps>;
 

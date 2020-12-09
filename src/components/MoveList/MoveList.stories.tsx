@@ -13,6 +13,8 @@ export default {
           accuracy: undefined,
           power: undefined,
           pp: 10,
+          effect:
+            'Caramels topping croissant liquorice brownie cake jujubes toffee oat cake.',
           type: {
             name: 'Normal',
             slug: 'normal'
@@ -30,6 +32,8 @@ export default {
           accuracy: 100,
           power: 90,
           pp: 10,
+          effect:
+            'Caramels topping croissant liquorice brownie cake jujubes toffee oat cake.',
           type: {
             name: 'Psychic',
             slug: 'psychic'
@@ -47,6 +51,8 @@ export default {
           accuracy: 100,
           power: 250,
           pp: 5,
+          effect:
+            'Caramels topping croissant liquorice brownie cake jujubes toffee oat cake.',
           type: {
             name: 'Normal',
             slug: 'normal'

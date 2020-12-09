@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import {
   FunctionComponent,
   useCallback,
@@ -5,7 +6,6 @@ import {
   useRef,
   useState
 } from 'react';
-import { compose, getOr, add, last } from 'lodash/fp';
 import {
   DragDropContext,
   Droppable,
@@ -108,32 +108,44 @@ export const TeamView: FunctionComponent<TeamViewProps> = ({
   }, []);
 
   const renderCardActions = useCallback(
-    ({ member, pokemon }) => {
-      const onClick = member
-        ? () =>
-            dispatch({
-              type: TeamMemberActionType.RemoveTeamMember,
-              payload: member
-            })
-        : () =>
+    ({
+      teamMember,
+      pokemon
+    }: {
+      teamMember?: TeamMember;
+      pokemon: Pokemon;
+    }) => {
+      if (teamMember) {
+        return () => (
+          <CtaButton
+            type="button"
+            size="small"
+            onClick={() =>
+              dispatch({
+                type: TeamMemberActionType.RemoveTeamMember,
+                payload: teamMember
+              })
+            }
+          >{`Remove ${pokemon.name} from team`}</CtaButton>
+        );
+      }
+
+      return () => (
+        <CtaButton
+          type="button"
+          size="small"
+          onClick={() =>
             dispatch({
               type: TeamMemberActionType.AddTeamMember,
               payload: {
                 id: uuid(),
-                pokemon,
-                order: compose(add(1), getOr(0, 'order'), last)(teamMembers),
+                pokemon: pokemon,
+                order: teamMembers.length,
                 learnedMoves: []
               }
-            });
-
-      const buttonText = member
-        ? `Remove ${pokemon.name} from team`
-        : `Add ${pokemon.name} to team`;
-
-      return (): JSX.Element => (
-        <CtaButton size="small" onClick={onClick}>
-          {buttonText}
-        </CtaButton>
+            })
+          }
+        >{`Add ${pokemon.name} to team`}</CtaButton>
       );
     },
     [dispatch, teamMembers]
@@ -246,23 +258,30 @@ export const TeamView: FunctionComponent<TeamViewProps> = ({
         </DragDropContext>
       </TabBar>
 
-      {teamMembers.map(({ id, pokemon }) => {
-        const tabContentProps = getTabContentProps(id);
+      {teamMembers.map(member => {
+        const tabContentProps = getTabContentProps(member.id);
         return (
           <TabContent
             {...tabContentProps}
-            key={id}
-            data-testid={`tab-content-${id}`}
+            key={member.id}
+            data-testid={`tab-content-${member.id}`}
           >
             <PokemonCard
-              memberId={id}
-              pokemon={pokemon}
+              teamMember={member}
+              pokemon={member.pokemon}
+              moves={member.learnedMoves.map(({ move }) => move)}
               renderCardActions={renderCardActions({
-                memberId: id,
-                pokemon
+                teamMember: member,
+                pokemon: member.pokemon
               })}
             />
-            <MoveList moves={pokemon.learnableMoves} />
+            <MoveList
+              moves={member.pokemon.learnableMoves}
+              visibleItems={10}
+              highlightLearnedMoves
+              addMoveToTeamMember={() => {}}
+              removeMoveFromTeamMember={() => {}}
+            />
           </TabContent>
         );
       })}

@@ -1,14 +1,17 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { FunctionComponent } from 'react';
 import styled from 'styled-components/macro';
-import { Pokemon, Type } from '~/generated/graphql';
+import { Pokemon, Type, PokemonMove, TeamMember } from '~/generated/graphql';
 import { formatPokemonName, sortBySlug } from '~lib/general';
 import { CardContent, CardHeader, CardWrapper, CardHeading } from '../Card';
 import { InlineList } from '../InlineList';
 import { TypeTag } from '../TypeTag';
+import { MoveList } from '../MoveList';
 
 export type PokemonCardProps = {
-  memberId?: string;
+  teamMember?: TeamMember;
   pokemon: Pokemon;
+  moves?: PokemonMove[];
   renderCardActions?: () => JSX.Element;
 };
 
@@ -26,8 +29,9 @@ const PokemonCardActions = styled.div`
 `;
 
 export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
-  memberId,
+  teamMember,
   pokemon,
+  moves = [],
   renderCardActions
 }) => {
   const { pokedexId, types, name, sprite } = pokemon;
@@ -46,7 +50,7 @@ export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
             (type: Type): JSX.Element => (
               <li
                 key={`${
-                  memberId ? `Member: ${memberId}` : ''
+                  teamMember ? `Member: ${teamMember.id}` : ''
                 } Pokemon: ${pokedexId}, Type: ${type.slug}`}
               >
                 <TypeTag type={type.slug}>{type.name}</TypeTag>
@@ -54,6 +58,12 @@ export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
             )
           )}
         </InlineList>
+
+        <MoveList
+          moves={moves}
+          addMoveToTeamMember={() => {}}
+          removeMoveFromTeamMember={() => {}}
+        />
 
         {renderCardActions ? (
           <PokemonCardActions>{renderCardActions()}</PokemonCardActions>

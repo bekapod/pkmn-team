@@ -180,15 +180,7 @@ export type TeamMemberInput = {
 /** 'TeamMemberMove' input values */
 export type TeamMemberMoveInput = {
   order: Scalars['Int'];
-  move: Scalars['ID'];
-};
-
-/** Allow manipulating the relationship between the types 'TeamMemberMove' and 'Move' using the field 'TeamMemberMove.move'. */
-export type TeamMemberMoveMoveRelation = {
-  /** Create a document of type 'Move' and associate it with the current document. */
-  create?: Maybe<MoveInput>;
-  /** Connect a document of type 'Move' with the current document using its ID. */
-  connect?: Maybe<Scalars['ID']>;
+  move: PokemonMoveInput;
 };
 
 /** Allow manipulating the relationship between the types 'TeamMember' and 'Pokemon' using the field 'TeamMember.pokemon'. */
@@ -371,7 +363,7 @@ export type TeamMember = {
 export type TeamMemberMove = {
   __typename?: 'TeamMemberMove';
   order: Scalars['Int'];
-  move: Move;
+  move: PokemonMove;
 };
 
 /** The pagination object for elements of type 'Team'. */
