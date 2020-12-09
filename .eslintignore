@@ -1,2 +1,1 @@
-dist/**/*.js
-coverage/**/*.js
+src/generated/*
