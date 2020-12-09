@@ -27,9 +27,9 @@ const Row = styled.div<RowProps>`
     content: '';
     position: absolute;
     top: calc(var(--spacing-sm) / 2 * -1);
-    left: ${({ outdent }) => `-${outdent ?? 0}`};
+    left: ${({ outdent }) => `${`calc(${outdent} * -1)` ?? 0}`};
     display: block;
-    width: ${({ outdent }) => `calc(100% + (${outdent ?? 0}px * 2))`};
+    width: ${({ outdent }) => `calc(100% + ${outdent} * 2)`};
     height: var(--spacing-sm);
     background-image: ${({ types }) => getTypeGradient(types)};
   }
