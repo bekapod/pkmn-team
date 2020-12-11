@@ -41,7 +41,7 @@ jobs:
           cmd: tsc
 
       - name: Percy Snapshot
-        uses: percy/storybook-action@v0.1.1
+        uses: percy/storybook-action@v0.1.6
         with:
           custom-command: 'yarn test:storybook'
         env:
