@@ -39,3 +39,10 @@ jobs:
         uses: Borales/actions-yarn@v2.3.0
         with:
           cmd: tsc
+
+      - name: Percy Snapshot
+        uses: percy/storybook-action@v0.1.1
+        with:
+          custom-command: 'yarn test:storybook'
+        env:
+          PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}

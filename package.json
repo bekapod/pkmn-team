@@ -8,7 +8,8 @@
     "start": "next start",
     "generate:types": "graphql-codegen --config codegen.yml",
     "start:storybook": "start-storybook -p 6006 -s ./public",
-    "build:storybook": "build-storybook -s ./public"
+    "build:storybook": "build-storybook -s ./public",
+    "test:storybook": "yarn build:storybook && percy-storybook --widths=360,960,1280"
   },
   "dependencies": {
     "@urql/devtools": "^2.0.2",
@@ -38,6 +39,7 @@
     "@graphql-codegen/typescript": "1.19.0",
     "@graphql-codegen/typescript-operations": "1.17.12",
     "@graphql-codegen/typescript-urql": "^2.0.3",
+    "@percy/storybook": "^3.3.1",
     "@storybook/addon-a11y": "^6.1.10",
     "@storybook/addon-actions": "^6.1.10",
     "@storybook/addon-essentials": "^6.1.10",
