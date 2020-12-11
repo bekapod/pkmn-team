@@ -29,7 +29,7 @@ const Row = styled.div<RowProps>`
     top: calc(var(--spacing-sm) / 2 * -1);
     left: ${({ outdent }) => `${`calc(${outdent} * -1)` ?? 0}`};
     display: block;
-    width: ${({ outdent }) => `calc(100% + ${outdent} * 2)`};
+    width: ${({ outdent }) => `calc(100% + ${outdent ?? '0px'} * 2)`};
     height: var(--spacing-sm);
     background-image: ${({ types }) => getTypeGradient(types)};
   }
