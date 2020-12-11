@@ -9,7 +9,7 @@
     "generate:types": "graphql-codegen --config codegen.yml",
     "start:storybook": "start-storybook -p 6006 -s ./public",
     "build:storybook": "build-storybook -s ./public",
-    "test:storybook": "yarn build:storybook && percy-storybook --widths=360,960,1280"
+    "test:storybook": "percy-storybook --widths=360,960,1280"
   },
   "dependencies": {
     "@urql/devtools": "^2.0.2",

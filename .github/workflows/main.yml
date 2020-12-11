@@ -40,6 +40,11 @@ jobs:
         with:
           cmd: tsc
 
+      - name: Build Storybook
+        uses: Borales/actions-yarn@v2.3.0
+        with:
+          cmd: build:storybook
+
       - name: Percy Snapshot
         uses: percy/storybook-action@v0.1.6
         with:
