@@ -29,13 +29,13 @@ import {
   Bin,
   TabContent
 } from './styled';
-import { Pokemon, TeamMember } from '~/generated/graphql';
+import { Pokemon, Team_Member } from '~/generated/graphql';
 import { TeamMemberActionType, useTeamMembersReducer } from './reducer';
 
 export type TeamViewProps = {
-  initialTeamMembers?: TeamMember[];
+  initialTeamMembers?: Team_Member[];
   allPokemon: Pokemon[];
-  updateTeamMembers: (members: TeamMember[]) => void;
+  updateTeamMembers: (members: Team_Member[]) => void;
 };
 
 const onDragStart = () => {
@@ -52,7 +52,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = ({
   const [currentSearchPokemon, setCurrentSearchPokemon] = useState<
     Pokemon | undefined
   >();
-  const [deletedItems, setDeletedItems] = useState<TeamMember[]>([]);
+  const [deletedItems, setDeletedItems] = useState<Team_Member[]>([]);
   const { getTabItemProps, getTabContentProps } = useTabs();
 
   useEffect(() => {
@@ -112,7 +112,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = ({
       teamMember,
       pokemon
     }: {
-      teamMember?: TeamMember;
+      teamMember?: Team_Member;
       pokemon: Pokemon;
     }) => {
       if (teamMember) {
@@ -141,7 +141,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = ({
                 id: uuid(),
                 pokemon: pokemon,
                 order: teamMembers.length,
-                learnedMoves: []
+                learned_moves: []
               }
             })
           }
@@ -269,14 +269,14 @@ export const TeamView: FunctionComponent<TeamViewProps> = ({
             <PokemonCard
               teamMember={member}
               pokemon={member.pokemon}
-              moves={member.learnedMoves.map(({ move }) => move)}
+              moves={member.learned_moves.map(({ move }) => move)}
               renderCardActions={renderCardActions({
                 teamMember: member,
                 pokemon: member.pokemon
               })}
             />
             <MoveList
-              moves={member.pokemon.learnableMoves}
+              moves={member.pokemon.learnable_moves.map(({ move }) => move)}
               visibleItems={10}
               highlightLearnedMoves
               addMoveToTeamMember={() => {}}

@@ -5,15 +5,15 @@ import { TypeTag } from '../TypeTag';
 import { Label } from '../Label';
 import { InlineList } from '../InlineList';
 import { getTypeGradient } from '~/lib/gradients';
-import { Move, Type } from '~/generated/graphql';
+import { Moves, Types } from '~/generated/graphql';
 
 type RowProps = HTMLAttributes<HTMLDivElement> & {
-  types: Pick<Type, 'name' | 'slug'>[];
+  types: Pick<Types, 'name' | 'slug'>[];
   hasPopover: boolean;
   isHighlighted?: boolean;
 };
 
-export type MoveLineProps = Move &
+export type MoveLineProps = Moves &
   HTMLAttributes<HTMLDivElement> & {
     isOpen: boolean;
     isHighlighted?: boolean;
@@ -130,7 +130,7 @@ export const MoveLine = memo<MoveLineProps>(
   ({
     name,
     type,
-    damageClass,
+    damage_class,
     pp,
     accuracy,
     power,
@@ -141,7 +141,13 @@ export const MoveLine = memo<MoveLineProps>(
     ...props
   }) => (
     <Row
-      types={[{ name: damageClass, slug: damageClass }].concat(type ?? [])}
+      types={
+        damage_class
+          ? [{ name: damage_class.value, slug: damage_class.value }].concat(
+              type ?? []
+            )
+          : [type]
+      }
       hasPopover={isOpen}
       {...props}
     >
@@ -149,14 +155,14 @@ export const MoveLine = memo<MoveLineProps>(
         <Value>{name}</Value>
       </div>
       <TypeList>
-        {!!type && (
-          <TypeTag as="li" key={type.slug} type={type.slug}>
-            {type.name}
+        <TypeTag as="li" key={type.slug} type={type.slug}>
+          {type.name}
+        </TypeTag>
+        {!!damage_class && (
+          <TypeTag as="li" type={damage_class.value}>
+            {damage_class.value}
           </TypeTag>
         )}
-        <TypeTag as="li" type={damageClass}>
-          {damageClass}
-        </TypeTag>
       </TypeList>
 
       <Actions>{renderLineActions()}</Actions>

@@ -7,11 +7,11 @@ import { GiantInput } from '../GiantInput';
 import { LoadingIcon } from '../LoadingIcon';
 import { TeamView } from '../TeamView';
 import { StickyBar } from '../StickyBar';
-import { Pokemon, Team } from '~/generated/graphql';
+import { Pokemon, Teams } from '~/generated/graphql';
 
 export type TeamBuilderProps = {
   allPokemon: Pokemon[];
-  team?: Team;
+  team?: Teams;
   loading?: boolean;
   error?: string;
 };
@@ -54,7 +54,7 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
       <TeamView
         updateTeamMembers={() => {}}
         allPokemon={allPokemon}
-        initialTeamMembers={team?.members}
+        initialTeamMembers={team?.team_members}
       />
     </>
   );

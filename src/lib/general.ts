@@ -26,4 +26,4 @@ export const capitalizePokemonName = (pokemon: Pokemon): string =>
   capitalize(pokemon.name);
 
 export const formatPokemonName = (pokemon: Pokemon): string =>
-  `#${pokemon.pokedexId} ${capitalizePokemonName(pokemon)}`;
+  `#${pokemon.pokedex_id} ${capitalizePokemonName(pokemon)}`;

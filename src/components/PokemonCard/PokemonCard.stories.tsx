@@ -1,17 +1,12 @@
 import { Meta } from '@storybook/react/types-6-0';
+import { pikachu } from '~/mocks/Pokemon';
 import { PokemonCard, PokemonCardProps } from './PokemonCard';
 
 export default {
   title: 'Components/PokemonCard',
   component: PokemonCard,
   args: {
-    pokemon: {
-      name: 'Pikachu',
-      slug: 'pikachu',
-      pokedexId: 25,
-      sprite: '25.png',
-      types: [{ name: 'Electric', slug: 'electric' }]
-    }
+    pokemon: pikachu
   }
 } as Meta<PokemonCardProps>;
 

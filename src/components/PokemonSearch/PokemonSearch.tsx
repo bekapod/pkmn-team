@@ -52,7 +52,7 @@ const resultItem = (
   return (
     <PokemonLine
       aria-selected={index === highlightedIndex}
-      data-testid={`autocomplete-result-${pkmn.pokedexId}`}
+      data-testid={`autocomplete-result-${pkmn.pokedex_id}`}
       pokemon={pkmn}
       {...props}
     />

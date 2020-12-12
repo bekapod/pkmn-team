@@ -12,451 +12,1277 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  Date: any;
-  Time: any;
-  /** The `Long` scalar type represents non-fractional signed whole numeric values. Long can represent values between -(2^63) and 2^63 - 1. */
-  Long: any;
+  timestamptz: any;
+  uuid: any;
 };
 
+/** expression to compare columns of type Int. All fields are combined with logical 'AND'. */
+export type Int_Comparison_Exp = {
+  _eq?: Maybe<Scalars['Int']>;
+  _gt?: Maybe<Scalars['Int']>;
+  _gte?: Maybe<Scalars['Int']>;
+  _in?: Maybe<Array<Scalars['Int']>>;
+  _is_null?: Maybe<Scalars['Boolean']>;
+  _lt?: Maybe<Scalars['Int']>;
+  _lte?: Maybe<Scalars['Int']>;
+  _neq?: Maybe<Scalars['Int']>;
+  _nin?: Maybe<Array<Scalars['Int']>>;
+};
 
-/** 'Move' input values */
-export type MoveInput = {
-  slug: Scalars['String'];
-  name: Scalars['String'];
+/** expression to compare columns of type String. All fields are combined with logical 'AND'. */
+export type String_Comparison_Exp = {
+  _eq?: Maybe<Scalars['String']>;
+  _gt?: Maybe<Scalars['String']>;
+  _gte?: Maybe<Scalars['String']>;
+  _ilike?: Maybe<Scalars['String']>;
+  _in?: Maybe<Array<Scalars['String']>>;
+  _is_null?: Maybe<Scalars['Boolean']>;
+  _like?: Maybe<Scalars['String']>;
+  _lt?: Maybe<Scalars['String']>;
+  _lte?: Maybe<Scalars['String']>;
+  _neq?: Maybe<Scalars['String']>;
+  _nilike?: Maybe<Scalars['String']>;
+  _nin?: Maybe<Array<Scalars['String']>>;
+  _nlike?: Maybe<Scalars['String']>;
+  _nsimilar?: Maybe<Scalars['String']>;
+  _similar?: Maybe<Scalars['String']>;
+};
+
+/** columns and relationships of "damage_class" */
+export type Damage_Class = {
+  __typename?: 'damage_class';
+  value: Scalars['String'];
+};
+
+/** Boolean expression to filter rows from the table "damage_class". All fields are combined with a logical 'AND'. */
+export type Damage_Class_Bool_Exp = {
+  _and?: Maybe<Array<Maybe<Damage_Class_Bool_Exp>>>;
+  _not?: Maybe<Damage_Class_Bool_Exp>;
+  _or?: Maybe<Array<Maybe<Damage_Class_Bool_Exp>>>;
+  value?: Maybe<String_Comparison_Exp>;
+};
+
+/** ordering options when selecting data from "damage_class" */
+export type Damage_Class_Order_By = {
+  value?: Maybe<Order_By>;
+};
+
+/** primary key columns input for table: "damage_class" */
+export type Damage_Class_Pk_Columns_Input = {
+  value: Scalars['String'];
+};
+
+/** select columns of table "damage_class" */
+export enum Damage_Class_Select_Column {
+  /** column name */
+  Value = 'value'
+}
+
+/** columns and relationships of "moves" */
+export type Moves = {
+  __typename?: 'moves';
   accuracy?: Maybe<Scalars['Int']>;
-  pp?: Maybe<Scalars['Int']>;
+  /** An object relationship */
+  damage_class?: Maybe<Damage_Class>;
+  effect?: Maybe<Scalars['String']>;
+  effect_chance?: Maybe<Scalars['Int']>;
+  id: Scalars['uuid'];
+  name: Scalars['String'];
   power?: Maybe<Scalars['Int']>;
-  damageClass: Scalars['String'];
-  effect?: Maybe<Scalars['String']>;
-  effectChance?: Maybe<Scalars['Int']>;
-  generation: Scalars['String'];
-  target?: Maybe<Scalars['String']>;
-  type?: Maybe<MoveTypeRelation>;
-};
-
-/** Allow manipulating the relationship between the types 'Move' and 'Type' using the field 'Move.type'. */
-export type MoveTypeRelation = {
-  /** Create a document of type 'Type' and associate it with the current document. */
-  create?: Maybe<TypeInput>;
-  /** Connect a document of type 'Type' with the current document using its ID. */
-  connect?: Maybe<Scalars['ID']>;
-  /** If true, disconnects this document from 'Type' */
-  disconnect?: Maybe<Scalars['Boolean']>;
-};
-
-export type Mutation = {
-  __typename?: 'Mutation';
-  /** Delete an existing document in the collection of 'Type' */
-  deleteType?: Maybe<Type>;
-  /** Create a new document in the collection of 'Move' */
-  createMove: Move;
-  /** Create a new document in the collection of 'Type' */
-  createType: Type;
-  /** Update an existing document in the collection of 'Move' */
-  updateMove?: Maybe<Move>;
-  /** Delete an existing document in the collection of 'Pokemon' */
-  deletePokemon?: Maybe<Pokemon>;
-  /** Create a new document in the collection of 'Team' */
-  createTeam: Team;
-  /** Update an existing document in the collection of 'Type' */
-  updateType?: Maybe<Type>;
-  /** Create a new document in the collection of 'Pokemon' */
-  createPokemon: Pokemon;
-  /** Update an existing document in the collection of 'Team' */
-  updateTeam?: Maybe<Team>;
-  /** Update an existing document in the collection of 'Pokemon' */
-  updatePokemon?: Maybe<Pokemon>;
-  /** Delete an existing document in the collection of 'Move' */
-  deleteMove?: Maybe<Move>;
-  /** Delete an existing document in the collection of 'Team' */
-  deleteTeam?: Maybe<Team>;
-};
-
-
-export type MutationDeleteTypeArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationCreateMoveArgs = {
-  data: MoveInput;
-};
-
-
-export type MutationCreateTypeArgs = {
-  data: TypeInput;
-};
-
-
-export type MutationUpdateMoveArgs = {
-  id: Scalars['ID'];
-  data: MoveInput;
-};
-
-
-export type MutationDeletePokemonArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationCreateTeamArgs = {
-  data: TeamInput;
-};
-
-
-export type MutationUpdateTypeArgs = {
-  id: Scalars['ID'];
-  data: TypeInput;
-};
-
-
-export type MutationCreatePokemonArgs = {
-  data: PokemonInput;
-};
-
-
-export type MutationUpdateTeamArgs = {
-  id: Scalars['ID'];
-  data: TeamInput;
-};
-
-
-export type MutationUpdatePokemonArgs = {
-  id: Scalars['ID'];
-  data: PokemonInput;
-};
-
-
-export type MutationDeleteMoveArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationDeleteTeamArgs = {
-  id: Scalars['ID'];
-};
-
-/** 'Pokemon' input values */
-export type PokemonInput = {
-  pokedexId: Scalars['Int'];
-  slug: Scalars['String'];
-  name: Scalars['String'];
-  sprite?: Maybe<Scalars['String']>;
-  types: Array<Scalars['ID']>;
-  learnableMoves: Array<PokemonMoveInput>;
-};
-
-/** 'PokemonMove' input values */
-export type PokemonMoveInput = {
-  key: Scalars['String'];
-  levelLearnedAt: Scalars['Int'];
-  version: Scalars['String'];
-  learnMethod: Scalars['String'];
-  move: Scalars['ID'];
-};
-
-/** Allow manipulating the relationship between the types 'PokemonMove' and 'Move' using the field 'PokemonMove.move'. */
-export type PokemonMoveMoveRelation = {
-  /** Create a document of type 'Move' and associate it with the current document. */
-  create?: Maybe<MoveInput>;
-  /** Connect a document of type 'Move' with the current document using its ID. */
-  connect?: Maybe<Scalars['ID']>;
-};
-
-/** 'Team' input values */
-export type TeamInput = {
-  name: Scalars['String'];
-  members: Array<TeamMemberInput>;
-};
-
-/** 'TeamMember' input values */
-export type TeamMemberInput = {
-  id: Scalars['String'];
-  order: Scalars['Int'];
-  pokemon: Scalars['ID'];
-  learnedMoves: Array<TeamMemberMoveInput>;
-};
-
-/** 'TeamMemberMove' input values */
-export type TeamMemberMoveInput = {
-  order: Scalars['Int'];
-  move: PokemonMoveInput;
-};
-
-/** Allow manipulating the relationship between the types 'TeamMember' and 'Pokemon' using the field 'TeamMember.pokemon'. */
-export type TeamMemberPokemonRelation = {
-  /** Create a document of type 'Pokemon' and associate it with the current document. */
-  create?: Maybe<PokemonInput>;
-  /** Connect a document of type 'Pokemon' with the current document using its ID. */
-  connect?: Maybe<Scalars['ID']>;
-};
-
-
-/** 'Type' input values */
-export type TypeInput = {
-  slug: Scalars['String'];
-  name: Scalars['String'];
-  pokemon: Array<Scalars['ID']>;
-  moves: Array<Scalars['ID']>;
-};
-
-export type Move = {
-  __typename?: 'Move';
-  name: Scalars['String'];
-  generation: Scalars['String'];
-  /** The document's ID. */
-  _id: Scalars['ID'];
-  effect?: Maybe<Scalars['String']>;
-  accuracy?: Maybe<Scalars['Int']>;
-  damageClass: Scalars['String'];
+  pp?: Maybe<Scalars['Int']>;
   slug: Scalars['String'];
   target?: Maybe<Scalars['String']>;
-  pp?: Maybe<Scalars['Int']>;
-  effectChance?: Maybe<Scalars['Int']>;
-  power?: Maybe<Scalars['Int']>;
-  type?: Maybe<Type>;
-  /** The document's timestamp. */
-  _ts: Scalars['Long'];
+  /** An object relationship */
+  type: Types;
 };
 
-/** The pagination object for elements of type 'Move'. */
-export type MovePage = {
-  __typename?: 'MovePage';
-  /** The elements of type 'Move' in this page. */
-  data: Array<Maybe<Move>>;
-  /** A cursor for elements coming after the current page. */
-  after?: Maybe<Scalars['String']>;
-  /** A cursor for elements coming before the current page. */
-  before?: Maybe<Scalars['String']>;
+/** Boolean expression to filter rows from the table "moves". All fields are combined with a logical 'AND'. */
+export type Moves_Bool_Exp = {
+  _and?: Maybe<Array<Maybe<Moves_Bool_Exp>>>;
+  _not?: Maybe<Moves_Bool_Exp>;
+  _or?: Maybe<Array<Maybe<Moves_Bool_Exp>>>;
+  accuracy?: Maybe<Int_Comparison_Exp>;
+  damage_class?: Maybe<Damage_Class_Bool_Exp>;
+  effect?: Maybe<String_Comparison_Exp>;
+  effect_chance?: Maybe<Int_Comparison_Exp>;
+  id?: Maybe<Uuid_Comparison_Exp>;
+  name?: Maybe<String_Comparison_Exp>;
+  power?: Maybe<Int_Comparison_Exp>;
+  pp?: Maybe<Int_Comparison_Exp>;
+  slug?: Maybe<String_Comparison_Exp>;
+  target?: Maybe<String_Comparison_Exp>;
+  type?: Maybe<Types_Bool_Exp>;
 };
 
+/** ordering options when selecting data from "moves" */
+export type Moves_Order_By = {
+  accuracy?: Maybe<Order_By>;
+  damage_class?: Maybe<Damage_Class_Order_By>;
+  effect?: Maybe<Order_By>;
+  effect_chance?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+  power?: Maybe<Order_By>;
+  pp?: Maybe<Order_By>;
+  slug?: Maybe<Order_By>;
+  target?: Maybe<Order_By>;
+  type?: Maybe<Types_Order_By>;
+};
+
+/** primary key columns input for table: "moves" */
+export type Moves_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "moves" */
+export enum Moves_Select_Column {
+  /** column name */
+  Accuracy = 'accuracy',
+  /** column name */
+  Effect = 'effect',
+  /** column name */
+  EffectChance = 'effect_chance',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Power = 'power',
+  /** column name */
+  Pp = 'pp',
+  /** column name */
+  Slug = 'slug',
+  /** column name */
+  Target = 'target'
+}
+
+/** mutation root */
+export type Mutation_Root = {
+  __typename?: 'mutation_root';
+  /** insert a single row into the table: "teams" */
+  createTeam?: Maybe<Teams>;
+  /** insert a single row into the table: "team_member" */
+  createTeamMember?: Maybe<Team_Member>;
+  /** insert a single row into the table: "team_member_move" */
+  createTeamMemberMove?: Maybe<Team_Member_Move>;
+  /** insert data into the table: "team_member_move" */
+  createTeamMemberMoves?: Maybe<Team_Member_Move_Mutation_Response>;
+  /** insert data into the table: "team_member" */
+  createTeamMembers?: Maybe<Team_Member_Mutation_Response>;
+  /** insert data into the table: "teams" */
+  createTeams?: Maybe<Teams_Mutation_Response>;
+  /** delete single row from the table: "teams" */
+  deleteTeam?: Maybe<Teams>;
+  /** delete single row from the table: "team_member" */
+  deleteTeamMember?: Maybe<Team_Member>;
+  /** delete single row from the table: "team_member_move" */
+  deleteTeamMemberMove?: Maybe<Team_Member_Move>;
+  /** delete data from the table: "team_member_move" */
+  deleteTeamMemberMoves?: Maybe<Team_Member_Move_Mutation_Response>;
+  /** delete data from the table: "team_member" */
+  deleteTeamMembers?: Maybe<Team_Member_Mutation_Response>;
+  /** delete data from the table: "teams" */
+  deleteTeams?: Maybe<Teams_Mutation_Response>;
+  /** update single row of the table: "teams" */
+  updateTeam?: Maybe<Teams>;
+  /** update single row of the table: "team_member" */
+  updateTeamMember?: Maybe<Team_Member>;
+  /** update single row of the table: "team_member_move" */
+  updateTeamMemberMove?: Maybe<Team_Member_Move>;
+  /** update data of the table: "team_member_move" */
+  updateTeamMemberMoves?: Maybe<Team_Member_Move_Mutation_Response>;
+  /** update data of the table: "team_member" */
+  updateTeamMembers?: Maybe<Team_Member_Mutation_Response>;
+  /** update data of the table: "teams" */
+  updateTeams?: Maybe<Teams_Mutation_Response>;
+};
+
+
+/** mutation root */
+export type Mutation_RootCreateTeamArgs = {
+  object: Teams_Insert_Input;
+  on_conflict?: Maybe<Teams_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootCreateTeamMemberArgs = {
+  object: Team_Member_Insert_Input;
+  on_conflict?: Maybe<Team_Member_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootCreateTeamMemberMoveArgs = {
+  object: Team_Member_Move_Insert_Input;
+  on_conflict?: Maybe<Team_Member_Move_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootCreateTeamMemberMovesArgs = {
+  objects: Array<Team_Member_Move_Insert_Input>;
+  on_conflict?: Maybe<Team_Member_Move_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootCreateTeamMembersArgs = {
+  objects: Array<Team_Member_Insert_Input>;
+  on_conflict?: Maybe<Team_Member_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootCreateTeamsArgs = {
+  objects: Array<Teams_Insert_Input>;
+  on_conflict?: Maybe<Teams_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteTeamArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteTeamMemberArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteTeamMemberMoveArgs = {
+  move_id: Scalars['uuid'];
+  team_member_id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteTeamMemberMovesArgs = {
+  where: Team_Member_Move_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteTeamMembersArgs = {
+  where: Team_Member_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteTeamsArgs = {
+  where: Teams_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateTeamArgs = {
+  _set?: Maybe<Teams_Set_Input>;
+  pk_columns: Teams_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateTeamMemberArgs = {
+  _inc?: Maybe<Team_Member_Inc_Input>;
+  _set?: Maybe<Team_Member_Set_Input>;
+  pk_columns: Team_Member_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateTeamMemberMoveArgs = {
+  _inc?: Maybe<Team_Member_Move_Inc_Input>;
+  _set?: Maybe<Team_Member_Move_Set_Input>;
+  pk_columns: Team_Member_Move_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateTeamMemberMovesArgs = {
+  _inc?: Maybe<Team_Member_Move_Inc_Input>;
+  _set?: Maybe<Team_Member_Move_Set_Input>;
+  where: Team_Member_Move_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateTeamMembersArgs = {
+  _inc?: Maybe<Team_Member_Inc_Input>;
+  _set?: Maybe<Team_Member_Set_Input>;
+  where: Team_Member_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateTeamsArgs = {
+  _set?: Maybe<Teams_Set_Input>;
+  where: Teams_Bool_Exp;
+};
+
+/** column ordering options */
+export enum Order_By {
+  /** in the ascending order, nulls last */
+  Asc = 'asc',
+  /** in the ascending order, nulls first */
+  AscNullsFirst = 'asc_nulls_first',
+  /** in the ascending order, nulls last */
+  AscNullsLast = 'asc_nulls_last',
+  /** in the descending order, nulls first */
+  Desc = 'desc',
+  /** in the descending order, nulls first */
+  DescNullsFirst = 'desc_nulls_first',
+  /** in the descending order, nulls last */
+  DescNullsLast = 'desc_nulls_last'
+}
+
+/** columns and relationships of "pokemon" */
 export type Pokemon = {
-  __typename?: 'Pokemon';
-  pokedexId: Scalars['Int'];
+  __typename?: 'pokemon';
+  id: Scalars['uuid'];
+  /** An array relationship */
+  learnable_moves: Array<Pokemon_Move>;
   name: Scalars['String'];
-  /** The document's ID. */
-  _id: Scalars['ID'];
+  pokedex_id: Scalars['Int'];
   slug: Scalars['String'];
   sprite?: Maybe<Scalars['String']>;
-  learnableMoves: Array<PokemonMove>;
-  types: Array<Type>;
-  /** The document's timestamp. */
-  _ts: Scalars['Long'];
-};
-
-export type PokemonMove = {
-  __typename?: 'PokemonMove';
-  move: Move;
-  key: Scalars['String'];
-  version: Scalars['String'];
-  learnMethod: Scalars['String'];
-  levelLearnedAt: Scalars['Int'];
-};
-
-/** The pagination object for elements of type 'Pokemon'. */
-export type PokemonPage = {
-  __typename?: 'PokemonPage';
-  /** The elements of type 'Pokemon' in this page. */
-  data: Array<Maybe<Pokemon>>;
-  /** A cursor for elements coming after the current page. */
-  after?: Maybe<Scalars['String']>;
-  /** A cursor for elements coming before the current page. */
-  before?: Maybe<Scalars['String']>;
-};
-
-export type Query = {
-  __typename?: 'Query';
-  allMoves: MovePage;
-  /** Find a document from the collection of 'Pokemon' by its id. */
-  findPokemonByID?: Maybe<Pokemon>;
-  /** Find a document from the collection of 'Type' by its id. */
-  findTypeByID?: Maybe<Type>;
-  /** Find a document from the collection of 'Move' by its id. */
-  findMoveByID?: Maybe<Move>;
-  /** Find a document from the collection of 'Team' by its id. */
-  findTeamByID?: Maybe<Team>;
-  allPokemonOrderedByPokedexId: QueryAllPokemonOrderedByPokedexIdPage;
-  allTeams: TeamPage;
-  allTypes: TypePage;
-  allPokemon: PokemonPage;
+  /** An array relationship */
+  types: Array<Pokemon_Type>;
 };
 
 
-export type QueryAllMovesArgs = {
-  _size?: Maybe<Scalars['Int']>;
-  _cursor?: Maybe<Scalars['String']>;
+/** columns and relationships of "pokemon" */
+export type PokemonLearnable_MovesArgs = {
+  distinct_on?: Maybe<Array<Pokemon_Move_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Pokemon_Move_Order_By>>;
+  where?: Maybe<Pokemon_Move_Bool_Exp>;
 };
 
 
-export type QueryFindPokemonByIdArgs = {
-  id: Scalars['ID'];
+/** columns and relationships of "pokemon" */
+export type PokemonTypesArgs = {
+  distinct_on?: Maybe<Array<Pokemon_Type_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Pokemon_Type_Order_By>>;
+  where?: Maybe<Pokemon_Type_Bool_Exp>;
 };
 
-
-export type QueryFindTypeByIdArgs = {
-  id: Scalars['ID'];
+/** Boolean expression to filter rows from the table "pokemon". All fields are combined with a logical 'AND'. */
+export type Pokemon_Bool_Exp = {
+  _and?: Maybe<Array<Maybe<Pokemon_Bool_Exp>>>;
+  _not?: Maybe<Pokemon_Bool_Exp>;
+  _or?: Maybe<Array<Maybe<Pokemon_Bool_Exp>>>;
+  id?: Maybe<Uuid_Comparison_Exp>;
+  learnable_moves?: Maybe<Pokemon_Move_Bool_Exp>;
+  name?: Maybe<String_Comparison_Exp>;
+  pokedex_id?: Maybe<Int_Comparison_Exp>;
+  slug?: Maybe<String_Comparison_Exp>;
+  sprite?: Maybe<String_Comparison_Exp>;
+  types?: Maybe<Pokemon_Type_Bool_Exp>;
 };
 
-
-export type QueryFindMoveByIdArgs = {
-  id: Scalars['ID'];
+/** columns and relationships of "pokemon_move" */
+export type Pokemon_Move = {
+  __typename?: 'pokemon_move';
+  /** An object relationship */
+  move: Moves;
+  move_id: Scalars['uuid'];
 };
 
-
-export type QueryFindTeamByIdArgs = {
-  id: Scalars['ID'];
+/** Boolean expression to filter rows from the table "pokemon_move". All fields are combined with a logical 'AND'. */
+export type Pokemon_Move_Bool_Exp = {
+  _and?: Maybe<Array<Maybe<Pokemon_Move_Bool_Exp>>>;
+  _not?: Maybe<Pokemon_Move_Bool_Exp>;
+  _or?: Maybe<Array<Maybe<Pokemon_Move_Bool_Exp>>>;
+  move?: Maybe<Moves_Bool_Exp>;
+  move_id?: Maybe<Uuid_Comparison_Exp>;
 };
 
-
-export type QueryAllPokemonOrderedByPokedexIdArgs = {
-  _size?: Maybe<Scalars['Int']>;
-  _cursor?: Maybe<Scalars['String']>;
+/** ordering options when selecting data from "pokemon_move" */
+export type Pokemon_Move_Order_By = {
+  move?: Maybe<Moves_Order_By>;
+  move_id?: Maybe<Order_By>;
 };
 
-
-export type QueryAllTeamsArgs = {
-  _size?: Maybe<Scalars['Int']>;
-  _cursor?: Maybe<Scalars['String']>;
+/** primary key columns input for table: "pokemon_move" */
+export type Pokemon_Move_Pk_Columns_Input = {
+  move_id: Scalars['uuid'];
+  pokemon_id: Scalars['uuid'];
 };
 
+/** select columns of table "pokemon_move" */
+export enum Pokemon_Move_Select_Column {
+  /** column name */
+  MoveId = 'move_id'
+}
 
-export type QueryAllTypesArgs = {
-  _size?: Maybe<Scalars['Int']>;
-  _cursor?: Maybe<Scalars['String']>;
+/** ordering options when selecting data from "pokemon" */
+export type Pokemon_Order_By = {
+  id?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+  pokedex_id?: Maybe<Order_By>;
+  slug?: Maybe<Order_By>;
+  sprite?: Maybe<Order_By>;
 };
 
-
-export type QueryAllPokemonArgs = {
-  _size?: Maybe<Scalars['Int']>;
-  _cursor?: Maybe<Scalars['String']>;
+/** primary key columns input for table: "pokemon" */
+export type Pokemon_Pk_Columns_Input = {
+  id: Scalars['uuid'];
 };
 
-/** The pagination object for elements of type 'Pokemon'. */
-export type QueryAllPokemonOrderedByPokedexIdPage = {
-  __typename?: 'QueryAllPokemonOrderedByPokedexIdPage';
-  /** The elements of type 'Pokemon' in this page. */
-  data: Array<Maybe<Pokemon>>;
-  /** A cursor for elements coming after the current page. */
-  after?: Maybe<Scalars['String']>;
-  /** A cursor for elements coming before the current page. */
-  before?: Maybe<Scalars['String']>;
+/** select columns of table "pokemon" */
+export enum Pokemon_Select_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  PokedexId = 'pokedex_id',
+  /** column name */
+  Slug = 'slug',
+  /** column name */
+  Sprite = 'sprite'
+}
+
+/** columns and relationships of "pokemon_type" */
+export type Pokemon_Type = {
+  __typename?: 'pokemon_type';
+  /** An object relationship */
+  type: Types;
+  type_id: Scalars['uuid'];
 };
 
-export type Team = {
-  __typename?: 'Team';
-  /** The document's ID. */
-  _id: Scalars['ID'];
-  /** The document's timestamp. */
-  _ts: Scalars['Long'];
-  name: Scalars['String'];
-  members: Array<TeamMember>;
+/** Boolean expression to filter rows from the table "pokemon_type". All fields are combined with a logical 'AND'. */
+export type Pokemon_Type_Bool_Exp = {
+  _and?: Maybe<Array<Maybe<Pokemon_Type_Bool_Exp>>>;
+  _not?: Maybe<Pokemon_Type_Bool_Exp>;
+  _or?: Maybe<Array<Maybe<Pokemon_Type_Bool_Exp>>>;
+  type?: Maybe<Types_Bool_Exp>;
+  type_id?: Maybe<Uuid_Comparison_Exp>;
 };
 
-export type TeamMember = {
-  __typename?: 'TeamMember';
-  id: Scalars['String'];
-  order: Scalars['Int'];
-  pokemon: Pokemon;
-  learnedMoves: Array<TeamMemberMove>;
+/** ordering options when selecting data from "pokemon_type" */
+export type Pokemon_Type_Order_By = {
+  type?: Maybe<Types_Order_By>;
+  type_id?: Maybe<Order_By>;
 };
 
-export type TeamMemberMove = {
-  __typename?: 'TeamMemberMove';
-  order: Scalars['Int'];
-  move: PokemonMove;
+/** primary key columns input for table: "pokemon_type" */
+export type Pokemon_Type_Pk_Columns_Input = {
+  pokemon_id: Scalars['uuid'];
+  type_id: Scalars['uuid'];
 };
 
-/** The pagination object for elements of type 'Team'. */
-export type TeamPage = {
-  __typename?: 'TeamPage';
-  /** The elements of type 'Team' in this page. */
-  data: Array<Maybe<Team>>;
-  /** A cursor for elements coming after the current page. */
-  after?: Maybe<Scalars['String']>;
-  /** A cursor for elements coming before the current page. */
-  before?: Maybe<Scalars['String']>;
-};
+/** select columns of table "pokemon_type" */
+export enum Pokemon_Type_Select_Column {
+  /** column name */
+  TypeId = 'type_id'
+}
 
-export type Type = {
-  __typename?: 'Type';
-  name: Scalars['String'];
-  /** The document's ID. */
-  _id: Scalars['ID'];
-  moves: Array<Move>;
-  slug: Scalars['String'];
+/** query root */
+export type Query_Root = {
+  __typename?: 'query_root';
+  /** fetch data from the table: "damage_class" using primary key columns */
+  damageClassById?: Maybe<Damage_Class>;
+  /** fetch data from the table: "damage_class" */
+  damageClasses: Array<Damage_Class>;
+  /** fetch data from the table: "moves" using primary key columns */
+  moveById?: Maybe<Moves>;
+  /** fetch data from the table: "moves" */
+  moves: Array<Moves>;
+  /** fetch data from the table: "pokemon" */
   pokemon: Array<Pokemon>;
-  /** The document's timestamp. */
-  _ts: Scalars['Long'];
+  /** fetch data from the table: "pokemon" using primary key columns */
+  pokemonById?: Maybe<Pokemon>;
+  /** fetch data from the table: "pokemon_move" using primary key columns */
+  pokemonMoveById?: Maybe<Pokemon_Move>;
+  /** fetch data from the table: "pokemon_move" */
+  pokemonMoves: Array<Pokemon_Move>;
+  /** fetch data from the table: "pokemon_type" using primary key columns */
+  pokemonTypeById?: Maybe<Pokemon_Type>;
+  /** fetch data from the table: "pokemon_type" */
+  pokemonTypes: Array<Pokemon_Type>;
+  /** fetch data from the table: "teams" using primary key columns */
+  teamById?: Maybe<Teams>;
+  /** fetch data from the table: "team_member" using primary key columns */
+  teamMemberById?: Maybe<Team_Member>;
+  /** fetch data from the table: "team_member_move" using primary key columns */
+  teamMemberMoveById?: Maybe<Team_Member_Move>;
+  /** fetch data from the table: "team_member_move" */
+  teamMemberMoves: Array<Team_Member_Move>;
+  /** fetch data from the table: "team_member" */
+  teamMembers: Array<Team_Member>;
+  /** fetch data from the table: "teams" */
+  teams: Array<Teams>;
+  /** fetch data from the table: "types" using primary key columns */
+  typeById?: Maybe<Types>;
+  /** fetch data from the table: "types" */
+  types: Array<Types>;
 };
 
-/** The pagination object for elements of type 'Type'. */
-export type TypePage = {
-  __typename?: 'TypePage';
-  /** The elements of type 'Type' in this page. */
-  data: Array<Maybe<Type>>;
-  /** A cursor for elements coming after the current page. */
-  after?: Maybe<Scalars['String']>;
-  /** A cursor for elements coming before the current page. */
-  before?: Maybe<Scalars['String']>;
+
+/** query root */
+export type Query_RootDamageClassByIdArgs = {
+  value: Scalars['String'];
 };
 
+
+/** query root */
+export type Query_RootDamageClassesArgs = {
+  distinct_on?: Maybe<Array<Damage_Class_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Damage_Class_Order_By>>;
+  where?: Maybe<Damage_Class_Bool_Exp>;
+};
+
+
+/** query root */
+export type Query_RootMoveByIdArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** query root */
+export type Query_RootMovesArgs = {
+  distinct_on?: Maybe<Array<Moves_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Moves_Order_By>>;
+  where?: Maybe<Moves_Bool_Exp>;
+};
+
+
+/** query root */
+export type Query_RootPokemonArgs = {
+  distinct_on?: Maybe<Array<Pokemon_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Pokemon_Order_By>>;
+  where?: Maybe<Pokemon_Bool_Exp>;
+};
+
+
+/** query root */
+export type Query_RootPokemonByIdArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** query root */
+export type Query_RootPokemonMoveByIdArgs = {
+  move_id: Scalars['uuid'];
+  pokemon_id: Scalars['uuid'];
+};
+
+
+/** query root */
+export type Query_RootPokemonMovesArgs = {
+  distinct_on?: Maybe<Array<Pokemon_Move_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Pokemon_Move_Order_By>>;
+  where?: Maybe<Pokemon_Move_Bool_Exp>;
+};
+
+
+/** query root */
+export type Query_RootPokemonTypeByIdArgs = {
+  pokemon_id: Scalars['uuid'];
+  type_id: Scalars['uuid'];
+};
+
+
+/** query root */
+export type Query_RootPokemonTypesArgs = {
+  distinct_on?: Maybe<Array<Pokemon_Type_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Pokemon_Type_Order_By>>;
+  where?: Maybe<Pokemon_Type_Bool_Exp>;
+};
+
+
+/** query root */
+export type Query_RootTeamByIdArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** query root */
+export type Query_RootTeamMemberByIdArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** query root */
+export type Query_RootTeamMemberMoveByIdArgs = {
+  move_id: Scalars['uuid'];
+  team_member_id: Scalars['uuid'];
+};
+
+
+/** query root */
+export type Query_RootTeamMemberMovesArgs = {
+  distinct_on?: Maybe<Array<Team_Member_Move_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Team_Member_Move_Order_By>>;
+  where?: Maybe<Team_Member_Move_Bool_Exp>;
+};
+
+
+/** query root */
+export type Query_RootTeamMembersArgs = {
+  distinct_on?: Maybe<Array<Team_Member_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Team_Member_Order_By>>;
+  where?: Maybe<Team_Member_Bool_Exp>;
+};
+
+
+/** query root */
+export type Query_RootTeamsArgs = {
+  distinct_on?: Maybe<Array<Teams_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Teams_Order_By>>;
+  where?: Maybe<Teams_Bool_Exp>;
+};
+
+
+/** query root */
+export type Query_RootTypeByIdArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** query root */
+export type Query_RootTypesArgs = {
+  distinct_on?: Maybe<Array<Types_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Types_Order_By>>;
+  where?: Maybe<Types_Bool_Exp>;
+};
+
+/** subscription root */
+export type Subscription_Root = {
+  __typename?: 'subscription_root';
+  /** fetch data from the table: "damage_class" using primary key columns */
+  damageClassById?: Maybe<Damage_Class>;
+  /** fetch data from the table: "damage_class" */
+  damageClasses: Array<Damage_Class>;
+  /** fetch data from the table: "moves" using primary key columns */
+  moveById?: Maybe<Moves>;
+  /** fetch data from the table: "moves" */
+  moves: Array<Moves>;
+  /** fetch data from the table: "pokemon" */
+  pokemon: Array<Pokemon>;
+  /** fetch data from the table: "pokemon" using primary key columns */
+  pokemonById?: Maybe<Pokemon>;
+  /** fetch data from the table: "pokemon_move" using primary key columns */
+  pokemonMoveById?: Maybe<Pokemon_Move>;
+  /** fetch data from the table: "pokemon_move" */
+  pokemonMoves: Array<Pokemon_Move>;
+  /** fetch data from the table: "pokemon_type" using primary key columns */
+  pokemonTypeById?: Maybe<Pokemon_Type>;
+  /** fetch data from the table: "pokemon_type" */
+  pokemonTypes: Array<Pokemon_Type>;
+  /** fetch data from the table: "teams" using primary key columns */
+  teamById?: Maybe<Teams>;
+  /** fetch data from the table: "team_member" using primary key columns */
+  teamMemberById?: Maybe<Team_Member>;
+  /** fetch data from the table: "team_member_move" using primary key columns */
+  teamMemberMoveById?: Maybe<Team_Member_Move>;
+  /** fetch data from the table: "team_member_move" */
+  teamMemberMoves: Array<Team_Member_Move>;
+  /** fetch data from the table: "team_member" */
+  teamMembers: Array<Team_Member>;
+  /** fetch data from the table: "teams" */
+  teams: Array<Teams>;
+  /** fetch data from the table: "types" using primary key columns */
+  typeById?: Maybe<Types>;
+  /** fetch data from the table: "types" */
+  types: Array<Types>;
+};
+
+
+/** subscription root */
+export type Subscription_RootDamageClassByIdArgs = {
+  value: Scalars['String'];
+};
+
+
+/** subscription root */
+export type Subscription_RootDamageClassesArgs = {
+  distinct_on?: Maybe<Array<Damage_Class_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Damage_Class_Order_By>>;
+  where?: Maybe<Damage_Class_Bool_Exp>;
+};
+
+
+/** subscription root */
+export type Subscription_RootMoveByIdArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** subscription root */
+export type Subscription_RootMovesArgs = {
+  distinct_on?: Maybe<Array<Moves_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Moves_Order_By>>;
+  where?: Maybe<Moves_Bool_Exp>;
+};
+
+
+/** subscription root */
+export type Subscription_RootPokemonArgs = {
+  distinct_on?: Maybe<Array<Pokemon_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Pokemon_Order_By>>;
+  where?: Maybe<Pokemon_Bool_Exp>;
+};
+
+
+/** subscription root */
+export type Subscription_RootPokemonByIdArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** subscription root */
+export type Subscription_RootPokemonMoveByIdArgs = {
+  move_id: Scalars['uuid'];
+  pokemon_id: Scalars['uuid'];
+};
+
+
+/** subscription root */
+export type Subscription_RootPokemonMovesArgs = {
+  distinct_on?: Maybe<Array<Pokemon_Move_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Pokemon_Move_Order_By>>;
+  where?: Maybe<Pokemon_Move_Bool_Exp>;
+};
+
+
+/** subscription root */
+export type Subscription_RootPokemonTypeByIdArgs = {
+  pokemon_id: Scalars['uuid'];
+  type_id: Scalars['uuid'];
+};
+
+
+/** subscription root */
+export type Subscription_RootPokemonTypesArgs = {
+  distinct_on?: Maybe<Array<Pokemon_Type_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Pokemon_Type_Order_By>>;
+  where?: Maybe<Pokemon_Type_Bool_Exp>;
+};
+
+
+/** subscription root */
+export type Subscription_RootTeamByIdArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** subscription root */
+export type Subscription_RootTeamMemberByIdArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** subscription root */
+export type Subscription_RootTeamMemberMoveByIdArgs = {
+  move_id: Scalars['uuid'];
+  team_member_id: Scalars['uuid'];
+};
+
+
+/** subscription root */
+export type Subscription_RootTeamMemberMovesArgs = {
+  distinct_on?: Maybe<Array<Team_Member_Move_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Team_Member_Move_Order_By>>;
+  where?: Maybe<Team_Member_Move_Bool_Exp>;
+};
+
+
+/** subscription root */
+export type Subscription_RootTeamMembersArgs = {
+  distinct_on?: Maybe<Array<Team_Member_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Team_Member_Order_By>>;
+  where?: Maybe<Team_Member_Bool_Exp>;
+};
+
+
+/** subscription root */
+export type Subscription_RootTeamsArgs = {
+  distinct_on?: Maybe<Array<Teams_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Teams_Order_By>>;
+  where?: Maybe<Teams_Bool_Exp>;
+};
+
+
+/** subscription root */
+export type Subscription_RootTypeByIdArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** subscription root */
+export type Subscription_RootTypesArgs = {
+  distinct_on?: Maybe<Array<Types_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Types_Order_By>>;
+  where?: Maybe<Types_Bool_Exp>;
+};
+
+/** columns and relationships of "team_member" */
+export type Team_Member = {
+  __typename?: 'team_member';
+  id: Scalars['uuid'];
+  /** An array relationship */
+  learned_moves: Array<Team_Member_Move>;
+  order: Scalars['Int'];
+  /** An object relationship */
+  pokemon: Pokemon;
+};
+
+
+/** columns and relationships of "team_member" */
+export type Team_MemberLearned_MovesArgs = {
+  distinct_on?: Maybe<Array<Team_Member_Move_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Team_Member_Move_Order_By>>;
+  where?: Maybe<Team_Member_Move_Bool_Exp>;
+};
+
+/** input type for inserting array relation for remote table "team_member" */
+export type Team_Member_Arr_Rel_Insert_Input = {
+  data: Array<Team_Member_Insert_Input>;
+  on_conflict?: Maybe<Team_Member_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "team_member". All fields are combined with a logical 'AND'. */
+export type Team_Member_Bool_Exp = {
+  _and?: Maybe<Array<Maybe<Team_Member_Bool_Exp>>>;
+  _not?: Maybe<Team_Member_Bool_Exp>;
+  _or?: Maybe<Array<Maybe<Team_Member_Bool_Exp>>>;
+  id?: Maybe<Uuid_Comparison_Exp>;
+  learned_moves?: Maybe<Team_Member_Move_Bool_Exp>;
+  order?: Maybe<Int_Comparison_Exp>;
+  pokemon?: Maybe<Pokemon_Bool_Exp>;
+};
+
+/** unique or primary key constraints on table "team_member" */
+export enum Team_Member_Constraint {
+  /** unique or primary key constraint */
+  TeamMemberPkey = 'team_member_pkey'
+}
+
+/** input type for incrementing integer column in table "team_member" */
+export type Team_Member_Inc_Input = {
+  order?: Maybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "team_member" */
+export type Team_Member_Insert_Input = {
+  learned_moves?: Maybe<Team_Member_Move_Arr_Rel_Insert_Input>;
+  order?: Maybe<Scalars['Int']>;
+  pokemon_id?: Maybe<Scalars['uuid']>;
+};
+
+/** columns and relationships of "team_member_move" */
+export type Team_Member_Move = {
+  __typename?: 'team_member_move';
+  /** An object relationship */
+  move: Moves;
+  order: Scalars['Int'];
+};
+
+/** input type for inserting array relation for remote table "team_member_move" */
+export type Team_Member_Move_Arr_Rel_Insert_Input = {
+  data: Array<Team_Member_Move_Insert_Input>;
+  on_conflict?: Maybe<Team_Member_Move_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "team_member_move". All fields are combined with a logical 'AND'. */
+export type Team_Member_Move_Bool_Exp = {
+  _and?: Maybe<Array<Maybe<Team_Member_Move_Bool_Exp>>>;
+  _not?: Maybe<Team_Member_Move_Bool_Exp>;
+  _or?: Maybe<Array<Maybe<Team_Member_Move_Bool_Exp>>>;
+  move?: Maybe<Moves_Bool_Exp>;
+  order?: Maybe<Int_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "team_member_move" */
+export enum Team_Member_Move_Constraint {
+  /** unique or primary key constraint */
+  TeamMemberMoveTeamMemberIdMoveIdKey = 'team_member_move_team_member_id_move_id_key',
+  /** unique or primary key constraint */
+  TeamMemberPokemonMovePkey = 'team_member_pokemon_move_pkey'
+}
+
+/** input type for incrementing integer column in table "team_member_move" */
+export type Team_Member_Move_Inc_Input = {
+  order?: Maybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "team_member_move" */
+export type Team_Member_Move_Insert_Input = {
+  order?: Maybe<Scalars['Int']>;
+};
+
+/** response of any mutation on the table "team_member_move" */
+export type Team_Member_Move_Mutation_Response = {
+  __typename?: 'team_member_move_mutation_response';
+  /** number of affected rows by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data of the affected rows by the mutation */
+  returning: Array<Team_Member_Move>;
+};
+
+/** input type for inserting object relation for remote table "team_member_move" */
+export type Team_Member_Move_Obj_Rel_Insert_Input = {
+  data: Team_Member_Move_Insert_Input;
+  on_conflict?: Maybe<Team_Member_Move_On_Conflict>;
+};
+
+/** on conflict condition type for table "team_member_move" */
+export type Team_Member_Move_On_Conflict = {
+  constraint: Team_Member_Move_Constraint;
+  update_columns: Array<Team_Member_Move_Update_Column>;
+  where?: Maybe<Team_Member_Move_Bool_Exp>;
+};
+
+/** ordering options when selecting data from "team_member_move" */
+export type Team_Member_Move_Order_By = {
+  move?: Maybe<Moves_Order_By>;
+  order?: Maybe<Order_By>;
+};
+
+/** primary key columns input for table: "team_member_move" */
+export type Team_Member_Move_Pk_Columns_Input = {
+  move_id: Scalars['uuid'];
+  team_member_id: Scalars['uuid'];
+};
+
+/** select columns of table "team_member_move" */
+export enum Team_Member_Move_Select_Column {
+  /** column name */
+  Order = 'order'
+}
+
+/** input type for updating data in table "team_member_move" */
+export type Team_Member_Move_Set_Input = {
+  order?: Maybe<Scalars['Int']>;
+};
+
+/** update columns of table "team_member_move" */
+export enum Team_Member_Move_Update_Column {
+  /** column name */
+  Order = 'order'
+}
+
+/** response of any mutation on the table "team_member" */
+export type Team_Member_Mutation_Response = {
+  __typename?: 'team_member_mutation_response';
+  /** number of affected rows by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data of the affected rows by the mutation */
+  returning: Array<Team_Member>;
+};
+
+/** input type for inserting object relation for remote table "team_member" */
+export type Team_Member_Obj_Rel_Insert_Input = {
+  data: Team_Member_Insert_Input;
+  on_conflict?: Maybe<Team_Member_On_Conflict>;
+};
+
+/** on conflict condition type for table "team_member" */
+export type Team_Member_On_Conflict = {
+  constraint: Team_Member_Constraint;
+  update_columns: Array<Team_Member_Update_Column>;
+  where?: Maybe<Team_Member_Bool_Exp>;
+};
+
+/** ordering options when selecting data from "team_member" */
+export type Team_Member_Order_By = {
+  id?: Maybe<Order_By>;
+  order?: Maybe<Order_By>;
+  pokemon?: Maybe<Pokemon_Order_By>;
+};
+
+/** primary key columns input for table: "team_member" */
+export type Team_Member_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "team_member" */
+export enum Team_Member_Select_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Order = 'order'
+}
+
+/** input type for updating data in table "team_member" */
+export type Team_Member_Set_Input = {
+  order?: Maybe<Scalars['Int']>;
+};
+
+/** update columns of table "team_member" */
+export enum Team_Member_Update_Column {
+  /** column name */
+  Order = 'order'
+}
+
+/** columns and relationships of "teams" */
+export type Teams = {
+  __typename?: 'teams';
+  created_at: Scalars['timestamptz'];
+  id: Scalars['uuid'];
+  name: Scalars['String'];
+  /** An array relationship */
+  team_members: Array<Team_Member>;
+};
+
+
+/** columns and relationships of "teams" */
+export type TeamsTeam_MembersArgs = {
+  distinct_on?: Maybe<Array<Team_Member_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Team_Member_Order_By>>;
+  where?: Maybe<Team_Member_Bool_Exp>;
+};
+
+/** input type for inserting array relation for remote table "teams" */
+export type Teams_Arr_Rel_Insert_Input = {
+  data: Array<Teams_Insert_Input>;
+  on_conflict?: Maybe<Teams_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "teams". All fields are combined with a logical 'AND'. */
+export type Teams_Bool_Exp = {
+  _and?: Maybe<Array<Maybe<Teams_Bool_Exp>>>;
+  _not?: Maybe<Teams_Bool_Exp>;
+  _or?: Maybe<Array<Maybe<Teams_Bool_Exp>>>;
+  created_at?: Maybe<Timestamptz_Comparison_Exp>;
+  id?: Maybe<Uuid_Comparison_Exp>;
+  name?: Maybe<String_Comparison_Exp>;
+  team_members?: Maybe<Team_Member_Bool_Exp>;
+};
+
+/** unique or primary key constraints on table "teams" */
+export enum Teams_Constraint {
+  /** unique or primary key constraint */
+  TeamPkey = 'team_pkey'
+}
+
+/** input type for inserting data into table "teams" */
+export type Teams_Insert_Input = {
+  name?: Maybe<Scalars['String']>;
+  team_members?: Maybe<Team_Member_Arr_Rel_Insert_Input>;
+};
+
+/** response of any mutation on the table "teams" */
+export type Teams_Mutation_Response = {
+  __typename?: 'teams_mutation_response';
+  /** number of affected rows by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data of the affected rows by the mutation */
+  returning: Array<Teams>;
+};
+
+/** input type for inserting object relation for remote table "teams" */
+export type Teams_Obj_Rel_Insert_Input = {
+  data: Teams_Insert_Input;
+  on_conflict?: Maybe<Teams_On_Conflict>;
+};
+
+/** on conflict condition type for table "teams" */
+export type Teams_On_Conflict = {
+  constraint: Teams_Constraint;
+  update_columns: Array<Teams_Update_Column>;
+  where?: Maybe<Teams_Bool_Exp>;
+};
+
+/** ordering options when selecting data from "teams" */
+export type Teams_Order_By = {
+  created_at?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+};
+
+/** primary key columns input for table: "teams" */
+export type Teams_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "teams" */
+export enum Teams_Select_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name'
+}
+
+/** input type for updating data in table "teams" */
+export type Teams_Set_Input = {
+  name?: Maybe<Scalars['String']>;
+};
+
+/** update columns of table "teams" */
+export enum Teams_Update_Column {
+  /** column name */
+  Name = 'name'
+}
+
+
+/** expression to compare columns of type timestamptz. All fields are combined with logical 'AND'. */
+export type Timestamptz_Comparison_Exp = {
+  _eq?: Maybe<Scalars['timestamptz']>;
+  _gt?: Maybe<Scalars['timestamptz']>;
+  _gte?: Maybe<Scalars['timestamptz']>;
+  _in?: Maybe<Array<Scalars['timestamptz']>>;
+  _is_null?: Maybe<Scalars['Boolean']>;
+  _lt?: Maybe<Scalars['timestamptz']>;
+  _lte?: Maybe<Scalars['timestamptz']>;
+  _neq?: Maybe<Scalars['timestamptz']>;
+  _nin?: Maybe<Array<Scalars['timestamptz']>>;
+};
+
+/** columns and relationships of "types" */
+export type Types = {
+  __typename?: 'types';
+  id: Scalars['uuid'];
+  name: Scalars['String'];
+  slug: Scalars['String'];
+};
+
+/** Boolean expression to filter rows from the table "types". All fields are combined with a logical 'AND'. */
+export type Types_Bool_Exp = {
+  _and?: Maybe<Array<Maybe<Types_Bool_Exp>>>;
+  _not?: Maybe<Types_Bool_Exp>;
+  _or?: Maybe<Array<Maybe<Types_Bool_Exp>>>;
+  id?: Maybe<Uuid_Comparison_Exp>;
+  name?: Maybe<String_Comparison_Exp>;
+  slug?: Maybe<String_Comparison_Exp>;
+};
+
+/** ordering options when selecting data from "types" */
+export type Types_Order_By = {
+  id?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+  slug?: Maybe<Order_By>;
+};
+
+/** primary key columns input for table: "types" */
+export type Types_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "types" */
+export enum Types_Select_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Slug = 'slug'
+}
+
+
+/** expression to compare columns of type uuid. All fields are combined with logical 'AND'. */
+export type Uuid_Comparison_Exp = {
+  _eq?: Maybe<Scalars['uuid']>;
+  _gt?: Maybe<Scalars['uuid']>;
+  _gte?: Maybe<Scalars['uuid']>;
+  _in?: Maybe<Array<Scalars['uuid']>>;
+  _is_null?: Maybe<Scalars['Boolean']>;
+  _lt?: Maybe<Scalars['uuid']>;
+  _lte?: Maybe<Scalars['uuid']>;
+  _neq?: Maybe<Scalars['uuid']>;
+  _nin?: Maybe<Array<Scalars['uuid']>>;
+};
 
 export type AllPokemonQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type AllPokemonQuery = (
-  { __typename?: 'Query' }
-  & { allPokemonOrderedByPokedexId: (
-    { __typename?: 'QueryAllPokemonOrderedByPokedexIdPage' }
-    & Pick<QueryAllPokemonOrderedByPokedexIdPage, 'before' | 'after'>
-    & { data: Array<Maybe<(
-      { __typename?: 'Pokemon' }
-      & Pick<Pokemon, 'name' | 'slug' | 'pokedexId' | 'sprite'>
-      & { types: Array<(
-        { __typename?: 'Type' }
-        & Pick<Type, 'name' | 'slug'>
-      )>, learnableMoves: Array<(
-        { __typename?: 'PokemonMove' }
-        & Pick<PokemonMove, 'version' | 'learnMethod' | 'levelLearnedAt'>
-        & { move: (
-          { __typename?: 'Move' }
-          & Pick<Move, 'name' | 'slug'>
-          & { type?: Maybe<(
-            { __typename?: 'Type' }
-            & Pick<Type, 'name' | 'slug'>
-          )> }
+  { __typename?: 'query_root' }
+  & { pokemon: Array<(
+    { __typename?: 'pokemon' }
+    & Pick<Pokemon, 'id' | 'name' | 'slug' | 'pokedex_id' | 'sprite'>
+    & { types: Array<(
+      { __typename?: 'pokemon_type' }
+      & { type: (
+        { __typename?: 'types' }
+        & Pick<Types, 'name' | 'slug'>
+      ) }
+    )>, learnable_moves: Array<(
+      { __typename?: 'pokemon_move' }
+      & { move: (
+        { __typename?: 'moves' }
+        & Pick<Moves, 'name' | 'slug'>
+        & { type: (
+          { __typename?: 'types' }
+          & Pick<Types, 'name' | 'slug'>
         ) }
-      )> }
-    )>> }
-  ) }
+      ) }
+    )> }
+  )> }
 );
 
 
 export const AllPokemonDocument = gql`
     query AllPokemon {
-  allPokemonOrderedByPokedexId {
-    before
-    after
-    data {
-      name
-      slug
-      pokedexId
-      sprite
-      types {
+  pokemon(order_by: {pokedex_id: asc_nulls_first}) {
+    id
+    name
+    slug
+    pokedex_id
+    sprite
+    types {
+      type {
         name
         slug
       }
-      learnableMoves {
-        version
-        learnMethod
-        levelLearnedAt
-        move {
+    }
+    learnable_moves {
+      move {
+        name
+        slug
+        type {
           name
           slug
-          type {
-            name
-            slug
-          }
         }
       }
     }

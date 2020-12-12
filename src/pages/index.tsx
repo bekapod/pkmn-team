@@ -12,8 +12,8 @@ function Home(): JSX.Element {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ul>
-        {data?.allPokemonOrderedByPokedexId.data.map(pokemon => (
-          <li key={pokemon?.pokedexId}>{pokemon?.name}</li>
+        {data?.pokemon.map(pokemon => (
+          <li key={pokemon?.pokedex_id}>{pokemon?.name}</li>
         ))}
       </ul>
     </div>

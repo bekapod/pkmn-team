@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { FunctionComponent } from 'react';
 import styled from 'styled-components/macro';
-import { Pokemon, Type, PokemonMove, TeamMember } from '~/generated/graphql';
+import { Pokemon, Moves, Team_Member } from '~/generated/graphql';
 import { formatPokemonName, sortBySlug } from '~lib/general';
 import { CardContent, CardHeader, CardWrapper, CardHeading } from '../Card';
 import { InlineList } from '../InlineList';
@@ -9,9 +9,9 @@ import { TypeTag } from '../TypeTag';
 import { MoveList } from '../MoveList';
 
 export type PokemonCardProps = {
-  teamMember?: TeamMember;
+  teamMember?: Team_Member;
   pokemon: Pokemon;
-  moves?: PokemonMove[];
+  moves?: Moves[];
   renderCardActions?: () => JSX.Element;
 };
 
@@ -34,11 +34,12 @@ export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
   moves = [],
   renderCardActions
 }) => {
-  const { pokedexId, types, name, sprite } = pokemon;
+  const { pokedex_id, types, name, sprite } = pokemon;
+  const actualTypes = types.map(({ type }) => type);
 
   return (
-    <CardWrapper data-testid={`pokemon-${pokemon.pokedexId}`}>
-      <CardHeader types={types}>
+    <CardWrapper data-testid={`pokemon-${pokemon.pokedex_id}`}>
+      <CardHeader types={actualTypes}>
         <CardHeading>{formatPokemonName(pokemon)}</CardHeading>
       </CardHeader>
 
@@ -46,17 +47,15 @@ export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
         <PokemonCardSprite src={`/sprites/${sprite}`} alt={`${name} sprite`} />
 
         <InlineList>
-          {sortBySlug(types).map(
-            (type: Type): JSX.Element => (
-              <li
-                key={`${
-                  teamMember ? `Member: ${teamMember.id}` : ''
-                } Pokemon: ${pokedexId}, Type: ${type.slug}`}
-              >
-                <TypeTag type={type.slug}>{type.name}</TypeTag>
-              </li>
-            )
-          )}
+          {sortBySlug(actualTypes).map(type => (
+            <li
+              key={`${
+                teamMember ? `Member: ${teamMember.id}` : ''
+              } Pokemon: ${pokedex_id}, Type: ${type.slug}`}
+            >
+              <TypeTag type={type.slug}>{type.name}</TypeTag>
+            </li>
+          ))}
         </InlineList>
 
         <MoveList
