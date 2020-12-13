@@ -36,7 +36,7 @@ export const TeamCard: FunctionComponent<TeamCardProps> = ({
   );
 
   return (
-    <Link href={`/team/edit/${id}/`} passHref>
+    <Link href={`/team/${id}/`} passHref>
       <CardLink data-testid={`team-link-${id}`}>
         <CardWrapper>
           <CardHeader types={getAllTypes(pokemon)}>

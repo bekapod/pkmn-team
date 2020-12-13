@@ -1260,6 +1260,35 @@ export type AllTeamsQuery = (
   )> }
 );
 
+export type TeamByIdQueryVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+
+export type TeamByIdQuery = (
+  { __typename?: 'query_root' }
+  & { teamById?: Maybe<(
+    { __typename?: 'teams' }
+    & Pick<Teams, 'id' | 'name' | 'created_at'>
+    & { team_members: Array<(
+      { __typename?: 'team_member' }
+      & Pick<Team_Member, 'id' | 'order'>
+      & { pokemon: (
+        { __typename?: 'pokemon' }
+        & Pick<Pokemon, 'id' | 'pokedex_id' | 'name' | 'slug' | 'sprite'>
+        & { types: Array<(
+          { __typename?: 'pokemon_type' }
+          & Pick<Pokemon_Type, 'type_id'>
+          & { type: (
+            { __typename?: 'types' }
+            & Pick<Types, 'id' | 'name' | 'slug'>
+          ) }
+        )> }
+      ) }
+    )> }
+  )> }
+);
+
 
 export const AllTeamsDocument = gql`
     query AllTeams {
@@ -1292,4 +1321,36 @@ export const AllTeamsDocument = gql`
 
 export function useAllTeamsQuery(options: Omit<Urql.UseQueryArgs<AllTeamsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<AllTeamsQuery>({ query: AllTeamsDocument, ...options });
+};
+export const TeamByIdDocument = gql`
+    query TeamById($id: uuid!) {
+  teamById(id: $id) {
+    id
+    name
+    created_at
+    team_members {
+      id
+      order
+      pokemon {
+        id
+        pokedex_id
+        name
+        slug
+        sprite
+        types {
+          type_id
+          type {
+            id
+            name
+            slug
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+export function useTeamByIdQuery(options: Omit<Urql.UseQueryArgs<TeamByIdQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<TeamByIdQuery>({ query: TeamByIdDocument, ...options });
 };

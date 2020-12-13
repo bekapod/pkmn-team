@@ -1,0 +1,26 @@
+query TeamById($id: uuid!) {
+  teamById(id: $id) {
+    id
+    name
+    created_at
+    team_members {
+      id
+      order
+      pokemon {
+        id
+        pokedex_id
+        name
+        slug
+        sprite
+        types {
+          type_id
+          type {
+            id
+            name
+            slug
+          }
+        }
+      }
+    }
+  }
+}
