@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useState } from 'react';
 import { CenteredRow } from '../CenteredRow';
 import { CtaButton } from '../Cta';
 import { ErrorMessage } from '../ErrorMessage';
@@ -8,32 +7,56 @@ import { LoadingIcon } from '../LoadingIcon';
 import { TeamView } from '../TeamView';
 import { StickyBar } from '../StickyBar';
 import { Pokemon, Teams } from '~/generated/graphql';
+import { useDebouncedEffect } from '~/hooks/useDebouncedEffect';
 
 export type TeamBuilderProps = {
   allPokemon: Pokemon[];
-  team?: Teams;
+  team: Teams;
   loading?: boolean;
   error?: string;
+  updateTeam?: (name: string) => void;
+};
+
+const TeamNameInput: FunctionComponent<{
+  value?: string;
+  handleChange?: (value: string) => void;
+}> = ({ value, handleChange }) => {
+  const [teamName, setTeamName] = useState(value ?? '');
+
+  useDebouncedEffect(
+    () => {
+      if (teamName && teamName !== value) {
+        handleChange?.(teamName);
+      }
+    },
+    [teamName, value],
+    1000
+  );
+
+  return (
+    <GiantInput
+      aria-label="Choose a team name"
+      placeholder="Choose a team name"
+      value={teamName}
+      onChange={e => setTeamName(e.currentTarget.value)}
+    />
+  );
 };
 
 export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
   allPokemon,
   team,
   loading,
-  error
+  error,
+  updateTeam
 }) => {
   return (
     <>
       <StickyBar>
         {!loading ? (
-          <>
-            <CtaButton type="button" key="save" size="small" disabled>
-              Save team
-            </CtaButton>
-            <CtaButton type="button" key="delete" size="small" disabled>
-              Delete team
-            </CtaButton>
-          </>
+          <CtaButton type="button" key="delete" size="small" disabled>
+            Delete team
+          </CtaButton>
         ) : null}
 
         {!!error && (
@@ -44,16 +67,10 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
       </StickyBar>
 
       <CenteredRow stackVertically>
-        <GiantInput
-          aria-label="Choose a team name"
-          placeholder="Choose a team name"
-          defaultValue={team?.name ?? ''}
-          disabled
-        />
+        <TeamNameInput value={team?.name} handleChange={updateTeam} />
       </CenteredRow>
 
       <TeamView
-        updateTeamMembers={() => {}}
         allPokemon={allPokemon}
         initialTeamMembers={team?.team_members}
       />

@@ -44,10 +44,3 @@ export default {
 export const WithTeam = (args: TeamBuilderProps): JSX.Element => (
   <TeamBuilder {...args} />
 );
-
-export const WithEmptyTeam = (args: TeamBuilderProps): JSX.Element => (
-  <TeamBuilder {...args} />
-);
-WithEmptyTeam.args = {
-  team: undefined
-};
