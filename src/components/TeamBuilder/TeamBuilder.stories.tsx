@@ -14,7 +14,7 @@ export default {
   args: {
     team: {
       id: '1',
-      created_at: 1607813654,
+      created_at: '2020-12-12T22:50:59.766899+00:00',
       name: 'My super team!',
       team_members: [
         {

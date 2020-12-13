@@ -1233,56 +1233,56 @@ export type Uuid_Comparison_Exp = {
   _nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
-export type AllPokemonQueryVariables = Exact<{ [key: string]: never; }>;
+export type AllTeamsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllPokemonQuery = (
+export type AllTeamsQuery = (
   { __typename?: 'query_root' }
-  & { pokemon: Array<(
-    { __typename?: 'pokemon' }
-    & Pick<Pokemon, 'id' | 'name' | 'slug' | 'pokedex_id' | 'sprite'>
-    & { types: Array<(
-      { __typename?: 'pokemon_type' }
-      & { type: (
-        { __typename?: 'types' }
-        & Pick<Types, 'name' | 'slug'>
-      ) }
-    )>, learnable_moves: Array<(
-      { __typename?: 'pokemon_move' }
-      & { move: (
-        { __typename?: 'moves' }
-        & Pick<Moves, 'name' | 'slug'>
-        & { type: (
-          { __typename?: 'types' }
-          & Pick<Types, 'name' | 'slug'>
-        ) }
+  & { teams: Array<(
+    { __typename?: 'teams' }
+    & Pick<Teams, 'id' | 'name' | 'created_at'>
+    & { team_members: Array<(
+      { __typename?: 'team_member' }
+      & Pick<Team_Member, 'id' | 'order'>
+      & { pokemon: (
+        { __typename?: 'pokemon' }
+        & Pick<Pokemon, 'id' | 'pokedex_id' | 'name' | 'slug' | 'sprite'>
+        & { types: Array<(
+          { __typename?: 'pokemon_type' }
+          & Pick<Pokemon_Type, 'type_id'>
+          & { type: (
+            { __typename?: 'types' }
+            & Pick<Types, 'id' | 'name' | 'slug'>
+          ) }
+        )> }
       ) }
     )> }
   )> }
 );
 
 
-export const AllPokemonDocument = gql`
-    query AllPokemon {
-  pokemon(order_by: {pokedex_id: asc_nulls_first}) {
+export const AllTeamsDocument = gql`
+    query AllTeams {
+  teams(order_by: {created_at: desc_nulls_last}) {
     id
     name
-    slug
-    pokedex_id
-    sprite
-    types {
-      type {
+    created_at
+    team_members {
+      id
+      order
+      pokemon {
+        id
+        pokedex_id
         name
         slug
-      }
-    }
-    learnable_moves {
-      move {
-        name
-        slug
-        type {
-          name
-          slug
+        sprite
+        types {
+          type_id
+          type {
+            id
+            name
+            slug
+          }
         }
       }
     }
@@ -1290,6 +1290,6 @@ export const AllPokemonDocument = gql`
 }
     `;
 
-export function useAllPokemonQuery(options: Omit<Urql.UseQueryArgs<AllPokemonQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<AllPokemonQuery>({ query: AllPokemonDocument, ...options });
+export function useAllTeamsQuery(options: Omit<Urql.UseQueryArgs<AllTeamsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<AllTeamsQuery>({ query: AllTeamsDocument, ...options });
 };

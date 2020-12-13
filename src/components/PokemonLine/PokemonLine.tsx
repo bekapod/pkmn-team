@@ -7,7 +7,10 @@ import { InlineList } from '../InlineList';
 import { TypeTag } from '../TypeTag';
 
 export type PokemonLineProps = {
-  pokemon: Pokemon;
+  pokemon: Pick<
+    Pokemon,
+    'id' | 'pokedex_id' | 'name' | 'slug' | 'sprite' | 'types'
+  >;
   outdent?: string;
 };
 

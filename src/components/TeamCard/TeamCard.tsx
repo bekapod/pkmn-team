@@ -2,7 +2,7 @@ import dateFormat from 'dateformat';
 import { compose, flatMap, get, isNil, map, reject } from 'lodash/fp';
 import Link from 'next/link';
 import { FunctionComponent } from 'react';
-import { Pokemon, Teams } from '~/generated/graphql';
+import { Pokemon, Teams, Team_Member } from '~/generated/graphql';
 import {
   CardContent,
   CardHeader,
@@ -15,7 +15,15 @@ import { PokemonLine } from '../PokemonLine';
 
 const getAllTypes = compose(flatMap(get('type')), flatMap(get('types')));
 
-export type TeamCardProps = Teams;
+type TeamMember = Pick<Team_Member, 'id' | 'order'> & {
+  pokemon: Pick<
+    Pokemon,
+    'id' | 'pokedex_id' | 'name' | 'slug' | 'sprite' | 'types'
+  >;
+};
+export type TeamCardProps = Pick<Teams, 'id' | 'name' | 'created_at'> & {
+  team_members: TeamMember[];
+};
 
 export const TeamCard: FunctionComponent<TeamCardProps> = ({
   id,

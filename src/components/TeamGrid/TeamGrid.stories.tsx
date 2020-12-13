@@ -9,7 +9,7 @@ const pokemon: Pokemon[] = [charmander, pikachu, haunter];
 const team: Teams = {
   id: '123',
   name: 'My super team!',
-  created_at: 1607813654000,
+  created_at: '2020-12-12T22:50:59.766899+00:00',
   team_members: [
     {
       id: '1',

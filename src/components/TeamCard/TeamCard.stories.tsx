@@ -10,26 +10,23 @@ export default {
   component: TeamCard,
   args: {
     id: '123',
-    created_at: 1607813654,
+    created_at: '2020-12-12T22:50:59.766899+00:00',
     name: 'My super team!',
     team_members: [
       {
         id: '1',
         order: 1,
-        pokemon: pokemon[0],
-        learned_moves: []
+        pokemon: pokemon[0]
       },
       {
         id: '2',
         order: 2,
-        pokemon: pokemon[1],
-        learned_moves: []
+        pokemon: pokemon[1]
       },
       {
         id: '3',
         order: 3,
-        pokemon: pokemon[2],
-        learned_moves: []
+        pokemon: pokemon[2]
       }
     ]
   }
