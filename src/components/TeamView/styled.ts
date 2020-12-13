@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro';
-import { baseTransition, spaceUpOut } from '~lib/animations';
-import { media } from '~lib/media';
+import { baseTransition, spaceUpOut } from '~/lib/animations';
+import { media } from '~/lib/media';
 
 type TabItemProps = {
   'aria-selected': boolean;

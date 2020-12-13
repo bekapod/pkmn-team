@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro';
 import { TextInput, TextInputProps } from '../TextInput';
-import { media } from '~lib/media';
+import { media } from '~/lib/media';
 
 export type GiantInputProps = TextInputProps & {
   fullWidth?: boolean;

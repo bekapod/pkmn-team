@@ -23,8 +23,7 @@
     "isolatedModules": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./src/*"],
-      "~lib/*": ["./src/lib/*"]
+      "~/*": ["./src/*"]
     }
   },
   "exclude": [

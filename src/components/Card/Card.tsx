@@ -1,7 +1,7 @@
 import styled from 'styled-components/macro';
 import { Types } from '~/generated/graphql';
-import { zoomIn } from '~lib/animations';
-import { getTypeGradient } from '~lib/gradients';
+import { zoomIn } from '~/lib/animations';
+import { getTypeGradient } from '~/lib/gradients';
 
 type CardHeaderProps = {
   types: Pick<Types, 'name' | 'slug'>[];

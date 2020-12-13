@@ -2,7 +2,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components/macro';
 import { Pokemon, Moves, Team_Member } from '~/generated/graphql';
-import { formatPokemonName, sortBySlug } from '~lib/general';
+import { formatPokemonName, sortBySlug } from '~/lib/general';
 import { CardContent, CardHeader, CardWrapper, CardHeading } from '../Card';
 import { InlineList } from '../InlineList';
 import { TypeTag } from '../TypeTag';

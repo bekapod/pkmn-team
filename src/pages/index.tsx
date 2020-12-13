@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { withUrqlClient } from 'next-urql';
-import { useAllTeamsQuery } from '../generated/graphql';
-import { createClient } from '../lib/client';
+import { useAllTeamsQuery } from '~/generated/graphql';
+import { createClient } from '~/lib/client';
 import { FullWidthContainer } from '~/components/FullWidthContainer';
 import { Heading } from '~/components/Heading';
 import { TeamGrid } from '~/components/TeamGrid';

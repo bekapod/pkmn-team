@@ -3,8 +3,8 @@ import { always, cond, equals, T } from 'lodash/fp';
 import styled from 'styled-components/macro';
 import { css } from 'styled-components';
 import type { StyledComponent } from 'styled-components';
-import { radialIn } from '~lib/animations';
-import { media } from '~lib/media';
+import { radialIn } from '~/lib/animations';
+import { media } from '~/lib/media';
 
 export type CtaProps = {
   secondary?: boolean;
