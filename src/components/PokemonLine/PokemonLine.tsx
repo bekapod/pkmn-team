@@ -1,8 +1,8 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components/macro';
 import { Pokemon, Pokemon_Type } from '~/generated/graphql';
-import { formatPokemonName, sortBySlug } from '~lib/general';
-import { getTypeGradient } from '~lib/gradients';
+import { formatPokemonName, sortBySlug } from '~/lib/general';
+import { getTypeGradient } from '~/lib/gradients';
 import { InlineList } from '../InlineList';
 import { TypeTag } from '../TypeTag';
 

@@ -15,6 +15,7 @@ import {
 import wait from 'waait';
 import { BiTrash as Trash } from 'react-icons/bi';
 import { v4 as uuid } from 'uuid';
+import useDeepCompareEffect from 'use-deep-compare-effect';
 import { PokemonSearch } from '../PokemonSearch';
 import { CtaButton } from '../Cta';
 import { MoveList } from '../MoveList';
@@ -62,6 +63,13 @@ export const TeamView: FunctionComponent<TeamViewProps> = ({
 
     isInitialValue.current = false;
   }, [teamMembers, updateTeamMembers]);
+
+  useDeepCompareEffect(() => {
+    dispatch({
+      type: TeamMemberActionType.ResetTeamMembers,
+      payload: initialTeamMembers
+    });
+  }, [initialTeamMembers]);
 
   const onDragEnd = useCallback(
     (result: DropResult) => {

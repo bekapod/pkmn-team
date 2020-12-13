@@ -8,7 +8,7 @@ export const StickyBar = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: var(--spacing-xl);
+  height: var(--spacing-xxl);
   margin-top: calc(var(--spacing-lg) * -1);
   margin-bottom: var(--spacing-xl);
   > * {

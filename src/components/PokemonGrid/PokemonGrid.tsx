@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro';
-import { media } from '~lib/media';
+import { media } from '~/lib/media';
 
 export const PokemonGrid = styled.div`
   display: grid;

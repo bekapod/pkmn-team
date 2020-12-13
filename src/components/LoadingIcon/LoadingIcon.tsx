@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components/macro';
-import { pulseFade, spin } from '~lib/animations';
+import { pulseFade, spin } from '~/lib/animations';
 
 export type LoadingIconProps = {
   spinner?: boolean;

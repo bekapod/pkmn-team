@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro';
-import { baseTransition, spaceUpOut } from '~lib/animations';
-import { media } from '~lib/media';
+import { baseTransition, spaceUpOut } from '~/lib/animations';
+import { media } from '~/lib/media';
 
 type TabItemProps = {
   'aria-selected': boolean;
@@ -57,7 +57,7 @@ export const AddButton = styled.span`
 
 export const TabBar = styled.div`
   margin-top: calc(var(--spacing-xs) * -1);
-  [data-react-beautiful-dnd-droppable] {
+  [data-rbd-droppable-id] {
     overflow-x: auto;
   }
 `;

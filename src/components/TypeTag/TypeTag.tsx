@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro';
-import { getTypeColor } from '~lib/general';
+import { getTypeColor } from '~/lib/general';
 
 export type TypeTagProps = {
   type: string;
