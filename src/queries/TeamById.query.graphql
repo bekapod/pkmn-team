@@ -1,26 +1,5 @@
 query TeamById($id: uuid!) {
   teamById(id: $id) {
-    id
-    name
-    created_at
-    team_members {
-      id
-      order
-      pokemon {
-        ...PokemonFragment
-        learnable_moves {
-          move_id
-          move {
-            ...MoveFragment
-          }
-        }
-      }
-      learned_moves {
-        order
-        move {
-          ...MoveFragment
-        }
-      }
-    }
+    ...TeamFragment
   }
 }

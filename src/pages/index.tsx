@@ -10,7 +10,7 @@ import { TeamCard } from '~/components/TeamCard';
 function Home(): JSX.Element {
   const [{ data }] = useAllTeamsQuery();
   return (
-    <div>
+    <>
       <Head>
         <title>Pkmn Team</title>
         <link rel="icon" href="/favicon.ico" />
@@ -33,7 +33,7 @@ function Home(): JSX.Element {
           ))}
         </TeamGrid>
       </FullWidthContainer>
-    </div>
+    </>
   );
 }
 

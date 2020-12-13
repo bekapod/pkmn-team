@@ -1,11 +1,16 @@
 import Head from 'next/head';
 import type { NextComponentType, NextPageContext } from 'next';
 import { NextUrqlPageContext, withUrqlClient } from 'next-urql';
-import { useAllPokemonQuery, useTeamByIdQuery } from '~/generated/graphql';
+import {
+  useAllPokemonQuery,
+  useTeamByIdQuery,
+  useUpdateTeamMutation
+} from '~/generated/graphql';
 import { createClient } from '~/lib/client';
 import { FullWidthContainer } from '~/components/FullWidthContainer';
 import { Heading } from '~/components/Heading';
 import { TeamBuilder } from '~/components/TeamBuilder';
+import { useCallback, useMemo } from 'react';
 
 type Props = {
   id?: string;
@@ -16,15 +21,33 @@ const Team: NextComponentType<
   Props,
   Props
 > = ({ id }) => {
-  const [{ data: teamData, fetching: teamFetching }] = useTeamByIdQuery({
-    variables: { id },
-    pause: !id
-  });
-  const [{ data: allPokemonData }] = useAllPokemonQuery({ pause: !id });
+  const teamByIdOptions = useMemo(() => ({ variables: { id }, pause: !id }), [
+    id
+  ]);
+  const [{ data: teamData }] = useTeamByIdQuery(teamByIdOptions);
+
+  const allPokemonOptions = useMemo(() => ({ pause: !id }), [id]);
+  const [{ data: allPokemonData }] = useAllPokemonQuery(allPokemonOptions);
+
+  const [
+    { fetching: updateTeamFetching },
+    updateTeam
+  ] = useUpdateTeamMutation();
+
   const team = teamData?.teamById ?? undefined;
   const pokemon = allPokemonData?.pokemon;
+
+  const updateTeamHandler = useCallback(
+    (name: string) => {
+      if (team?.id && team?.name !== name) {
+        updateTeam({ id: team?.id, name });
+      }
+    },
+    [team?.id, team?.name, updateTeam]
+  );
+
   return (
-    <div>
+    <>
       <Head>
         <title>{team?.name} | Team | Pkmn Team</title>
         <link rel="icon" href="/favicon.ico" />
@@ -32,15 +55,16 @@ const Team: NextComponentType<
       </Head>
       <Heading>Team: {team?.name}</Heading>
       <FullWidthContainer>
-        {!!pokemon && (
+        {!!pokemon && !!team && (
           <TeamBuilder
             allPokemon={pokemon}
             team={team}
-            loading={teamFetching}
+            loading={updateTeamFetching}
+            updateTeam={updateTeamHandler}
           />
         )}
       </FullWidthContainer>
-    </div>
+    </>
   );
 };
 

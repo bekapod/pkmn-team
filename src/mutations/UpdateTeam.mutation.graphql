@@ -1,0 +1,5 @@
+mutation UpdateTeam($id: uuid!, $name: String!) {
+  updateTeam(pk_columns: { id: $id }, _set: { name: $name }) {
+    ...TeamFragment
+  }
+}

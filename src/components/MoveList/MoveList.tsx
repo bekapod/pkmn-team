@@ -2,7 +2,6 @@ import {
   FunctionComponent,
   HTMLAttributes,
   useCallback,
-  useLayoutEffect,
   useRef,
   useState
 } from 'react';
@@ -169,10 +168,6 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
       })
     );
   }, []);
-
-  useLayoutEffect(() => {
-    listRef.current?.resetAfterIndex(0, true);
-  });
 
   return (
     <div ref={ref as never}>

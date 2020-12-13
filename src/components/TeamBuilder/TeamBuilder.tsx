@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useCallback } from 'react';
+import { debounce } from 'lodash';
 import { CenteredRow } from '../CenteredRow';
 import { CtaButton } from '../Cta';
 import { ErrorMessage } from '../ErrorMessage';
@@ -11,29 +11,32 @@ import { Pokemon, Teams } from '~/generated/graphql';
 
 export type TeamBuilderProps = {
   allPokemon: Pokemon[];
-  team?: Teams;
+  team: Teams;
   loading?: boolean;
   error?: string;
+  updateTeam?: (name: string) => void;
 };
 
 export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
   allPokemon,
   team,
   loading,
-  error
+  error,
+  updateTeam
 }) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debouncedUpdateTeam = useCallback(
+    debounce(nextValue => updateTeam?.(nextValue), 1000),
+    [updateTeam]
+  );
+
   return (
     <>
       <StickyBar>
         {!loading ? (
-          <>
-            <CtaButton type="button" key="save" size="small" disabled>
-              Save team
-            </CtaButton>
-            <CtaButton type="button" key="delete" size="small" disabled>
-              Delete team
-            </CtaButton>
-          </>
+          <CtaButton type="button" key="delete" size="small" disabled>
+            Delete team
+          </CtaButton>
         ) : null}
 
         {!!error && (
@@ -47,13 +50,12 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
         <GiantInput
           aria-label="Choose a team name"
           placeholder="Choose a team name"
-          defaultValue={team?.name ?? ''}
-          disabled
+          defaultValue={team?.name}
+          onChange={e => debouncedUpdateTeam?.(e.currentTarget.value)}
         />
       </CenteredRow>
 
       <TeamView
-        updateTeamMembers={() => {}}
         allPokemon={allPokemon}
         initialTeamMembers={team?.team_members}
       />
