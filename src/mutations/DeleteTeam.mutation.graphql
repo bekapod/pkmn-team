@@ -1,0 +1,5 @@
+mutation DeleteTeam($id: uuid!) {
+  deleteTeam(id: $id) {
+    ...TeamFragment
+  }
+}
