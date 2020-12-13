@@ -1,11 +1,13 @@
 import { Dispatch, useReducer } from 'react';
+import isEqual from 'react-fast-compare';
 import { Team_Member } from '~/generated/graphql';
 import { reorder } from './helpers';
 
 export enum TeamMemberActionType {
   AddTeamMember = 'add_team_member',
   RemoveTeamMember = 'remove_team_member',
-  ReorderTeamMember = 'reorder_team_member'
+  ReorderTeamMember = 'reorder_team_member',
+  ResetTeamMembers = 'reset_team_members'
 }
 
 type AddTeamMemberAction = {
@@ -18,7 +20,7 @@ type RemoveTeamMemberAction = {
   payload: Team_Member;
 };
 
-type ReorderTeamMember = {
+type ReorderTeamMemberAction = {
   type: TeamMemberActionType.ReorderTeamMember;
   payload: {
     sourceIndex: number;
@@ -26,7 +28,16 @@ type ReorderTeamMember = {
   };
 };
 
-type Action = AddTeamMemberAction | RemoveTeamMemberAction | ReorderTeamMember;
+type ResetTeamMembersAction = {
+  type: TeamMemberActionType.ResetTeamMembers;
+  payload: Team_Member[];
+};
+
+type Action =
+  | AddTeamMemberAction
+  | RemoveTeamMemberAction
+  | ReorderTeamMemberAction
+  | ResetTeamMembersAction;
 
 const reducer = (state: Team_Member[], action: Action) => {
   switch (action.type) {
@@ -43,6 +54,8 @@ const reducer = (state: Team_Member[], action: Action) => {
         ...member,
         order: index + 1
       }));
+    case TeamMemberActionType.ResetTeamMembers:
+      return isEqual(state, action.payload) ? state : action.payload;
     default:
       return state;
   }

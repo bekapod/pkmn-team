@@ -1,11 +1,11 @@
 import Head from 'next/head';
+import type { NextComponentType, NextPageContext } from 'next';
 import { NextUrqlPageContext, withUrqlClient } from 'next-urql';
-import { useTeamByIdQuery } from '~/generated/graphql';
+import { useAllPokemonQuery, useTeamByIdQuery } from '~/generated/graphql';
 import { createClient } from '~/lib/client';
 import { FullWidthContainer } from '~/components/FullWidthContainer';
 import { Heading } from '~/components/Heading';
-import { TeamCard } from '~/components/TeamCard';
-import { NextComponentType, NextPageContext } from 'next';
+import { TeamBuilder } from '~/components/TeamBuilder';
 
 type Props = {
   id?: string;
@@ -16,8 +16,13 @@ const Team: NextComponentType<
   Props,
   Props
 > = ({ id }) => {
-  const [{ data }] = useTeamByIdQuery({ variables: { id }, pause: !id });
-  const team = data?.teamById;
+  const [{ data: teamData, fetching: teamFetching }] = useTeamByIdQuery({
+    variables: { id },
+    pause: !id
+  });
+  const [{ data: allPokemonData }] = useAllPokemonQuery({ pause: !id });
+  const team = teamData?.teamById ?? undefined;
+  const pokemon = allPokemonData?.pokemon;
   return (
     <div>
       <Head>
@@ -27,7 +32,13 @@ const Team: NextComponentType<
       </Head>
       <Heading>Team: {team?.name}</Heading>
       <FullWidthContainer>
-        {team ? <TeamCard {...team} /> : null}
+        {!!pokemon && (
+          <TeamBuilder
+            allPokemon={pokemon}
+            team={team}
+            loading={teamFetching}
+          />
+        )}
       </FullWidthContainer>
     </div>
   );
