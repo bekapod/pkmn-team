@@ -10,7 +10,7 @@ import styled from 'styled-components/macro';
 import { VariableSizeList as List } from 'react-window';
 import classNames from 'classnames';
 import { MoveLine } from '../MoveLine';
-import { PokemonMove, TeamMember, TeamMemberMove } from '~/generated/graphql';
+import { Moves, Team_Member, Team_Member_Move } from '~/generated/graphql';
 import { useContainerQuery } from '~/hooks/useContainerQuery';
 import { CtaButton } from '../Cta';
 import {
@@ -25,16 +25,16 @@ import {
 } from 'lodash/fp';
 
 export type MoveListProps = {
-  moves: PokemonMove[];
+  moves: Moves[];
   highlightLearnedMoves?: boolean;
   visibleItems?: number;
-  teamMember?: TeamMember;
-  addMoveToTeamMember: (move: PokemonMove) => void;
-  removeMoveFromTeamMember: (move: TeamMemberMove) => void;
+  teamMember?: Team_Member;
+  addMoveToTeamMember: (move: Moves) => void;
+  removeMoveFromTeamMember: (move: Team_Member_Move) => void;
 };
 
 type RowProps = {
-  data: PokemonMove[];
+  data: Moves[];
   index: number;
   style: HTMLAttributes<HTMLElement>['style'];
 };
@@ -48,11 +48,11 @@ const StyledList = styled(List)`
 `;
 
 const getTeamMemberMove = (
-  teamMember: TeamMember,
-  move: PokemonMove
-): TeamMemberMove | undefined =>
-  teamMember.learnedMoves.find(
-    teamMemberMove => teamMemberMove.move.key === move.key
+  teamMember: Team_Member,
+  move: Moves
+): Team_Member_Move | undefined =>
+  teamMember.learned_moves.find(
+    teamMemberMove => teamMemberMove.move.id === move.id
   );
 
 const Row = ({
@@ -63,12 +63,12 @@ const Row = ({
   addMoveToTeamMember,
   removeMoveFromTeamMember
 }: {
-  teamMember?: TeamMember;
+  teamMember?: Team_Member;
   highlightLearnedMoves: boolean;
   itemStates: boolean[];
   onItemStateChange: (index: number, isOpen: boolean) => void;
-  addMoveToTeamMember: (move: PokemonMove) => void;
-  removeMoveFromTeamMember: (move: TeamMemberMove) => void;
+  addMoveToTeamMember: (move: Moves) => void;
+  removeMoveFromTeamMember: (move: Team_Member_Move) => void;
 }) => ({ data, index, style }: RowProps): JSX.Element => {
   const move = data[index];
   const teamMemberMove = teamMember && getTeamMemberMove(teamMember, move);
@@ -106,7 +106,7 @@ const Row = ({
 
   return (
     <MoveLine
-      {...move.move}
+      {...move}
       isOpen={itemStates[index]}
       isHighlighted={highlightLearnedMoves && !!teamMemberMove}
       style={{

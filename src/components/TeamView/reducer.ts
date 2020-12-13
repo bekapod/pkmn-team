@@ -1,5 +1,5 @@
 import { Dispatch, useReducer } from 'react';
-import { TeamMember } from '~/generated/graphql';
+import { Team_Member } from '~/generated/graphql';
 import { reorder } from './helpers';
 
 export enum TeamMemberActionType {
@@ -10,12 +10,12 @@ export enum TeamMemberActionType {
 
 type AddTeamMemberAction = {
   type: TeamMemberActionType.AddTeamMember;
-  payload: TeamMember;
+  payload: Team_Member;
 };
 
 type RemoveTeamMemberAction = {
   type: TeamMemberActionType.RemoveTeamMember;
-  payload: TeamMember;
+  payload: Team_Member;
 };
 
 type ReorderTeamMember = {
@@ -28,7 +28,7 @@ type ReorderTeamMember = {
 
 type Action = AddTeamMemberAction | RemoveTeamMemberAction | ReorderTeamMember;
 
-const reducer = (state: TeamMember[], action: Action) => {
+const reducer = (state: Team_Member[], action: Action) => {
   switch (action.type) {
     case TeamMemberActionType.AddTeamMember:
       return [...state, action.payload];
@@ -49,7 +49,7 @@ const reducer = (state: TeamMember[], action: Action) => {
 };
 
 export function useTeamMembersReducer(
-  teamMembers: TeamMember[]
-): [TeamMember[], Dispatch<Action>] {
+  teamMembers: Team_Member[]
+): [Team_Member[], Dispatch<Action>] {
   return useReducer(reducer, teamMembers);
 }

@@ -22,8 +22,9 @@ export const sortBySlug = <T extends { slug: string }>(types: T[]): T[] =>
     return -1;
   });
 
-export const capitalizePokemonName = (pokemon: Pokemon): string =>
+export const capitalizePokemonName = (pokemon: Pick<Pokemon, 'name'>): string =>
   capitalize(pokemon.name);
 
-export const formatPokemonName = (pokemon: Pokemon): string =>
-  `#${pokemon.pokedexId} ${capitalizePokemonName(pokemon)}`;
+export const formatPokemonName = (
+  pokemon: Pick<Pokemon, 'pokedex_id' | 'name'>
+): string => `#${pokemon.pokedex_id} ${capitalizePokemonName(pokemon)}`;

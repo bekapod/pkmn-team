@@ -1,18 +1,12 @@
 import { Meta } from '@storybook/react/types-6-0';
+import { pikachu } from '~/mocks/Pokemon';
 import { PokemonLine, PokemonLineProps } from './PokemonLine';
 
 export default {
   title: 'Components/PokemonLine',
   component: PokemonLine,
   args: {
-    pokemon: {
-      _id: '25',
-      name: 'Pikachu',
-      slug: 'pikachu',
-      pokedexId: 25,
-      sprite: '25.png',
-      types: [{ name: 'Electric', slug: 'electric' }]
-    }
+    pokemon: pikachu
   }
 } as Meta<PokemonLineProps>;
 

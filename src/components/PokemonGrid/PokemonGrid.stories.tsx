@@ -1,4 +1,5 @@
 import { Meta } from '@storybook/react/types-6-0';
+import { charmander, haunter, pikachu } from '~/mocks/Pokemon';
 import { PokemonCard } from '../PokemonCard';
 import { PokemonGrid } from './PokemonGrid';
 
@@ -9,110 +10,10 @@ export default {
 
 export const Standard = (): JSX.Element => (
   <PokemonGrid>
-    <PokemonCard
-      pokemon={{
-        _id: '25',
-        _ts: '',
-        learnableMoves: [],
-        name: 'Pikachu',
-        slug: 'pikachu',
-        pokedexId: 25,
-        sprite: '25.png',
-        types: [
-          {
-            name: 'Electric',
-            slug: 'electric',
-            _id: '',
-            _ts: '',
-            moves: [],
-            pokemon: []
-          }
-        ]
-      }}
-    />
-    <PokemonCard
-      pokemon={{
-        _id: '25',
-        _ts: '',
-        learnableMoves: [],
-        name: 'Pikachu',
-        slug: 'pikachu',
-        pokedexId: 25,
-        sprite: '25.png',
-        types: [
-          {
-            name: 'Electric',
-            slug: 'electric',
-            _id: '',
-            _ts: '',
-            moves: [],
-            pokemon: []
-          }
-        ]
-      }}
-    />
-    <PokemonCard
-      pokemon={{
-        _id: '25',
-        _ts: '',
-        learnableMoves: [],
-        name: 'Pikachu',
-        slug: 'pikachu',
-        pokedexId: 25,
-        sprite: '25.png',
-        types: [
-          {
-            name: 'Electric',
-            slug: 'electric',
-            _id: '',
-            _ts: '',
-            moves: [],
-            pokemon: []
-          }
-        ]
-      }}
-    />
-    <PokemonCard
-      pokemon={{
-        _id: '25',
-        _ts: '',
-        learnableMoves: [],
-        name: 'Pikachu',
-        slug: 'pikachu',
-        pokedexId: 25,
-        sprite: '25.png',
-        types: [
-          {
-            name: 'Electric',
-            slug: 'electric',
-            _id: '',
-            _ts: '',
-            moves: [],
-            pokemon: []
-          }
-        ]
-      }}
-    />
-    <PokemonCard
-      pokemon={{
-        _id: '25',
-        _ts: '',
-        learnableMoves: [],
-        name: 'Pikachu',
-        slug: 'pikachu',
-        pokedexId: 25,
-        sprite: '25.png',
-        types: [
-          {
-            name: 'Electric',
-            slug: 'electric',
-            _id: '',
-            _ts: '',
-            moves: [],
-            pokemon: []
-          }
-        ]
-      }}
-    />
+    <PokemonCard pokemon={pikachu} />
+    <PokemonCard pokemon={haunter} />
+    <PokemonCard pokemon={charmander} />
+    <PokemonCard pokemon={pikachu} />
+    <PokemonCard pokemon={haunter} />
   </PokemonGrid>
 );

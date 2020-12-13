@@ -97,6 +97,10 @@ export const GlobalStyles = createGlobalStyle`
     color: var(--color-gray-dark);
   }
 
+  body {
+    margin: 0;
+  }
+
   p {
     margin: var(--spacing-md) 0;
     font-size: var(--font-size-base);

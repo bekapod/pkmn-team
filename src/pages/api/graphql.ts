@@ -8,14 +8,12 @@ export const config = {
 };
 
 const proxy = createProxyMiddleware({
-  target: process.env.FAUNA_GRAPHQL_ENDPOINT,
-  headers: {
-    Authorization: `Bearer ${process.env.FAUNA_TOKEN}`
-  },
+  target: process.env.INTERNAL_GRAPHQL_ENDPOINT,
   pathRewrite: {
     '^/api': ''
   },
-  logLevel: 'debug'
+  changeOrigin: true,
+  logLevel: process.env.NODE_ENV === 'development' ? 'debug' : 'info'
 });
 
 export default proxy;

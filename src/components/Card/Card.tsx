@@ -1,10 +1,10 @@
 import styled from 'styled-components/macro';
-import { Type } from '~/generated/graphql';
+import { Types } from '~/generated/graphql';
 import { zoomIn } from '~lib/animations';
 import { getTypeGradient } from '~lib/gradients';
 
 type CardHeaderProps = {
-  types: Pick<Type, 'name' | 'slug'>[];
+  types: Pick<Types, 'name' | 'slug'>[];
 };
 
 export const CardLink = styled.a`
