@@ -39,9 +39,11 @@ const Team: NextComponentType<
 
   const updateTeamHandler = useCallback(
     (name: string) => {
-      if (team?.id) updateTeam({ id: team?.id, name });
+      if (team?.id && team?.name !== name) {
+        updateTeam({ id: team?.id, name });
+      }
     },
-    [team?.id, updateTeam]
+    [team?.id, team?.name, updateTeam]
   );
 
   return (

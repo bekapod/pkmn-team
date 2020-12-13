@@ -1,4 +1,5 @@
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent, useCallback } from 'react';
+import { debounce } from 'lodash';
 import { CenteredRow } from '../CenteredRow';
 import { CtaButton } from '../Cta';
 import { ErrorMessage } from '../ErrorMessage';
@@ -7,7 +8,6 @@ import { LoadingIcon } from '../LoadingIcon';
 import { TeamView } from '../TeamView';
 import { StickyBar } from '../StickyBar';
 import { Pokemon, Teams } from '~/generated/graphql';
-import { useDebouncedEffect } from '~/hooks/useDebouncedEffect';
 
 export type TeamBuilderProps = {
   allPokemon: Pokemon[];
@@ -17,32 +17,6 @@ export type TeamBuilderProps = {
   updateTeam?: (name: string) => void;
 };
 
-const TeamNameInput: FunctionComponent<{
-  value?: string;
-  handleChange?: (value: string) => void;
-}> = ({ value, handleChange }) => {
-  const [teamName, setTeamName] = useState(value ?? '');
-
-  useDebouncedEffect(
-    () => {
-      if (teamName && teamName !== value) {
-        handleChange?.(teamName);
-      }
-    },
-    [teamName, value],
-    1000
-  );
-
-  return (
-    <GiantInput
-      aria-label="Choose a team name"
-      placeholder="Choose a team name"
-      value={teamName}
-      onChange={e => setTeamName(e.currentTarget.value)}
-    />
-  );
-};
-
 export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
   allPokemon,
   team,
@@ -50,6 +24,12 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
   error,
   updateTeam
 }) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debouncedUpdateTeam = useCallback(
+    debounce(nextValue => updateTeam?.(nextValue), 1000),
+    [updateTeam]
+  );
+
   return (
     <>
       <StickyBar>
@@ -67,7 +47,12 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
       </StickyBar>
 
       <CenteredRow stackVertically>
-        <TeamNameInput value={team?.name} handleChange={updateTeam} />
+        <GiantInput
+          aria-label="Choose a team name"
+          placeholder="Choose a team name"
+          defaultValue={team?.name}
+          onChange={e => debouncedUpdateTeam?.(e.currentTarget.value)}
+        />
       </CenteredRow>
 
       <TeamView
