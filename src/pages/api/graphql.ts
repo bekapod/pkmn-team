@@ -12,7 +12,8 @@ const proxy = createProxyMiddleware({
   pathRewrite: {
     '^/api': ''
   },
-  logLevel: 'debug'
+  changeOrigin: true,
+  logLevel: process.env.NODE_ENV === 'development' ? 'debug' : 'info'
 });
 
 export default proxy;
