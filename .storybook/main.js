@@ -17,6 +17,7 @@ module.exports = {
         ...config,
         plugins: [
           ...config.plugins,
+          '@babel/plugin-transform-react-jsx',
           'babel-plugin-styled-components',
           [
             'babel-plugin-module-resolver',
