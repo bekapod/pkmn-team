@@ -1,0 +1,8 @@
+mutation UpdateTeam($id: uuid!, $name: String!) {
+  updateTeam(
+    pk_columns: { id: "0d1b29c8-c16f-42a2-8747-285906fd9f7c" }
+    _set: { name: $name }
+  ) {
+    ...TeamFragment
+  }
+}

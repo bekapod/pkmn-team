@@ -1233,6 +1233,78 @@ export type Uuid_Comparison_Exp = {
   _nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
+export type MoveFragmentFragment = (
+  { __typename?: 'moves' }
+  & Pick<Moves, 'id' | 'slug' | 'name' | 'accuracy' | 'power' | 'pp'>
+  & { damage_class?: Maybe<(
+    { __typename?: 'damage_class' }
+    & Pick<Damage_Class, 'value'>
+  )>, type: (
+    { __typename?: 'types' }
+    & TypeFragmentFragment
+  ) }
+);
+
+export type PokemonFragmentFragment = (
+  { __typename?: 'pokemon' }
+  & Pick<Pokemon, 'id' | 'pokedex_id' | 'name' | 'slug' | 'sprite'>
+  & { types: Array<(
+    { __typename?: 'pokemon_type' }
+    & Pick<Pokemon_Type, 'type_id'>
+    & { type: (
+      { __typename?: 'types' }
+      & TypeFragmentFragment
+    ) }
+  )> }
+);
+
+export type TeamFragmentFragment = (
+  { __typename?: 'teams' }
+  & Pick<Teams, 'id' | 'name' | 'created_at'>
+  & { team_members: Array<(
+    { __typename?: 'team_member' }
+    & Pick<Team_Member, 'id' | 'order'>
+    & { pokemon: (
+      { __typename?: 'pokemon' }
+      & { learnable_moves: Array<(
+        { __typename?: 'pokemon_move' }
+        & Pick<Pokemon_Move, 'move_id'>
+        & { move: (
+          { __typename?: 'moves' }
+          & MoveFragmentFragment
+        ) }
+      )> }
+      & PokemonFragmentFragment
+    ), learned_moves: Array<(
+      { __typename?: 'team_member_move' }
+      & Pick<Team_Member_Move, 'order'>
+      & { move: (
+        { __typename?: 'moves' }
+        & MoveFragmentFragment
+      ) }
+    )> }
+  )> }
+);
+
+export type TypeFragmentFragment = (
+  { __typename?: 'types' }
+  & Pick<Types, 'id' | 'name' | 'slug'>
+);
+
+export type UpdateTeamMutationVariables = Exact<{
+  id: Scalars['uuid'];
+  name: Scalars['String'];
+}>;
+
+
+export type UpdateTeamMutation = (
+  { __typename?: 'mutation_root' }
+  & { updateTeam?: Maybe<(
+    { __typename?: 'teams' }
+    & TeamFragmentFragment
+  )> }
+);
+
 export type AllPokemonQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1271,31 +1343,6 @@ export type AllTeamsQuery = (
   )> }
 );
 
-export type MoveFragmentFragment = (
-  { __typename?: 'moves' }
-  & Pick<Moves, 'id' | 'slug' | 'name' | 'accuracy' | 'power' | 'pp'>
-  & { damage_class?: Maybe<(
-    { __typename?: 'damage_class' }
-    & Pick<Damage_Class, 'value'>
-  )>, type: (
-    { __typename?: 'types' }
-    & TypeFragmentFragment
-  ) }
-);
-
-export type PokemonFragmentFragment = (
-  { __typename?: 'pokemon' }
-  & Pick<Pokemon, 'id' | 'pokedex_id' | 'name' | 'slug' | 'sprite'>
-  & { types: Array<(
-    { __typename?: 'pokemon_type' }
-    & Pick<Pokemon_Type, 'type_id'>
-    & { type: (
-      { __typename?: 'types' }
-      & TypeFragmentFragment
-    ) }
-  )> }
-);
-
 export type TeamByIdQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
@@ -1305,36 +1352,8 @@ export type TeamByIdQuery = (
   { __typename?: 'query_root' }
   & { teamById?: Maybe<(
     { __typename?: 'teams' }
-    & Pick<Teams, 'id' | 'name' | 'created_at'>
-    & { team_members: Array<(
-      { __typename?: 'team_member' }
-      & Pick<Team_Member, 'id' | 'order'>
-      & { pokemon: (
-        { __typename?: 'pokemon' }
-        & { learnable_moves: Array<(
-          { __typename?: 'pokemon_move' }
-          & Pick<Pokemon_Move, 'move_id'>
-          & { move: (
-            { __typename?: 'moves' }
-            & MoveFragmentFragment
-          ) }
-        )> }
-        & PokemonFragmentFragment
-      ), learned_moves: Array<(
-        { __typename?: 'team_member_move' }
-        & Pick<Team_Member_Move, 'order'>
-        & { move: (
-          { __typename?: 'moves' }
-          & MoveFragmentFragment
-        ) }
-      )> }
-    )> }
+    & TeamFragmentFragment
   )> }
-);
-
-export type TypeFragmentFragment = (
-  { __typename?: 'types' }
-  & Pick<Types, 'id' | 'name' | 'slug'>
 );
 
 export const TypeFragmentFragmentDoc = gql`
@@ -1344,6 +1363,21 @@ export const TypeFragmentFragmentDoc = gql`
   slug
 }
     `;
+export const PokemonFragmentFragmentDoc = gql`
+    fragment PokemonFragment on pokemon {
+  id
+  pokedex_id
+  name
+  slug
+  sprite
+  types {
+    type_id
+    type {
+      ...TypeFragment
+    }
+  }
+}
+    ${TypeFragmentFragmentDoc}`;
 export const MoveFragmentFragmentDoc = gql`
     fragment MoveFragment on moves {
   id
@@ -1360,21 +1394,47 @@ export const MoveFragmentFragmentDoc = gql`
   }
 }
     ${TypeFragmentFragmentDoc}`;
-export const PokemonFragmentFragmentDoc = gql`
-    fragment PokemonFragment on pokemon {
+export const TeamFragmentFragmentDoc = gql`
+    fragment TeamFragment on teams {
   id
-  pokedex_id
   name
-  slug
-  sprite
-  types {
-    type_id
-    type {
-      ...TypeFragment
+  created_at
+  team_members {
+    id
+    order
+    pokemon {
+      ...PokemonFragment
+      learnable_moves {
+        move_id
+        move {
+          ...MoveFragment
+        }
+      }
+    }
+    learned_moves {
+      order
+      move {
+        ...MoveFragment
+      }
     }
   }
 }
-    ${TypeFragmentFragmentDoc}`;
+    ${PokemonFragmentFragmentDoc}
+${MoveFragmentFragmentDoc}`;
+export const UpdateTeamDocument = gql`
+    mutation UpdateTeam($id: uuid!, $name: String!) {
+  updateTeam(
+    pk_columns: {id: "0d1b29c8-c16f-42a2-8747-285906fd9f7c"}
+    _set: {name: $name}
+  ) {
+    ...TeamFragment
+  }
+}
+    ${TeamFragmentFragmentDoc}`;
+
+export function useUpdateTeamMutation() {
+  return Urql.useMutation<UpdateTeamMutation, UpdateTeamMutationVariables>(UpdateTeamDocument);
+};
 export const AllPokemonDocument = gql`
     query AllPokemon {
   pokemon(order_by: {pokedex_id: asc_nulls_last}) {
@@ -1416,32 +1476,10 @@ export function useAllTeamsQuery(options: Omit<Urql.UseQueryArgs<AllTeamsQueryVa
 export const TeamByIdDocument = gql`
     query TeamById($id: uuid!) {
   teamById(id: $id) {
-    id
-    name
-    created_at
-    team_members {
-      id
-      order
-      pokemon {
-        ...PokemonFragment
-        learnable_moves {
-          move_id
-          move {
-            ...MoveFragment
-          }
-        }
-      }
-      learned_moves {
-        order
-        move {
-          ...MoveFragment
-        }
-      }
-    }
+    ...TeamFragment
   }
 }
-    ${PokemonFragmentFragmentDoc}
-${MoveFragmentFragmentDoc}`;
+    ${TeamFragmentFragmentDoc}`;
 
 export function useTeamByIdQuery(options: Omit<Urql.UseQueryArgs<TeamByIdQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<TeamByIdQuery>({ query: TeamByIdDocument, ...options });
