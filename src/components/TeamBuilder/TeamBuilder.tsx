@@ -27,10 +27,10 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
       <StickyBar>
         {!loading ? (
           <>
-            <CtaButton type="button" key="save" size="small">
+            <CtaButton type="button" key="save" size="small" disabled>
               Save team
             </CtaButton>
-            <CtaButton type="button" key="delete" size="small">
+            <CtaButton type="button" key="delete" size="small" disabled>
               Delete team
             </CtaButton>
           </>
@@ -48,6 +48,7 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
           aria-label="Choose a team name"
           placeholder="Choose a team name"
           defaultValue={team?.name ?? ''}
+          disabled
         />
       </CenteredRow>
 
