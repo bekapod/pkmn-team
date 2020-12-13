@@ -1423,10 +1423,7 @@ export const TeamFragmentFragmentDoc = gql`
 ${MoveFragmentFragmentDoc}`;
 export const UpdateTeamDocument = gql`
     mutation UpdateTeam($id: uuid!, $name: String!) {
-  updateTeam(
-    pk_columns: {id: "0d1b29c8-c16f-42a2-8747-285906fd9f7c"}
-    _set: {name: $name}
-  ) {
+  updateTeam(pk_columns: {id: $id}, _set: {name: $name}) {
     ...TeamFragment
   }
 }
