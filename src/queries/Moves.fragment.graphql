@@ -1,0 +1,14 @@
+fragment MoveFragment on moves {
+  id
+  slug
+  name
+  accuracy
+  power
+  pp
+  damage_class {
+    value
+  }
+  type {
+    ...TypeFragment
+  }
+}

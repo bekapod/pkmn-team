@@ -7,18 +7,18 @@ query TeamById($id: uuid!) {
       id
       order
       pokemon {
-        id
-        pokedex_id
-        name
-        slug
-        sprite
-        types {
-          type_id
-          type {
-            id
-            name
-            slug
+        ...PokemonFragment
+        learnable_moves {
+          move_id
+          move {
+            ...MoveFragment
           }
+        }
+      }
+      learned_moves {
+        order
+        move {
+          ...MoveFragment
         }
       }
     }

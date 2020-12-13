@@ -1,0 +1,13 @@
+fragment PokemonFragment on pokemon {
+  id
+  pokedex_id
+  name
+  slug
+  sprite
+  types {
+    type_id
+    type {
+      ...TypeFragment
+    }
+  }
+}

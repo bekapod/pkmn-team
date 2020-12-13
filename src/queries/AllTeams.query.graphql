@@ -7,19 +7,7 @@ query AllTeams {
       id
       order
       pokemon {
-        id
-        pokedex_id
-        name
-        slug
-        sprite
-        types {
-          type_id
-          type {
-            id
-            name
-            slug
-          }
-        }
+        ...PokemonFragment
       }
     }
   }
