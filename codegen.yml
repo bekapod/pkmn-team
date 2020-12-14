@@ -7,3 +7,6 @@ generates:
       - 'typescript'
       - 'typescript-operations'
       - 'typescript-urql'
+  src/generated/introspection.json:
+    plugins:
+      - introspection
