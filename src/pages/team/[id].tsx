@@ -1,10 +1,12 @@
 import Head from 'next/head';
 import type { NextComponentType, NextPageContext } from 'next';
+import { useRouter } from 'next/router';
 import { NextUrqlPageContext, withUrqlClient } from 'next-urql';
 import {
   useAllPokemonQuery,
   useTeamByIdQuery,
-  useUpdateTeamMutation
+  useUpdateTeamMutation,
+  useDeleteTeamMutation
 } from '~/generated/graphql';
 import { createClient } from '~/lib/client';
 import { FullWidthContainer } from '~/components/FullWidthContainer';
@@ -21,6 +23,7 @@ const Team: NextComponentType<
   Props,
   Props
 > = ({ id }) => {
+  const router = useRouter();
   const teamByIdOptions = useMemo(() => ({ variables: { id }, pause: !id }), [
     id
   ]);
@@ -33,6 +36,10 @@ const Team: NextComponentType<
     { fetching: updateTeamFetching },
     updateTeam
   ] = useUpdateTeamMutation();
+  const [
+    { fetching: deleteTeamFetching },
+    deleteTeam
+  ] = useDeleteTeamMutation();
 
   const team = teamData?.teamById ?? undefined;
   const pokemon = allPokemonData?.pokemon;
@@ -45,6 +52,13 @@ const Team: NextComponentType<
     },
     [team?.id, team?.name, updateTeam]
   );
+
+  const deleteTeamHandler = useCallback(async () => {
+    if (team?.id) {
+      const { data } = await deleteTeam({ id: team?.id });
+      if (data?.deleteTeam?.id) router.push('/');
+    }
+  }, [team?.id, router, deleteTeam]);
 
   return (
     <>
@@ -59,8 +73,9 @@ const Team: NextComponentType<
           <TeamBuilder
             allPokemon={pokemon}
             team={team}
-            loading={updateTeamFetching}
+            loading={updateTeamFetching || deleteTeamFetching}
             updateTeam={updateTeamHandler}
+            deleteTeam={deleteTeamHandler}
           />
         )}
       </FullWidthContainer>

@@ -15,6 +15,7 @@ export type TeamBuilderProps = {
   loading?: boolean;
   error?: string;
   updateTeam?: (name: string) => void;
+  deleteTeam?: () => void;
 };
 
 export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
@@ -22,7 +23,8 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
   team,
   loading,
   error,
-  updateTeam
+  updateTeam,
+  deleteTeam
 }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedUpdateTeam = useCallback(
@@ -34,7 +36,12 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
     <>
       <StickyBar>
         {!loading ? (
-          <CtaButton type="button" key="delete" size="small" disabled>
+          <CtaButton
+            type="button"
+            key="delete"
+            size="small"
+            onClick={deleteTeam}
+          >
             Delete team
           </CtaButton>
         ) : null}
