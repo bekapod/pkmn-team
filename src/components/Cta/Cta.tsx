@@ -1,82 +1,41 @@
-import type { ButtonHTMLAttributes } from 'react';
-import { always, cond, equals, T } from 'lodash/fp';
-import styled from 'styled-components/macro';
-import { css } from 'styled-components';
-import type { StyledComponent } from 'styled-components';
-import { radialIn } from '~/lib/animations';
-import { media } from '~/lib/media';
+import type {
+  ComponentPropsWithRef,
+  ComponentType,
+  ElementType,
+  FunctionComponent
+} from 'react';
+import cx from 'classnames';
+import styles from './Cta.module.css';
 
 export type CtaProps = {
-  secondary?: boolean;
+  variant?: 'primary' | 'secondary';
   size?: 'default' | 'small' | 'tiny';
 };
 
-const not = (value: unknown): boolean => !value;
+const CtaBase: FunctionComponent<
+  ComponentPropsWithRef<ElementType> &
+    CtaProps & { as?: ComponentType | ElementType }
+> = ({
+  as: As = 'button',
+  variant = 'secondary',
+  size = 'default',
+  className,
+  ...props
+}) => (
+  <As
+    className={cx(styles.base, className, {
+      [styles['is-primary']]: variant === 'primary',
+      [styles['is-small']]: size === 'small',
+      [styles['is-tiny']]: size === 'tiny'
+    })}
+    {...props}
+  />
+);
 
-const styles = css`
-  display: block;
-  width: 100%;
-  padding: ${({ size = 'default' }: CtaProps) =>
-    cond([
-      [equals('small'), always(`var(--spacing-sm) var(--spacing-md)`)],
-      [equals('tiny'), always(`var(--spacing-xs) var(--spacing-sm)`)],
-      [T, always(`var(--spacing-md) var(--spacing-lg)`)]
-    ])(size)};
-  color: var(--color-white);
-  font-family: var(--font-base);
-  font-size: ${({ size }: CtaProps) =>
-    cond([
-      [equals('small'), always(`var(--font-size-sm)`)],
-      [equals('tiny'), always(`var(--font-size-xs)`)],
-      [T, always(`var(--font-size-md)`)]
-    ])(size)};
-  font-weight: ${({ size = 'default' }: CtaProps) =>
-    cond([
-      [equals('tiny'), always(700)],
-      [T, always(900)]
-    ])(size)};
-  line-height: ${({ size }: CtaProps) =>
-    cond([
-      [equals('small'), always(`var(--spacing-md)`)],
-      [equals('tiny'), always(`var(--spacing-sm)`)],
-      [T, always(`var(--spacing-md)`)]
-    ])(size)};
-  text-decoration: none;
-  text-transform: uppercase;
-  background-color: ${({ secondary }: CtaProps): string =>
-    cond([
-      [not, always(`var(--color-primary-dark)`)],
-      [T, always(`var(--color-secondary-dark)`)]
-    ])(secondary)};
-  border: none;
-  border-radius: var(--border-radius) 0;
-  ${radialIn};
-  &::before {
-    background-color: ${({ secondary }: CtaProps): string =>
-      cond([
-        [not, always(`var(--color-primary)`)],
-        [T, always(`var(--color-secondary)`)]
-      ])(secondary)};
-  }
-  &[disabled] {
-    &,
-    &::before {
-      background-color: var(--color-gray);
-    }
-  }
-  ${media.medium`
-    width: auto;
-  `}
-`;
+export const CtaInternalLink: FunctionComponent<
+  ComponentPropsWithRef<'a'> & CtaProps
+> = props => <CtaBase as="a" {...props} />;
 
-export const CtaInternalLink: StyledComponent<'a', CtaProps> = styled.a`
-  ${styles};
-`;
-
-export const CtaButton: StyledComponent<
-  'button',
-  Record<string, unknown>,
-  CtaProps & ButtonHTMLAttributes<HTMLButtonElement>
-> = styled.button`
-  ${styles};
-`;
+export const CtaButton: FunctionComponent<
+  ComponentPropsWithRef<'button'> & CtaProps
+> = props => <CtaBase {...props} />;
