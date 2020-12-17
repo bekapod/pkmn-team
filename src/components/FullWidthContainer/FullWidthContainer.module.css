@@ -1,0 +1,9 @@
+.container {
+  margin-right: var(--spacing-4);
+  margin-left: var(--spacing-4);
+
+  @media (--medium-viewport) {
+    margin-right: var(--spacing-6);
+    margin-left: var(--spacing-6);
+  }
+}
