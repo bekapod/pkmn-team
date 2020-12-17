@@ -1,16 +1,15 @@
-import styled from 'styled-components/macro';
+import { ComponentPropsWithRef, FunctionComponent } from 'react';
+import cx from 'classnames';
 
-export const AutocompleteDropdown = styled.div`
-  flex: 1;
-  width: 100%;
-  background-color: var(--color-white);
-  > * {
-    width: 100% !important;
-  }
-`;
+export const AutocompleteDropdown: FunctionComponent<
+  ComponentPropsWithRef<'div'>
+> = ({ className, ...props }) => (
+  <div className={cx('flex-1', 'w-full', 'bg-white', className)} {...props} />
+);
 
-export const Autocomplete = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-`;
+export const Autocomplete: FunctionComponent<ComponentPropsWithRef<'div'>> = ({
+  className,
+  ...props
+}) => (
+  <div className={cx('flex', 'flex-col', 'h-full', className)} {...props} />
+);
