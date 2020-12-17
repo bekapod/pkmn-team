@@ -28,5 +28,5 @@ export const getTypeGradient = (
       sortBySlug<Pick<Types, 'name' | 'slug'>>(t)
   )(types);
 
-  return `linear-gradient(90deg, ${gradientString});`;
+  return `linear-gradient(90deg, ${gradientString})`;
 };

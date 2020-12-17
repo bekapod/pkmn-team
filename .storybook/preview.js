@@ -61,7 +61,7 @@ const withNextRouter = makeDecorator({
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
-  grid: { cellSize: 24 }
+  grid: { cellSize: 12 }
 };
 
 export const decorators = [withNextRouter];
