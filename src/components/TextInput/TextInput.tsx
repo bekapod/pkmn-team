@@ -1,26 +1,18 @@
-import styled from 'styled-components/macro';
+import type { ComponentPropsWithRef, FunctionComponent } from 'react';
+import cx from 'classnames';
+import styles from './TextInput.module.css';
 
 export type TextInputProps = {
   isInvalid?: boolean;
 };
 
-export const TextInput = styled.input<TextInputProps>`
-  width: 300px;
-  padding: 0 var(--spacing-sm);
-  font-family: var(--font-base);
-  font-size: var(--font-size-base);
-  font-weight: 900;
-  line-height: var(--spacing-lg);
-  background-color: var(--color-white);
-  box-shadow: ${({ isInvalid }) =>
-    isInvalid ? `0 0 0 var(--spacing-xs) var(--color-error)` : 'none'};
-  border: none;
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 var(--spacing-xs) var(--color-secondary);
-  }
-  ::placeholder {
-    color: var(--color-gray);
-    text-transform: uppercase;
-  }
-`;
+export const TextInput: FunctionComponent<
+  ComponentPropsWithRef<'input'> & TextInputProps
+> = ({ isInvalid, className, ...props }) => (
+  <input
+    type="text"
+    className={cx(styles.base, className)}
+    aria-invalid={isInvalid ? true : undefined}
+    {...props}
+  />
+);
