@@ -1,0 +1,18 @@
+.base {
+  color: var(--color-error);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  font-weight: 400;
+
+  &::before {
+    content: '';
+    width: 100%;
+  }
+}
+
+.is-big {
+  margin: var(--spacing-xl) 0;
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-lg);
+  text-align: center;
+}
