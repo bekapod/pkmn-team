@@ -211,3 +211,13 @@ p {
     transform: scale(0.2) translate(0%, -200%);
   }
 }
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

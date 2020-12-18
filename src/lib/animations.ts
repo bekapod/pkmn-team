@@ -1,46 +1,5 @@
 import { keyframes } from 'styled-components';
 
-export const baseTransition = `
-  transition-duration: 0.3s;
-  transition-timing-function: ease-out;
-`;
-
-export const radialIn = `
-  transform: perspective(1px) translateZ(0);
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-  position: relative;
-  overflow: hidden;
-  transition-property: color;
-  ${baseTransition}
-  &::before {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: 100%;
-    transform: scale(2);
-    transition-property: transform;
-    ${baseTransition}
-  }
-  &:hover::before,
-  &:focus::before,
-  &:active::before {
-    transform: scale(0);
-  }
-`;
-
-export const zoomIn = `
-  transition-property: transform;
-  ${baseTransition}
-  &:hover,
-  &:focus {
-    transform: scale(1.05);
-  }
-`;
-
 export const pulseFade = keyframes`
   from {
     opacity: 0.5;

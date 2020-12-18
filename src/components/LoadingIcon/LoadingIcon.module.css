@@ -1,0 +1,54 @@
+.is-small {
+}
+
+.text {
+  animation-duration: 2000ms;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  margin: var(--spacing-5) 0;
+  color: var(--color-sherpa-blue-600);
+  font-family: var(--font-family);
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  letter-spacing: var(--spacing--1);
+  line-height: var(--line-height-md);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.text :global {
+  animation-name: pulseFade;
+}
+
+.spinner {
+  position: relative;
+  border-width: 10px;
+  border-style: solid;
+  border-color: var(--color-sherpa-blue-300);
+  border-left-color: var(--color-sherpa-blue-600);
+  transform: translateZ(0);
+  animation-duration: 1250ms;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+
+  &,
+  &:after {
+    width: var(--spacing-8);
+    height: var(--spacing-8);
+    border-radius: 50%;
+  }
+}
+
+.spinner :global {
+  animation-name: spin;
+}
+
+.spinner.is-small {
+  border-width: 5px;
+
+  &,
+  &::after {
+    width: var(--spacing-5);
+    height: var(--spacing-5);
+  }
+}
