@@ -1,0 +1,13 @@
+.base {
+  display: inline-block;
+  padding: 0 var(--spacing-2);
+  color: var(--color-white);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  line-height: var(--line-height-sm);
+  text-shadow: 0 1px 0px var(--color-sherpa-blue-900),
+    1px 0 0px var(--color-sherpa-blue-800);
+  text-transform: uppercase;
+  background-color: var(--type-color);
+  border-radius: var(--border-radius-sm) 0;
+}

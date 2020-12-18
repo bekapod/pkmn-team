@@ -6,6 +6,6 @@
   list-style: none;
 
   & > *:not(:last-child) {
-    margin-right: var(--spacing-4);
+    margin-right: var(--spacing-3);
   }
 }

@@ -5,13 +5,8 @@ import {
   useRef,
   useState
 } from 'react';
-import styled from 'styled-components/macro';
 import { VariableSizeList as List } from 'react-window';
 import classNames from 'classnames';
-import { MoveLine } from '../MoveLine';
-import { Moves, Team_Member, Team_Member_Move } from '~/generated/graphql';
-import { useContainerQuery } from '~/hooks/useContainerQuery';
-import { CtaButton } from '../Cta';
 import {
   add,
   compose,
@@ -22,6 +17,11 @@ import {
   size,
   stubTrue
 } from 'lodash/fp';
+import { MoveLine } from '../MoveLine';
+import { Moves, Team_Member, Team_Member_Move } from '~/generated/graphql';
+import { useContainerQuery } from '~/hooks/useContainerQuery';
+import { CtaButton } from '../Cta';
+import styles from './MoveList.module.css';
 
 export type MoveListProps = {
   moves: Moves[];
@@ -37,14 +37,6 @@ type RowProps = {
   index: number;
   style: HTMLAttributes<HTMLElement>['style'];
 };
-
-const StyledList = styled(List)`
-  width: 100% !important;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  background-color: var(--color-white);
-`;
 
 const getTeamMemberMove = (
   teamMember: Team_Member,
@@ -95,7 +87,6 @@ const Row = ({
       <CtaButton
         type="button"
         size="tiny"
-        secondary
         onClick={() => onItemStateChange(index, !itemStates[index])}
       >
         Details
@@ -110,7 +101,7 @@ const Row = ({
       isHighlighted={highlightLearnedMoves && !!teamMemberMove}
       style={{
         ...style,
-        top: `calc(${style?.top ?? 0}px + (var(--spacing-xs) / 2))`
+        top: `calc(${style?.top ?? 0}px + (var(--spacing-2) / 2))`
       }}
       renderLineActions={renderLineActions}
     />
@@ -141,12 +132,12 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
     new Array(moves.length).fill(false)
   );
 
-  const itemHeight = className.includes('is-compressed-list') ? 96 : 72;
+  const itemHeight = className.includes('is-compressed-list') ? 96 : 84;
   const hasOverflowingItems = compose(lte(visibleItems), size);
 
   const getItemHeight = (index: number) => {
     const itemIsOpen = itemStates[index];
-    if (itemIsOpen) return itemHeight * 1.85;
+    if (itemIsOpen) return itemHeight * 2;
     return itemHeight;
   };
 
@@ -155,7 +146,7 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
     [
       stubTrue,
       constant(
-        moves.reduce((acc, curr, idx) => add(getItemHeight(idx), acc), 0)
+        moves.reduce((acc, _curr, idx) => add(getItemHeight(idx), acc), 0)
       )
     ]
   ])(moves);
@@ -171,17 +162,16 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
 
   return (
     <div ref={ref as never}>
-      <StyledList
+      <List
         ref={listRef}
-        className={classNames(className)}
+        className={classNames(styles.list, className, {
+          [styles['has-overflow']]: hasOverflowingItems(moves)
+        })}
         height={listHeight}
         itemSize={getItemHeight}
         itemCount={moves.length}
         width={500}
         itemData={moves}
-        css={`
-          ${!hasOverflowingItems(moves) ? 'overflow: hidden !important;' : ''}
-        `}
       >
         {Row({
           teamMember,
@@ -191,7 +181,7 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
           addMoveToTeamMember,
           removeMoveFromTeamMember
         })}
-      </StyledList>
+      </List>
     </div>
   );
 };
