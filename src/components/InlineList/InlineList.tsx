@@ -1,13 +1,8 @@
-import styled from 'styled-components/macro';
+import type { FunctionComponent, ComponentPropsWithRef } from 'react';
+import cx from 'classnames';
+import styles from './InlineList.module.css';
 
-export const InlineList = styled.ul`
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-
-  & > *:not(:last-child) {
-    margin-right: var(--spacing-sm);
-  }
-`;
+export const InlineList: FunctionComponent<ComponentPropsWithRef<'ul'>> = ({
+  className,
+  ...props
+}) => <ul className={cx(styles.base, className)} {...props} />;
