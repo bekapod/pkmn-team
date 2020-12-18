@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { FunctionComponent } from 'react';
-import styled from 'styled-components/macro';
 import { Pokemon, Moves, Team_Member } from '~/generated/graphql';
 import { formatPokemonName, sortBySlug } from '~/lib/general';
 import { CardContent, CardHeader, CardWrapper, CardHeading } from '../Card';
 import { InlineList } from '../InlineList';
 import { TypeTag } from '../TypeTag';
 import { MoveList } from '../MoveList';
+import styles from './PokemonCard.module.css';
 
 export type PokemonCardProps = {
   teamMember?: Team_Member;
@@ -14,19 +14,6 @@ export type PokemonCardProps = {
   moves?: Moves[];
   renderCardActions?: () => JSX.Element;
 };
-
-const PokemonCardContent = styled(CardContent)`
-  padding: var(--spacing-lg) 0;
-  align-items: center;
-`;
-
-const PokemonCardSprite = styled.img`
-  height: calc(var(--spacing-lg) * 3);
-`;
-
-const PokemonCardActions = styled.div`
-  margin-top: var(--spacing-lg);
-`;
 
 export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
   teamMember,
@@ -43,8 +30,12 @@ export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
         <CardHeading>{formatPokemonName(pokemon)}</CardHeading>
       </CardHeader>
 
-      <PokemonCardContent>
-        <PokemonCardSprite src={`/sprites/${sprite}`} alt={`${name} sprite`} />
+      <CardContent className={styles.content}>
+        <img
+          className={styles.sprite}
+          src={`/sprites/${sprite}`}
+          alt={`${name} sprite`}
+        />
 
         <InlineList>
           {sortBySlug(actualTypes).map(type => (
@@ -65,9 +56,9 @@ export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
         />
 
         {renderCardActions ? (
-          <PokemonCardActions>{renderCardActions()}</PokemonCardActions>
+          <div className={styles.actions}>{renderCardActions()}</div>
         ) : null}
-      </PokemonCardContent>
+      </CardContent>
     </CardWrapper>
   );
 };

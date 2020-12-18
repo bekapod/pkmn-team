@@ -1,10 +1,10 @@
-import { FunctionComponent } from 'react';
-import styled from 'styled-components/macro';
-import { Pokemon, Pokemon_Type } from '~/generated/graphql';
+import type { ComponentPropsWithRef, FunctionComponent } from 'react';
+import type { Pokemon } from '~/generated/graphql';
 import { formatPokemonName, sortBySlug } from '~/lib/general';
 import { getTypeGradient } from '~/lib/gradients';
 import { InlineList } from '../InlineList';
 import { TypeTag } from '../TypeTag';
+import styles from './PokemonLine.module.css';
 
 export type PokemonLineProps = {
   pokemon: Pick<
@@ -14,54 +14,30 @@ export type PokemonLineProps = {
   outdent?: string;
 };
 
-interface RowProps {
-  outdent?: string;
-  types: Pokemon_Type[];
-}
-
-const Row = styled.div<RowProps>`
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: var(--spacing-xxl);
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: calc(var(--spacing-sm) / 2 * -1);
-    left: ${({ outdent }) => `${`calc(${outdent} * -1)` ?? 0}`};
-    display: block;
-    width: ${({ outdent }) => `calc(100% + ${outdent ?? '0px'} * 2)`};
-    height: var(--spacing-sm);
-    background-image: ${({ types }) =>
-      getTypeGradient(types.map(({ type }) => type))};
-  }
-`;
-
-const RowImage = styled.img`
-  width: var(--spacing-xl);
-  height: var(--spacing-xl);
-  margin-right: var(--spacing-md);
-`;
-
-const RowTitle = styled.div`
-  margin-bottom: var(--spacing-xs);
-  font-weight: 700;
-  line-height: 1;
-`;
-
-export const PokemonLine: FunctionComponent<PokemonLineProps> = ({
-  pokemon,
-  ...props
-}) => {
+export const PokemonLine: FunctionComponent<
+  ComponentPropsWithRef<'div'> & PokemonLineProps
+> = ({ pokemon, outdent, style, ...props }) => {
   const { pokedex_id, name, types, sprite } = pokemon;
 
   return (
-    <Row types={types} {...props}>
-      <RowImage src={`/sprites/${sprite}`} alt={`${name} sprite`} />
+    <div
+      className={styles.row}
+      style={{
+        ...style,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        '--outdent': outdent,
+        '--type-gradient': getTypeGradient(types.map(({ type }) => type))
+      }}
+      {...props}
+    >
+      <img
+        className={styles.sprite}
+        src={`/sprites/${sprite}`}
+        alt={`${name} sprite`}
+      />
       <div>
-        <RowTitle>{formatPokemonName(pokemon)}</RowTitle>
+        <div className={styles.title}>{formatPokemonName(pokemon)}</div>
         <InlineList>
           {sortBySlug(types.map(({ type }) => type)).map(type => (
             <li key={`Pokemon: ${pokedex_id}, Type: ${type.slug}`}>
@@ -70,6 +46,6 @@ export const PokemonLine: FunctionComponent<PokemonLineProps> = ({
           ))}
         </InlineList>
       </div>
-    </Row>
+    </div>
   );
 };

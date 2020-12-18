@@ -1,12 +1,9 @@
-import styled from 'styled-components/macro';
-import { media } from '~/lib/media';
+import type { FunctionComponent, ComponentPropsWithRef } from 'react';
+import cx from 'classnames';
+import styles from './FullWidthContainer.module.css';
 
-export const FullWidthContainer = styled.div`
-  margin-left: var(--gutter-page);
-  margin-right: var(--gutter-page);
-
-  ${media.medium`
-    margin-left: var(--gutter-page-md);
-    margin-right: var(--gutter-page-md);
-  `}
-`;
+export const FullWidthContainer: FunctionComponent<
+  ComponentPropsWithRef<'div'>
+> = ({ className, ...props }) => (
+  <div className={cx(styles.container, className)} {...props} />
+);

@@ -1,0 +1,17 @@
+.base {
+  width: 100%;
+  padding: 0 var(--spacing-md);
+  height: var(--spacing-8);
+  font-size: var(--font-size-lg);
+  text-align: center;
+
+  @media (--medium-viewport) {
+    max-width: 600px;
+  }
+}
+
+.is-full-width {
+  @media (--medium-viewport) {
+    max-width: none;
+  }
+}

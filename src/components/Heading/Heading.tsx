@@ -1,14 +1,8 @@
-import styled from 'styled-components/macro';
-import { media } from '~/lib/media';
+import type { FunctionComponent, ComponentPropsWithRef } from 'react';
+import cx from 'classnames';
+import styles from './Heading.module.css';
 
-export const Heading = styled.h1`
-  margin-top: 0;
-  margin-bottom: var(--spacing-lg);
-  padding: var(--spacing-md) var(--gutter-page);
-  color: var(--color-white);
-  background-color: var(--color-secondary);
-
-  ${media.medium`
-    padding: var(--spacing-md) var(--gutter-page-md);
-  `}
-`;
+export const Heading: FunctionComponent<ComponentPropsWithRef<'h1'>> = ({
+  className,
+  ...props
+}) => <h1 className={cx(styles.base, className)} {...props} />;

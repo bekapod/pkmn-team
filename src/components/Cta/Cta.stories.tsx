@@ -9,6 +9,7 @@ export default {
 export const Link = (args: CtaProps): JSX.Element => (
   <CtaInternalLink {...args}>Dashboard</CtaInternalLink>
 );
+Link.args = { href: '#' };
 
 export const Button = (args: CtaProps): JSX.Element => (
   <CtaButton {...args}>Create Team</CtaButton>

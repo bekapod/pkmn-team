@@ -1,0 +1,25 @@
+.base {
+  width: 300px;
+  padding: 0 var(--spacing-3);
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-xl);
+  font-weight: 700;
+  background-color: var(--color-white);
+  border: none;
+
+  &[aria-invalid] {
+    box-shadow: 0 0 0 var(--spacing-1) var(--color-error);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 var(--spacing-1) var(--color-downy-600);
+  }
+
+  &::placeholder {
+    color: var(--color-sugar-cane-700);
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+}

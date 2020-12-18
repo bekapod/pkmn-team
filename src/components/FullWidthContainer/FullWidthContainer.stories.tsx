@@ -1,3 +1,4 @@
+import { FullBleedContainer } from '../FullBleedContainer';
 import { FullWidthContainer } from './FullWidthContainer';
 
 export default {
@@ -6,5 +7,7 @@ export default {
 };
 
 export const Standard = (): JSX.Element => (
-  <FullWidthContainer>A section of content</FullWidthContainer>
+  <FullBleedContainer>
+    <FullWidthContainer>A section of content</FullWidthContainer>
+  </FullBleedContainer>
 );

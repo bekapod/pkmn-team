@@ -3,7 +3,8 @@ module.exports = {
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
-    '@storybook/addon-a11y'
+    '@storybook/addon-a11y',
+    'storybook-css-modules-preset'
   ],
   babel: config => {
     try {
@@ -18,7 +19,6 @@ module.exports = {
         plugins: [
           ...config.plugins,
           '@babel/plugin-transform-react-jsx',
-          'babel-plugin-styled-components',
           [
             'babel-plugin-module-resolver',
             {
@@ -39,5 +39,20 @@ module.exports = {
     } catch (err) {
       console.error(err);
     }
+  },
+  webpackFinal: async config => {
+    config.module.rules.forEach(rule => {
+      const path = require('path');
+
+      if (rule.test.toString() === '/\\.css$/') {
+        rule.use[2].options = {
+          config: {
+            path: path.resolve(__dirname, './postcss.config.js')
+          }
+        };
+      }
+    });
+
+    return config;
   }
 };

@@ -1,0 +1,11 @@
+.base {
+  margin-top: 0;
+  margin-bottom: var(--spacing-4);
+  padding: var(--spacing-4) var(--spacing-4);
+  color: var(--color-white);
+  background-color: var(--color-sherpa-blue-800);
+
+  @media (--medium-viewport) {
+    padding: var(--spacing-4) var(--spacing-6);
+  }
+}

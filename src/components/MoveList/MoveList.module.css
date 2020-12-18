@@ -1,0 +1,11 @@
+.list {
+  width: 100% !important;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background-color: var(--color-white);
+}
+
+.has-overflow {
+  overflow: hidden !important;
+}

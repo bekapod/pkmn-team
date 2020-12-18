@@ -18,14 +18,7 @@ function Home(): JSX.Element {
       </Head>
       <Heading>Dashboard</Heading>
       <FullWidthContainer>
-        <TeamGrid
-          as="ul"
-          css={`
-            margin: 0;
-            padding: 0;
-            list-style: none;
-          `}
-        >
+        <TeamGrid as="ul" role="list" className="u-unstyled-list">
           {data?.teams.map(team => (
             <li key={team.id}>
               <TeamCard {...team} />

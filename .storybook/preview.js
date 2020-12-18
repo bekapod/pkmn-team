@@ -1,23 +1,9 @@
 import React from 'react';
 import { makeDecorator } from '@storybook/addons';
-import { ThemeProvider } from 'styled-components';
 import { action } from '@storybook/addon-actions';
 import Router from 'next/router';
 import { RouterContext } from 'next/dist/next-server/lib/router-context';
-import { theme, GlobalStyles } from '../src/GlobalStyles';
-
-const withTheme = makeDecorator({
-  name: 'withTheme',
-  parameterName: 'theme',
-  wrapper: (Story, context) => (
-    <>
-      <GlobalStyles />
-      <ThemeProvider theme={theme}>
-        <Story {...context} />
-      </ThemeProvider>
-    </>
-  )
-});
+import '../src/styles/globals.css';
 
 const withNextRouter = makeDecorator({
   name: 'withNextRouter',
@@ -75,7 +61,7 @@ const withNextRouter = makeDecorator({
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
-  grid: { cellSize: 24 }
+  grid: { cellSize: 12 }
 };
 
-export const decorators = [withTheme, withNextRouter];
+export const decorators = [withNextRouter];

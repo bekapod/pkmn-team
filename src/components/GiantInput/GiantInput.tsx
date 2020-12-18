@@ -1,16 +1,19 @@
-import styled from 'styled-components/macro';
+import type { ComponentPropsWithRef, FunctionComponent } from 'react';
+import cx from 'classnames';
 import { TextInput, TextInputProps } from '../TextInput';
-import { media } from '~/lib/media';
+import styles from './GiantInput.module.css';
 
 export type GiantInputProps = TextInputProps & {
   fullWidth?: boolean;
 };
 
-export const GiantInput = styled(TextInput)<GiantInputProps>`
-  width: 100%;
-  padding: 0 var(--spacing-md);
-  height: var(--spacing-xl);
-  font-size: var(--font-size-lg);
-  text-align: center;
-  ${({ fullWidth }) => (fullWidth ? '' : media.medium`max-width: 600px;`)}
-`;
+export const GiantInput: FunctionComponent<
+  ComponentPropsWithRef<'input'> & GiantInputProps
+> = ({ fullWidth, className, ...props }) => (
+  <TextInput
+    className={cx(styles.base, className, {
+      [styles['is-full-width']]: fullWidth
+    })}
+    {...props}
+  />
+);

@@ -1,9 +1,8 @@
-import styled from 'styled-components/macro';
+import type { FunctionComponent, ComponentPropsWithRef } from 'react';
+import cx from 'classnames';
+import styles from './Label.module.css';
 
-export const Label = styled.span`
-  color: var(--color-gray);
-  font-size: var(--font-size-xs);
-  line-height: var(--spacing-md);
-  font-weight: 900;
-  text-transform: uppercase;
-`;
+export const Label: FunctionComponent<ComponentPropsWithRef<'span'>> = ({
+  className,
+  ...props
+}) => <span className={cx(styles.base, className)} {...props} />;

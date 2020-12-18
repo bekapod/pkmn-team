@@ -1,35 +1,19 @@
-import { FunctionComponent } from 'react';
-import styled from 'styled-components/macro';
+import type { ComponentPropsWithRef, FunctionComponent } from 'react';
+import cx from 'classnames';
+import styles from './ErrorMessage.module.css';
 
 export type ErrorMessageProps = {
   isBig?: boolean;
-  color?: string;
 };
 
-const StyledError = styled.div<ErrorMessageProps>`
-  color: ${({ color }): string => color || 'var(--color-error)'};
-  font-weight: 400;
-  ${({ isBig }): string =>
-    isBig
-      ? `
-    margin: var(--spacing-xl) 0;
-    font-size: var(--font-size-md);
-    line-height: var(--spacing-md);
-    text-align: center;
-  `
-      : ''}
-
-  &::before {
-    content: '';
-    width: 100%;
-  }
-`;
-
-export const ErrorMessage: FunctionComponent<ErrorMessageProps> = ({
-  children,
-  ...props
-}) => (
-  <StyledError role="alert" {...props}>
+export const ErrorMessage: FunctionComponent<
+  ComponentPropsWithRef<'div'> & ErrorMessageProps
+> = ({ isBig, className, children, ...props }) => (
+  <div
+    role="alert"
+    className={cx(styles.base, className, { [styles['is-big']]: isBig })}
+    {...props}
+  >
     {children}
-  </StyledError>
+  </div>
 );
