@@ -77,7 +77,7 @@
     justify-content: center;
   }
 
-  > * {
+  & > * {
     margin-right: var(--spacing-2);
 
     &:last-child {
@@ -99,7 +99,7 @@
     justify-content: space-between;
   }
 
-  > * {
+  & > * {
     margin-right: var(--spacing-2);
 
     &:last-child {

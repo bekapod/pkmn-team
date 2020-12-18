@@ -57,7 +57,7 @@ export const TeamCard: FunctionComponent<TeamCardProps> = ({
                 <PokemonLine
                   key={`Team Member: ${memberId}`}
                   pokemon={memberPkmn}
-                  outdent="var(--spacing-sm)"
+                  outdent="var(--spacing-3)"
                 />
               )
             )}

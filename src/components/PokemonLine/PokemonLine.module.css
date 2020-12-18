@@ -13,7 +13,7 @@
     top: calc(var(--spacing-2) / 2 * -1);
     left: calc(var(--outdent) * -1);
     display: block;
-    width: calc(100% + var(--outdent));
+    width: calc(100% + (var(--outdent) * 2));
     height: var(--spacing-2);
     background-image: var(--type-gradient);
   }

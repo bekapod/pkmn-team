@@ -1,8 +1,13 @@
-import styled from 'styled-components/macro';
+import type {
+  FunctionComponent,
+  ComponentPropsWithRef,
+  ElementType
+} from 'react';
+import cx from 'classnames';
+import styles from './TeamGrid.module.css';
 
-export const TeamGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  grid-gap: var(--gutter-grid);
-  width: 100%;
-`;
+export const TeamGrid: FunctionComponent<
+  ComponentPropsWithRef<ElementType> & { as?: ElementType }
+> = ({ as: As = 'div', className, ...props }) => (
+  <As className={cx(styles.container, className)} {...props} />
+);

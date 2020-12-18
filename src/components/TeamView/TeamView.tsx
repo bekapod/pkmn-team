@@ -7,6 +7,7 @@ import {
   useRef,
   useState
 } from 'react';
+import isEqual from 'react-fast-compare';
 import {
   DragDropContext,
   Droppable,
@@ -23,17 +24,9 @@ import { MoveList } from '../MoveList';
 import { PokemonCard } from '../PokemonCard';
 import { PokemonLine } from '../PokemonLine';
 import { useTabs } from '../../hooks/useTabs';
-import {
-  TabBar,
-  TabScroller,
-  TabItem,
-  AddButton,
-  Bin,
-  TabContent
-} from './styled';
 import { Pokemon, Team_Member } from '~/generated/graphql';
 import { TeamMemberActionType, useTeamMembersReducer } from './reducer';
-import isEqual from 'react-fast-compare';
+import styles from './TeamView.module.css';
 
 export type TeamViewProps = {
   initialTeamMembers?: Team_Member[];
@@ -163,7 +156,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
 
     return (
       <>
-        <TabBar>
+        <div className={styles['tab-bar']}>
           <DragDropContext
             onBeforeDragStart={onDragStart}
             onDragEnd={onDragEnd}
@@ -174,13 +167,14 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
                   {...droppableProvided.droppableProps}
                   ref={droppableProvided.innerRef}
                 >
-                  <TabScroller>
+                  <div className={styles['tab-scroller']}>
                     {teamMembers.map(({ id, pokemon }, index) => {
                       const tabItemProps = getTabItemProps(id);
                       return (
                         <Draggable key={id} draggableId={id} index={index}>
                           {draggableProvided => (
-                            <TabItem
+                            <div
+                              className={styles['tab-item']}
                               {...tabItemProps}
                               {...draggableProvided.draggableProps}
                               {...draggableProvided.dragHandleProps}
@@ -191,7 +185,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
                               }}
                             >
                               <PokemonLine pokemon={pokemon} />
-                            </TabItem>
+                            </div>
                           )}
                         </Draggable>
                       );
@@ -205,7 +199,8 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
                         isDragDisabled
                       >
                         {draggableProvided => (
-                          <TabItem
+                          <div
+                            className={styles['tab-item']}
                             {...addPokemonTabItemProps}
                             {...draggableProvided.draggableProps}
                             {...draggableProvided.dragHandleProps}
@@ -216,23 +211,27 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
                               ...draggableProvided.draggableProps.style
                             }}
                           >
-                            <AddButton aria-label="Add new pokemon to team">
+                            <span
+                              className={styles['add-button']}
+                              aria-label="Add new pokemon to team"
+                            >
                               +
-                            </AddButton>
-                          </TabItem>
+                            </span>
+                          </div>
                         )}
                       </Draggable>
                     )}
 
                     {droppableProvided.placeholder}
-                  </TabScroller>
+                  </div>
                 </div>
               )}
             </Droppable>
 
             <Droppable droppableId="teamview-bin" direction="horizontal">
               {(droppableProvided, droppableSnapshot) => (
-                <Bin
+                <div
+                  className={styles.bin}
                   {...droppableProvided.droppableProps}
                   ref={droppableProvided.innerRef}
                   data-bin
@@ -252,7 +251,8 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
                   <Trash />
 
                   {deletedItems.map(({ id, pokemon }) => (
-                    <TabItem
+                    <div
+                      className={styles['tab-item']}
                       key={id}
                       aria-selected={false}
                       data-testid={`binned-item-${id}`}
@@ -260,18 +260,19 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
                       onAnimationEnd={emptyBin}
                     >
                       <PokemonLine pokemon={pokemon} />
-                    </TabItem>
+                    </div>
                   ))}
-                </Bin>
+                </div>
               )}
             </Droppable>
           </DragDropContext>
-        </TabBar>
+        </div>
 
         {teamMembers.map(member => {
           const tabContentProps = getTabContentProps(member.id);
           return (
-            <TabContent
+            <div
+              className={styles['tab-content']}
               {...tabContentProps}
               key={member.id}
               data-testid={`tab-content-${member.id}`}
@@ -292,12 +293,13 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
                 addMoveToTeamMember={() => {}}
                 removeMoveFromTeamMember={() => {}}
               />
-            </TabContent>
+            </div>
           );
         })}
 
         {teamMembers.length < 6 && (
-          <TabContent
+          <div
+            className={styles['tab-content']}
             {...addPokemonTabContentProps}
             key="Pokemon search"
             data-testid="tab-content-add-pokemon"
@@ -314,7 +316,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
                 })}
               />
             ) : null}
-          </TabContent>
+          </div>
         )}
       </>
     );
