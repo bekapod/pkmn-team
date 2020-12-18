@@ -159,6 +159,12 @@ p {
   line-height: var(--line-height-base);
 }
 
+.u-unstyled-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
 .u-zig-zag-top-white {
   position: relative;
 
