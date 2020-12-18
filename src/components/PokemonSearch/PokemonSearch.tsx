@@ -44,8 +44,10 @@ const resultItem = (
     onClick: (): void => onClick(pkmn, index),
     style: {
       ...style,
-      backgroundColor: isHighlighted ? 'var(--color-gray-light)' : 'initial',
-      top: `calc(${style?.top ?? 0}px + var(--spacing-xs))`
+      backgroundColor: isHighlighted
+        ? 'var(--color-sherpa-blue-100)'
+        : 'initial',
+      top: `calc(${style?.top ?? 0}px + var(--spacing-2))`
     }
   };
 
