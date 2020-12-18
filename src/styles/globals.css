@@ -207,8 +207,12 @@ p {
       ),
       linear-gradient(45deg, var(--color-white) var(--size), transparent 0);
     background-repeat: repeat-x;
-    background-position: left top;
+    background-position: var(--spacing-4) top;
     background-size: var(--size) 3.2rem;
+
+    @media (--medium-viewport) {
+      background-position: calc(var(--size) / 2) top;
+    }
   }
 }
 
