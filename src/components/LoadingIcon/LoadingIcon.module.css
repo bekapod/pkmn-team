@@ -6,7 +6,7 @@
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   margin: var(--spacing-5) 0;
-  color: var(--color-sherpa-blue-600);
+  color: var(--color-cool-grey-600);
   font-family: var(--font-family);
   font-size: var(--font-size-md);
   font-weight: 700;
@@ -24,8 +24,8 @@
   position: relative;
   border-width: 10px;
   border-style: solid;
-  border-color: var(--color-sherpa-blue-300);
-  border-left-color: var(--color-sherpa-blue-600);
+  border-color: var(--color-cool-grey-200);
+  border-left-color: var(--color-cool-grey-600);
   transform: translateZ(0);
   animation-duration: 1250ms;
   animation-timing-function: linear;

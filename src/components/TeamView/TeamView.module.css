@@ -19,7 +19,7 @@
 
 .tab-item {
   color: var(--color-white);
-  background-color: var(--color-sherpa-blue-600);
+  background-color: var(--color-indigo-900);
   cursor: pointer;
 
   &[aria-selected='true'] {
@@ -51,7 +51,7 @@
 .tab-content {
   display: grid;
   padding: var(--spacing-6) var(--spacing-4);
-  background-color: var(--color-sherpa-blue-400);
+  background-color: var(--color-indigo-100);
   grid-gap: var(--spacing-5);
 
   &[aria-hidden='true'] {
@@ -81,10 +81,10 @@
   line-height: 0;
   background: linear-gradient(
     to bottom,
-    var(--color-carnation-700) 0%,
-    var(--color-carnation-700) 41%,
-    var(--color-sherpa-blue-900) 41%,
-    var(--color-sherpa-blue-900) 59%,
+    var(--color-red-vivid-600) 0%,
+    var(--color-red-vivid-600) 41%,
+    var(--color-cool-grey-900) 41%,
+    var(--color-cool-grey-900) 59%,
     var(--color-white) 59%,
     var(--color-white) 100%
   );
@@ -99,7 +99,7 @@
     display: block;
     width: 1em;
     height: 1em;
-    background-color: var(--color-sherpa-blue-900);
+    background-color: var(--color-cool-grey-900);
     border-radius: 50%;
   }
 }

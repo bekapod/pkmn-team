@@ -1,5 +1,5 @@
 .base {
-  color: var(--color-error);
+  color: var(--color-red-vivid-600);
   font-size: var(--font-size-base);
   line-height: var(--line-height-base);
   font-weight: 400;

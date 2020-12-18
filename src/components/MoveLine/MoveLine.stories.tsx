@@ -7,7 +7,7 @@ export default {
   component: MoveLine,
   args: {
     ...substitute,
-    renderLineActions: () => <div />
+    renderLineActions: () => <div>Some interactivity would be placed here</div>
   }
 } as Meta<MoveLineProps>;
 

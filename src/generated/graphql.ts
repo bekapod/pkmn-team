@@ -1235,7 +1235,7 @@ export type Uuid_Comparison_Exp = {
 
 export type MoveFragmentFragment = (
   { __typename?: 'moves' }
-  & Pick<Moves, 'id' | 'slug' | 'name' | 'accuracy' | 'power' | 'pp'>
+  & Pick<Moves, 'id' | 'slug' | 'name' | 'accuracy' | 'power' | 'pp' | 'effect'>
   & { damage_class?: Maybe<(
     { __typename?: 'damage_class' }
     & Pick<Damage_Class, 'value'>
@@ -1399,6 +1399,7 @@ export const MoveFragmentFragmentDoc = gql`
   accuracy
   power
   pp
+  effect
   damage_class {
     value
   }

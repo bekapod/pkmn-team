@@ -8,7 +8,7 @@ import cx from 'classnames';
 import styles from './Cta.module.css';
 
 export type CtaProps = {
-  variant?: 'primary' | 'secondary';
+  variant?: 'primary' | 'secondary' | 'tertiary' | 'destructive';
   size?: 'default' | 'small' | 'tiny';
 };
 
@@ -25,6 +25,8 @@ const CtaBase: FunctionComponent<
   <As
     className={cx(styles.base, className, {
       [styles['is-primary']]: variant === 'primary',
+      [styles['is-tertiary']]: variant === 'tertiary',
+      [styles['is-destructive']]: variant === 'destructive',
       [styles['is-small']]: size === 'small',
       [styles['is-tiny']]: size === 'tiny'
     })}

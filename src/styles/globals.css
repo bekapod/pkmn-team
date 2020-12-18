@@ -168,8 +168,8 @@ html {
 }
 
 ::selection {
-  color: var(--color-sherpa-blue-800);
-  background-color: var(--color-kournikova-500);
+  color: var(--color-cool-grey-900);
+  background-color: var(--color-yellow-vivid-200);
 }
 
 body {
