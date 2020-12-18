@@ -39,5 +39,20 @@ module.exports = {
     } catch (err) {
       console.error(err);
     }
+  },
+  webpackFinal: async config => {
+    config.module.rules.forEach(rule => {
+      const path = require('path');
+
+      if (rule.test.toString() === '/\\.css$/') {
+        rule.use[2].options = {
+          config: {
+            path: path.resolve(__dirname, './postcss.config.js')
+          }
+        };
+      }
+    });
+
+    return config;
   }
 };
