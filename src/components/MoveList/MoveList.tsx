@@ -2,6 +2,7 @@ import {
   FunctionComponent,
   HTMLAttributes,
   useCallback,
+  useEffect,
   useRef,
   useState
 } from 'react';
@@ -87,6 +88,7 @@ const Row = ({
       <CtaButton
         type="button"
         size="tiny"
+        variant="tertiary"
         onClick={() => onItemStateChange(index, !itemStates[index])}
       >
         Details
@@ -112,9 +114,6 @@ const query = {
   'is-compressed-list': {
     minWidth: 0,
     maxWidth: 440
-  },
-  'is-spacious-list': {
-    minWidth: 560
   }
 };
 
@@ -132,12 +131,16 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
     new Array(moves.length).fill(false)
   );
 
-  const itemHeight = className.includes('is-compressed-list') ? 96 : 84;
+  const itemHeight = className.includes('is-compressed-list') ? 126 : 84;
   const hasOverflowingItems = compose(lte(visibleItems), size);
+
+  useEffect(() => {
+    listRef.current?.resetAfterIndex(0, false);
+  }, [itemHeight]);
 
   const getItemHeight = (index: number) => {
     const itemIsOpen = itemStates[index];
-    if (itemIsOpen) return itemHeight * 2;
+    if (itemIsOpen) return itemHeight * 2.2;
     return itemHeight;
   };
 
@@ -158,6 +161,7 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
         return currentState;
       })
     );
+    listRef.current?.resetAfterIndex(index, false);
   }, []);
 
   return (
@@ -165,7 +169,7 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
       <List
         ref={listRef}
         className={classNames(styles.list, className, {
-          [styles['has-overflow']]: hasOverflowingItems(moves)
+          [styles['has-overflow']]: !hasOverflowingItems(moves)
         })}
         height={listHeight}
         itemSize={getItemHeight}

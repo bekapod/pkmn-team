@@ -5,6 +5,7 @@ fragment MoveFragment on moves {
   accuracy
   power
   pp
+  effect
   damage_class {
     value
   }

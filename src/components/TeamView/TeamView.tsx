@@ -120,6 +120,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
             <CtaButton
               type="button"
               size="small"
+              variant="destructive"
               onClick={() =>
                 dispatch({
                   type: TeamMemberActionType.RemoveTeamMember,
@@ -134,6 +135,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
           <CtaButton
             type="button"
             size="small"
+            variant="primary"
             onClick={() =>
               dispatch({
                 type: TeamMemberActionType.AddTeamMember,

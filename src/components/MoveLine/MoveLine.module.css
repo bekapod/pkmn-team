@@ -1,18 +1,18 @@
 .row {
   position: relative;
   display: grid;
-  grid-template: 1fr / 1fr 1fr 1fr;
+  grid-template: var(--spacing-5) / 1fr 1fr 1fr;
   grid-column-gap: var(--spacing-4);
-  grid-row-gap: var(--spacing-2);
+  grid-row-gap: var(--spacing-3);
   align-items: center;
   padding: var(--spacing-4);
 
   &[aria-expanded='true'] {
-    grid-template: 1fr 2fr / 1fr 1fr 1fr;
+    grid-template: var(--spacing-5) var(--spacing-11) / 1fr 1fr 1fr;
   }
 
   &[aria-selected='true'] {
-    background-color: var(--color-kournikova-400);
+    background-color: var(--color-yellow-vivid-100);
   }
 
   &::before {
@@ -24,13 +24,49 @@
     height: var(--spacing-2);
     background-image: var(--type-gradient);
   }
+
+  @media (--only-small-viewport) {
+    &:only-child {
+      grid-template: var(--spacing-5) var(--spacing-5) / 0.75fr 1.25fr;
+
+      & .actions {
+        width: 100%;
+        grid-column: span 2;
+        justify-content: space-between;
+      }
+
+      & .details {
+        margin-top: var(--spacing-2);
+        grid-column: span 2;
+      }
+
+      &[aria-expanded='true'] {
+        grid-template: var(--spacing-5) var(--spacing-5) / 0.75fr 1.25fr;
+      }
+    }
+  }
 }
 
-.is-compressed-list .row {
-  grid-template: 1fr 1fr / 1fr 1fr;
+:global(.is-compressed-list) .row {
+  grid-template: var(--spacing-5) var(--spacing-5) / 0.75fr 1.25fr;
+
+  & .actions {
+    width: 100%;
+    grid-column: span 2;
+    justify-content: space-between;
+
+    & > * {
+      width: 100%;
+    }
+  }
+
+  & .details {
+    margin-top: var(--spacing-2);
+    grid-column: span 2;
+  }
 
   &[aria-expanded='true'] {
-    grid-template: 1fr 1fr 3fr / 1fr 1fr;
+    grid-template: var(--spacing-5) var(--spacing-5) var(--spacing-11) / 0.75fr 1.25fr;
   }
 }
 
@@ -45,6 +81,7 @@
 
 .stat {
   margin-right: var(--spacing-3);
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -56,13 +93,9 @@
   align-self: flex-start;
 }
 
-.is-compressed-list .details {
-  grid-column: span 2;
-}
-
 .description {
   width: 100%;
-  margin: 0;
+  margin: var(--spacing-2) 0 0;
 }
 
 .types {
@@ -92,12 +125,6 @@
   margin: 0;
   padding-left: 0;
   list-style: none;
-
-  .is-compressed-list & {
-    width: 100%;
-    grid-column: span 2;
-    justify-content: space-between;
-  }
 
   & > * {
     margin-right: var(--spacing-2);

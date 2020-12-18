@@ -10,7 +10,7 @@ import styles from './MoveLine.module.css';
 export type MoveLineProps = Moves & {
   isOpen: boolean;
   isHighlighted?: boolean;
-  renderLineActions: () => JSX.Element;
+  renderLineActions?: () => JSX.Element;
 };
 
 const printStat = (stat?: string | number | null) => `${stat ?? '-'}`;
@@ -63,7 +63,9 @@ export const MoveLine = memo<ComponentPropsWithRef<'div'> & MoveLineProps>(
         )}
       </InlineList>
 
-      <div className={styles.actions}>{renderLineActions()}</div>
+      {renderLineActions && (
+        <div className={styles.actions}>{renderLineActions()}</div>
+      )}
 
       {isOpen && (
         <div className={styles.details}>

@@ -14,3 +14,4 @@ Link.args = { href: '#' };
 export const Button = (args: CtaProps): JSX.Element => (
   <CtaButton {...args}>Create Team</CtaButton>
 );
+Button.args = { disabled: false };

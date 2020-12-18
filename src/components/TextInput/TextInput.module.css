@@ -9,16 +9,16 @@
   border: none;
 
   &[aria-invalid] {
-    box-shadow: 0 0 0 var(--spacing-1) var(--color-error);
+    box-shadow: 0 0 0 var(--spacing-1) var(--color-red-vivid-400);
   }
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 var(--spacing-1) var(--color-downy-600);
+    box-shadow: 0 0 0 var(--spacing-1) var(--color-yellow-vivid-400);
   }
 
   &::placeholder {
-    color: var(--color-sugar-cane-700);
+    color: var(--color-cool-grey-300);
     font-weight: 900;
     text-transform: uppercase;
   }

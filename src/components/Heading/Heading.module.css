@@ -3,7 +3,7 @@
   margin-bottom: var(--spacing-4);
   padding: var(--spacing-4) var(--spacing-4);
   color: var(--color-white);
-  background-color: var(--color-sherpa-blue-800);
+  background-color: var(--color-indigo-700);
 
   @media (--medium-viewport) {
     padding: var(--spacing-4) var(--spacing-6);

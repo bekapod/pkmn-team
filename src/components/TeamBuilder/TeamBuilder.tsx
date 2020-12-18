@@ -40,6 +40,7 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
             type="button"
             key="delete"
             size="small"
+            variant="destructive"
             onClick={deleteTeam}
           >
             Delete team
