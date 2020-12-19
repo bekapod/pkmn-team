@@ -1,7 +1,7 @@
 import type { ComponentPropsWithRef, FunctionComponent } from 'react';
 import cx from 'classnames';
 import Head from 'next/head';
-import { Heading } from '../Heading';
+import { Header } from '../Header';
 import styles from './Page.module.css';
 
 export type PageProps = ComponentPropsWithRef<'div'> & {
@@ -23,7 +23,7 @@ export const Page: FunctionComponent<PageProps> = ({
       <link rel="stylesheet" href="https://use.typekit.net/jdl7nve.css" />
     </Head>
     <div className={cx(styles.container, className)} {...props}>
-      <Heading className={styles.heading}>{title}</Heading>
+      <Header className={styles.header} title={title} />
       <main className={styles.content}>{children}</main>
     </div>
   </>

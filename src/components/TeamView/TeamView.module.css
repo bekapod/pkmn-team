@@ -109,8 +109,8 @@
   line-height: 0;
   background: linear-gradient(
     to bottom,
-    var(--color-red-vivid-600) 0%,
-    var(--color-red-vivid-600) 41%,
+    var(--color-red-vivid-500) 0%,
+    var(--color-red-vivid-500) 41%,
     var(--color-cool-grey-900) 41%,
     var(--color-cool-grey-900) 59%,
     var(--color-white) 59%,
@@ -135,11 +135,16 @@
 [aria-selected='true'] > .add-button {
   background: linear-gradient(
     to bottom,
-    var(--color-carnation-500) 0%,
-    var(--color-carnation-500) 41%,
-    var(--color-sherpa-blue-900) 41%,
-    var(--color-sherpa-blue-900) 59%,
+    var(--color-yellow-vivid-500) 0%,
+    var(--color-yellow-vivid-500) 41%,
+    var(--color-cool-grey-900) 41%,
+    var(--color-cool-grey-900) 59%,
     var(--color-white) 59%,
     var(--color-white) 100%
   );
+}
+
+.add-icon {
+  width: 30%;
+  height: 30%;
 }

@@ -1,6 +1,7 @@
 .base {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   width: auto;
   overflow: hidden;
   padding: var(--spacing-4) var(--spacing-6);
@@ -51,6 +52,11 @@
   }
 }
 
+.icon {
+  margin-left: calc(var(--spacing-2) * -1);
+  margin-right: var(--spacing-3);
+}
+
 .is-tiny,
 .is-small {
   background-color: var(--color-cyan-vivid-800);
@@ -65,12 +71,22 @@
   font-size: var(--font-size-sm);
   line-height: var(--line-height-sm);
   font-weight: 700;
+
+  & .icon {
+    margin-left: 0;
+    margin-right: var(--spacing-2);
+  }
 }
 
 .is-small {
   padding: var(--spacing-3) var(--spacing-5);
   font-size: var(--font-size-base);
   line-height: var(--line-height-base);
+
+  & .icon {
+    margin-left: calc(var(--spacing-2) * -1);
+    margin-right: var(--spacing-3);
+  }
 }
 
 .is-primary {

@@ -14,6 +14,7 @@ import {
   Draggable,
   DropResult
 } from 'react-beautiful-dnd';
+import { BiPlusMedical as Plus } from 'react-icons/bi';
 import { v4 as uuid } from 'uuid';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { PokemonSearch } from '../PokemonSearch';
@@ -123,7 +124,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
           <CtaButton
             type="button"
             size="small"
-            variant="primary"
+            variant="secondary"
             onClick={() =>
               dispatch({
                 type: TeamMemberActionType.AddTeamMember,
@@ -205,7 +206,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
                               className={styles['add-button']}
                               aria-label="Add new pokemon to team"
                             >
-                              +
+                              <Plus className={styles['add-icon']} />
                             </span>
                           </div>
                         )}
