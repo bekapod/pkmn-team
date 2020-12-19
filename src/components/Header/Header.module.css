@@ -1,0 +1,37 @@
+.container {
+  display: flex;
+  align-items: center;
+  margin-top: 0;
+  margin-bottom: var(--spacing-4);
+  padding: var(--spacing-3) var(--spacing-4);
+  background-color: var(--color-indigo-700);
+
+  @media (--medium-viewport) {
+    padding: var(--spacing-3) var(--spacing-6);
+  }
+}
+
+.title {
+  margin: 0;
+  color: var(--color-white);
+}
+
+.logo-link {
+  display: block;
+  margin-right: var(--spacing-4);
+  transition: transform;
+  transition-duration: 300ms;
+  transition-timing-function: ease-out;
+  transform: scale(1);
+
+  &:hover,
+  &:focus {
+    transform: scale(1.1);
+  }
+}
+
+.logo {
+  display: block;
+  width: var(--spacing-8);
+  height: var(--spacing-8);
+}

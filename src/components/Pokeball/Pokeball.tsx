@@ -4,10 +4,7 @@ import styles from './Pokeball.module.css';
 
 export type PokeballProps = ComponentPropsWithoutRef<'svg'>;
 
-export const Pokeball: FunctionComponent<PokeballProps> = ({
-  className,
-  ...props
-}) => (
+export const Pokeball: FunctionComponent<PokeballProps> = props => (
   <svg viewBox="0 0 112 112" version="1.1" {...props}>
     <g
       stroke="none"
