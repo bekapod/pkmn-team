@@ -124,7 +124,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
           <CtaButton
             type="button"
             size="small"
-            variant="primary"
+            variant="secondary"
             onClick={() =>
               dispatch({
                 type: TeamMemberActionType.AddTeamMember,

@@ -1,5 +1,6 @@
 import { FunctionComponent, useCallback } from 'react';
 import { debounce } from 'lodash';
+import { BiTrash as Trash } from 'react-icons/bi';
 import { CenteredRow } from '../CenteredRow';
 import { CtaButton } from '../Cta';
 import { ErrorMessage } from '../ErrorMessage';
@@ -43,6 +44,7 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
             key="delete"
             size="small"
             variant="destructive"
+            icon={Trash}
             onClick={deleteTeam}
           >
             Delete team
