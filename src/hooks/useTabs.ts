@@ -22,13 +22,15 @@ export type GetTabContentProps = (
   id: string
 ) => { 'aria-hidden': boolean; 'aria-labelledby': string };
 
-export function useTabs(): {
+export function useTabs(
+  initialSelectedItem?: string
+): {
   getTabItemProps: GetTabItemProps;
   getTabContentProps: GetTabContentProps;
 } {
   const contentRefs = useRef<Record<string, HTMLElement>>({});
   const [selectedItem, setSelectedItem] = useState<string | undefined>(
-    undefined
+    initialSelectedItem
   );
 
   const onTabItemClick = useCallback(

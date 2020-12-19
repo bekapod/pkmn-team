@@ -3,7 +3,10 @@ import { TextInput, TextInputProps } from './TextInput';
 
 export default {
   title: 'Components/TextInput',
-  component: TextInput
+  component: TextInput,
+  args: {
+    disabled: false
+  }
 } as Meta<TextInputProps>;
 
 export const Standard = (args: TextInputProps): JSX.Element => (

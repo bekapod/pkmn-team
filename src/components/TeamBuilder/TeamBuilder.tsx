@@ -12,7 +12,8 @@ import { Pokemon, Teams } from '~/generated/graphql';
 export type TeamBuilderProps = {
   allPokemon: Pokemon[];
   team: Teams;
-  loading?: boolean;
+  isLoading?: boolean;
+  isSkeleton?: boolean;
   error?: string;
   updateTeam?: (name: string) => void;
   deleteTeam?: () => void;
@@ -21,7 +22,8 @@ export type TeamBuilderProps = {
 export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
   allPokemon,
   team,
-  loading,
+  isLoading,
+  isSkeleton,
   error,
   updateTeam,
   deleteTeam
@@ -35,7 +37,7 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
   return (
     <>
       <StickyBar>
-        {!loading ? (
+        {!isLoading && !isSkeleton ? (
           <CtaButton
             type="button"
             key="delete"
@@ -51,7 +53,9 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
           <ErrorMessage color="var(--color-white)">{error}</ErrorMessage>
         )}
 
-        {loading && <LoadingIcon key="Loading icon" spinner small />}
+        {(isLoading || isSkeleton) && (
+          <LoadingIcon key="Loading icon" spinner small />
+        )}
       </StickyBar>
 
       <CenteredRow stackVertically>
@@ -60,12 +64,14 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
           placeholder="Choose a team name"
           defaultValue={team?.name}
           onChange={e => debouncedUpdateTeam?.(e.currentTarget.value)}
+          disabled={isSkeleton}
         />
       </CenteredRow>
 
       <TeamView
         allPokemon={allPokemon}
         initialTeamMembers={team?.team_members}
+        isSkeleton={isSkeleton}
       />
     </>
   );

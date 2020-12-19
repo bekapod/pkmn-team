@@ -14,8 +14,6 @@ import {
   Draggable,
   DropResult
 } from 'react-beautiful-dnd';
-import wait from 'waait';
-import { BiTrash as Trash } from 'react-icons/bi';
 import { v4 as uuid } from 'uuid';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { PokemonSearch } from '../PokemonSearch';
@@ -30,8 +28,9 @@ import styles from './TeamView.module.css';
 
 export type TeamViewProps = {
   initialTeamMembers?: Team_Member[];
-  allPokemon: Pokemon[];
+  allPokemon?: Pokemon[];
   updateTeamMembers?: (members: Team_Member[]) => void;
+  isSkeleton?: boolean;
 };
 
 const onDragStart = () => {
@@ -39,14 +38,15 @@ const onDragStart = () => {
 };
 
 export const TeamView: FunctionComponent<TeamViewProps> = memo(
-  ({ updateTeamMembers, initialTeamMembers = [], allPokemon }) => {
+  ({ updateTeamMembers, initialTeamMembers = [], allPokemon, isSkeleton }) => {
     const isInitialValue = useRef(true);
     const [teamMembers, dispatch] = useTeamMembersReducer(initialTeamMembers);
     const [currentSearchPokemon, setCurrentSearchPokemon] = useState<
       Pokemon | undefined
     >();
-    const [deletedItems, setDeletedItems] = useState<Team_Member[]>([]);
-    const { getTabItemProps, getTabContentProps } = useTabs();
+    const { getTabItemProps, getTabContentProps } = useTabs(
+      initialTeamMembers?.[0]?.id ?? 'add-pokemon'
+    );
 
     useEffect(() => {
       if (!isInitialValue.current) {
@@ -85,27 +85,9 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
 
           document.body.classList.remove('is-dragging');
         }
-
-        if (result.destination.droppableId === 'teamview-bin') {
-          const binnedMember = teamMembers[result.source.index];
-
-          if (binnedMember) {
-            setDeletedItems(val => [...val, binnedMember]);
-            dispatch({
-              type: TeamMemberActionType.RemoveTeamMember,
-              payload: binnedMember
-            });
-          }
-        }
       },
       [dispatch, teamMembers]
     );
-
-    const emptyBin = useCallback(async () => {
-      document.body.classList.remove('is-dragging');
-      await wait(250);
-      setDeletedItems([]);
-    }, []);
 
     const renderCardActions = useCallback(
       ({
@@ -158,7 +140,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
 
     return (
       <>
-        <div className={styles['tab-bar']}>
+        <div className={styles['tab-bar']} aria-busy={isSkeleton}>
           <DragDropContext
             onBeforeDragStart={onDragStart}
             onDragEnd={onDragEnd}
@@ -193,7 +175,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
                       );
                     })}
 
-                    {teamMembers.length < 6 && (
+                    {teamMembers.length < 6 && !isSkeleton && (
                       <Draggable
                         key="Add new Pokemon"
                         draggableId="Add new Pokemon"
@@ -226,44 +208,6 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
 
                     {droppableProvided.placeholder}
                   </div>
-                </div>
-              )}
-            </Droppable>
-
-            <Droppable droppableId="teamview-bin" direction="horizontal">
-              {(droppableProvided, droppableSnapshot) => (
-                <div
-                  className={styles.bin}
-                  {...droppableProvided.droppableProps}
-                  ref={droppableProvided.innerRef}
-                  data-bin
-                  css={`
-                    width: calc(100% / ${teamMembers.length + 1});
-
-                    ${droppableSnapshot.isDraggingOver
-                      ? `
-                  --background: var(--color-primary-dark);
-                        --color: var(--color-white);
-                `
-                      : ''}
-                  `}
-                >
-                  {droppableProvided.placeholder}
-                  <span className="zig-zag-helper" />
-                  <Trash />
-
-                  {deletedItems.map(({ id, pokemon }) => (
-                    <div
-                      className={styles['tab-item']}
-                      key={id}
-                      aria-selected={false}
-                      data-testid={`binned-item-${id}`}
-                      data-binned-item
-                      onAnimationEnd={emptyBin}
-                    >
-                      <PokemonLine pokemon={pokemon} />
-                    </div>
-                  ))}
                 </div>
               )}
             </Droppable>
@@ -305,11 +249,14 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
             {...addPokemonTabContentProps}
             key="Pokemon search"
             data-testid="tab-content-add-pokemon"
+            aria-busy={isSkeleton}
           >
-            <PokemonSearch
-              setCurrentSearchPokemon={setCurrentSearchPokemon}
-              pokemon={allPokemon}
-            />
+            {allPokemon && (
+              <PokemonSearch
+                setCurrentSearchPokemon={setCurrentSearchPokemon}
+                pokemon={allPokemon}
+              />
+            )}
             {currentSearchPokemon ? (
               <PokemonCard
                 pokemon={currentSearchPokemon}
