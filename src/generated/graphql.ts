@@ -1291,6 +1291,19 @@ export type TypeFragmentFragment = (
   & Pick<Types, 'id' | 'name' | 'slug'>
 );
 
+export type CreateTeamMutationVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type CreateTeamMutation = (
+  { __typename?: 'mutation_root' }
+  & { createTeam?: Maybe<(
+    { __typename?: 'teams' }
+    & TeamFragmentFragment
+  )> }
+);
+
 export type DeleteTeamMutationVariables = Exact<{
   id: Scalars['uuid'];
 }>;
@@ -1435,6 +1448,17 @@ export const TeamFragmentFragmentDoc = gql`
 }
     ${PokemonFragmentFragmentDoc}
 ${MoveFragmentFragmentDoc}`;
+export const CreateTeamDocument = gql`
+    mutation CreateTeam($name: String!) {
+  createTeam(object: {name: $name}) {
+    ...TeamFragment
+  }
+}
+    ${TeamFragmentFragmentDoc}`;
+
+export function useCreateTeamMutation() {
+  return Urql.useMutation<CreateTeamMutation, CreateTeamMutationVariables>(CreateTeamDocument);
+};
 export const DeleteTeamDocument = gql`
     mutation DeleteTeam($id: uuid!) {
   deleteTeam(id: $id) {
