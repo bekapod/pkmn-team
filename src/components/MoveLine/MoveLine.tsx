@@ -17,6 +17,7 @@ const printStat = (stat?: string | number | null) => `${stat ?? '-'}`;
 
 export const MoveLine = memo<ComponentPropsWithRef<'div'> & MoveLineProps>(
   ({
+    __typename,
     name,
     type,
     damage_class,
