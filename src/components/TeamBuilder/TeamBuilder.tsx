@@ -10,8 +10,8 @@ import { StickyBar } from '../StickyBar';
 import { Pokemon, Teams } from '~/generated/graphql';
 
 export type TeamBuilderProps = {
-  allPokemon: Pokemon[];
-  team: Teams;
+  allPokemon?: Pokemon[];
+  team?: Teams;
   isLoading?: boolean;
   isSkeleton?: boolean;
   error?: string;

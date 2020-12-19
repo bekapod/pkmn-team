@@ -1,6 +1,8 @@
 import {
+  Dispatch,
   KeyboardEvent,
   MouseEventHandler,
+  SetStateAction,
   useCallback,
   useRef,
   useState
@@ -27,6 +29,7 @@ export function useTabs(
 ): {
   getTabItemProps: GetTabItemProps;
   getTabContentProps: GetTabContentProps;
+  setSelectedTab: Dispatch<SetStateAction<string | undefined>>;
 } {
   const contentRefs = useRef<Record<string, HTMLElement>>({});
   const [selectedItem, setSelectedItem] = useState<string | undefined>(
@@ -94,6 +97,7 @@ export function useTabs(
 
   return {
     getTabItemProps,
-    getTabContentProps
+    getTabContentProps,
+    setSelectedTab: setSelectedItem
   };
 }

@@ -26,7 +26,9 @@ const Team: NextComponentType<
   const teamByIdOptions = useMemo(() => ({ variables: { id }, pause: !id }), [
     id
   ]);
-  const [{ data: teamData, fetching }] = useTeamByIdQuery(teamByIdOptions);
+  const [{ data: teamData, fetching: teamFetching }] = useTeamByIdQuery(
+    teamByIdOptions
+  );
 
   const allPokemonOptions = useMemo(() => ({ pause: !id }), [id]);
   const [{ data: allPokemonData }] = useAllPokemonQuery(allPokemonOptions);
@@ -64,16 +66,15 @@ const Team: NextComponentType<
       title={`Team: ${team?.name ?? '…'}`}
       metaTitle={`${team?.name ?? '…'} | Team | Pkmn Team`}
     >
-      <FullWidthContainer aria-busy={fetching}>
-        {!!pokemon && !!team && (
-          <TeamBuilder
-            allPokemon={pokemon}
-            team={team}
-            loading={updateTeamFetching || deleteTeamFetching}
-            updateTeam={updateTeamHandler}
-            deleteTeam={deleteTeamHandler}
-          />
-        )}
+      <FullWidthContainer>
+        <TeamBuilder
+          allPokemon={pokemon}
+          team={team}
+          isSkeleton={teamFetching}
+          isLoading={updateTeamFetching || deleteTeamFetching}
+          updateTeam={updateTeamHandler}
+          deleteTeam={deleteTeamHandler}
+        />
       </FullWidthContainer>
     </Page>
   );

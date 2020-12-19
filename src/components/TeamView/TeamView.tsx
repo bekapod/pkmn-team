@@ -44,9 +44,15 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
     const [currentSearchPokemon, setCurrentSearchPokemon] = useState<
       Pokemon | undefined
     >();
-    const { getTabItemProps, getTabContentProps } = useTabs(
+    const { getTabItemProps, getTabContentProps, setSelectedTab } = useTabs(
       initialTeamMembers?.[0]?.id ?? 'add-pokemon'
     );
+
+    useEffect(() => {
+      if (!isSkeleton && initialTeamMembers.length > 0)
+        setSelectedTab(initialTeamMembers[0].id);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isSkeleton]);
 
     useEffect(() => {
       if (!isInitialValue.current) {
