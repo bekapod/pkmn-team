@@ -1,5 +1,5 @@
 .base {
-  width: 300px;
+  width: 100%;
   padding: 0 var(--spacing-3);
   font-family: var(--font-family);
   font-size: var(--font-size-base);
@@ -7,6 +7,10 @@
   font-weight: 700;
   background-color: var(--color-white);
   border: none;
+
+  @media (--medium-viewport) {
+    max-width: 50rem;
+  }
 
   &[aria-invalid] {
     box-shadow: 0 0 0 var(--spacing-1) var(--color-red-vivid-400);
