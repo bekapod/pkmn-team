@@ -1,13 +1,14 @@
-import type { ComponentPropsWithRef, FunctionComponent } from 'react';
+import { ComponentPropsWithRef, forwardRef, FunctionComponent } from 'react';
 import cx from 'classnames';
 import { Types } from '~/generated/graphql';
 import { getTypeGradient } from '~/lib/gradients';
 import styles from './Card.module.css';
 
-export const CardLink: FunctionComponent<ComponentPropsWithRef<'a'>> = ({
-  className,
-  ...props
-}) => <a className={cx(styles.link, className)} {...props} />;
+export const CardLink: FunctionComponent<
+  ComponentPropsWithRef<'a'>
+> = forwardRef(({ className, ...props }, ref) => (
+  <a ref={ref} className={cx(styles.link, className)} {...props} />
+));
 
 export const CardWrapper: FunctionComponent<
   ComponentPropsWithRef<'article'>
