@@ -12,6 +12,10 @@
     box-shadow: 0 0 0 var(--spacing-1) var(--color-red-vivid-400);
   }
 
+  &[disabled] {
+    background-color: var(--color-cool-grey-050);
+  }
+
   &:focus {
     outline: none;
     box-shadow: 0 0 0 var(--spacing-1) var(--color-yellow-vivid-400);

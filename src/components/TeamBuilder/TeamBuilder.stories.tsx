@@ -44,3 +44,12 @@ export default {
 export const WithTeam = (args: TeamBuilderProps): JSX.Element => (
   <TeamBuilder {...args} />
 );
+
+export const Skeleton = (args: TeamBuilderProps): JSX.Element => (
+  <TeamBuilder {...args} />
+);
+Skeleton.args = {
+  isSkeleton: true,
+  team: undefined,
+  allPokemon: undefined
+};

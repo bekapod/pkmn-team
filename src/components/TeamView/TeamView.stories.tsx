@@ -36,6 +36,15 @@ export default {
   }
 } as Meta<TeamViewProps>;
 
-export const Standard = (args: TeamViewProps): JSX.Element => (
+export const Default = (args: TeamViewProps): JSX.Element => (
   <TeamView {...args} />
 );
+
+export const Skeleton = (args: TeamViewProps): JSX.Element => (
+  <TeamView {...args} />
+);
+Skeleton.args = {
+  initialTeamMembers: undefined,
+  allPokemon: undefined,
+  isSkeleton: true
+};

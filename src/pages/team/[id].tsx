@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import type { NextComponentType, NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import { NextUrqlPageContext, withUrqlClient } from 'next-urql';
@@ -10,7 +9,7 @@ import {
 } from '~/generated/graphql';
 import { createClient } from '~/lib/client';
 import { FullWidthContainer } from '~/components/FullWidthContainer';
-import { Heading } from '~/components/Heading';
+import { Page } from '~/components/Page';
 import { TeamBuilder } from '~/components/TeamBuilder';
 import { useCallback, useMemo } from 'react';
 
@@ -27,7 +26,9 @@ const Team: NextComponentType<
   const teamByIdOptions = useMemo(() => ({ variables: { id }, pause: !id }), [
     id
   ]);
-  const [{ data: teamData }] = useTeamByIdQuery(teamByIdOptions);
+  const [{ data: teamData, fetching: teamFetching }] = useTeamByIdQuery(
+    teamByIdOptions
+  );
 
   const allPokemonOptions = useMemo(() => ({ pause: !id }), [id]);
   const [{ data: allPokemonData }] = useAllPokemonQuery(allPokemonOptions);
@@ -61,25 +62,21 @@ const Team: NextComponentType<
   }, [team?.id, router, deleteTeam]);
 
   return (
-    <>
-      <Head>
-        <title>{team?.name} | Team | Pkmn Team</title>
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="stylesheet" href="https://use.typekit.net/jdl7nve.css" />
-      </Head>
-      <Heading>Team: {team?.name}</Heading>
+    <Page
+      title={`Team: ${team?.name ?? '…'}`}
+      metaTitle={`${team?.name ?? '…'} | Team | Pkmn Team`}
+    >
       <FullWidthContainer>
-        {!!pokemon && !!team && (
-          <TeamBuilder
-            allPokemon={pokemon}
-            team={team}
-            loading={updateTeamFetching || deleteTeamFetching}
-            updateTeam={updateTeamHandler}
-            deleteTeam={deleteTeamHandler}
-          />
-        )}
+        <TeamBuilder
+          allPokemon={pokemon}
+          team={team}
+          isSkeleton={teamFetching}
+          isLoading={updateTeamFetching || deleteTeamFetching}
+          updateTeam={updateTeamHandler}
+          deleteTeam={deleteTeamHandler}
+        />
       </FullWidthContainer>
-    </>
+    </Page>
   );
 };
 

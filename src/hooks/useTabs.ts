@@ -1,6 +1,8 @@
 import {
+  Dispatch,
   KeyboardEvent,
   MouseEventHandler,
+  SetStateAction,
   useCallback,
   useRef,
   useState
@@ -22,13 +24,16 @@ export type GetTabContentProps = (
   id: string
 ) => { 'aria-hidden': boolean; 'aria-labelledby': string };
 
-export function useTabs(): {
+export function useTabs(
+  initialSelectedItem?: string
+): {
   getTabItemProps: GetTabItemProps;
   getTabContentProps: GetTabContentProps;
+  setSelectedTab: Dispatch<SetStateAction<string | undefined>>;
 } {
   const contentRefs = useRef<Record<string, HTMLElement>>({});
   const [selectedItem, setSelectedItem] = useState<string | undefined>(
-    undefined
+    initialSelectedItem
   );
 
   const onTabItemClick = useCallback(
@@ -92,6 +97,7 @@ export function useTabs(): {
 
   return {
     getTabItemProps,
-    getTabContentProps
+    getTabContentProps,
+    setSelectedTab: setSelectedItem
   };
 }
