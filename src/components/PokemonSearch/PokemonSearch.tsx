@@ -2,13 +2,12 @@ import {
   ChangeEvent,
   KeyboardEvent,
   FunctionComponent,
-  HTMLAttributes,
   useCallback,
   useEffect,
   useRef,
   useState
 } from 'react';
-import { FixedSizeList as List } from 'react-window';
+import { FixedSizeList as List, ListChildComponentProps } from 'react-window';
 import type { CombinedError } from 'urql';
 import { Pokemon } from '~/generated/graphql';
 import { Autocomplete, AutocompleteDropdown } from '../Autocomplete';
@@ -29,14 +28,7 @@ const resultItem = (
   pokemon: Pokemon[],
   highlightedIndex: number,
   onClick: (pkmn: Pokemon, index: number) => void
-) => ({
-  index,
-  style,
-  ...itemProps
-}: {
-  index: number;
-  style: HTMLAttributes<HTMLElement>['style'];
-}): JSX.Element => {
+) => ({ index, style, isScrolling, ...itemProps }: ListChildComponentProps) => {
   const pkmn = pokemon[index];
   const isHighlighted = index === highlightedIndex;
   const props = {
