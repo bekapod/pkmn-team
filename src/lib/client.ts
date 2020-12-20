@@ -3,7 +3,7 @@ import type { NextUrqlClientConfig } from 'next-urql';
 import { devtoolsExchange } from '@urql/devtools';
 import { cacheExchange } from '@urql/exchange-graphcache';
 import schema from '~/generated/introspection.json';
-import { AllTeamsDocument, AllTeamsQuery } from '~/generated/graphql';
+import { AllTeamsDocument, AllTeamsQuery, Teams } from '~/generated/graphql';
 
 export const createClient: NextUrqlClientConfig = ssrExchange => ({
   url: `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/graphql`,
@@ -19,6 +19,18 @@ export const createClient: NextUrqlClientConfig = ssrExchange => ({
       },
       updates: {
         Mutation: {
+          createTeam: (result, _args, cache) => {
+            cache.updateQuery(
+              { query: AllTeamsDocument },
+              (data: AllTeamsQuery | null) => {
+                if (data?.teams && result.createTeam) {
+                  data.teams.unshift(result.createTeam as Teams);
+                }
+
+                return data;
+              }
+            );
+          },
           deleteTeam: (_result, args, cache) => {
             cache.updateQuery(
               { query: AllTeamsDocument },

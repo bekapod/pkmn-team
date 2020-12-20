@@ -17,9 +17,7 @@ function Home(): JSX.Element {
       <FullWidthContainer>
         <CenteredRow>
           <Link href="/team/create" passHref>
-            <CtaInternalLink variant="primary" icon={Plus}>
-              Create your own team
-            </CtaInternalLink>
+            <CtaInternalLink>Create your own team</CtaInternalLink>
           </Link>
         </CenteredRow>
         <TeamGrid as="ul" role="list" className="u-unstyled-list">
