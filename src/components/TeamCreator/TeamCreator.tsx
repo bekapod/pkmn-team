@@ -13,12 +13,14 @@ export type TeamCreatorFormValues = {
 
 export type TeamCreatorProps = ComponentPropsWithoutRef<'form'> & {
   defaultValues?: Partial<TeamCreatorFormValues>;
+  isLoading?: boolean;
   createTeam?: (values: TeamCreatorFormValues) => void;
 };
 
 export const TeamCreator: FunctionComponent<TeamCreatorProps> = ({
   className,
   defaultValues,
+  isLoading,
   createTeam,
   ...props
 }) => {
@@ -48,6 +50,7 @@ export const TeamCreator: FunctionComponent<TeamCreatorProps> = ({
           name="team-name"
           isInvalid={!!error}
           aria-required="true"
+          disabled={isLoading}
           ref={register({
             required: {
               value: true,
@@ -56,7 +59,9 @@ export const TeamCreator: FunctionComponent<TeamCreatorProps> = ({
           })}
         />
       </FormField>
-      <CtaButton type="submit">Create team</CtaButton>
+      <CtaButton type="submit" aria-busy={isLoading}>
+        Create team
+      </CtaButton>
     </CenteredRow>
   );
 };

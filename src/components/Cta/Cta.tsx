@@ -7,6 +7,7 @@ import {
 } from 'react';
 import type { IconType } from 'react-icons';
 import cx from 'classnames';
+import { LoadingIcon } from '../LoadingIcon';
 import styles from './Cta.module.css';
 
 export type CtaProps = {
@@ -40,10 +41,17 @@ const CtaBase: FunctionComponent<
         [styles['is-small']]: size === 'small',
         [styles['is-tiny']]: size === 'tiny'
       })}
+      disabled={props['aria-busy']}
       {...props}
     >
-      {Icon && <Icon role="presentation" className={styles.icon} />}
-      {children}
+      {props['aria-busy'] ? (
+        <LoadingIcon spinner small className={styles.spinner} />
+      ) : (
+        <>
+          {Icon && <Icon role="presentation" className={styles.icon} />}
+          {children}
+        </>
+      )}
     </As>
   )
 );
