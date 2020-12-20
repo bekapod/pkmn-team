@@ -17,7 +17,8 @@
       "<rootDir>/src/jest.setup.ts"
     ],
     "moduleNameMapper": {
-      "\\.(css)$": "identity-obj-proxy"
+      "\\.(css)$": "identity-obj-proxy",
+      "~(.*)$": "<rootDir>/src/$1"
     }
   },
   "dependencies": {

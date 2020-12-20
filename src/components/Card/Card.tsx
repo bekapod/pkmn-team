@@ -16,11 +16,11 @@ export const CardWrapper: FunctionComponent<
   <article className={cx(styles.wrapper, className)} {...props} />
 );
 
-type CardHeaderProps = ComponentPropsWithRef<'header'> & {
-  types: Pick<Types, 'name' | 'slug'>[];
+export type CardHeaderProps = ComponentPropsWithRef<'header'> & {
+  types?: Pick<Types, 'name' | 'slug'>[];
 };
 export const CardHeader: FunctionComponent<CardHeaderProps> = ({
-  types,
+  types = [],
   className,
   ...props
 }) => (
