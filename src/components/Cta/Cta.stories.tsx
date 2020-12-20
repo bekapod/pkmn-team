@@ -21,3 +21,8 @@ export const WithIcon = (args: CtaProps): JSX.Element => (
   <CtaButton {...args}>Create Team</CtaButton>
 );
 WithIcon.args = { icon: Icon };
+
+export const IsBusy = (args: CtaProps): JSX.Element => (
+  <CtaButton {...args}>Create Team</CtaButton>
+);
+IsBusy.args = { 'aria-busy': true };

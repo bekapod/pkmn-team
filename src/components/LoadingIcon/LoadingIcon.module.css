@@ -33,8 +33,8 @@
 
   &,
   &:after {
-    width: var(--spacing-8);
-    height: var(--spacing-8);
+    width: 1.5em;
+    height: 1.5em;
     border-radius: 50%;
   }
 }
@@ -45,12 +45,6 @@
 
 .spinner.is-small {
   border-width: 5px;
-
-  &,
-  &::after {
-    width: var(--spacing-5);
-    height: var(--spacing-5);
-  }
 }
 
 .is-centered {

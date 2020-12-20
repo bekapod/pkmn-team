@@ -3,12 +3,12 @@
   display: inline-flex;
   align-items: center;
   width: auto;
+  min-height: var(--spacing-8);
   overflow: hidden;
-  padding: var(--spacing-4) var(--spacing-6);
+  padding: 0 var(--spacing-6);
   color: var(--color-white);
   font-family: var(--font-family);
   font-size: var(--font-size-lg);
-  line-height: var(--line-height-lg);
   font-weight: 900;
   text-align: center;
   text-decoration: none;
@@ -67,9 +67,9 @@
 }
 
 .is-tiny {
-  padding: var(--spacing-2) var(--spacing-3);
+  min-height: var(--spacing-5);
+  padding: 0 var(--spacing-3);
   font-size: var(--font-size-sm);
-  line-height: var(--line-height-sm);
   font-weight: 700;
 
   & .icon {
@@ -79,9 +79,9 @@
 }
 
 .is-small {
-  padding: var(--spacing-3) var(--spacing-5);
+  min-height: var(--spacing-6);
+  padding: 0 var(--spacing-5);
   font-size: var(--font-size-base);
-  line-height: var(--line-height-base);
 
   & .icon {
     margin-left: calc(var(--spacing-2) * -1);
@@ -111,4 +111,9 @@
   &::before {
     background-color: var(--color-red-vivid-500);
   }
+}
+
+.spinner {
+  border-color: #ffffff75;
+  border-left-color: #fff;
 }

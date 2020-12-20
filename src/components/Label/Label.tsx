@@ -1,8 +1,17 @@
-import type { FunctionComponent, ComponentPropsWithRef } from 'react';
+import type {
+  FunctionComponent,
+  ComponentPropsWithRef,
+  ElementType
+} from 'react';
 import cx from 'classnames';
 import styles from './Label.module.css';
 
-export const Label: FunctionComponent<ComponentPropsWithRef<'span'>> = ({
+export type LabelProps = ComponentPropsWithRef<ElementType> & {
+  as?: ElementType;
+};
+
+export const Label: FunctionComponent<LabelProps> = ({
   className,
+  as: As = 'span',
   ...props
-}) => <span className={cx(styles.base, className)} {...props} />;
+}) => <As className={cx(styles.base, className)} {...props} />;
