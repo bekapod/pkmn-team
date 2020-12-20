@@ -1,6 +1,5 @@
 import { withUrqlClient } from 'next-urql';
 import Link from 'next/link';
-import { BiPlusMedical as Plus } from 'react-icons/bi';
 import { useAllTeamsQuery } from '~/generated/graphql';
 import { createClient } from '~/lib/client';
 import { FullWidthContainer } from '~/components/FullWidthContainer';
