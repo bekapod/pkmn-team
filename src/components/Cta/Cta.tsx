@@ -56,7 +56,7 @@ const CtaBase: FunctionComponent<
   )
 );
 
-export const CtaInternalLink: FunctionComponent<
+export const CtaLink: FunctionComponent<
   ComponentPropsWithRef<'a'> & CtaProps
 > = forwardRef((props, ref) => <CtaBase ref={ref} as="a" {...props} />);
 
