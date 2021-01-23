@@ -35,7 +35,7 @@ const CtaBase: FunctionComponent<
     <As
       ref={ref}
       className={cx(styles.base, className, {
-        [styles['is-primary']]: variant === 'primary',
+        [styles[`is-primary`]]: variant === 'primary',
         [styles['is-tertiary']]: variant === 'tertiary',
         [styles['is-destructive']]: variant === 'destructive',
         [styles['is-small']]: size === 'small',
