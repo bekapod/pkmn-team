@@ -1,4 +1,8 @@
-import { ComponentPropsWithRef, ElementType, FunctionComponent } from 'react';
+import type {
+  ComponentPropsWithRef,
+  ElementType,
+  FunctionComponent
+} from 'react';
 import cx from 'classnames';
 import styles from './CenteredRow.module.css';
 
