@@ -10,9 +10,17 @@
     "start:storybook": "start-storybook -p 6006 -s ./public",
     "build:storybook": "build-storybook -s ./public",
     "test:storybook": "percy-storybook --widths=360,960,1280",
-    "test": "jest"
+    "test": "jest --verbose --coverage"
   },
   "jest": {
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 90,
+        "lines": 90,
+        "statements": 90
+      }
+    },
     "setupFilesAfterEnv": [
       "<rootDir>/src/jest.setup.ts"
     ],
