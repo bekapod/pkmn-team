@@ -62,7 +62,7 @@ describe(TeamBuilder, () => {
     const updateTeam = jest.fn();
     const { getByLabelText } = setup({ updateTeam });
     await userEvent.type(getByLabelText('Choose a team name'), '!!!!111');
-    await wait(1000);
+    await wait(1500);
     expect(updateTeam).toHaveBeenCalledTimes(1);
     expect(updateTeam).toHaveBeenCalledWith('My super team!!!!!111');
   });
