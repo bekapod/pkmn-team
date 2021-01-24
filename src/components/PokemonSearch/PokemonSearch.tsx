@@ -139,7 +139,7 @@ export const PokemonSearch: FunctionComponent<PokemonSearchProps> = ({
       <GiantInput
         aria-label="Find Pokemon by name"
         placeholder="Find by name"
-        fullWidth
+        isFullWidth
         value={inputValue}
         onKeyDown={keyboardNavigation}
         onChange={updateList}
