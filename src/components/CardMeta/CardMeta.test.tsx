@@ -37,4 +37,9 @@ describe(CardMeta, () => {
     expect(getByText('Value 1').tagName).toBe('DD');
     expect(getByText('Value 2').tagName).toBe('DD');
   });
+
+  it('renders empty <dl> when no items are passed', () => {
+    const { getByTestId } = render(<CardMeta id="test" />);
+    expect(getByTestId('card-meta-test')).toBeEmptyDOMElement();
+  });
 });

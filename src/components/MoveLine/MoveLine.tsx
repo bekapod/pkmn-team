@@ -42,7 +42,7 @@ export const MoveLine = memo<ComponentPropsWithRef<'div'> & MoveLineProps>(
         '--type-gradient': getTypeGradient(
           damage_class
             ? [{ name: damage_class.value, slug: damage_class.value }].concat(
-                type ?? []
+                type
               )
             : [type]
         )

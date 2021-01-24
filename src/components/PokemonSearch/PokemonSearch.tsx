@@ -39,7 +39,7 @@ const resultItem = (
       backgroundColor: isHighlighted
         ? 'var(--color-yellow-vivid-100)'
         : 'initial',
-      top: `calc(${style?.top ?? 0}px + var(--spacing-1))`
+      top: `calc(${style?.top}px + var(--spacing-1))`
     }
   };
 

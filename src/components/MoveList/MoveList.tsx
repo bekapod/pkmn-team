@@ -103,7 +103,7 @@ const Row = ({
       isHighlighted={highlightLearnedMoves && !!teamMemberMove}
       style={{
         ...style,
-        top: `calc(${style?.top ?? 0}px + (var(--spacing-2) / 2))`
+        top: `calc(${style?.top}px + (var(--spacing-2) / 2))`
       }}
       renderLineActions={renderLineActions}
     />

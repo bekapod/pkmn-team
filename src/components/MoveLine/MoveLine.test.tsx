@@ -23,6 +23,14 @@ describe('MoveLine', () => {
     });
   });
 
+  it('adds type gradient without damage class', () => {
+    const { container } = setup({ damage_class: null });
+    expect(container.firstChild).toHaveStyle({
+      '--type-gradient':
+        'linear-gradient(90deg, var(--color-normal) 0%, var(--color-normal) 100%)'
+    });
+  });
+
   it("doesn't use aria-selected attribute when not highlighted", () => {
     const { container } = setup();
     expect(container.firstChild).not.toHaveAttribute('aria-selected');
