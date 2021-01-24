@@ -20,7 +20,7 @@ import { PokemonLine } from '../PokemonLine';
 export type PokemonSearchProps = {
   setCurrentSearchPokemon: (pokemon: Pokemon) => void;
   pokemon: Pokemon[];
-  loading?: boolean;
+  isLoading?: boolean;
   error?: CombinedError;
 };
 
@@ -56,7 +56,7 @@ const resultItem = (
 export const PokemonSearch: FunctionComponent<PokemonSearchProps> = ({
   setCurrentSearchPokemon,
   pokemon,
-  loading,
+  isLoading,
   error
 }) => {
   const listContainer = useRef<List>(null);
@@ -118,7 +118,7 @@ export const PokemonSearch: FunctionComponent<PokemonSearchProps> = ({
     [filteredList, highlightedIndex, setCurrentSearchPokemon]
   );
 
-  if (loading) {
+  if (isLoading) {
     return (
       <CenteredRow stackVertically>
         <LoadingIcon isSpinner />
@@ -126,7 +126,7 @@ export const PokemonSearch: FunctionComponent<PokemonSearchProps> = ({
     );
   }
 
-  if (!loading && error) {
+  if (!isLoading && error) {
     return (
       <CenteredRow stackVertically>
         <ErrorMessage>{error.message}</ErrorMessage>
