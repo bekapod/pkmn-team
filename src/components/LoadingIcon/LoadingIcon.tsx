@@ -3,27 +3,31 @@ import cx from 'classnames';
 import styles from './LoadingIcon.module.css';
 
 export type LoadingIconProps = {
-  spinner?: boolean;
-  small?: boolean;
-  centered?: boolean;
+  isSpinner?: boolean;
+  isSmall?: boolean;
+  isCentered?: boolean;
 };
 
 const loadingText = 'Loading';
 
 export const LoadingIcon: FunctionComponent<
   ComponentPropsWithRef<'div'> & LoadingIconProps
-> = ({ spinner, small, centered, className, ...props }) =>
-  spinner ? (
+> = ({ isSpinner, isSmall, isCentered, className, ...props }) =>
+  isSpinner ? (
     <div
-      className={cx(className, styles.spinner, {
-        [styles['is-small']]: small,
-        [styles['is-centered']]: centered
-      })}
+      className={cx(
+        styles.spinner,
+        {
+          [styles['is-small']]: isSmall,
+          [styles['is-centered']]: isCentered
+        },
+        className
+      )}
       data-testid="loading-spinner"
       role="img"
       aria-label={loadingText}
       {...props}
     />
   ) : (
-    <div className={styles.text}>{loadingText}</div>
+    <div className={cx(styles.text, className)}>{loadingText}</div>
   );

@@ -45,7 +45,7 @@ const CtaBase: FunctionComponent<
       {...props}
     >
       {props['aria-busy'] ? (
-        <LoadingIcon spinner small className={styles.spinner} />
+        <LoadingIcon isSpinner isSmall className={styles.spinner} />
       ) : (
         <>
           {Icon && <Icon role="presentation" className={styles.icon} />}

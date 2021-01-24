@@ -56,7 +56,7 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
         )}
 
         {(isLoading || isSkeleton) && (
-          <LoadingIcon key="Loading icon" spinner small />
+          <LoadingIcon key="Loading icon" isSpinner isSmall />
         )}
       </StickyBar>
 

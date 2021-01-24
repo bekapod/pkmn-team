@@ -121,7 +121,7 @@ export const PokemonSearch: FunctionComponent<PokemonSearchProps> = ({
   if (loading) {
     return (
       <CenteredRow stackVertically>
-        <LoadingIcon spinner />
+        <LoadingIcon isSpinner />
       </CenteredRow>
     );
   }
