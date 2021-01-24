@@ -103,7 +103,7 @@ const Row = ({
       isHighlighted={highlightLearnedMoves && !!teamMemberMove}
       style={{
         ...style,
-        top: `calc(${style?.top ?? 0}px + (var(--spacing-2) / 2))`
+        top: `calc(${style?.top}px + (var(--spacing-2) / 2))`
       }}
       renderLineActions={renderLineActions}
     />
@@ -169,7 +169,7 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
       <List
         ref={listRef}
         className={classNames(styles.list, className, {
-          [styles['has-overflow']]: !hasOverflowingItems(moves)
+          [styles['has-no-overflow']]: !hasOverflowingItems(moves)
         })}
         height={listHeight}
         itemSize={getItemHeight}

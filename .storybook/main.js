@@ -6,6 +6,9 @@ module.exports = {
     '@storybook/addon-a11y',
     'storybook-css-modules-preset'
   ],
+  reactOptions: {
+    fastRefresh: true
+  },
   babel: config => {
     try {
       const path = require('path');

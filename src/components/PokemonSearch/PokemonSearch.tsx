@@ -20,7 +20,7 @@ import { PokemonLine } from '../PokemonLine';
 export type PokemonSearchProps = {
   setCurrentSearchPokemon: (pokemon: Pokemon) => void;
   pokemon: Pokemon[];
-  loading?: boolean;
+  isLoading?: boolean;
   error?: CombinedError;
 };
 
@@ -39,7 +39,7 @@ const resultItem = (
       backgroundColor: isHighlighted
         ? 'var(--color-yellow-vivid-100)'
         : 'initial',
-      top: `calc(${style?.top ?? 0}px + var(--spacing-1))`
+      top: `calc(${style?.top}px + var(--spacing-1))`
     }
   };
 
@@ -56,7 +56,7 @@ const resultItem = (
 export const PokemonSearch: FunctionComponent<PokemonSearchProps> = ({
   setCurrentSearchPokemon,
   pokemon,
-  loading,
+  isLoading,
   error
 }) => {
   const listContainer = useRef<List>(null);
@@ -118,15 +118,15 @@ export const PokemonSearch: FunctionComponent<PokemonSearchProps> = ({
     [filteredList, highlightedIndex, setCurrentSearchPokemon]
   );
 
-  if (loading) {
+  if (isLoading) {
     return (
       <CenteredRow stackVertically>
-        <LoadingIcon spinner />
+        <LoadingIcon isSpinner />
       </CenteredRow>
     );
   }
 
-  if (!loading && error) {
+  if (!isLoading && error) {
     return (
       <CenteredRow stackVertically>
         <ErrorMessage>{error.message}</ErrorMessage>
@@ -139,7 +139,7 @@ export const PokemonSearch: FunctionComponent<PokemonSearchProps> = ({
       <GiantInput
         aria-label="Find Pokemon by name"
         placeholder="Find by name"
-        fullWidth
+        isFullWidth
         value={inputValue}
         onKeyDown={keyboardNavigation}
         onChange={updateList}

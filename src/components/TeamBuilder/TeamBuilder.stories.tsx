@@ -9,7 +9,8 @@ export default {
   title: 'Components/TeamBuilder',
   component: TeamBuilder,
   argTypes: {
-    updateTeamMembers: { action: 'updateTeamMembers' }
+    updateTeam: { action: 'updateTeam' },
+    deleteTeam: { action: 'deleteTeam' }
   },
   args: {
     team: {

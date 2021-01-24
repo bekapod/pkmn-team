@@ -1,7 +1,8 @@
 import type {
   ComponentPropsWithoutRef,
   ElementType,
-  FunctionComponent
+  FunctionComponent,
+  ReactNode
 } from 'react';
 import cx from 'classnames';
 import { Label } from '../Label';
@@ -9,9 +10,9 @@ import { ErrorMessage } from '../ErrorMessage';
 import styles from './FormField.module.css';
 
 export type FormFieldProps = ComponentPropsWithoutRef<ElementType> & {
-  label: string;
+  label: ReactNode;
   id: string;
-  error?: string;
+  error?: ReactNode;
 };
 
 export const FormField: FunctionComponent<FormFieldProps> = ({

@@ -8,7 +8,7 @@ import { Moves } from '~/generated/graphql';
 import styles from './MoveLine.module.css';
 
 export type MoveLineProps = Moves & {
-  isOpen: boolean;
+  isOpen?: boolean;
   isHighlighted?: boolean;
   renderLineActions?: () => JSX.Element;
 };
@@ -19,6 +19,7 @@ export const MoveLine = memo<ComponentPropsWithRef<'div'> & MoveLineProps>(
   ({
     __typename,
     name,
+    slug,
     type,
     damage_class,
     pp,
@@ -41,7 +42,7 @@ export const MoveLine = memo<ComponentPropsWithRef<'div'> & MoveLineProps>(
         '--type-gradient': getTypeGradient(
           damage_class
             ? [{ name: damage_class.value, slug: damage_class.value }].concat(
-                type ?? []
+                type
               )
             : [type]
         )

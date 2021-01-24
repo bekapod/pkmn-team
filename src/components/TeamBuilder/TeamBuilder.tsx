@@ -1,6 +1,7 @@
 import { FunctionComponent, useCallback } from 'react';
 import { debounce } from 'lodash';
 import { BiTrash as Trash } from 'react-icons/bi';
+import type { CombinedError } from 'urql';
 import { CenteredRow } from '../CenteredRow';
 import { CtaButton } from '../Cta';
 import { ErrorMessage } from '../ErrorMessage';
@@ -8,14 +9,14 @@ import { GiantInput } from '../GiantInput';
 import { LoadingIcon } from '../LoadingIcon';
 import { TeamView } from '../TeamView';
 import { StickyBar } from '../StickyBar';
-import { Pokemon, Teams } from '~/generated/graphql';
+import type { Pokemon, Teams } from '~/generated/graphql';
 
 export type TeamBuilderProps = {
   allPokemon?: Pokemon[];
   team?: Teams;
   isLoading?: boolean;
   isSkeleton?: boolean;
-  error?: string;
+  error?: CombinedError;
   updateTeam?: (name: string) => void;
   deleteTeam?: () => void;
 };
@@ -52,11 +53,13 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
         ) : null}
 
         {!!error && (
-          <ErrorMessage color="var(--color-white)">{error}</ErrorMessage>
+          <ErrorMessage color="var(--color-white)">
+            {error.message}
+          </ErrorMessage>
         )}
 
         {(isLoading || isSkeleton) && (
-          <LoadingIcon key="Loading icon" spinner small />
+          <LoadingIcon key="Loading icon" isSpinner isSmall />
         )}
       </StickyBar>
 

@@ -35,7 +35,7 @@ const CtaBase: FunctionComponent<
     <As
       ref={ref}
       className={cx(styles.base, className, {
-        [styles['is-primary']]: variant === 'primary',
+        [styles[`is-primary`]]: variant === 'primary',
         [styles['is-tertiary']]: variant === 'tertiary',
         [styles['is-destructive']]: variant === 'destructive',
         [styles['is-small']]: size === 'small',
@@ -45,7 +45,7 @@ const CtaBase: FunctionComponent<
       {...props}
     >
       {props['aria-busy'] ? (
-        <LoadingIcon spinner small className={styles.spinner} />
+        <LoadingIcon isSpinner isSmall className={styles.spinner} />
       ) : (
         <>
           {Icon && <Icon role="presentation" className={styles.icon} />}
@@ -56,7 +56,7 @@ const CtaBase: FunctionComponent<
   )
 );
 
-export const CtaInternalLink: FunctionComponent<
+export const CtaLink: FunctionComponent<
   ComponentPropsWithRef<'a'> & CtaProps
 > = forwardRef((props, ref) => <CtaBase ref={ref} as="a" {...props} />);
 

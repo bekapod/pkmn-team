@@ -4,15 +4,15 @@ import { TextInput, TextInputProps } from '../TextInput';
 import styles from './GiantInput.module.css';
 
 export type GiantInputProps = TextInputProps & {
-  fullWidth?: boolean;
+  isFullWidth?: boolean;
 };
 
 export const GiantInput: FunctionComponent<GiantInputProps> = forwardRef(
-  ({ fullWidth, className, ...props }, ref) => (
+  ({ isFullWidth, className, ...props }, ref) => (
     <TextInput
       ref={ref}
       className={cx(styles.base, className, {
-        [styles['is-full-width']]: fullWidth
+        [styles['is-full-width']]: isFullWidth
       })}
       {...props}
     />

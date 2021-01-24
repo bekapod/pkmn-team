@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/react/types-6-0';
 import { BiHappyHeartEyes as Icon } from 'react-icons/bi';
-import { CtaInternalLink, CtaButton, CtaProps } from './Cta';
+import { CtaLink, CtaButton, CtaProps } from './Cta';
 
 export default {
   title: 'Components/Cta',
@@ -8,7 +8,7 @@ export default {
 } as Meta<CtaProps>;
 
 export const Link = (args: CtaProps): JSX.Element => (
-  <CtaInternalLink {...args}>Dashboard</CtaInternalLink>
+  <CtaLink {...args}>Dashboard</CtaLink>
 );
 Link.args = { href: '#' };
 

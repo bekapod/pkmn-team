@@ -6,6 +6,6 @@
   background-color: var(--color-white);
 }
 
-.has-overflow {
+.has-no-overflow {
   overflow: hidden !important;
 }

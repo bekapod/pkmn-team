@@ -1,10 +1,16 @@
-import type { FunctionComponent, ComponentPropsWithRef } from 'react';
+import type {
+  FunctionComponent,
+  ComponentPropsWithRef,
+  ReactNode
+} from 'react';
 import Link from 'next/link';
 import cx from 'classnames';
 import styles from './Header.module.css';
 import { Pokeball } from '../Pokeball';
 
-export type HeaderProps = ComponentPropsWithRef<'header'> & { title: string };
+export type HeaderProps = ComponentPropsWithRef<'header'> & {
+  title: ReactNode;
+};
 
 export const Header: FunctionComponent<HeaderProps> = ({
   className,

@@ -14,12 +14,14 @@ export const CardMeta: FunctionComponent<CardMetaProps> = ({
   id,
   items = []
 }) => (
-  <div className={styles.wrapper} data-testid={`card-meta-${id}`}>
+  <dl className={styles.wrapper} data-testid={`card-meta-${id}`}>
     {items.map(({ label, value }) => (
       <div className={styles.item} key={label}>
-        <Label className={styles.label}>{label}</Label>
-        <span className={styles.value}>{value}</span>
+        <Label className={styles.label} as="dt">
+          {label}
+        </Label>
+        <dd className={styles.value}>{value}</dd>
       </div>
     ))}
-  </div>
+  </dl>
 );

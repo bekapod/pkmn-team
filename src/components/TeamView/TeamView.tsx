@@ -196,16 +196,14 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
                             {...draggableProvided.draggableProps}
                             {...draggableProvided.dragHandleProps}
                             ref={draggableProvided.innerRef}
+                            aria-label="Add new pokemon to team"
                             data-testid="tab-item-add-pokemon"
                             data-add-button
                             style={{
                               ...draggableProvided.draggableProps.style
                             }}
                           >
-                            <span
-                              className={styles['add-button']}
-                              aria-label="Add new pokemon to team"
-                            >
+                            <span className={styles['add-button']}>
                               <Plus className={styles['add-icon']} />
                             </span>
                           </div>

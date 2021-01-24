@@ -7,7 +7,7 @@ import { Page } from '~/components/Page';
 import { TeamGrid } from '~/components/TeamGrid';
 import { TeamCard } from '~/components/TeamCard';
 import { CenteredRow } from '~/components/CenteredRow';
-import { CtaInternalLink } from '~/components/Cta';
+import { CtaLink } from '~/components/Cta';
 
 function Home(): JSX.Element {
   const [{ data }] = useAllTeamsQuery();
@@ -16,7 +16,7 @@ function Home(): JSX.Element {
       <FullWidthContainer>
         <CenteredRow>
           <Link href="/team/create" passHref>
-            <CtaInternalLink>Create your own team</CtaInternalLink>
+            <CtaLink>Create your own team</CtaLink>
           </Link>
         </CenteredRow>
         <TeamGrid as="ul" role="list" className="u-unstyled-list">

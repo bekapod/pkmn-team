@@ -17,8 +17,6 @@ export const TypeTag: FunctionComponent<
   ComponentPropsWithRef<ElementType> & TypeTagProps
 > = ({ as: As = 'span', className, type, ...props }) => (
   <As
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     style={{ '--type-color': getTypeColor(type) }}
     className={cx(styles.base, className)}
     {...props}

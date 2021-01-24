@@ -1,1 +1,5 @@
 src/generated/*
+.next
+coverage
+node_modules
+storybook-static
