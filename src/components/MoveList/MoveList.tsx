@@ -169,7 +169,7 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
       <List
         ref={listRef}
         className={classNames(styles.list, className, {
-          [styles['has-overflow']]: !hasOverflowingItems(moves)
+          [styles['has-no-overflow']]: !hasOverflowingItems(moves)
         })}
         height={listHeight}
         itemSize={getItemHeight}
