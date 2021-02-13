@@ -87,6 +87,52 @@
   .move-line-template-compressed .move-line-template-details {
     @apply mt-2 col-span-2;
   }
+
+  .pokemon-line-template {
+    --outdent: 0px;
+  }
+
+  .pokemon-line-template::before {
+    content: '';
+    @apply block absolute -top-1 h-2;
+    left: calc(var(--outdent) * -1);
+    width: calc(100% + var(--outdent) * 2);
+    background-image: var(--type-gradient);
+  }
+
+  .sticky-bar {
+    --zig-zag-size: var(--spacing-5);
+    --color: var(--colors-indigo-500);
+    @apply sticky top-0 z-10 flex justify-center items-center h-8 -mt-5 mb-6 children:z-10 children:mx-4;
+  }
+
+  .sticky-bar::before {
+    content: '';
+    background-color: var(--color);
+    @apply absolute top-0 left-0 w-screen h-full -ml-4;
+
+    @screen md {
+      @apply -ml-6;
+    }
+  }
+
+  .sticky-bar::after {
+    content: '';
+    bottom: calc(var(--zig-zag-size) / 2 * -1.1);
+    height: calc(var(--zig-zag-size) / 2 + var(--spacing-2));
+    background: linear-gradient(
+        -45deg,
+        transparent var(--zig-zag-size),
+        var(--color) 0
+      ),
+      linear-gradient(45deg, transparent var(--zig-zag-size), var(--color) 0);
+    background-size: var(--zig-zag-size) var(--zig-zag-size);
+    @apply absolute left-0 w-screen -ml-4 bg-repeat-x bg-left-top;
+
+    @screen md {
+      @apply -ml-6;
+    }
+  }
 }
 
 @tailwind utilities;
@@ -114,6 +160,40 @@
     @screen md {
       background-position: calc(var(--size) / 2) top;
     }
+  }
+
+  .pokeball-button {
+    @apply relative flex items-center justify-center w-full h-10 text-white text-2xl font-bold leading-none;
+    background: linear-gradient(
+      to bottom,
+      var(--colors-red-vivid-500) 0%,
+      var(--colors-red-vivid-500) 41%,
+      var(--colors-cool-grey-900) 41%,
+      var(--colors-cool-grey-900) 59%,
+      var(--colors-white) 59%,
+      var(--colors-white) 100%
+    );
+  }
+
+  [aria-selected='true'] > .pokeball-button {
+    background: linear-gradient(
+      to bottom,
+      var(--colors-yellow-vivid-500) 0%,
+      var(--colors-yellow-vivid-500) 41%,
+      var(--colors-cool-grey-900) 41%,
+      var(--colors-cool-grey-900) 59%,
+      var(--colors-white) 59%,
+      var(--colors-white) 100%
+    );
+  }
+
+  .pokeball-button::before {
+    content: '';
+    @apply block absolute top-1/2 left-1/2 z-1 transform -translate-x-1/2 -translate-y-1/2 w-6 h-6 bg-cool-grey-900 rounded-full;
+  }
+
+  .pokeball-button svg {
+    @apply z-2;
   }
 
   .shadow-text {

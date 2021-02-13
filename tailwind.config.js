@@ -47,6 +47,7 @@ module.exports = {
 
     colors: {
       initial: 'initial',
+      inherit: 'inherit',
       white: colors.white,
       indigo: {
         50: '#e0e8f9',
@@ -173,7 +174,9 @@ module.exports = {
       9: 'calc(var(--baseline) * 3.5rem)',
       10: 'calc(var(--baseline) * 4rem)',
       11: 'calc(var(--baseline) * 4.5rem)',
-      12: 'calc(var(--baseline) * 5rem)'
+      12: 'calc(var(--baseline) * 5rem)',
+      13: 'calc(var(--baseline) * 5.5rem)',
+      14: 'calc(var(--baseline) * 6rem)'
     },
 
     fontSize: {
@@ -191,12 +194,18 @@ module.exports = {
 
     extend: {
       zIndex: {
-        '-1': '-1'
+        '-1': '-1',
+        1: '1',
+        2: '2'
       },
       minHeight: {
         5: 'calc(var(--baseline) * 1.5rem)',
         6: 'calc(var(--baseline) * 2rem)',
-        8: 'calc(var(--baseline) * 3rem)'
+        8: 'calc(var(--baseline) * 3rem)',
+        'screen-1/4': '25vh'
+      },
+      minWidth: {
+        '250px': '250px'
       },
       scale: {
         200: '2'
@@ -209,14 +218,29 @@ module.exports = {
           '0%, 100%': { transform: 'scale(1)', opacity: '0.5' },
           '50%': { transform: 'scale(1.1)', opacity: 1 }
         }
-      }
+      },
+      strokeWidth: {
+        4: '4',
+        5: '5'
+      },
+      fill: theme => ({
+        white: theme('colors.white'),
+        'red-vivid': theme('colors.red-vivid')
+      })
     }
   },
   variants: {
     extend: {
+      flex: ['children'],
+      flexGrow: ['children'],
+      flexShrink: ['children'],
       width: ['children', 'important'],
-      margin: ['children-not-last'],
-      scale: ['motion-safe', 'group-hover']
+      minWidth: ['children'],
+      margin: ['children', 'children-not-last'],
+      scale: ['motion-safe', 'group-hover'],
+      translate: ['group-hover'],
+      zIndex: ['children'],
+      overflow: ['children']
     }
   },
   plugins: [
