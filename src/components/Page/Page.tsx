@@ -2,7 +2,6 @@ import type { ComponentPropsWithRef, FunctionComponent } from 'react';
 import cx from 'classnames';
 import Head from 'next/head';
 import { Header } from '../Header';
-import styles from './Page.module.css';
 
 export type PageProps = ComponentPropsWithRef<'div'> & {
   title: string;
@@ -22,9 +21,14 @@ export const Page: FunctionComponent<PageProps> = ({
       <link rel="icon" href="/favicon.ico" />
       <link rel="stylesheet" href="https://use.typekit.net/jdl7nve.css" />
     </Head>
-    <div className={cx(styles.container, className)} {...props}>
-      <Header className={styles.header} title={title} />
-      <main className={styles.content}>{children}</main>
+    <div
+      className={cx('flex', 'flex-col', 'min-h-screen', className)}
+      {...props}
+    >
+      <Header className={cx('flex-grow-0', 'flex-shrink-0')} title={title} />
+      <main className={cx('relative', 'flex-grow-1', 'flex-shrink-1')}>
+        {children}
+      </main>
     </div>
   </>
 );
