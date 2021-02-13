@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { FunctionComponent } from 'react';
+import classNames from 'classnames';
 import { Pokemon, Moves, Team_Member } from '~/generated/graphql';
 import { formatPokemonName, sortBySlug } from '~/lib/general';
 import { CardContent, CardHeader, CardWrapper, CardHeading } from '../Card';
 import { InlineList } from '../InlineList';
 import { TypeTag } from '../TypeTag';
 import { MoveList } from '../MoveList';
-import styles from './PokemonCard.module.css';
 
 export type PokemonCardProps = {
   teamMember?: Team_Member;
@@ -30,9 +30,9 @@ export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
         <CardHeading>{formatPokemonName(pokemon)}</CardHeading>
       </CardHeader>
 
-      <CardContent className={styles.content}>
+      <CardContent className={classNames('py-6', 'items-center')}>
         <img
-          className={styles.sprite}
+          className={classNames('h-14')}
           src={`/sprites/${sprite}`}
           alt={`${name} sprite`}
         />
@@ -56,7 +56,7 @@ export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
         />
 
         {renderCardActions ? (
-          <div className={styles.actions}>{renderCardActions()}</div>
+          <div className={classNames('mt-6')}>{renderCardActions()}</div>
         ) : null}
       </CardContent>
     </CardWrapper>
