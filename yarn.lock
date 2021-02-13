@@ -15311,6 +15311,7 @@ fsevents@^1.2.7:
     react-window: ^1.8.6
     storybook-css-modules-preset: ^1.0.6
     tailwindcss: "npm:@tailwindcss/postcss7-compat@^2.0.0"
+    tailwindcss-children: ^2.1.0
     typescript: ^4.1.5
     typescript-plugin-css-modules: ^3.2.0
     urql: ^2.0.1
@@ -18720,6 +18721,16 @@ fsevents@^1.2.7:
     slice-ansi: ^4.0.0
     string-width: ^4.2.0
   checksum: b28d81d6063110a8e94264ff17d3b7505fd344947f2c5cdf0fa71f7a622897fb15068686652d3aed8ed1c5817ca783be8a9c3419edf27808350ad29cc7d87fdf
+  languageName: node
+  linkType: hard
+
+"tailwindcss-children@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "tailwindcss-children@npm:2.1.0"
+  dependencies:
+    lodash: ^4.17.15
+    postcss-selector-parser: ^6.0.2
+  checksum: 764a5c34e0e8dcad45e7c64cbf748eb5fd0225211f5c0cdcc152f733957db5b64747049a1774479362137e84c98b6c37023af02ef367342e94e34fd63fb65319
   languageName: node
   linkType: hard
 

@@ -17,7 +17,7 @@ export const AutocompleteDropdown: FunctionComponent<
       'flex-shrink-0',
       'w-full',
       'bg-white',
-      'descendents:w-full',
+      'children:w-full',
       className
     )}
     {...props}

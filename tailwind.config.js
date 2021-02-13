@@ -191,11 +191,13 @@ module.exports = {
   },
   variants: {
     extend: {
-      width: ['descendents'],
+      width: ['children'],
+      margin: ['children-not-last'],
       scale: ['motion-safe']
     }
   },
   plugins: [
+    require('tailwindcss-children'),
     plugin(({ addBase, theme }) => {
       const customProperties = {
         ...createCustomProperties(theme, 'spacing'),
@@ -204,13 +206,6 @@ module.exports = {
 
       addBase({
         ':root': customProperties
-      });
-    }),
-    plugin(({ addVariant, e }) => {
-      addVariant('descendents', ({ modifySelectors, separator }) => {
-        modifySelectors(({ className }) => {
-          return `.${e(`descendents${separator}${className}`)} > *`;
-        });
       });
     })
   ]
