@@ -1,15 +1,17 @@
 import isEqual from 'react-fast-compare';
 import { ComponentPropsWithRef, memo } from 'react';
+import classNames from 'classnames';
 import { TypeTag } from '../TypeTag';
 import { Label } from '../Label';
 import { InlineList } from '../InlineList';
 import { getTypeGradient } from '~/lib/gradients';
 import { Moves } from '~/generated/graphql';
-import styles from './MoveLine.module.css';
 
 export type MoveLineProps = Moves & {
   isOpen?: boolean;
   isHighlighted?: boolean;
+  isCompressed?: boolean;
+  isSpacious?: boolean;
   renderLineActions?: () => JSX.Element;
 };
 
@@ -30,11 +32,24 @@ export const MoveLine = memo<ComponentPropsWithRef<'div'> & MoveLineProps>(
     isOpen,
     isHighlighted,
     style,
+    isCompressed = false,
+    isSpacious = false,
     renderLineActions,
     ...props
   }) => (
     <div
-      className={styles.row}
+      className={classNames(
+        'move-line-template',
+        'relative',
+        'gap-x-4',
+        'gap-y-3',
+        'items-center',
+        'p-4',
+        {
+          'move-line-template-compressed': isCompressed,
+          'bg-yellow-vivid-100': isHighlighted
+        }
+      )}
       style={{
         ...style,
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -52,9 +67,16 @@ export const MoveLine = memo<ComponentPropsWithRef<'div'> & MoveLineProps>(
       {...props}
     >
       <div>
-        <Label className={styles.value}>{name}</Label>
+        <Label className={classNames('text-indigo-900', 'leading-none')}>
+          {name}
+        </Label>
       </div>
-      <InlineList className={styles.types}>
+      <InlineList
+        className={classNames('flex', 'flex-grow', 'children:not-last:mr-2', {
+          'justify-end': !isSpacious,
+          'justify-center': isSpacious
+        })}
+      >
         <TypeTag as="li" key={type.slug} type={type.slug}>
           {type.name}
         </TypeTag>
@@ -66,32 +88,66 @@ export const MoveLine = memo<ComponentPropsWithRef<'div'> & MoveLineProps>(
       </InlineList>
 
       {renderLineActions && (
-        <div className={styles.actions}>{renderLineActions()}</div>
+        <div
+          className={classNames(
+            'move-line-template-actions',
+            'flex',
+            'justify-end',
+            'children:not-last:mr-2'
+          )}
+        >
+          {renderLineActions()}
+        </div>
       )}
 
       {isOpen && (
-        <div className={styles.details}>
-          <div className={styles.stat}>
+        <div
+          className={classNames(
+            'move-line-template-details',
+            'flex',
+            'flex-wrap',
+            'justify-between',
+            'col-span-3',
+            'self-start'
+          )}
+        >
+          <div className={classNames('mr-3', 'font-bold', 'whitespace-nowrap')}>
             <Label>PP</Label>
-            <span className={styles.value}>{printStat(pp)}</span>
+            <span
+              className={classNames('text-indigo-900', 'leading-none', 'ml-2')}
+            >
+              {printStat(pp)}
+            </span>
           </div>
 
-          <div className={styles.stat}>
+          <div className={classNames('mr-3', 'font-bold', 'whitespace-nowrap')}>
             <Label>Accuracy</Label>
-            <span className={styles.value}>{printStat(accuracy)}</span>
+            <span
+              className={classNames('text-indigo-900', 'leading-none', 'ml-2')}
+            >
+              {printStat(accuracy)}
+            </span>
           </div>
 
-          <div className={styles.stat}>
+          <div className={classNames('mr-3', 'font-bold', 'whitespace-nowrap')}>
             <Label>Power</Label>
-            <span className={styles.value}>{printStat(power)}</span>
+            <span
+              className={classNames('text-indigo-900', 'leading-none', 'ml-2')}
+            >
+              {printStat(power)}
+            </span>
           </div>
 
-          <div className={styles.stat}>
+          <div className={classNames('mr-3', 'font-bold', 'whitespace-nowrap')}>
             <Label>Target</Label>
-            <span className={styles.value}>{printStat(target)}</span>
+            <span
+              className={classNames('text-indigo-900', 'leading-none', 'ml-2')}
+            >
+              {printStat(target)}
+            </span>
           </div>
 
-          <p className={styles.description}>{effect}</p>
+          <p className={classNames('w-full', 'mt-2', 'mb-0')}>{effect}</p>
         </div>
       )}
     </div>
