@@ -5,8 +5,10 @@ import { cacheExchange } from '@urql/exchange-graphcache';
 import schema from '~/generated/introspection.json';
 import { AllTeamsDocument, AllTeamsQuery, Teams } from '~/generated/graphql';
 
-export const createClient: NextUrqlClientConfig = ssrExchange => ({
-  url: `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/graphql`,
+export const createClient = (
+  url = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/graphql`
+): NextUrqlClientConfig => ssrExchange => ({
+  url,
   exchanges: [
     devtoolsExchange,
     dedupExchange,

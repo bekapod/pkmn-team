@@ -32,4 +32,4 @@ const TeamCreate: NextComponentType<NextUrqlPageContext> = () => {
   );
 };
 
-export default withUrqlClient(createClient, { ssr: false })(TeamCreate);
+export default withUrqlClient(createClient(), { ssr: false })(TeamCreate);
