@@ -1,6 +1,6 @@
-import { withUrqlClient } from 'next-urql';
+import { withUrqlClient, initUrqlClient } from 'next-urql';
 import Link from 'next/link';
-import { useAllTeamsQuery } from '~/generated/graphql';
+import { AllTeamsDocument, useAllTeamsQuery } from '~/generated/graphql';
 import { createClient } from '~/lib/client';
 import { FullWidthContainer } from '~/components/FullWidthContainer';
 import { Page } from '~/components/Page';
@@ -8,6 +8,8 @@ import { TeamGrid } from '~/components/TeamGrid';
 import { TeamCard } from '~/components/TeamCard';
 import { CenteredRow } from '~/components/CenteredRow';
 import { CtaLink } from '~/components/Cta';
+import { ssrExchange } from 'urql';
+import { GetStaticProps } from 'next';
 
 function Home(): JSX.Element {
   const [{ data }] = useAllTeamsQuery();
@@ -31,4 +33,23 @@ function Home(): JSX.Element {
   );
 }
 
-export default withUrqlClient(createClient, { ssr: true })(Home);
+export const getStaticProps: GetStaticProps = async () => {
+  const ssrCache = ssrExchange({ isClient: false });
+  const client = initUrqlClient(
+    createClient(`${process.env.INTERNAL_GRAPHQL_ENDPOINT}/graphql`)(ssrCache),
+    false
+  );
+
+  if (client) {
+    await client.query(AllTeamsDocument).toPromise();
+  }
+
+  return {
+    props: {
+      urqlState: ssrCache.extractData()
+    },
+    revalidate: 60
+  };
+};
+
+export default withUrqlClient(createClient(), { ssr: false })(Home);
