@@ -1,6 +1,5 @@
 import type { ComponentPropsWithoutRef, FunctionComponent } from 'react';
 import cx from 'classnames';
-import styles from './Pokeball.module.css';
 
 export type PokeballProps = ComponentPropsWithoutRef<'svg'>;
 
@@ -15,16 +14,31 @@ export const Pokeball: FunctionComponent<PokeballProps> = props => (
     >
       <path
         d="M104.877223,58.5 C104.245504,71.5712394 98.6868178,83.3496856 90.0182517,92.0182517 C80.8003772,101.236126 68.0660022,106.9375 54,106.9375 C39.9339978,106.9375 27.1996228,101.236126 17.9817483,92.0182517 C9.31318224,83.3496856 3.75449623,71.5712394 3.12277719,58.5 L3.12277719,58.5 Z"
-        className={cx(styles.outline, styles.bottom)}
+        className={cx(
+          'text-cool-grey-900',
+          'stroke-current',
+          'stroke-5',
+          'fill-white'
+        )}
         fillRule="nonzero"
       ></path>
       <path
         d="M0.5625,54 C0.5625,24.4872837 24.4872837,0.5625 54,0.5625 C83.5127163,0.5625 107.4375,24.4872837 107.4375,54 L0.5625,54 Z"
-        className={cx(styles.outline, styles.top)}
+        className={cx(
+          'text-cool-grey-900',
+          'stroke-current',
+          'stroke-5',
+          'fill-red-vivid-500'
+        )}
         strokeLinejoin="round"
       ></path>
       <circle
-        className={cx(styles.outline, styles.bottom)}
+        className={cx(
+          'text-cool-grey-900',
+          'stroke-current',
+          'stroke-5',
+          'fill-white'
+        )}
         fillRule="nonzero"
         cx="54.5"
         cy="54.5"
@@ -35,18 +49,23 @@ export const Pokeball: FunctionComponent<PokeballProps> = props => (
         id="highlight"
       ></path>
       <use
-        className={styles.highlight}
+        className={cx('text-white', 'stroke-current', 'stroke-4')}
         strokeLinecap="round"
         transform="translate(31.673316, 22.256402) rotate(27.000000) translate(-31.673316, -22.256402) "
         xlinkHref="#highlight"
       ></use>
       <circle
-        className={styles['highlight-blob']}
+        className={cx('text-white', 'fill-current')}
         cx="12"
         cy="41"
         r="2"
       ></circle>
-      <circle className={styles.centre} cx="54.5" cy="54.5" r="9.5"></circle>
+      <circle
+        className={cx('text-cool-grey-900', 'fill-current')}
+        cx="54.5"
+        cy="54.5"
+        r="9.5"
+      ></circle>
     </g>
   </svg>
 );
