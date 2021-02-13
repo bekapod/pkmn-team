@@ -46,6 +46,7 @@ module.exports = {
     },
 
     colors: {
+      initial: 'initial',
       white: colors.white,
       indigo: {
         50: '#e0e8f9',
@@ -190,7 +191,8 @@ module.exports = {
   },
   variants: {
     extend: {
-      width: ['descendents']
+      width: ['descendents'],
+      scale: ['motion-safe']
     }
   },
   plugins: [

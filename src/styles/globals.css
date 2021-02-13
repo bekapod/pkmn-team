@@ -80,24 +80,33 @@
   .zig-zag-top-white {
     --size: var(--spacing-5);
     @apply relative;
+  }
 
-    &::before {
-      content: '';
-      @apply absolute left-0 w-full bg-repeat-x;
-      top: calc(var(--size) / 2 * -1);
-      height: calc(var(--size) / 2);
-      background: linear-gradient(
-          -45deg,
-          var(--color-white) var(--size),
-          transparent 0
-        ),
-        linear-gradient(45deg, var(--color-white) var(--size), transparent 0);
-      background-position: var(--spacing-4) top;
-      background-size: var(--size) 3.2rem;
+  .zig-zag-top-white::before {
+    content: '';
+    @apply absolute left-0 w-full bg-repeat-x;
+    top: calc(var(--size) / 2 * -1);
+    height: calc(var(--size) / 2);
+    background: linear-gradient(
+        -45deg,
+        var(--colors-white) var(--size),
+        transparent 0
+      ),
+      linear-gradient(45deg, var(--colors-white) var(--size), transparent 0);
+    background-position: var(--spacing-4) top;
+    background-size: var(--size) 3.2rem;
 
-      @screen md {
-        background-position: calc(var(--size) / 2) top;
-      }
+    @screen md {
+      background-position: calc(var(--size) / 2) top;
     }
+  }
+
+  .shadow-text {
+    text-shadow: 0 1px 0px var(--colors-cool-grey-900),
+      1px 0 0px var(--colors-cool-grey-800),
+      1px 2px 0px var(--colors-cool-grey-900),
+      2px 1px 0px var(--colors-cool-grey-800),
+      2px 3px 0px var(--colors-cool-grey-900),
+      3px 2px 0px var(--colors-cool-grey-800);
   }
 }

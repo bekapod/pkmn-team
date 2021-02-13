@@ -6,7 +6,7 @@ export const percentage = (val: number): number => (val > 100 ? 100 : val);
 export const capitalize = (word = ''): string =>
   `${toUpper(word.charAt(0))}${word.slice(1)}`;
 
-export const getTypeColor = (type: string): string => `var(--color-${type})`;
+export const getTypeColor = (type: string): string => `var(--colors-${type})`;
 
 export const sortBySlug = <T extends { slug: string }>(types: T[]): T[] =>
   types.sort((x: T, y: T): -1 | 0 | 1 => {
