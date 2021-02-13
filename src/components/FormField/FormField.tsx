@@ -7,7 +7,6 @@ import type {
 import cx from 'classnames';
 import { Label } from '../Label';
 import { ErrorMessage } from '../ErrorMessage';
-import styles from './FormField.module.css';
 
 export type FormFieldProps = ComponentPropsWithoutRef<ElementType> & {
   label: ReactNode;
@@ -23,11 +22,11 @@ export const FormField: FunctionComponent<FormFieldProps> = ({
   children,
   ...props
 }) => (
-  <div className={cx(styles.container, className)} {...props}>
-    <Label as="label" htmlFor={id} className={styles.label}>
+  <div className={cx('flex', 'flex-col', 'w-full', className)} {...props}>
+    <Label as="label" htmlFor={id} className="mb-1">
       {label}
     </Label>
     {children}
-    {!!error && <ErrorMessage className={styles.message}>{error}</ErrorMessage>}
+    {!!error && <ErrorMessage className="mt-2">{error}</ErrorMessage>}
   </div>
 );
