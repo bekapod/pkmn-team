@@ -5,7 +5,6 @@ import { CenteredRow } from '../CenteredRow';
 import { CtaButton } from '../Cta';
 import { FormField } from '../FormField';
 import { GiantInput } from '../GiantInput';
-import styles from './TeamCreator.module.css';
 
 export type TeamCreatorFormValues = {
   'team-name': string;
@@ -35,16 +34,11 @@ export const TeamCreator: FunctionComponent<TeamCreatorProps> = ({
     <CenteredRow
       as="form"
       stackVertically
-      className={cx(styles.form, className)}
+      className={cx('items-center', className)}
       onSubmit={handleSubmit(onSubmit)}
       {...props}
     >
-      <FormField
-        label="Team name"
-        id="team-name"
-        className={styles.field}
-        error={error}
-      >
+      <FormField label="Team name" id="team-name" error={error}>
         <GiantInput
           id="team-name"
           name="team-name"
