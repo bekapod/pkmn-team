@@ -187,13 +187,27 @@ module.exports = {
 
     fontFamily: {
       sans: ['brandon-grotesque', 'sans-serif']
+    },
+
+    extend: {
+      zIndex: {
+        '-1': '-1'
+      },
+      minHeight: {
+        5: 'calc(var(--baseline) * 1.5rem)',
+        6: 'calc(var(--baseline) * 2rem)',
+        8: 'calc(var(--baseline) * 3rem)'
+      },
+      scale: {
+        200: '2'
+      }
     }
   },
   variants: {
     extend: {
       width: ['children'],
       margin: ['children-not-last'],
-      scale: ['motion-safe']
+      scale: ['motion-safe', 'group-hover']
     }
   },
   plugins: [

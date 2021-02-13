@@ -74,6 +74,14 @@
 }
 
 @tailwind components;
+
+@layer components {
+  .spinner-white {
+    @apply border-white border-opacity-75;
+    border-left-color: var(--colors-white);
+  }
+}
+
 @tailwind utilities;
 
 @layer utilities {
@@ -108,5 +116,9 @@
       2px 1px 0px var(--colors-cool-grey-800),
       2px 3px 0px var(--colors-cool-grey-900),
       3px 2px 0px var(--colors-cool-grey-800);
+  }
+
+  .perspective {
+    transform: perspective(1px) translateZ(0);
   }
 }
