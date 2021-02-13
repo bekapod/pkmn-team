@@ -1,129 +1,20 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { theme } from '../../tailwind.config.js';
+
 <Meta title="Tokens/Spacing" />
 
 # Spacing
 
-`var(--spacing-px)`
-
-<div
-  style={{
-    height: 'var(--spacing-px)',
-    backgroundColor: 'var(--color-cool-grey-200)'
-  }}
-/>
-
-`var(--spacing-0)`
-
-<div
-  style={{
-    height: 'var(--spacing-0)',
-    backgroundColor: 'var(--color-cool-grey-200)'
-  }}
-/>
-
-`var(--spacing-1)`
-
-<div
-  style={{
-    height: 'var(--spacing-1)',
-    backgroundColor: 'var(--color-cool-grey-200)'
-  }}
-/>
-
-`var(--spacing-2)`
-
-<div
-  style={{
-    height: 'var(--spacing-2)',
-    backgroundColor: 'var(--color-cool-grey-200)'
-  }}
-/>
-
-`var(--spacing-3)`
-
-<div
-  style={{
-    height: 'var(--spacing-3)',
-    backgroundColor: 'var(--color-cool-grey-200)'
-  }}
-/>
-
-`var(--spacing-4)`
-
-<div
-  style={{
-    height: 'var(--spacing-4)',
-    backgroundColor: 'var(--color-cool-grey-200)'
-  }}
-/>
-
-`var(--spacing-5)`
-
-<div
-  style={{
-    height: 'var(--spacing-5)',
-    backgroundColor: 'var(--color-cool-grey-200)'
-  }}
-/>
-
-`var(--spacing-6)`
-
-<div
-  style={{
-    height: 'var(--spacing-6)',
-    backgroundColor: 'var(--color-cool-grey-200)'
-  }}
-/>
-
-`var(--spacing-7)`
-
-<div
-  style={{
-    height: 'var(--spacing-7)',
-    backgroundColor: 'var(--color-cool-grey-200)'
-  }}
-/>
-
-`var(--spacing-8)`
-
-<div
-  style={{
-    height: 'var(--spacing-8)',
-    backgroundColor: 'var(--color-cool-grey-200)'
-  }}
-/>
-
-`var(--spacing-9)`
-
-<div
-  style={{
-    height: 'var(--spacing-9)',
-    backgroundColor: 'var(--color-cool-grey-200)'
-  }}
-/>
-
-`var(--spacing-10)`
-
-<div
-  style={{
-    height: 'var(--spacing-10)',
-    backgroundColor: 'var(--color-cool-grey-200)'
-  }}
-/>
-
-`var(--spacing-11)`
-
-<div
-  style={{
-    height: 'var(--spacing-11)',
-    backgroundColor: 'var(--color-cool-grey-200)'
-  }}
-/>
-
-`var(--spacing-12)`
-
-<div
-  style={{
-    height: 'var(--spacing-12)',
-    backgroundColor: 'var(--color-cool-grey-200)'
-  }}
-/>
+<>
+  {Object.keys(theme.spacing)
+    .sort((a, b) => Number(a) - Number(b))
+    .map(value => (
+      <div>
+        <h2>{value}</h2>
+        <p
+          className="bg-cool-grey-200"
+          style={{ height: theme.spacing[value] }}
+        />
+      </div>
+    ))}
+</>

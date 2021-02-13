@@ -1,267 +1,103 @@
-@custom-media --only-small-viewport (max-width: 440px);
-@custom-media --medium-viewport (min-width: 768px);
-@custom-media --large-viewport (min-width: 980px);
-@custom-media --xl-viewport (min-width: 1280px);
-@custom-media --medium-to-xl-viewport (min-width: 768px) and (max-width: 1279px);
+@tailwind base;
 
-:root {
-  --baseline: 1.5;
-  --font-family: 'brandon-grotesque', 'sans-serif';
+@layer base {
+  :root {
+    --baseline: 1.5;
+  }
 
-  --color-white: #fff;
+  *,
+  *:before,
+  *:after {
+    box-sizing: inherit;
+  }
 
-  --color-indigo-050: #e0e8f9;
-  --color-indigo-100: #bed0f7;
-  --color-indigo-200: #98aeeb;
-  --color-indigo-300: #7b93db;
-  --color-indigo-400: #647acb;
-  --color-indigo-500: #4c63b6;
-  --color-indigo-600: #4055a8;
-  --color-indigo-700: #35469c;
-  --color-indigo-800: #2d3a8c;
-  --color-indigo-900: #19216c;
+  html {
+    @apply box-border overflow-x-hidden;
+    @apply text-cool-grey-900 font-sans text-base bg-cool-grey-100 antialiased;
+  }
 
-  --color-cyan-vivid-050: #e1fcf8;
-  --color-cyan-vivid-100: #c1fef6;
-  --color-cyan-vivid-200: #92fdf2;
-  --color-cyan-vivid-300: #62f4eb;
-  --color-cyan-vivid-400: #3ae7e1;
-  --color-cyan-vivid-500: #1cd4d4;
-  --color-cyan-vivid-600: #0fb5ba;
-  --color-cyan-vivid-700: #099aa4;
-  --color-cyan-vivid-800: #07818f;
-  --color-cyan-vivid-900: #05606e;
+  ::selection {
+    @apply text-cool-grey-900 bg-yellow-vivid-200;
+  }
 
-  --color-cool-grey-050: #f5f7fa;
-  --color-cool-grey-100: #e4e7eb;
-  --color-cool-grey-200: #cbd2d9;
-  --color-cool-grey-300: #9aa5b1;
-  --color-cool-grey-400: #7b8794;
-  --color-cool-grey-500: #616e7c;
-  --color-cool-grey-600: #52606d;
-  --color-cool-grey-700: #3e4c59;
-  --color-cool-grey-800: #323f4b;
-  --color-cool-grey-900: #1f2933;
+  body {
+    @apply m-0;
+  }
 
-  --color-pink-vivid-050: #ffe3ec;
-  --color-pink-vivid-100: #ffb8d2;
-  --color-pink-vivid-200: #ff8cba;
-  --color-pink-vivid-300: #f364a2;
-  --color-pink-vivid-400: #e8368f;
-  --color-pink-vivid-500: #da127d;
-  --color-pink-vivid-600: #bc0a6f;
-  --color-pink-vivid-700: #a30664;
-  --color-pink-vivid-800: #870557;
-  --color-pink-vivid-900: #620042;
+  p {
+    @apply my-4;
+    @apply text-base;
+  }
 
-  --color-red-vivid-050: #ffe3e3;
-  --color-red-vivid-100: #ffbdbd;
-  --color-red-vivid-200: #ff9b9b;
-  --color-red-vivid-300: #f86a6a;
-  --color-red-vivid-400: #ef4e4e;
-  --color-red-vivid-500: #e12d39;
-  --color-red-vivid-600: #cf1124;
-  --color-red-vivid-700: #ab091e;
-  --color-red-vivid-800: #8a041a;
-  --color-red-vivid-900: #610316;
+  @keyframes pulseFade {
+    from {
+      @apply opacity-50 scale-100 transform-gpu;
+    }
 
-  --color-yellow-vivid-050: #fffbea;
-  --color-yellow-vivid-100: #fff3c4;
-  --color-yellow-vivid-200: #fce588;
-  --color-yellow-vivid-300: #fadb5f;
-  --color-yellow-vivid-400: #f7c948;
-  --color-yellow-vivid-500: #f0b429;
-  --color-yellow-vivid-600: #de911d;
-  --color-yellow-vivid-700: #cb6e17;
-  --color-yellow-vivid-800: #b44d12;
-  --color-yellow-vivid-900: #8d2b0b;
+    50% {
+      @apply opacity-100 scale-110 transform-gpu;
+    }
 
-  --color-green-vivid-050: #e3f9e5;
-  --color-green-vivid-100: #c1f2c7;
-  --color-green-vivid-200: #91e697;
-  --color-green-vivid-300: #51ca58;
-  --color-green-vivid-400: #31b237;
-  --color-green-vivid-500: #18981d;
-  --color-green-vivid-600: #0f8613;
-  --color-green-vivid-700: #0e7817;
-  --color-green-vivid-800: #07600e;
-  --color-green-vivid-900: #014807;
+    to {
+      @apply opacity-50 scale-100 transform-gpu;
+    }
+  }
 
-  --color-bug: #a8b820;
-  --color-dark: #705848;
-  --color-dragon: #7038f8;
-  --color-electric: #f8d030;
-  --color-fairy: #ee99ac;
-  --color-fighting: #c03028;
-  --color-fire: #f08030;
-  --color-flying: #a890f0;
-  --color-ghost: #705898;
-  --color-grass: #78c850;
-  --color-ground: #e0c068;
-  --color-ice: #98d8d8;
-  --color-normal: #a8a878;
-  --color-poison: #a040a0;
-  --color-psychic: #f85888;
-  --color-rock: #b8a038;
-  --color-shadow: #604e82;
-  --color-steel: #b8b8d0;
-  --color-unknown: #68a090;
-  --color-water: #6890f0;
+  @keyframes spaceUpOut {
+    from {
+      @apply opacity-100 origin-center scale-100 translate-x-0 translate-y-0 transform-gpu;
+    }
 
-  --color-physical: #c23616;
-  --color-special: #192a56;
-  --color-status: #7f8fa6;
+    to {
+      @apply opacity-0 origin-center scale-50 translate-x-0 -translate-y-full transform-gpu;
+    }
+  }
 
-  --spacing-px: 1px;
-  --spacing-0: 0px;
-  --spacing-1: calc(var(--baseline) * 0.125rem);
-  --spacing-2: calc(var(--baseline) * 0.25rem);
-  --spacing-3: calc(var(--baseline) * 0.5rem);
-  --spacing-4: calc(var(--baseline) * 1rem);
-  --spacing-5: calc(var(--baseline) * 1.5rem);
-  --spacing-6: calc(var(--baseline) * 2rem);
-  --spacing-7: calc(var(--baseline) * 2.5rem);
-  --spacing-8: calc(var(--baseline) * 3rem);
-  --spacing-9: calc(var(--baseline) * 3.5rem);
-  --spacing-10: calc(var(--baseline) * 4rem);
-  --spacing-11: calc(var(--baseline) * 4.5rem);
-  --spacing-12: calc(var(--baseline) * 5rem);
+  @keyframes spin {
+    from {
+      @apply rotate-0 transform-gpu;
+    }
 
-  --font-size-sm: 0.875rem;
-  --line-height-sm: 1.5rem;
-  --font-size-base: 1rem;
-  --line-height-base: 1.5rem;
-  --font-size-lg: 1.5rem;
-  --line-height-lg: 1.5rem;
-  --font-size-xl: 2.25rem;
-  --line-height-xl: 3rem;
-  --font-size-2xl: 3.375rem;
-  --line-height-2xl: 4.5rem;
-  --font-size-3xl: 5.0625rem;
-  --line-height-3xl: 6rem;
+    to {
+      @apply rotate-180 transform-gpu;
+    }
+  }
 
-  --border-radius-0: 0;
-  --border-radius-sm: 0.125rem;
-  --border-radius-base: 0.25rem;
-  --border-radius-md: 0.375rem;
-  --border-radius-lg: 0.5rem;
-  --border-radius-xl: 0.75rem;
-  --border-radius-2xl: 1rem;
-  --border-radius-3xl: 1.5rem;
-  --border-radius-full: 100rem;
-}
-
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
-}
-
-html {
-  box-sizing: border-box;
-  overflow-x: hidden;
-  color: var(--color-cool-grey-900);
-  font-family: var(--font-family);
-  line-height: var(--baseline);
-  background-color: var(--color-cool-grey-100);
-  -webkit-font-smoothing: antialiased;
-}
-
-::selection {
-  color: var(--color-cool-grey-900);
-  background-color: var(--color-yellow-vivid-200);
-}
-
-body {
-  margin: 0;
-}
-
-p {
-  margin-top: var(--spacing-4);
-  margin-bottom: var(--spacing-4);
-  font-size: var(--font-size-base);
-  line-height: var(--line-height-base);
-}
-
-.u-unstyled-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.u-zig-zag-top-white {
-  --size: var(--spacing-5);
-  position: relative;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: calc(var(--size) / 2 * -1);
-    left: 0;
-    width: 100%;
-    height: calc(var(--size) / 2);
-    background: linear-gradient(
-        -45deg,
-        var(--color-white) var(--size),
-        transparent 0
-      ),
-      linear-gradient(45deg, var(--color-white) var(--size), transparent 0);
-    background-repeat: repeat-x;
-    background-position: var(--spacing-4) top;
-    background-size: var(--size) 3.2rem;
-
-    @media (--medium-viewport) {
-      background-position: calc(var(--size) / 2) top;
+  @keyframes skeletonShimmer {
+    0% {
+      @apply bg-left-top;
+    }
+    100% {
+      @apply bg-right-top;
     }
   }
 }
 
-@keyframes pulseFade {
-  from {
-    opacity: 0.5;
-    transform: scale3d(1, 1, 1);
-  }
+@tailwind components;
+@tailwind utilities;
 
-  50% {
-    opacity: 1;
-    transform: scale3d(1.1, 1.1, 1.1);
-  }
+@layer utilities {
+  .zig-zag-top-white {
+    --size: var(--spacing-5);
+    @apply relative;
 
-  to {
-    opacity: 0.5;
-    transform: scale3d(1, 1, 1);
-  }
-}
+    &::before {
+      content: '';
+      @apply absolute left-0 w-full bg-repeat-x;
+      top: calc(var(--size) / 2 * -1);
+      height: calc(var(--size) / 2);
+      background: linear-gradient(
+          -45deg,
+          var(--color-white) var(--size),
+          transparent 0
+        ),
+        linear-gradient(45deg, var(--color-white) var(--size), transparent 0);
+      background-position: var(--spacing-4) top;
+      background-size: var(--size) 3.2rem;
 
-@keyframes spaceUpOut {
-  from {
-    opacity: 1;
-    transform-origin: 50% 0;
-    transform: scale(1) translate(0%, 0%);
-  }
-
-  to {
-    opacity: 0;
-    transform-origin: 50% 0;
-    transform: scale(0.2) translate(0%, -200%);
-  }
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes skeletonShimmer {
-  0% {
-    background-position: -100vw 0;
-  }
-  100% {
-    background-position: 100vw 0;
+      @screen md {
+        background-position: calc(var(--size) / 2) top;
+      }
+    }
   }
 }
