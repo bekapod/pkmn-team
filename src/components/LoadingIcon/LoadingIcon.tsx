@@ -1,6 +1,5 @@
 import type { ComponentPropsWithRef, FunctionComponent } from 'react';
 import cx from 'classnames';
-import styles from './LoadingIcon.module.css';
 
 export type LoadingIconProps = {
   isSpinner?: boolean;
@@ -16,10 +15,10 @@ export const LoadingIcon: FunctionComponent<
   isSpinner ? (
     <div
       className={cx(
-        styles.spinner,
+        'spinner',
         {
-          [styles['is-small']]: isSmall,
-          [styles['is-centered']]: isCentered
+          'spinner-small': isSmall,
+          'absolute top-0 bottom-0 m-auto': isCentered
         },
         className
       )}
@@ -29,5 +28,20 @@ export const LoadingIcon: FunctionComponent<
       {...props}
     />
   ) : (
-    <div className={cx(styles.text, className)}>{loadingText}</div>
+    <div
+      className={cx(
+        'my-5',
+        'text-cool-grey-600',
+        'font-sans',
+        'text-md',
+        'font-bold',
+        'tracking-widest',
+        'text-center',
+        'uppercase',
+        'animate-pulse-fade',
+        className
+      )}
+    >
+      {loadingText}
+    </div>
   );
