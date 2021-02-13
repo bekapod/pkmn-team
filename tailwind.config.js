@@ -200,12 +200,21 @@ module.exports = {
       },
       scale: {
         200: '2'
+      },
+      animation: {
+        'pulse-fade': 'pulse-fade 2s linear infinite'
+      },
+      keyframes: {
+        'pulse-fade': {
+          '0%, 100%': { transform: 'scale(1)', opacity: '0.5' },
+          '50%': { transform: 'scale(1.1)', opacity: 1 }
+        }
       }
     }
   },
   variants: {
     extend: {
-      width: ['children'],
+      width: ['children', 'important'],
       margin: ['children-not-last'],
       scale: ['motion-safe', 'group-hover']
     }
@@ -220,6 +229,16 @@ module.exports = {
 
       addBase({
         ':root': customProperties
+      });
+    }),
+    plugin(({ addVariant }) => {
+      addVariant('important', ({ container }) => {
+        container.walkRules(rule => {
+          rule.selector = `.${rule.selector.slice(1)}\\!`;
+          rule.walkDecls(decl => {
+            decl.important = true;
+          });
+        });
       });
     })
   ]

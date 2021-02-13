@@ -25,24 +25,10 @@
   }
 
   p {
-    @apply my-4;
-    @apply text-base;
+    @apply my-4 text-base;
   }
 
-  @keyframes pulseFade {
-    from {
-      @apply opacity-50 scale-100 transform-gpu;
-    }
-
-    50% {
-      @apply opacity-100 scale-110 transform-gpu;
-    }
-
-    to {
-      @apply opacity-50 scale-100 transform-gpu;
-    }
-  }
-
+  /*
   @keyframes spaceUpOut {
     from {
       @apply opacity-100 origin-center scale-100 translate-x-0 translate-y-0 transform-gpu;
@@ -51,34 +37,55 @@
     to {
       @apply opacity-0 origin-center scale-50 translate-x-0 -translate-y-full transform-gpu;
     }
-  }
-
-  @keyframes spin {
-    from {
-      @apply rotate-0 transform-gpu;
-    }
-
-    to {
-      @apply rotate-180 transform-gpu;
-    }
-  }
-
-  @keyframes skeletonShimmer {
-    0% {
-      @apply bg-left-top;
-    }
-    100% {
-      @apply bg-right-top;
-    }
-  }
+  } */
 }
 
 @tailwind components;
 
 @layer components {
+  .spinner {
+    @apply relative border-8 border-cool-grey-200 animate-spin rounded-full w-6 h-6;
+    border-left-color: var(--colors-cool-grey-600);
+  }
+
+  .spinner-small {
+    @apply w-4 h-4 border-4;
+  }
+
   .spinner-white {
-    @apply border-white border-opacity-75;
+    @apply border-white border-opacity-50;
     border-left-color: var(--colors-white);
+  }
+
+  .move-line-template {
+    @apply grid;
+    grid-template: var(--spacing-5) / 1fr 1fr 1fr;
+  }
+
+  .move-line-template[aria-expanded='true'] {
+    grid-template: var(--spacing-5) var(--spacing-11) / 1fr 1fr 1fr;
+  }
+
+  .move-line-template::before {
+    content: '';
+    @apply absolute block -top-1 w-full h-2;
+    background-image: var(--type-gradient);
+  }
+
+  .move-line-template-compressed {
+    grid-template: var(--spacing-5) var(--spacing-5) / 0.75fr 1.25fr;
+  }
+
+  .move-line-template-compressed[aria-expanded='true'] {
+    grid-template: var(--spacing-5) var(--spacing-5) var(--spacing-11) / 0.75fr 1.25fr;
+  }
+
+  .move-line-template-compressed .move-line-template-actions {
+    @apply w-full col-span-2 justify-between;
+  }
+
+  .move-line-template-compressed .move-line-template-details {
+    @apply mt-2 col-span-2;
   }
 }
 
