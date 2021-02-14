@@ -11,7 +11,7 @@ export const PokemonGrid: FunctionComponent<ComponentPropsWithRef<'div'>> = ({
       'gap-5',
       'grid-cols-1',
       'w-full',
-      'md:auto-cols-min',
+      'md:grid-cols-md',
       className
     )}
     {...props}
