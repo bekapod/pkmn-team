@@ -1505,7 +1505,10 @@ export function useCreateTeamMutation() {
 };
 export const CreateTeamMembersDocument = gql`
     mutation CreateTeamMembers($members: [team_member_insert_input!]!) {
-  createTeamMembers(objects: $members) {
+  createTeamMembers(
+    objects: $members
+    on_conflict: {constraint: team_member_pkey, update_columns: [order]}
+  ) {
     returning {
       ...TeamMemberFragment
     }
