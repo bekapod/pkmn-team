@@ -9,7 +9,6 @@
     "generate:types": "graphql-codegen --config codegen.yml",
     "start:storybook": "start-storybook -p 6006 -s ./public",
     "build:storybook": "build-storybook -s ./public",
-    "test:storybook": "percy-storybook --widths=360,960,1280",
     "test": "jest --verbose --coverage"
   },
   "jest": {
