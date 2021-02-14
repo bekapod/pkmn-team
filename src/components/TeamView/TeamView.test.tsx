@@ -144,5 +144,29 @@ describe('TeamView', () => {
         screen.getByText(`Add ${pokemon[0].name} to team`)
       ).toBeInTheDocument();
     });
+
+    it('calls updateTeamMembers when add button is clicked', () => {
+      const updateTeamMembers = jest.fn();
+      setup({ updateTeamMembers });
+
+      userEvent.click(screen.getByLabelText('Add new pokemon to team'));
+      userEvent.click(
+        screen.getByText(new RegExp(pokemon[0].name, 'i'), {
+          selector: '[data-testid="tab-content-add-pokemon"] *'
+        })
+      );
+      expect(updateTeamMembers).toHaveBeenCalledTimes(0);
+      userEvent.click(screen.getByText(`Add ${pokemon[0].name} to team`));
+      expect(updateTeamMembers).toHaveBeenCalledTimes(1);
+      expect(updateTeamMembers).toHaveBeenCalledWith([
+        ...teamMembers,
+        {
+          id: expect.any(String),
+          learned_moves: [],
+          order: 3,
+          pokemon: pokemon[0]
+        }
+      ]);
+    });
   });
 });
