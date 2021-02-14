@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { TextInput } from '~/components/TextInput';
 import { FormField, FormFieldProps } from '.';
 
@@ -11,18 +11,18 @@ describe(FormField, () => {
     );
 
   it('renders the input and label', () => {
-    const { getByLabelText } = setup();
-    expect(getByLabelText('Some input')).toBeInTheDocument();
+    setup();
+    expect(screen.getByLabelText('Some input')).toBeInTheDocument();
   });
 
   it('renders the error message', () => {
-    const { getByText } = setup({ error: 'Some error' });
-    expect(getByText('Some error')).toBeInTheDocument();
+    setup({ error: 'Some error' });
+    expect(screen.getByText('Some error')).toBeInTheDocument();
   });
 
   it('adds additional class names', () => {
-    const { getByText } = setup({ className: 'some-custom-class' });
-    expect(getByText('Some input').parentElement).toHaveClass(
+    setup({ className: 'some-custom-class' });
+    expect(screen.getByText('Some input').parentElement).toHaveClass(
       'some-custom-class'
     );
   });

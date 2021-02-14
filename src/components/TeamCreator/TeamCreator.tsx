@@ -1,11 +1,9 @@
 import type { ComponentPropsWithoutRef, FunctionComponent } from 'react';
-import cx from 'classnames';
 import { useForm } from 'react-hook-form';
 import { CenteredRow } from '../CenteredRow';
 import { CtaButton } from '../Cta';
 import { FormField } from '../FormField';
 import { GiantInput } from '../GiantInput';
-import styles from './TeamCreator.module.css';
 
 export type TeamCreatorFormValues = {
   'team-name': string;
@@ -18,7 +16,6 @@ export type TeamCreatorProps = ComponentPropsWithoutRef<'form'> & {
 };
 
 export const TeamCreator: FunctionComponent<TeamCreatorProps> = ({
-  className,
   defaultValues,
   isLoading,
   createTeam,
@@ -35,15 +32,14 @@ export const TeamCreator: FunctionComponent<TeamCreatorProps> = ({
     <CenteredRow
       as="form"
       stackVertically
-      className={cx(styles.form, className)}
       onSubmit={handleSubmit(onSubmit)}
       {...props}
     >
       <FormField
         label="Team name"
         id="team-name"
-        className={styles.field}
         error={error}
+        className="items-center"
       >
         <GiantInput
           id="team-name"

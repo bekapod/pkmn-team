@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { MoveLine, MoveLineProps } from '.';
 import { substitute } from '~/mocks/Moves';
 
@@ -7,11 +7,11 @@ describe('MoveLine', () => {
     render(<MoveLine {...substitute} {...props} />);
 
   it('renders move information', () => {
-    const { getByText } = setup();
-    expect(getByText(substitute.name)).toBeInTheDocument();
-    expect(getByText(substitute.type.name)).toBeInTheDocument();
+    setup();
+    expect(screen.getByText(substitute.name)).toBeInTheDocument();
+    expect(screen.getByText(substitute.type.name)).toBeInTheDocument();
     expect(
-      getByText(substitute.damage_class?.value ?? 'damage class missing')
+      screen.getByText(substitute.damage_class?.value ?? 'damage class missing')
     ).toBeInTheDocument();
   });
 
@@ -19,7 +19,7 @@ describe('MoveLine', () => {
     const { container } = setup();
     expect(container.firstChild).toHaveStyle({
       '--type-gradient':
-        'linear-gradient(90deg, var(--color-normal) 0%, var(--color-normal) 50%, var(--color-status) 50%, var(--color-status) 100%)'
+        'linear-gradient(90deg, var(--colors-normal) 0%, var(--colors-normal) 50%, var(--colors-status) 50%, var(--colors-status) 100%)'
     });
   });
 
@@ -27,7 +27,7 @@ describe('MoveLine', () => {
     const { container } = setup({ damage_class: null });
     expect(container.firstChild).toHaveStyle({
       '--type-gradient':
-        'linear-gradient(90deg, var(--color-normal) 0%, var(--color-normal) 100%)'
+        'linear-gradient(90deg, var(--colors-normal) 0%, var(--colors-normal) 100%)'
     });
   });
 
@@ -42,18 +42,18 @@ describe('MoveLine', () => {
   });
 
   it("doesn't render additional information when not open", () => {
-    const { queryByText } = setup();
-    expect(queryByText('PP')).not.toBeInTheDocument();
-    expect(queryByText('Accuracy')).not.toBeInTheDocument();
-    expect(queryByText('Power')).not.toBeInTheDocument();
-    expect(queryByText('Target')).not.toBeInTheDocument();
+    setup();
+    expect(screen.queryByText('PP')).not.toBeInTheDocument();
+    expect(screen.queryByText('Accuracy')).not.toBeInTheDocument();
+    expect(screen.queryByText('Power')).not.toBeInTheDocument();
+    expect(screen.queryByText('Target')).not.toBeInTheDocument();
   });
 
   it('renders actions', () => {
-    const { getByText } = setup({
+    setup({
       renderLineActions: () => <button>Some button</button>
     });
-    expect(getByText('Some button')).toBeInTheDocument();
+    expect(screen.getByText('Some button')).toBeInTheDocument();
   });
 
   describe('when highlighted', () => {
@@ -70,16 +70,18 @@ describe('MoveLine', () => {
     });
 
     it('renders additional information when open', () => {
-      const { getByText } = setup({ isOpen: true });
-      expect(getByText(substitute.pp ?? 'pp missing')).toBeInTheDocument();
+      setup({ isOpen: true });
+      expect(
+        screen.getByText(substitute.pp ?? 'pp missing')
+      ).toBeInTheDocument();
       substitute.accuracy &&
-        expect(getByText(substitute.accuracy)).toBeInTheDocument();
+        expect(screen.getByText(substitute.accuracy)).toBeInTheDocument();
       substitute.power &&
-        expect(getByText(substitute.power)).toBeInTheDocument();
+        expect(screen.getByText(substitute.power)).toBeInTheDocument();
       substitute.target &&
-        expect(getByText(substitute.target)).toBeInTheDocument();
+        expect(screen.getByText(substitute.target)).toBeInTheDocument();
       substitute.effect &&
-        expect(getByText(substitute.effect)).toBeInTheDocument();
+        expect(screen.getByText(substitute.effect)).toBeInTheDocument();
     });
   });
 });

@@ -1,9 +1,0 @@
-.container {
-  margin-right: calc(var(--spacing-4) * -1);
-  margin-left: calc(var(--spacing-4) * -1);
-
-  @media (--medium-viewport) {
-    margin-right: calc(var(--spacing-6) * -1);
-    margin-left: calc(var(--spacing-6) * -1);
-  }
-}

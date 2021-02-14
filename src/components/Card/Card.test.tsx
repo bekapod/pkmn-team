@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { screen, render } from '@testing-library/react';
 import Link from 'next/link';
 import { CardWrapper, CardLink, CardHeader, CardHeading, CardContent } from '.';
 
@@ -9,18 +9,18 @@ describe(CardWrapper, () => {
     );
 
   it("renders it's children", () => {
-    const { getByText } = setup();
-    expect(getByText('Some content')).toBeInTheDocument();
+    setup();
+    expect(screen.getByText('Some content')).toBeInTheDocument();
   });
 
   it('renders as an <article>', () => {
-    const { getByText } = setup();
-    expect(getByText('Some content').tagName).toBe('ARTICLE');
+    setup();
+    expect(screen.getByRole('article')).toBeInTheDocument();
   });
 
   it('adds additional class names', () => {
-    const { getByText } = setup();
-    expect(getByText('Some content')).toHaveClass('some-custom-class');
+    setup();
+    expect(screen.getByRole('article')).toHaveClass('some-custom-class');
   });
 });
 
@@ -33,23 +33,30 @@ describe('CardLink', () => {
     );
 
   it("renders it's children", () => {
-    const { getByText } = setup();
-    expect(getByText('Some link')).toBeInTheDocument();
-  });
-
-  it('renders as an <a>', () => {
-    const { getByText } = setup();
-    expect(getByText('Some link').tagName).toBe('A');
+    setup();
+    expect(
+      screen.getByRole('link', {
+        name: /some link/i
+      })
+    ).toBeInTheDocument();
   });
 
   it('adds additional class names', () => {
-    const { getByText } = setup();
-    expect(getByText('Some link')).toHaveClass('some-custom-class');
+    setup();
+    expect(
+      screen.getByRole('link', {
+        name: /some link/i
+      })
+    ).toHaveClass('some-custom-class');
   });
 
   it('allows for href to be forwarded from <Link />', () => {
-    const { getByText } = setup();
-    expect(getByText('Some link')).toHaveAttribute('href', '/some-link');
+    setup();
+    expect(
+      screen.getByRole('link', {
+        name: /some link/i
+      })
+    ).toHaveAttribute('href', '/some-link');
   });
 });
 
@@ -58,18 +65,18 @@ describe(CardHeader, () => {
     render(<CardHeader className="some-custom-class">Some header</CardHeader>);
 
   it("renders it's children", () => {
-    const { getByText } = setup();
-    expect(getByText('Some header')).toBeInTheDocument();
+    setup();
+    expect(screen.getByText('Some header')).toBeInTheDocument();
   });
 
   it('renders as a <header>', () => {
-    const { getByText } = setup();
-    expect(getByText('Some header').tagName).toBe('HEADER');
+    setup();
+    expect(screen.getByRole('banner').tagName).toBe('HEADER');
   });
 
   it('adds additional class names', () => {
-    const { getByText } = setup();
-    expect(getByText('Some header')).toHaveClass('some-custom-class');
+    setup();
+    expect(screen.getByRole('banner')).toHaveClass('some-custom-class');
   });
 });
 
@@ -80,18 +87,30 @@ describe(CardHeading, () => {
     );
 
   it("renders it's children", () => {
-    const { getByText } = setup();
-    expect(getByText('Some heading')).toBeInTheDocument();
+    setup();
+    expect(
+      screen.getByRole('heading', {
+        name: /some heading/i
+      })
+    ).toBeInTheDocument();
   });
 
   it('renders as an <h2>', () => {
-    const { getByText } = setup();
-    expect(getByText('Some heading').tagName).toBe('H2');
+    setup();
+    expect(
+      screen.getByRole('heading', {
+        name: /some heading/i
+      }).tagName
+    ).toBe('H2');
   });
 
   it('adds additional class names', () => {
-    const { getByText } = setup();
-    expect(getByText('Some heading')).toHaveClass('some-custom-class');
+    setup();
+    expect(
+      screen.getByRole('heading', {
+        name: /some heading/i
+      })
+    ).toHaveClass('some-custom-class');
   });
 });
 
@@ -102,17 +121,17 @@ describe(CardContent, () => {
     );
 
   it("renders it's children", () => {
-    const { getByText } = setup();
-    expect(getByText('Some content')).toBeInTheDocument();
+    setup();
+    expect(screen.getByText('Some content')).toBeInTheDocument();
   });
 
   it('renders as a <div>', () => {
-    const { getByText } = setup();
-    expect(getByText('Some content').tagName).toBe('DIV');
+    setup();
+    expect(screen.getByText('Some content').tagName).toBe('DIV');
   });
 
   it('adds additional class names', () => {
-    const { getByText } = setup();
-    expect(getByText('Some content')).toHaveClass('some-custom-class');
+    setup();
+    expect(screen.getByText('Some content')).toHaveClass('some-custom-class');
   });
 });

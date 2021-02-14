@@ -6,9 +6,8 @@ import {
   FunctionComponent
 } from 'react';
 import type { IconType } from 'react-icons';
-import cx from 'classnames';
+import classNames from 'classnames';
 import { LoadingIcon } from '../LoadingIcon';
-import styles from './Cta.module.css';
 
 export type CtaProps = {
   variant?: 'primary' | 'secondary' | 'tertiary' | 'destructive';
@@ -34,21 +33,78 @@ const CtaBase: FunctionComponent<
   ) => (
     <As
       ref={ref}
-      className={cx(styles.base, className, {
-        [styles[`is-primary`]]: variant === 'primary',
-        [styles['is-tertiary']]: variant === 'tertiary',
-        [styles['is-destructive']]: variant === 'destructive',
-        [styles['is-small']]: size === 'small',
-        [styles['is-tiny']]: size === 'tiny'
-      })}
+      className={classNames(
+        'group',
+        'relative',
+        'inline-flex',
+        'items-center',
+        'w-auto',
+        'overflow-hidden',
+        'text-white',
+        'font-sans',
+        'text-center',
+        'no-underline',
+        'uppercase',
+        'border-none',
+        'rounded-tl-lg',
+        'rounded-br-lg',
+        'shadow',
+        'perspective',
+        'transition-colors',
+        'duration-300',
+        'ease-out',
+        'disabled:bg-cool-grey-300',
+        className,
+        {
+          'bg-pink-vivid-500': variant === 'primary',
+          'bg-cyan-vivid-700': variant === 'secondary',
+          'bg-indigo-900': variant === 'tertiary',
+          'bg-red-vivid-700': variant === 'destructive',
+          'min-h-8 px-6 text-lg font-black': size === 'default',
+          'min-h-6 px-5 text-base font-black': size === 'small',
+          'min-h-5 px-3 text-sm font-bold': size === 'tiny'
+        }
+      )}
       disabled={props['aria-busy']}
       {...props}
     >
+      <span
+        className={classNames(
+          'block',
+          'absolute',
+          '-z-1',
+          'top-0',
+          'left-0',
+          'right-0',
+          'bottom-0',
+          'rounded-full',
+          'scale-200',
+          'transform-gpu',
+          'transition-transform',
+          'duration-300',
+          'ease-out',
+          'group-hover:scale-0 group-focus:scale-0 group-active:scale-0',
+          {
+            'bg-pink-vivid-400': variant === 'primary',
+            'bg-cyan-vivid-600': variant === 'secondary',
+            'bg-indigo-700': variant === 'tertiary',
+            'bg-red-vivid-500': variant === 'destructive'
+          }
+        )}
+      />
       {props['aria-busy'] ? (
-        <LoadingIcon isSpinner isSmall className={styles.spinner} />
+        <LoadingIcon isSpinner isSmall className="spinner-white" />
       ) : (
         <>
-          {Icon && <Icon role="presentation" className={styles.icon} />}
+          {Icon && (
+            <Icon
+              role="presentation"
+              className={classNames({
+                '-ml-2 mr-3': size === 'default' || size === 'small',
+                'mr-2': size === 'tiny'
+              })}
+            />
+          )}
           {children}
         </>
       )}

@@ -22,7 +22,6 @@ import { MoveLine } from '../MoveLine';
 import { Moves, Team_Member, Team_Member_Move } from '~/generated/graphql';
 import { useContainerQuery } from '~/hooks/useContainerQuery';
 import { CtaButton } from '../Cta';
-import styles from './MoveList.module.css';
 
 export type MoveListProps = {
   moves: Moves[];
@@ -51,6 +50,8 @@ const Row = ({
   teamMember,
   highlightLearnedMoves,
   itemStates,
+  isCompressed,
+  isSpacious,
   onItemStateChange,
   addMoveToTeamMember,
   removeMoveFromTeamMember
@@ -58,6 +59,8 @@ const Row = ({
   teamMember?: Team_Member;
   highlightLearnedMoves: boolean;
   itemStates: boolean[];
+  isCompressed: boolean;
+  isSpacious: boolean;
   onItemStateChange: (index: number, isOpen: boolean) => void;
   addMoveToTeamMember: (move: Moves) => void;
   removeMoveFromTeamMember: (move: Team_Member_Move) => void;
@@ -101,11 +104,14 @@ const Row = ({
       {...move}
       isOpen={itemStates[index]}
       isHighlighted={highlightLearnedMoves && !!teamMemberMove}
+      isCompressed={isCompressed}
+      isSpacious={isSpacious}
       style={{
         ...style,
         top: `calc(${style?.top}px + (var(--spacing-2) / 2))`
       }}
       renderLineActions={renderLineActions}
+      data-testid="move-list-item"
     />
   );
 };
@@ -133,6 +139,8 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
 
   const itemHeight = className.includes('is-compressed-list') ? 126 : 84;
   const hasOverflowingItems = compose(lte(visibleItems), size);
+  const isCompressed = className.includes('is-compressed-list');
+  const isSpacious = className.includes('is-spacious-list');
 
   useEffect(() => {
     listRef.current?.resetAfterIndex(0, false);
@@ -165,11 +173,11 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
   }, []);
 
   return (
-    <div ref={ref as never}>
+    <div ref={ref as never} data-testid="move-list">
       <List
         ref={listRef}
-        className={classNames(styles.list, className, {
-          [styles['has-no-overflow']]: !hasOverflowingItems(moves)
+        className={classNames('w-full!', 'bg-white', className, {
+          'overflow-hidden': !hasOverflowingItems(moves)
         })}
         height={listHeight}
         itemSize={getItemHeight}
@@ -181,6 +189,8 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
           teamMember,
           highlightLearnedMoves,
           itemStates,
+          isCompressed,
+          isSpacious,
           onItemStateChange,
           addMoveToTeamMember,
           removeMoveFromTeamMember

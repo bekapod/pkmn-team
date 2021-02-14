@@ -1,4 +1,4 @@
-import { act, render, waitFor } from '@testing-library/react';
+import { act, render, waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { TeamCreator, TeamCreatorProps } from '.';
 import { setupResizeObserverMock } from '~/test-helpers';
@@ -10,17 +10,20 @@ describe(TeamCreator, () => {
   };
 
   it('renders a team name input', () => {
-    const { getByLabelText } = setup();
-    expect(getByLabelText('Team name')).toBeInTheDocument();
+    setup();
+    expect(screen.getByLabelText('Team name')).toBeInTheDocument();
   });
 
   it('calls updateTeam when team name is changed', async () => {
     const createTeam = jest.fn();
-    const { getByLabelText, getByText } = setup({ createTeam });
+    setup({ createTeam });
 
     await act(async () => {
-      await userEvent.type(getByLabelText('Team name'), 'Some team name');
-      userEvent.click(getByText('Create team'));
+      await userEvent.type(
+        screen.getByLabelText('Team name'),
+        'Some team name'
+      );
+      userEvent.click(screen.getByText('Create team'));
     });
 
     expect(createTeam).toHaveBeenCalledTimes(1);
@@ -29,38 +32,39 @@ describe(TeamCreator, () => {
 
   describe('when there is an error', () => {
     it('renders error message', async () => {
-      const { getByRole, getByText } = setup();
+      setup();
 
       await act(async () => {
-        userEvent.click(getByText('Create team'));
-        await waitFor(() => expect(getByRole('alert')).toBeInTheDocument());
+        userEvent.click(screen.getByText('Create team'));
+        await waitFor(() =>
+          expect(screen.getByRole('alert')).toBeInTheDocument()
+        );
       });
 
-      expect(getByText('You must name your team')).toBeInTheDocument();
+      expect(screen.getByText('You must name your team')).toBeInTheDocument();
     });
   });
 
   describe('when loading', () => {
     it('renders a loading spinner', () => {
-      const { getByTestId } = setup({ isLoading: true });
-      expect(getByTestId('loading-spinner')).toBeInTheDocument();
+      setup({ isLoading: true });
+      expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
     });
 
     it('marks create button as busy', () => {
-      const { getByTestId } = setup({ isLoading: true });
-      expect(getByTestId('loading-spinner').parentElement).toHaveAttribute(
-        'aria-busy',
-        'true'
-      );
+      setup({ isLoading: true });
+      expect(
+        screen.getByTestId('loading-spinner').parentElement
+      ).toHaveAttribute('aria-busy', 'true');
     });
   });
 
   describe('with default values', () => {
     it('pre-populates team name', () => {
-      const { getByLabelText } = setup({
+      setup({
         defaultValues: { 'team-name': 'Some team name' }
       });
-      expect(getByLabelText('Team name')).toHaveValue('Some team name');
+      expect(screen.getByLabelText('Team name')).toHaveValue('Some team name');
     });
   });
 });

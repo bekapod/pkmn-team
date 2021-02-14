@@ -37,7 +37,7 @@ const resultItem = (
     style: {
       ...style,
       backgroundColor: isHighlighted
-        ? 'var(--color-yellow-vivid-100)'
+        ? 'var(--colors-yellow-vivid-100)'
         : 'initial',
       top: `calc(${style?.top}px + var(--spacing-1))`
     }
@@ -151,6 +151,7 @@ export const PokemonSearch: FunctionComponent<PokemonSearchProps> = ({
           itemSize={itemHeight}
           itemCount={filteredList.length}
           width={500}
+          className="w-full!"
         >
           {resultItem(filteredList, highlightedIndex, onResultClick)}
         </List>

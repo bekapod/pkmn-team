@@ -1,4 +1,5 @@
-import { Typeset } from '@storybook/addon-docs/blocks';
+import { Meta, Typeset } from '@storybook/addon-docs/blocks';
+import { theme } from '../../tailwind.config.js';
 
 <Meta title="Tokens/Typography" />
 
@@ -7,15 +8,8 @@ import { Typeset } from '@storybook/addon-docs/blocks';
 ## Thin
 
 <Typeset
-  fontSizes={[
-    'var(--font-size-sm)',
-    'var(--font-size-base)',
-    'var(--font-size-lg)',
-    'var(--font-size-xl)',
-    'var(--font-size-2xl)',
-    'var(--font-size-3xl)'
-  ]}
-  fontFamily="var(--font-family)"
+  fontSizes={Object.keys(theme.fontSize).map(size => theme.fontSize[size][0])}
+  fontFamily={theme.fontFamily.sans}
   fontWeight={100}
   sampleText="Grumpy wizards make a toxic brew for the jovial queen."
 />
@@ -23,15 +17,8 @@ import { Typeset } from '@storybook/addon-docs/blocks';
 ## Light
 
 <Typeset
-  fontSizes={[
-    'var(--font-size-sm)',
-    'var(--font-size-base)',
-    'var(--font-size-lg)',
-    'var(--font-size-xl)',
-    'var(--font-size-2xl)',
-    'var(--font-size-3xl)'
-  ]}
-  fontFamily="var(--font-family)"
+  fontSizes={Object.keys(theme.fontSize).map(size => theme.fontSize[size][0])}
+  fontFamily={theme.fontFamily.sans}
   fontWeight={300}
   sampleText="Grumpy wizards make a toxic brew for the jovial queen."
 />
@@ -39,30 +26,16 @@ import { Typeset } from '@storybook/addon-docs/blocks';
 ## Regular
 
 <Typeset
-  fontSizes={[
-    'var(--font-size-sm)',
-    'var(--font-size-base)',
-    'var(--font-size-lg)',
-    'var(--font-size-xl)',
-    'var(--font-size-2xl)',
-    'var(--font-size-3xl)'
-  ]}
-  fontFamily="var(--font-family)"
+  fontSizes={Object.keys(theme.fontSize).map(size => theme.fontSize[size][0])}
+  fontFamily={theme.fontFamily.sans}
   sampleText="Grumpy wizards make a toxic brew for the jovial queen."
 />
 
 ## Medium
 
 <Typeset
-  fontSizes={[
-    'var(--font-size-sm)',
-    'var(--font-size-base)',
-    'var(--font-size-lg)',
-    'var(--font-size-xl)',
-    'var(--font-size-2xl)',
-    'var(--font-size-3xl)'
-  ]}
-  fontFamily="var(--font-family)"
+  fontSizes={Object.keys(theme.fontSize).map(size => theme.fontSize[size][0])}
+  fontFamily={theme.fontFamily.sans}
   fontWeight={500}
   sampleText="Grumpy wizards make a toxic brew for the jovial queen."
 />
@@ -70,15 +43,8 @@ import { Typeset } from '@storybook/addon-docs/blocks';
 ## Bold
 
 <Typeset
-  fontSizes={[
-    'var(--font-size-sm)',
-    'var(--font-size-base)',
-    'var(--font-size-lg)',
-    'var(--font-size-xl)',
-    'var(--font-size-2xl)',
-    'var(--font-size-3xl)'
-  ]}
-  fontFamily="var(--font-family)"
+  fontSizes={Object.keys(theme.fontSize).map(size => theme.fontSize[size][0])}
+  fontFamily={theme.fontFamily.sans}
   fontWeight={700}
   sampleText="Grumpy wizards make a toxic brew for the jovial queen."
 />
@@ -86,15 +52,8 @@ import { Typeset } from '@storybook/addon-docs/blocks';
 ## Black
 
 <Typeset
-  fontSizes={[
-    'var(--font-size-sm)',
-    'var(--font-size-base)',
-    'var(--font-size-lg)',
-    'var(--font-size-xl)',
-    'var(--font-size-2xl)',
-    'var(--font-size-3xl)'
-  ]}
-  fontFamily="var(--font-family)"
+  fontSizes={Object.keys(theme.fontSize).map(size => theme.fontSize[size][0])}
+  fontFamily={theme.fontFamily.sans}
   fontWeight={900}
   sampleText="Grumpy wizards make a toxic brew for the jovial queen."
 />

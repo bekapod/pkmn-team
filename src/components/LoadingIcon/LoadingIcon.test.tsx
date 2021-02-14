@@ -1,30 +1,35 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { LoadingIcon } from '.';
 
 describe(LoadingIcon, () => {
   it('renders loading text in a div', () => {
-    const { getByText } = render(<LoadingIcon />);
-    expect(getByText('Loading')).toBeInTheDocument();
-    expect(getByText('Loading').tagName).toBe('DIV');
+    render(<LoadingIcon />);
+    expect(screen.getByText('Loading')).toBeInTheDocument();
+    expect(screen.getByText('Loading').tagName).toBe('DIV');
   });
 
   it('adds additional class names', () => {
-    const { getByText } = render(<LoadingIcon className="some-custom-class" />);
-    expect(getByText('Loading')).toHaveClass('some-custom-class');
+    render(<LoadingIcon className="some-custom-class" />);
+    expect(screen.getByText('Loading')).toHaveClass('some-custom-class');
   });
 
   it('renders spinner', () => {
-    const { getByTestId } = render(<LoadingIcon isSpinner />);
-    expect(getByTestId('loading-spinner')).toHaveAttribute('role', 'img');
+    render(<LoadingIcon isSpinner />);
+    expect(screen.getByTestId('loading-spinner')).toHaveAttribute(
+      'role',
+      'img'
+    );
   });
 
   it('renders small spinner', () => {
-    const { getByTestId } = render(<LoadingIcon isSpinner isSmall />);
-    expect(getByTestId('loading-spinner')).toHaveClass('is-small');
+    render(<LoadingIcon isSpinner isSmall />);
+    expect(screen.getByTestId('loading-spinner')).toHaveClass('spinner-small');
   });
 
   it('renders centered spinner', () => {
-    const { getByTestId } = render(<LoadingIcon isSpinner isCentered />);
-    expect(getByTestId('loading-spinner')).toHaveClass('is-centered');
+    render(<LoadingIcon isSpinner isCentered />);
+    expect(screen.getByTestId('loading-spinner')).toHaveClass(
+      'top-0 bottom-0 m-auto'
+    );
   });
 });

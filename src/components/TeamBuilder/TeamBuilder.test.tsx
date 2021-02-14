@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import wait from 'waait';
 import { TeamBuilder, TeamBuilderProps } from '.';
@@ -41,75 +41,80 @@ describe(TeamBuilder, () => {
   };
 
   it('renders a button to delete the team', () => {
-    const { getByText } = setup();
-    expect(getByText('Delete team')).toBeInTheDocument();
+    setup();
+    expect(screen.getByText('Delete team')).toBeInTheDocument();
   });
 
   it('calls deleteTeam when delete button is clicked', () => {
     const deleteTeam = jest.fn();
-    const { getByText } = setup({ deleteTeam });
-    userEvent.click(getByText('Delete team'));
+    setup({ deleteTeam });
+    userEvent.click(screen.getByText('Delete team'));
     expect(deleteTeam).toHaveBeenCalledTimes(1);
   });
 
   it('renders a team name input', () => {
-    const { getByLabelText, getByPlaceholderText } = setup();
-    expect(getByLabelText('Choose a team name')).toBeInTheDocument();
-    expect(getByPlaceholderText('Choose a team name')).toBeInTheDocument();
+    setup();
+    expect(screen.getByLabelText('Choose a team name')).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText('Choose a team name')
+    ).toBeInTheDocument();
   });
 
   it('calls updateTeam when team name is changed', async () => {
     const updateTeam = jest.fn();
-    const { getByLabelText } = setup({ updateTeam });
-    await userEvent.type(getByLabelText('Choose a team name'), '!!!!111');
+    setup({ updateTeam });
+    await userEvent.type(
+      screen.getByLabelText('Choose a team name'),
+      '!!!!111'
+    );
     await wait(1500);
     expect(updateTeam).toHaveBeenCalledTimes(1);
     expect(updateTeam).toHaveBeenCalledWith('My super team!!!!!111');
   });
 
   it('renders the team view', () => {
-    const { getAllByText } = setup();
+    setup();
     expect(
-      getAllByText(`#${pokemon[0].pokedex_id} ${pokemon[0].name}`)
+      screen.getAllByText(`#${pokemon[0].pokedex_id} ${pokemon[0].name}`)
     ).toHaveLength(2);
     expect(
-      getAllByText(`#${pokemon[1].pokedex_id} ${pokemon[1].name}`)
+      screen.getAllByText(`#${pokemon[1].pokedex_id} ${pokemon[1].name}`)
     ).toHaveLength(2);
     expect(
-      getAllByText(`#${pokemon[2].pokedex_id} ${pokemon[2].name}`)
+      screen.getAllByText(`#${pokemon[2].pokedex_id} ${pokemon[2].name}`)
     ).toHaveLength(2);
   });
 
   describe('when there is an error', () => {
     it('renders error message', () => {
-      const { getByRole, getByText } = setup({
+      setup({
         error: {
           name: 'error',
           message: 'Some error message',
           graphQLErrors: []
         }
       });
-      expect(getByRole('alert')).toBeInTheDocument();
-      expect(getByText('Some error message')).toBeInTheDocument();
+      expect(screen.getByRole('alert')).toBeInTheDocument();
+      expect(screen.getByText('Some error message')).toBeInTheDocument();
     });
   });
 
   describe('when loading', () => {
     it('renders a loading spinner', () => {
-      const { getByTestId } = setup({ isLoading: true });
-      expect(getByTestId('loading-spinner')).toBeInTheDocument();
+      setup({ isLoading: true });
+      expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
     });
   });
 
   describe('when skeleton view', () => {
     it('renders a loading spinner', () => {
-      const { getByTestId } = setup({ isSkeleton: true });
-      expect(getByTestId('loading-spinner')).toBeInTheDocument();
+      setup({ isSkeleton: true });
+      expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
     });
 
     it('disables the team name input', () => {
-      const { getByLabelText } = setup({ isSkeleton: true });
-      expect(getByLabelText('Choose a team name')).toBeDisabled();
+      setup({ isSkeleton: true });
+      expect(screen.getByLabelText('Choose a team name')).toBeDisabled();
     });
   });
 });

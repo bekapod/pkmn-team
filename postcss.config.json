@@ -1,8 +1,6 @@
 {
   "plugins": [
-    "postcss-nesting",
-    "postcss-flexbugs-fixes",
-    ["postcss-custom-media", { "importFrom": "./src/styles/globals.css" }],
+    "tailwindcss",
     [
       "postcss-preset-env",
       {

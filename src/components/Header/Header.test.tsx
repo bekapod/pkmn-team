@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Header } from '.';
 import { HeaderProps } from './Header';
 
@@ -7,22 +7,22 @@ describe(Header, () => {
     render(<Header title="Some page" {...props} />);
 
   it('renders in an accessible element', () => {
-    const { getByRole } = setup();
-    expect(getByRole('banner').tagName).toBe('HEADER');
+    setup();
+    expect(screen.getByRole('banner').tagName).toBe('HEADER');
   });
 
   it('renders a link to the dashboard', () => {
-    const { getByTitle } = setup();
-    expect(getByTitle('Dashboard')).toHaveAttribute('href', '/');
+    setup();
+    expect(screen.getByTitle('Dashboard')).toHaveAttribute('href', '/');
   });
 
   it('renders the page title in a h1', () => {
-    const { getByText } = setup();
-    expect(getByText('Some page').tagName).toBe('H1');
+    setup();
+    expect(screen.getByText('Some page').tagName).toBe('H1');
   });
 
   it('adds custom class names', () => {
-    const { getByRole } = setup({ className: 'some-custom-class' });
-    expect(getByRole('banner')).toHaveClass('some-custom-class');
+    setup({ className: 'some-custom-class' });
+    expect(screen.getByRole('banner')).toHaveClass('some-custom-class');
   });
 });

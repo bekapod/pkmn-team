@@ -1,6 +1,5 @@
 import type { ComponentPropsWithRef, FunctionComponent } from 'react';
-import cx from 'classnames';
-import styles from './ErrorMessage.module.css';
+import classNames from 'classnames';
 
 export type ErrorMessageProps = {
   isBig?: boolean;
@@ -11,7 +10,15 @@ export const ErrorMessage: FunctionComponent<
 > = ({ isBig, className, children, ...props }) => (
   <div
     role="alert"
-    className={cx(styles.base, className, { [styles['is-big']]: isBig })}
+    className={classNames(
+      'text-red-vivid-600',
+      'text-base',
+      'font-normal',
+      className,
+      {
+        'my-4 text-lg text-center': isBig
+      }
+    )}
     {...props}
   >
     {children}

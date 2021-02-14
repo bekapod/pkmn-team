@@ -3,8 +3,7 @@ import type {
   ElementType,
   FunctionComponent
 } from 'react';
-import cx from 'classnames';
-import styles from './CenteredRow.module.css';
+import classNames from 'classnames';
 
 export type CenteredRowProps = ComponentPropsWithRef<ElementType> & {
   stackVertically?: boolean;
@@ -18,8 +17,9 @@ export const CenteredRow: FunctionComponent<CenteredRowProps> = ({
   ...props
 }) => (
   <As
-    className={cx(styles.container, className, {
-      [styles['is-vertical']]: stackVertically
+    className={classNames('flex', 'mb-5', className, {
+      'justify-center children:not-last:mr-3': !stackVertically,
+      'flex-col items-center children:not-last:mb-4': stackVertically
     })}
     {...props}
   />

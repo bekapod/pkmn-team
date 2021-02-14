@@ -1,10 +1,10 @@
 import type { ComponentPropsWithRef, FunctionComponent } from 'react';
+import classNames from 'classnames';
 import type { Pokemon } from '~/generated/graphql';
 import { formatPokemonName, sortBySlug } from '~/lib/general';
 import { getTypeGradient } from '~/lib/gradients';
 import { InlineList } from '../InlineList';
 import { TypeTag } from '../TypeTag';
-import styles from './PokemonLine.module.css';
 
 export type PokemonLineProps = {
   pokemon: Pick<
@@ -16,12 +16,19 @@ export type PokemonLineProps = {
 
 export const PokemonLine: FunctionComponent<
   ComponentPropsWithRef<'div'> & PokemonLineProps
-> = ({ pokemon, outdent, style, ...props }) => {
+> = ({ pokemon, outdent, style, className, ...props }) => {
   const { pokedex_id, name, types, sprite } = pokemon;
 
   return (
     <div
-      className={styles.row}
+      className={classNames(
+        'pokemon-line-template',
+        'relative',
+        'flex',
+        'items-center',
+        'h-10',
+        className
+      )}
       style={{
         ...style,
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -32,12 +39,14 @@ export const PokemonLine: FunctionComponent<
       {...props}
     >
       <img
-        className={styles.sprite}
+        className={classNames('w-8', 'h-8', 'mr-4')}
         src={`/sprites/${sprite}`}
         alt={`${name} sprite`}
       />
       <div>
-        <div className={styles.title}>{formatPokemonName(pokemon)}</div>
+        <div className={classNames('mb-2', 'font-bold', 'leading-none')}>
+          {formatPokemonName(pokemon)}
+        </div>
         <InlineList>
           {sortBySlug(types.map(({ type }) => type)).map(type => (
             <li key={`Pokemon: ${pokedex_id}, Type: ${type.slug}`}>

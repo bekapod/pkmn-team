@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { TeamCard, TeamCardProps } from '.';
 import { charmander, haunter, pikachu } from '~/mocks/Pokemon';
 import { Pokemon } from '~/generated/graphql';
@@ -39,26 +39,28 @@ describe(TeamCard, () => {
   });
 
   it('renders the team name', () => {
-    const { getByText } = setup();
-    expect(getByText(team.name)).toBeInTheDocument();
+    setup();
+    expect(screen.getByText(team.name)).toBeInTheDocument();
   });
 
   it('renders the team meta data', () => {
-    const { getByText } = setup();
-    expect(getByText('Pkmn').nextSibling).toHaveTextContent('3');
-    expect(getByText('Created').nextSibling).toHaveTextContent('12/12/20');
+    setup();
+    expect(screen.getByText('Pkmn').nextSibling).toHaveTextContent('3');
+    expect(screen.getByText('Created').nextSibling).toHaveTextContent(
+      '12/12/20'
+    );
   });
 
   it('renders the team members', () => {
-    const { getByText } = setup();
+    setup();
     expect(
-      getByText(`#${pokemon[0].pokedex_id} ${pokemon[0].name}`)
+      screen.getByText(`#${pokemon[0].pokedex_id} ${pokemon[0].name}`)
     ).toBeInTheDocument();
     expect(
-      getByText(`#${pokemon[1].pokedex_id} ${pokemon[1].name}`)
+      screen.getByText(`#${pokemon[1].pokedex_id} ${pokemon[1].name}`)
     ).toBeInTheDocument();
     expect(
-      getByText(`#${pokemon[2].pokedex_id} ${pokemon[2].name}`)
+      screen.getByText(`#${pokemon[2].pokedex_id} ${pokemon[2].name}`)
     ).toBeInTheDocument();
   });
 });

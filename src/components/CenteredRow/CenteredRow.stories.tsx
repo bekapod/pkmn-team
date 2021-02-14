@@ -3,7 +3,10 @@ import { CenteredRow, CenteredRowProps } from './CenteredRow';
 
 export default {
   title: 'Components/CenteredRow',
-  component: CenteredRow
+  component: CenteredRow,
+  args: {
+    stackVertically: false
+  }
 } as Meta<CenteredRowProps>;
 
 export const Standard = (args: CenteredRowProps): JSX.Element => (

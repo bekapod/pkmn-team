@@ -1,21 +1,19 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { FullWidthContainer } from '.';
 
 describe(FullWidthContainer, () => {
   it("renders it's children in a div", () => {
-    const { getByText } = render(
-      <FullWidthContainer>hello</FullWidthContainer>
-    );
-    expect(getByText('hello')).toBeInTheDocument();
-    expect(getByText('hello').tagName).toBe('DIV');
+    render(<FullWidthContainer>hello</FullWidthContainer>);
+    expect(screen.getByText('hello')).toBeInTheDocument();
+    expect(screen.getByText('hello').tagName).toBe('DIV');
   });
 
   it('adds additional class names', () => {
-    const { getByText } = render(
+    render(
       <FullWidthContainer className="some-custom-class">
         hello
       </FullWidthContainer>
     );
-    expect(getByText('hello')).toHaveClass('some-custom-class');
+    expect(screen.getByText('hello')).toHaveClass('some-custom-class');
   });
 });

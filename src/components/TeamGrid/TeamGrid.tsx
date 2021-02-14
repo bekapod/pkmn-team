@@ -3,11 +3,20 @@ import type {
   ComponentPropsWithRef,
   ElementType
 } from 'react';
-import cx from 'classnames';
-import styles from './TeamGrid.module.css';
+import classNames from 'classnames';
 
 export const TeamGrid: FunctionComponent<
   ComponentPropsWithRef<ElementType> & { as?: ElementType }
 > = ({ as: As = 'div', className, ...props }) => (
-  <As className={cx(styles.container, className)} {...props} />
+  <As
+    className={classNames(
+      'grid',
+      'gap-5',
+      'grid-cols-1',
+      'w-full',
+      'md:grid-cols-md',
+      className
+    )}
+    {...props}
+  />
 );
