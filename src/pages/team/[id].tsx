@@ -10,8 +10,10 @@ import {
   useTeamByIdQuery,
   useUpdateTeamMutation,
   useDeleteTeamMutation,
+  useCreateTeamMembersMutation,
   TeamByIdDocument,
-  AllPokemonDocument
+  AllPokemonDocument,
+  Team_Member
 } from '~/generated/graphql';
 import { createClient } from '~/lib/client';
 import { FullWidthContainer } from '~/components/FullWidthContainer';
@@ -48,6 +50,10 @@ const Team: NextComponentType<
     { fetching: deleteTeamFetching },
     deleteTeam
   ] = useDeleteTeamMutation();
+  const [
+    { fetching: createTeamMembersFetching },
+    createTeamMembers
+  ] = useCreateTeamMembersMutation();
 
   const team = teamData?.teamById ?? undefined;
   const pokemon = allPokemonData?.pokemon;
@@ -68,6 +74,30 @@ const Team: NextComponentType<
     }
   }, [team?.id, router, deleteTeam]);
 
+  const updateTeamMembersHandler = useCallback(
+    (members: Team_Member[]) => {
+      const membersToCreate = members
+        .filter(
+          ({ id }) =>
+            !team?.team_members.find(existingMember => id === existingMember.id)
+        )
+        .map(({ id, pokemon, order }) => ({
+          id,
+          pokemon_id: pokemon.id,
+          order,
+          team_id: team?.id
+        }));
+
+      if (membersToCreate.length) {
+        createTeamMembers({
+          members: membersToCreate
+        });
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [JSON.stringify(team), createTeamMembers]
+  );
+
   return (
     <Page
       title={`Team: ${team?.name ?? '…'}`}
@@ -78,9 +108,14 @@ const Team: NextComponentType<
           allPokemon={pokemon}
           team={team}
           isSkeleton={teamFetching}
-          isLoading={updateTeamFetching || deleteTeamFetching}
+          isLoading={
+            updateTeamFetching ||
+            deleteTeamFetching ||
+            createTeamMembersFetching
+          }
           updateTeam={updateTeamHandler}
           deleteTeam={deleteTeamHandler}
+          updateTeamMembers={updateTeamMembersHandler}
         />
       </FullWidthContainer>
     </Page>
