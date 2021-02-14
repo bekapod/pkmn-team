@@ -13,7 +13,8 @@ import {
   useCreateTeamMembersMutation,
   TeamByIdDocument,
   AllPokemonDocument,
-  Team_Member
+  Team_Member,
+  useDeleteTeamMembersMutation
 } from '~/generated/graphql';
 import { createClient } from '~/lib/client';
 import { FullWidthContainer } from '~/components/FullWidthContainer';
@@ -54,6 +55,10 @@ const Team: NextComponentType<
     { fetching: createTeamMembersFetching },
     createTeamMembers
   ] = useCreateTeamMembersMutation();
+  const [
+    { fetching: deleteTeamMembersFetching },
+    deleteTeamMembers
+  ] = useDeleteTeamMembersMutation();
 
   const team = teamData?.teamById ?? undefined;
   const pokemon = allPokemonData?.pokemon;
@@ -88,9 +93,19 @@ const Team: NextComponentType<
           team_id: team?.id
         }));
 
+      const membersToDelete = team?.team_members
+        .filter(({ id }) => !members.find(newMember => id === newMember.id))
+        .map(({ id }) => id);
+
       if (membersToCreate.length) {
         createTeamMembers({
           members: membersToCreate
+        });
+      }
+
+      if (membersToDelete && membersToDelete.length) {
+        deleteTeamMembers({
+          members: membersToDelete
         });
       }
     },
@@ -111,7 +126,8 @@ const Team: NextComponentType<
           isLoading={
             updateTeamFetching ||
             deleteTeamFetching ||
-            createTeamMembersFetching
+            createTeamMembersFetching ||
+            deleteTeamMembersFetching
           }
           updateTeam={updateTeamHandler}
           deleteTeam={deleteTeamHandler}
