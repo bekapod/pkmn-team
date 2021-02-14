@@ -27,22 +27,38 @@
   p {
     @apply my-4 text-base;
   }
-
-  /*
-  @keyframes spaceUpOut {
-    from {
-      @apply opacity-100 origin-center scale-100 translate-x-0 translate-y-0 transform-gpu;
-    }
-
-    to {
-      @apply opacity-0 origin-center scale-50 translate-x-0 -translate-y-full transform-gpu;
-    }
-  } */
 }
 
 @tailwind components;
 
 @layer components {
+  .input-text {
+    @apply w-full px-3 font-sans text-base leading-10 font-bold bg-white border-none;
+  }
+
+  @screen md {
+    .input-text {
+      @apply max-w-3xl;
+    }
+  }
+
+  .input-text[aria-invalid] {
+    @apply ring-red-vivid-400 ring-2;
+  }
+
+  .input-text[disabled] {
+    @apply bg-cool-grey-50;
+  }
+
+  .input-text:focus {
+    @apply outline-none;
+    @apply ring-yellow-vivid-400 ring-2;
+  }
+
+  .input-text::placeholder {
+    @apply text-cool-grey-300 font-black uppercase;
+  }
+
   .spinner {
     @apply relative border-8 border-cool-grey-200 animate-spin rounded-full w-6 h-6;
     border-left-color: var(--colors-cool-grey-600);
@@ -132,6 +148,13 @@
     @screen md {
       @apply -ml-6;
     }
+  }
+
+  .type-tag {
+    @apply inline-block px-2 text-white text-sm font-bold uppercase rounded-tl-sm rounded-br-sm;
+    text-shadow: 0 1px 0px var(--colors-cool-grey-900),
+      1px 0 0px var(--colors-cool-grey-800);
+    background-color: var(--type-color);
   }
 }
 
