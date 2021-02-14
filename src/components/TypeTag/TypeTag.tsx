@@ -6,7 +6,6 @@ import type {
 } from 'react';
 import cx from 'classnames';
 import { getTypeColor } from '~/lib/general';
-import styles from './TypeTag.module.css';
 
 export type TypeTagProps = {
   type: string;
@@ -18,7 +17,7 @@ export const TypeTag: FunctionComponent<
 > = ({ as: As = 'span', className, type, ...props }) => (
   <As
     style={{ '--type-color': getTypeColor(type) }}
-    className={cx(styles.base, className)}
+    className={cx('type-tag', className)}
     {...props}
   />
 );
