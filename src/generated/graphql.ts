@@ -1340,6 +1340,22 @@ export type DeleteTeamMutation = (
   )> }
 );
 
+export type DeleteTeamMembersMutationVariables = Exact<{
+  members?: Maybe<Array<Scalars['uuid']> | Scalars['uuid']>;
+}>;
+
+
+export type DeleteTeamMembersMutation = (
+  { __typename?: 'mutation_root' }
+  & { deleteTeamMembers?: Maybe<(
+    { __typename?: 'team_member_mutation_response' }
+    & { returning: Array<(
+      { __typename?: 'team_member' }
+      & TeamMemberFragmentFragment
+    )> }
+  )> }
+);
+
 export type UpdateTeamMutationVariables = Exact<{
   id: Scalars['uuid'];
   name: Scalars['String'];
@@ -1510,6 +1526,19 @@ export const DeleteTeamDocument = gql`
 
 export function useDeleteTeamMutation() {
   return Urql.useMutation<DeleteTeamMutation, DeleteTeamMutationVariables>(DeleteTeamDocument);
+};
+export const DeleteTeamMembersDocument = gql`
+    mutation DeleteTeamMembers($members: [uuid!]) {
+  deleteTeamMembers(where: {id: {_in: $members}}) {
+    returning {
+      ...TeamMemberFragment
+    }
+  }
+}
+    ${TeamMemberFragmentFragmentDoc}`;
+
+export function useDeleteTeamMembersMutation() {
+  return Urql.useMutation<DeleteTeamMembersMutation, DeleteTeamMembersMutationVariables>(DeleteTeamMembersDocument);
 };
 export const UpdateTeamDocument = gql`
     mutation UpdateTeam($id: uuid!, $name: String!) {

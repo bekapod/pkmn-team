@@ -113,7 +113,7 @@ describe('TeamView', () => {
   });
 
   describe('with 6 team members', () => {
-    it('renders a tab for each pokemon plus a tab for pokemon search', (): void => {
+    it('renders a tab for each pokemon and no tab for pokemon search', (): void => {
       setup({
         initialTeamMembers: fullTeamMembers
       });
@@ -166,6 +166,23 @@ describe('TeamView', () => {
           order: 3,
           pokemon: pokemon[0]
         }
+      ]);
+    });
+  });
+
+  describe('when a team member selected', () => {
+    it('calls updateTeamMembers when delete button is clicked', () => {
+      const updateTeamMembers = jest.fn();
+      setup({ updateTeamMembers });
+      expect(updateTeamMembers).toHaveBeenCalledTimes(0);
+      userEvent.click(
+        screen.getByRole('button', {
+          name: `Remove ${pokemon[0].name} from team`
+        })
+      );
+      expect(updateTeamMembers).toHaveBeenCalledWith([
+        teamMembers[1],
+        teamMembers[2]
       ]);
     });
   });
