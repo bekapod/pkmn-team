@@ -1,0 +1,7 @@
+mutation CreateTeamMembers($members: [team_member_insert_input!]!) {
+  createTeamMembers(objects: $members) {
+    returning {
+      ...TeamMemberFragment
+    }
+  }
+}
