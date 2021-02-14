@@ -83,6 +83,38 @@ export const createClient = (
                 }
               );
             }
+          },
+          deleteTeamMembers: (result: any, _args, cache) => {
+            const teamId = result?.deleteTeamMembers?.returning[0]?.team?.id;
+            cache.updateQuery(
+              { query: TeamByIdDocument, variables: { id: teamId } },
+              (data: TeamByIdQuery | null) => {
+                if (data?.teamById) {
+                  const deletedMembers = result?.deleteTeamMembers?.returning;
+
+                  console.log({ deletedMembers });
+
+                  data.teamById.team_members = data?.teamById?.team_members.filter(
+                    ({ id }) =>
+                      !deletedMembers.find(
+                        (deletedMember: Team_Member) => id === deletedMember.id
+                      )
+                  );
+
+                  console.log(
+                    data?.teamById?.team_members.filter(
+                      ({ id }) =>
+                        !deletedMembers.find(
+                          (deletedMember: Team_Member) =>
+                            id === deletedMember.id
+                        )
+                    )
+                  );
+                }
+
+                return data;
+              }
+            );
           }
         }
       }

@@ -869,6 +869,8 @@ export type Team_Member = {
   order: Scalars['Int'];
   /** An object relationship */
   pokemon: Pokemon;
+  /** An object relationship */
+  team: Teams;
 };
 
 
@@ -896,6 +898,7 @@ export type Team_Member_Bool_Exp = {
   learned_moves?: Maybe<Team_Member_Move_Bool_Exp>;
   order?: Maybe<Int_Comparison_Exp>;
   pokemon?: Maybe<Pokemon_Bool_Exp>;
+  team?: Maybe<Teams_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "team_member" */
@@ -915,6 +918,7 @@ export type Team_Member_Insert_Input = {
   learned_moves?: Maybe<Team_Member_Move_Arr_Rel_Insert_Input>;
   order?: Maybe<Scalars['Int']>;
   pokemon_id?: Maybe<Scalars['uuid']>;
+  team?: Maybe<Teams_Obj_Rel_Insert_Input>;
   team_id?: Maybe<Scalars['uuid']>;
 };
 
@@ -1037,6 +1041,7 @@ export type Team_Member_Order_By = {
   id?: Maybe<Order_By>;
   order?: Maybe<Order_By>;
   pokemon?: Maybe<Pokemon_Order_By>;
+  team?: Maybe<Teams_Order_By>;
 };
 
 /** primary key columns input for table: "team_member" */
@@ -1351,6 +1356,10 @@ export type DeleteTeamMembersMutation = (
     { __typename?: 'team_member_mutation_response' }
     & { returning: Array<(
       { __typename?: 'team_member' }
+      & { team: (
+        { __typename?: 'teams' }
+        & Pick<Teams, 'id'>
+      ) }
       & TeamMemberFragmentFragment
     )> }
   )> }
@@ -1535,6 +1544,9 @@ export const DeleteTeamMembersDocument = gql`
   deleteTeamMembers(where: {id: {_in: $members}}) {
     returning {
       ...TeamMemberFragment
+      team {
+        id
+      }
     }
   }
 }
