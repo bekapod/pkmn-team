@@ -22,6 +22,7 @@ import { Page } from '~/components/Page';
 import { TeamBuilder } from '~/components/TeamBuilder';
 import { useCallback, useMemo } from 'react';
 import { ssrExchange } from 'urql';
+import isEqual from 'react-fast-compare';
 
 type Props = {
   id?: string;
@@ -81,25 +82,20 @@ const Team: NextComponentType<
 
   const updateTeamMembersHandler = useCallback(
     (members: Team_Member[]) => {
-      const membersToCreate = members
-        .filter(
-          ({ id }) =>
-            !team?.team_members.find(existingMember => id === existingMember.id)
-        )
-        .map(({ id, pokemon, order }) => ({
-          id,
-          pokemon_id: pokemon.id,
-          order,
-          team_id: team?.id
-        }));
+      const membersToUpdate = members.map(({ id, pokemon, order }) => ({
+        id,
+        pokemon_id: pokemon.id,
+        order,
+        team_id: team?.id
+      }));
 
       const membersToDelete = team?.team_members
         .filter(({ id }) => !members.find(newMember => id === newMember.id))
         .map(({ id }) => id);
 
-      if (membersToCreate.length) {
+      if (membersToUpdate.length && !isEqual(members, team?.team_members)) {
         createTeamMembers({
-          members: membersToCreate
+          members: membersToUpdate
         });
       }
 
