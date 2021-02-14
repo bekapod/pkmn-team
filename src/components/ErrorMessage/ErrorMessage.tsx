@@ -13,7 +13,7 @@ export const ErrorMessage: FunctionComponent<
     className={classNames(
       'text-red-vivid-600',
       'text-base',
-      'font-norma;',
+      'font-normal',
       className,
       {
         'my-4 text-lg text-center': isBig

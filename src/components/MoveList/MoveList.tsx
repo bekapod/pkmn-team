@@ -111,6 +111,7 @@ const Row = ({
         top: `calc(${style?.top}px + (var(--spacing-2) / 2))`
       }}
       renderLineActions={renderLineActions}
+      data-testid="move-list-item"
     />
   );
 };
@@ -172,7 +173,7 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
   }, []);
 
   return (
-    <div ref={ref as never}>
+    <div ref={ref as never} data-testid="move-list">
       <List
         ref={listRef}
         className={classNames('w-full!', 'bg-white', className, {

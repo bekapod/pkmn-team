@@ -23,7 +23,7 @@ describe(TypeTag, () => {
   it('adds type colour', () => {
     const { getByText } = render(<TypeTag type="electric">hello</TypeTag>);
     expect(getByText('hello')).toHaveStyle({
-      '--type-color': 'var(--color-electric)'
+      '--type-color': 'var(--colors-electric)'
     });
   });
 });

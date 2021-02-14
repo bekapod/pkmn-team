@@ -18,35 +18,34 @@ describe(MoveList, () => {
   };
 
   it('renders each move', () => {
-    const { container, getByText } = setup();
+    const { getByTestId, getByText } = setup();
     expect(getByText(substitute.name)).toBeInTheDocument();
     expect(getByText(flash.name)).toBeInTheDocument();
     expect(getByText(explosion.name)).toBeInTheDocument();
-    expect(container.querySelector('.list')).toHaveClass('has-no-overflow');
+    expect(getByTestId('move-list').firstChild).toHaveClass('overflow-hidden');
   });
 
   it("doesn't select any moves", () => {
     const { getByText } = setup();
-    expect(getByText(substitute.name).closest('.row')).toHaveAttribute(
-      'aria-selected',
-      'false'
-    );
-    expect(getByText(flash.name).closest('.row')).toHaveAttribute(
-      'aria-selected',
-      'false'
-    );
-    expect(getByText(explosion.name).closest('.row')).toHaveAttribute(
-      'aria-selected',
-      'false'
-    );
+    expect(
+      getByText(substitute.name).closest('[data-testid="move-list-item"]')
+    ).toHaveAttribute('aria-selected', 'false');
+    expect(
+      getByText(flash.name).closest('[data-testid="move-list-item"]')
+    ).toHaveAttribute('aria-selected', 'false');
+    expect(
+      getByText(explosion.name).closest('[data-testid="move-list-item"]')
+    ).toHaveAttribute('aria-selected', 'false');
   });
 
   it('detects overflowing items', () => {
-    const { container } = setup({
+    const { getByTestId } = setup({
       visibleItems: 6,
       moves: [substitute, flash, explosion, substitute, flash, explosion]
     });
-    expect(container.querySelector('.list')).not.toHaveClass('has-no-overflow');
+    expect(getByTestId('move-list').firstChild).not.toHaveClass(
+      'overflow-hidden'
+    );
   });
 
   it('renders "details" buttons', () => {
@@ -58,18 +57,15 @@ describe(MoveList, () => {
     it('expands the move', () => {
       const { getAllByText, getByText } = setup();
       userEvent.click(getAllByText('Details')[1]);
-      expect(getByText(flash.name).closest('.row')).toHaveAttribute(
-        'aria-expanded',
-        'true'
-      );
-      expect(getByText(substitute.name).closest('.row')).toHaveAttribute(
-        'aria-expanded',
-        'false'
-      );
-      expect(getByText(explosion.name).closest('.row')).toHaveAttribute(
-        'aria-expanded',
-        'false'
-      );
+      expect(
+        getByText(flash.name).closest('[data-testid="move-list-item"]')
+      ).toHaveAttribute('aria-expanded', 'true');
+      expect(
+        getByText(substitute.name).closest('[data-testid="move-list-item"]')
+      ).toHaveAttribute('aria-expanded', 'false');
+      expect(
+        getByText(explosion.name).closest('[data-testid="move-list-item"]')
+      ).toHaveAttribute('aria-expanded', 'false');
     });
   });
 

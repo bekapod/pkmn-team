@@ -20,8 +20,8 @@ describe(ErrorMessage, () => {
     expect(getByText('Some error')).toHaveClass('some-custom-class');
   });
 
-  it('adds is-big modifier class', () => {
+  it('adds isBig modifier classes', () => {
     const { getByText } = render(<ErrorMessage isBig>Some error</ErrorMessage>);
-    expect(getByText('Some error')).toHaveClass('is-big');
+    expect(getByText('Some error')).toHaveClass('text-lg');
   });
 });

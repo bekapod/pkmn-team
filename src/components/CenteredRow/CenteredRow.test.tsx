@@ -19,7 +19,7 @@ describe(CenteredRow, () => {
     const { getByText } = render(
       <CenteredRow stackVertically>hello</CenteredRow>
     );
-    expect(getByText('hello')).toHaveClass('is-vertical');
+    expect(getByText('hello')).toHaveClass('flex-col');
   });
 
   it('can render as a different element', () => {

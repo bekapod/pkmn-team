@@ -7,7 +7,7 @@ describe('gradients lib', () => {
       expect(
         gradients.getTypeGradient([electric, psychic, electric, ghost])
       ).toBe(
-        'linear-gradient(90deg, var(--color-electric) 0%, var(--color-electric) 25%, var(--color-electric) 25%, var(--color-electric) 50%, var(--color-ghost) 50%, var(--color-ghost) 75%, var(--color-psychic) 75%, var(--color-psychic) 100%)'
+        'linear-gradient(90deg, var(--colors-electric) 0%, var(--colors-electric) 25%, var(--colors-electric) 25%, var(--colors-electric) 50%, var(--colors-ghost) 50%, var(--colors-ghost) 75%, var(--colors-psychic) 75%, var(--colors-psychic) 100%)'
       );
     });
   });

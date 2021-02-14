@@ -22,7 +22,7 @@ describe('PokemonLine', () => {
     const { container } = setup();
     expect(container.firstChild).toHaveStyle({
       '--type-gradient':
-        'linear-gradient(90deg, var(--color-electric) 0%, var(--color-electric) 100%)'
+        'linear-gradient(90deg, var(--colors-electric) 0%, var(--colors-electric) 100%)'
     });
   });
 

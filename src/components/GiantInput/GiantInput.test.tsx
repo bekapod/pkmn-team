@@ -20,6 +20,6 @@ describe('GiantInput', () => {
     const { getByLabelText } = render(
       <GiantInput aria-label="some input" isFullWidth />
     );
-    expect(getByLabelText('some input')).toHaveClass('is-full-width');
+    expect(getByLabelText('some input')).toHaveClass('max-w-none');
   });
 });

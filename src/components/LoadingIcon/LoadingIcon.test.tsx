@@ -20,11 +20,11 @@ describe(LoadingIcon, () => {
 
   it('renders small spinner', () => {
     const { getByTestId } = render(<LoadingIcon isSpinner isSmall />);
-    expect(getByTestId('loading-spinner')).toHaveClass('is-small');
+    expect(getByTestId('loading-spinner')).toHaveClass('spinner-small');
   });
 
   it('renders centered spinner', () => {
     const { getByTestId } = render(<LoadingIcon isSpinner isCentered />);
-    expect(getByTestId('loading-spinner')).toHaveClass('is-centered');
+    expect(getByTestId('loading-spinner')).toHaveClass('top-0 bottom-0 m-auto');
   });
 });

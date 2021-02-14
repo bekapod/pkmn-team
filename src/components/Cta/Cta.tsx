@@ -69,7 +69,6 @@ const CtaBase: FunctionComponent<
       {...props}
     >
       <span
-        role="presentation"
         className={classNames(
           'block',
           'absolute',

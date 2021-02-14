@@ -22,7 +22,7 @@ describe('general lib', () => {
 
   describe(general.getTypeColor, () => {
     it('returns the colour variable for a type', () => {
-      expect(general.getTypeColor('electric')).toBe('var(--color-electric)');
+      expect(general.getTypeColor('electric')).toBe('var(--colors-electric)');
     });
   });
 

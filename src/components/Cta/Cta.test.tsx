@@ -19,7 +19,7 @@ describe('CtaButton', () => {
     const { getByText } = render(
       <CtaButton variant="primary">hello</CtaButton>
     );
-    expect(getByText('hello')).toHaveClass('is-primary');
+    expect(getByText('hello')).toHaveClass('bg-pink-vivid-500');
   });
 
   it('renders a loading icon', () => {

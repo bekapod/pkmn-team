@@ -19,7 +19,7 @@ describe('MoveLine', () => {
     const { container } = setup();
     expect(container.firstChild).toHaveStyle({
       '--type-gradient':
-        'linear-gradient(90deg, var(--color-normal) 0%, var(--color-normal) 50%, var(--color-status) 50%, var(--color-status) 100%)'
+        'linear-gradient(90deg, var(--colors-normal) 0%, var(--colors-normal) 50%, var(--colors-status) 50%, var(--colors-status) 100%)'
     });
   });
 
@@ -27,7 +27,7 @@ describe('MoveLine', () => {
     const { container } = setup({ damage_class: null });
     expect(container.firstChild).toHaveStyle({
       '--type-gradient':
-        'linear-gradient(90deg, var(--color-normal) 0%, var(--color-normal) 100%)'
+        'linear-gradient(90deg, var(--colors-normal) 0%, var(--colors-normal) 100%)'
     });
   });
 
