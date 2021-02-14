@@ -1,5 +1,5 @@
 import { ComponentPropsWithRef, forwardRef, FunctionComponent } from 'react';
-import cx from 'classnames';
+import classNames from 'classnames';
 import { Types } from '~/generated/graphql';
 import { getTypeGradient } from '~/lib/gradients';
 
@@ -8,7 +8,7 @@ export const CardLink: FunctionComponent<
 > = forwardRef(({ className, ...props }, ref) => (
   <a
     ref={ref}
-    className={cx(
+    className={classNames(
       'block',
       'transition-transform',
       'duration-300',
@@ -27,7 +27,10 @@ export const CardLink: FunctionComponent<
 export const CardWrapper: FunctionComponent<
   ComponentPropsWithRef<'article'>
 > = ({ className, ...props }) => (
-  <article className={cx('flex', 'flex-col', 'h-full', className)} {...props} />
+  <article
+    className={classNames('flex', 'flex-col', 'h-full', className)}
+    {...props}
+  />
 );
 
 export type CardHeaderProps = ComponentPropsWithRef<'header'> & {
@@ -39,7 +42,7 @@ export const CardHeader: FunctionComponent<CardHeaderProps> = ({
   ...props
 }) => (
   <header
-    className={cx(
+    className={classNames(
       'overflow-hidden',
       '-mb-5',
       'px-4',
@@ -61,7 +64,7 @@ export const CardHeading: FunctionComponent<ComponentPropsWithRef<'h2'>> = ({
   ...props
 }) => (
   <h2
-    className={cx(
+    className={classNames(
       'overflow-hidden',
       'my-4',
       'text-xl',
@@ -80,7 +83,7 @@ export const CardContent: FunctionComponent<ComponentPropsWithRef<'div'>> = ({
   ...props
 }) => (
   <div
-    className={cx(
+    className={classNames(
       'flex',
       'flex-col',
       'flex-grow',

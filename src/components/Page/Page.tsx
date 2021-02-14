@@ -1,5 +1,5 @@
 import type { ComponentPropsWithRef, FunctionComponent } from 'react';
-import cx from 'classnames';
+import classNames from 'classnames';
 import Head from 'next/head';
 import { Header } from '../Header';
 
@@ -22,11 +22,14 @@ export const Page: FunctionComponent<PageProps> = ({
       <link rel="stylesheet" href="https://use.typekit.net/jdl7nve.css" />
     </Head>
     <div
-      className={cx('flex', 'flex-col', 'min-h-screen', className)}
+      className={classNames('flex', 'flex-col', 'min-h-screen', className)}
       {...props}
     >
-      <Header className={cx('flex-grow-0', 'flex-shrink-0')} title={title} />
-      <main className={cx('relative', 'flex-grow-1', 'flex-shrink-1')}>
+      <Header
+        className={classNames('flex-grow-0', 'flex-shrink-0')}
+        title={title}
+      />
+      <main className={classNames('relative', 'flex-grow-1', 'flex-shrink-1')}>
         {children}
       </main>
     </div>

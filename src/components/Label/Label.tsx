@@ -3,7 +3,7 @@ import type {
   ComponentPropsWithRef,
   ElementType
 } from 'react';
-import cx from 'classnames';
+import classNames from 'classnames';
 
 export type LabelProps = ComponentPropsWithRef<ElementType> & {
   as?: ElementType;
@@ -15,7 +15,7 @@ export const Label: FunctionComponent<LabelProps> = ({
   ...props
 }) => (
   <As
-    className={cx(
+    className={classNames(
       'text-indigo-400',
       'text-sm',
       'font-black',

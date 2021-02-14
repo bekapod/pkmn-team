@@ -1,5 +1,5 @@
 import type { ComponentPropsWithoutRef, FunctionComponent } from 'react';
-import cx from 'classnames';
+import classNames from 'classnames';
 import { useForm } from 'react-hook-form';
 import { CenteredRow } from '../CenteredRow';
 import { CtaButton } from '../Cta';
@@ -34,7 +34,7 @@ export const TeamCreator: FunctionComponent<TeamCreatorProps> = ({
     <CenteredRow
       as="form"
       stackVertically
-      className={cx('items-center', className)}
+      className={classNames('items-center', className)}
       onSubmit={handleSubmit(onSubmit)}
       {...props}
     >

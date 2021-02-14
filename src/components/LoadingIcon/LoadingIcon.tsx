@@ -1,5 +1,5 @@
 import type { ComponentPropsWithRef, FunctionComponent } from 'react';
-import cx from 'classnames';
+import classNames from 'classnames';
 
 export type LoadingIconProps = {
   isSpinner?: boolean;
@@ -14,7 +14,7 @@ export const LoadingIcon: FunctionComponent<
 > = ({ isSpinner, isSmall, isCentered, className, ...props }) =>
   isSpinner ? (
     <div
-      className={cx(
+      className={classNames(
         'spinner',
         {
           'spinner-small': isSmall,
@@ -29,7 +29,7 @@ export const LoadingIcon: FunctionComponent<
     />
   ) : (
     <div
-      className={cx(
+      className={classNames(
         'my-5',
         'text-cool-grey-600',
         'font-sans',

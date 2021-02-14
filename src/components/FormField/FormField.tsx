@@ -4,7 +4,7 @@ import type {
   FunctionComponent,
   ReactNode
 } from 'react';
-import cx from 'classnames';
+import classNames from 'classnames';
 import { Label } from '../Label';
 import { ErrorMessage } from '../ErrorMessage';
 
@@ -22,7 +22,10 @@ export const FormField: FunctionComponent<FormFieldProps> = ({
   children,
   ...props
 }) => (
-  <div className={cx('flex', 'flex-col', 'w-full', className)} {...props}>
+  <div
+    className={classNames('flex', 'flex-col', 'w-full', className)}
+    {...props}
+  >
     <Label as="label" htmlFor={id} className="mb-1">
       {label}
     </Label>

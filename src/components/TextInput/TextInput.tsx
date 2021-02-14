@@ -1,5 +1,5 @@
 import { ComponentPropsWithRef, forwardRef, FunctionComponent } from 'react';
-import cx from 'classnames';
+import classNames from 'classnames';
 
 export type TextInputProps = ComponentPropsWithRef<'input'> & {
   isInvalid?: boolean;
@@ -10,7 +10,7 @@ export const TextInput: FunctionComponent<TextInputProps> = forwardRef(
     <input
       ref={ref}
       type="text"
-      className={cx('input-text', className)}
+      className={classNames('input-text', className)}
       aria-invalid={isInvalid ? true : undefined}
       {...props}
     />

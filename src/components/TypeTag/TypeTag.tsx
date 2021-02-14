@@ -4,7 +4,7 @@ import type {
   ElementType,
   ComponentType
 } from 'react';
-import cx from 'classnames';
+import classNames from 'classnames';
 import { getTypeColor } from '~/lib/general';
 
 export type TypeTagProps = {
@@ -17,7 +17,7 @@ export const TypeTag: FunctionComponent<
 > = ({ as: As = 'span', className, type, ...props }) => (
   <As
     style={{ '--type-color': getTypeColor(type) }}
-    className={cx('type-tag', className)}
+    className={classNames('type-tag', className)}
     {...props}
   />
 );

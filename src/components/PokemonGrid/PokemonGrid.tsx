@@ -1,12 +1,12 @@
 import type { FunctionComponent, ComponentPropsWithRef } from 'react';
-import cx from 'classnames';
+import classNames from 'classnames';
 
 export const PokemonGrid: FunctionComponent<ComponentPropsWithRef<'div'>> = ({
   className,
   ...props
 }) => (
   <div
-    className={cx(
+    className={classNames(
       'grid',
       'gap-5',
       'grid-cols-1',

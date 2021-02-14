@@ -4,7 +4,7 @@ import type {
   ReactNode
 } from 'react';
 import Link from 'next/link';
-import cx from 'classnames';
+import classNames from 'classnames';
 import { Pokeball } from '../Pokeball';
 
 export type HeaderProps = ComponentPropsWithRef<'header'> & {
@@ -17,7 +17,7 @@ export const Header: FunctionComponent<HeaderProps> = ({
   ...props
 }) => (
   <header
-    className={cx(
+    className={classNames(
       'flex',
       'items-center',
       'mb-5',
@@ -33,7 +33,7 @@ export const Header: FunctionComponent<HeaderProps> = ({
     <Link href="/">
       <a
         title="Dashboard"
-        className={cx(
+        className={classNames(
           'block',
           'mr-4',
           'transition-transform',
@@ -45,10 +45,13 @@ export const Header: FunctionComponent<HeaderProps> = ({
           'focus:scale-110'
         )}
       >
-        <Pokeball role="presentation" className={cx('block', 'w-8', 'h-8')} />
+        <Pokeball
+          role="presentation"
+          className={classNames('block', 'w-8', 'h-8')}
+        />
       </a>
     </Link>
-    <h1 className={cx('m-0', 'text-xl', 'font-black', 'text-white')}>
+    <h1 className={classNames('m-0', 'text-xl', 'font-bold', 'text-white')}>
       {title}
     </h1>
   </header>

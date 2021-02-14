@@ -1,18 +1,21 @@
 import type { ComponentPropsWithRef, FunctionComponent } from 'react';
-import cx from 'classnames';
+import classNames from 'classnames';
 
 export const Autocomplete: FunctionComponent<ComponentPropsWithRef<'div'>> = ({
   className,
   ...props
 }) => (
-  <div className={cx('flex', 'flex-col', 'h-full', className)} {...props} />
+  <div
+    className={classNames('flex', 'flex-col', 'h-full', className)}
+    {...props}
+  />
 );
 
 export const AutocompleteDropdown: FunctionComponent<
   ComponentPropsWithRef<'div'>
 > = ({ className, ...props }) => (
   <div
-    className={cx(
+    className={classNames(
       'flex-grow',
       'flex-shrink-0',
       'w-full',

@@ -1,5 +1,5 @@
 import { forwardRef, FunctionComponent } from 'react';
-import cx from 'classnames';
+import classNames from 'classnames';
 import { TextInput, TextInputProps } from '../TextInput';
 
 export type GiantInputProps = TextInputProps & {
@@ -10,7 +10,7 @@ export const GiantInput: FunctionComponent<GiantInputProps> = forwardRef(
   ({ isFullWidth, className, ...props }, ref) => (
     <TextInput
       ref={ref}
-      className={cx('px-4 h-8 text-lg text-center', className, {
+      className={classNames('px-4 h-8 text-lg text-center', className, {
         'max-w-none': isFullWidth
       })}
       {...props}
