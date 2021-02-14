@@ -8,7 +8,8 @@ import {
   AllTeamsQuery,
   TeamByIdDocument,
   TeamByIdQuery,
-  Teams
+  Teams,
+  Team_Member
 } from '~/generated/graphql';
 
 export const createClient = (
@@ -63,9 +64,21 @@ export const createClient = (
               cache.updateQuery(
                 { query: TeamByIdDocument, variables: { id: teamId } },
                 (data: TeamByIdQuery | null) => {
-                  data?.teamById?.team_members.push(
-                    ...result?.createTeamMembers?.returning
-                  );
+                  if (data?.teamById) {
+                    const updatedMembers = result?.createTeamMembers?.returning;
+
+                    data.teamById.team_members = [
+                      ...data?.teamById?.team_members.filter(
+                        ({ id }) =>
+                          !updatedMembers.find(
+                            (updatedMember: Team_Member) =>
+                              id === updatedMember.id
+                          )
+                      ),
+                      ...updatedMembers
+                    ];
+                  }
+
                   return data;
                 }
               );
