@@ -911,9 +911,11 @@ export type Team_Member_Inc_Input = {
 
 /** input type for inserting data into table "team_member" */
 export type Team_Member_Insert_Input = {
+  id?: Maybe<Scalars['uuid']>;
   learned_moves?: Maybe<Team_Member_Move_Arr_Rel_Insert_Input>;
   order?: Maybe<Scalars['Int']>;
   pokemon_id?: Maybe<Scalars['uuid']>;
+  team_id?: Maybe<Scalars['uuid']>;
 };
 
 /** columns and relationships of "team_member_move" */
@@ -1263,26 +1265,31 @@ export type TeamFragmentFragment = (
   & Pick<Teams, 'id' | 'name' | 'created_at'>
   & { team_members: Array<(
     { __typename?: 'team_member' }
-    & Pick<Team_Member, 'id' | 'order'>
-    & { pokemon: (
-      { __typename?: 'pokemon' }
-      & { learnable_moves: Array<(
-        { __typename?: 'pokemon_move' }
-        & Pick<Pokemon_Move, 'move_id'>
-        & { move: (
-          { __typename?: 'moves' }
-          & MoveFragmentFragment
-        ) }
-      )> }
-      & PokemonFragmentFragment
-    ), learned_moves: Array<(
-      { __typename?: 'team_member_move' }
-      & Pick<Team_Member_Move, 'order'>
+    & TeamMemberFragmentFragment
+  )> }
+);
+
+export type TeamMemberFragmentFragment = (
+  { __typename?: 'team_member' }
+  & Pick<Team_Member, 'id' | 'order'>
+  & { pokemon: (
+    { __typename?: 'pokemon' }
+    & { learnable_moves: Array<(
+      { __typename?: 'pokemon_move' }
+      & Pick<Pokemon_Move, 'move_id'>
       & { move: (
         { __typename?: 'moves' }
         & MoveFragmentFragment
       ) }
     )> }
+    & PokemonFragmentFragment
+  ), learned_moves: Array<(
+    { __typename?: 'team_member_move' }
+    & Pick<Team_Member_Move, 'order'>
+    & { move: (
+      { __typename?: 'moves' }
+      & MoveFragmentFragment
+    ) }
   )> }
 );
 
@@ -1301,6 +1308,22 @@ export type CreateTeamMutation = (
   & { createTeam?: Maybe<(
     { __typename?: 'teams' }
     & TeamFragmentFragment
+  )> }
+);
+
+export type CreateTeamMembersMutationVariables = Exact<{
+  members: Array<Team_Member_Insert_Input> | Team_Member_Insert_Input;
+}>;
+
+
+export type CreateTeamMembersMutation = (
+  { __typename?: 'mutation_root' }
+  & { createTeamMembers?: Maybe<(
+    { __typename?: 'team_member_mutation_response' }
+    & { returning: Array<(
+      { __typename?: 'team_member' }
+      & TeamMemberFragmentFragment
+    )> }
   )> }
 );
 
@@ -1421,33 +1444,38 @@ export const MoveFragmentFragmentDoc = gql`
   }
 }
     ${TypeFragmentFragmentDoc}`;
+export const TeamMemberFragmentFragmentDoc = gql`
+    fragment TeamMemberFragment on team_member {
+  id
+  order
+  pokemon {
+    ...PokemonFragment
+    learnable_moves {
+      move_id
+      move {
+        ...MoveFragment
+      }
+    }
+  }
+  learned_moves {
+    order
+    move {
+      ...MoveFragment
+    }
+  }
+}
+    ${PokemonFragmentFragmentDoc}
+${MoveFragmentFragmentDoc}`;
 export const TeamFragmentFragmentDoc = gql`
     fragment TeamFragment on teams {
   id
   name
   created_at
   team_members {
-    id
-    order
-    pokemon {
-      ...PokemonFragment
-      learnable_moves {
-        move_id
-        move {
-          ...MoveFragment
-        }
-      }
-    }
-    learned_moves {
-      order
-      move {
-        ...MoveFragment
-      }
-    }
+    ...TeamMemberFragment
   }
 }
-    ${PokemonFragmentFragmentDoc}
-${MoveFragmentFragmentDoc}`;
+    ${TeamMemberFragmentFragmentDoc}`;
 export const CreateTeamDocument = gql`
     mutation CreateTeam($name: String!) {
   createTeam(object: {name: $name}) {
@@ -1458,6 +1486,19 @@ export const CreateTeamDocument = gql`
 
 export function useCreateTeamMutation() {
   return Urql.useMutation<CreateTeamMutation, CreateTeamMutationVariables>(CreateTeamDocument);
+};
+export const CreateTeamMembersDocument = gql`
+    mutation CreateTeamMembers($members: [team_member_insert_input!]!) {
+  createTeamMembers(objects: $members) {
+    returning {
+      ...TeamMemberFragment
+    }
+  }
+}
+    ${TeamMemberFragmentFragmentDoc}`;
+
+export function useCreateTeamMembersMutation() {
+  return Urql.useMutation<CreateTeamMembersMutation, CreateTeamMembersMutationVariables>(CreateTeamMembersDocument);
 };
 export const DeleteTeamDocument = gql`
     mutation DeleteTeam($id: uuid!) {

@@ -3,12 +3,20 @@ import type { NextUrqlClientConfig } from 'next-urql';
 import { devtoolsExchange } from '@urql/devtools';
 import { cacheExchange } from '@urql/exchange-graphcache';
 import schema from '~/generated/introspection.json';
-import { AllTeamsDocument, AllTeamsQuery, Teams } from '~/generated/graphql';
+import {
+  AllTeamsDocument,
+  AllTeamsQuery,
+  TeamByIdDocument,
+  TeamByIdQuery,
+  Teams
+} from '~/generated/graphql';
 
 export const createClient = (
-  url = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/graphql`
+  url = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/graphql`,
+  maskTypename = true
 ): NextUrqlClientConfig => ssrExchange => ({
   url,
+  maskTypename,
   exchanges: [
     devtoolsExchange,
     dedupExchange,
@@ -47,6 +55,21 @@ export const createClient = (
                 return data;
               }
             );
+          },
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          createTeamMembers: (result: any, args: any, cache) => {
+            if (Array.isArray(args?.objects)) {
+              const teamId = args?.objects[0]?.team_id;
+              cache.updateQuery(
+                { query: TeamByIdDocument, variables: { id: teamId } },
+                (data: TeamByIdQuery | null) => {
+                  data?.teamById?.team_members.push(
+                    ...result?.createTeamMembers?.returning
+                  );
+                  return data;
+                }
+              );
+            }
           }
         }
       }

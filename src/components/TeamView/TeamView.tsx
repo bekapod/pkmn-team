@@ -349,3 +349,5 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
   },
   isEqual
 );
+
+TeamView.displayName = 'TeamView';
