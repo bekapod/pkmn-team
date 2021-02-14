@@ -1,5 +1,4 @@
 import type { ComponentPropsWithoutRef, FunctionComponent } from 'react';
-import classNames from 'classnames';
 import { useForm } from 'react-hook-form';
 import { CenteredRow } from '../CenteredRow';
 import { CtaButton } from '../Cta';
@@ -17,7 +16,6 @@ export type TeamCreatorProps = ComponentPropsWithoutRef<'form'> & {
 };
 
 export const TeamCreator: FunctionComponent<TeamCreatorProps> = ({
-  className,
   defaultValues,
   isLoading,
   createTeam,
@@ -34,11 +32,15 @@ export const TeamCreator: FunctionComponent<TeamCreatorProps> = ({
     <CenteredRow
       as="form"
       stackVertically
-      className={classNames('items-center', className)}
       onSubmit={handleSubmit(onSubmit)}
       {...props}
     >
-      <FormField label="Team name" id="team-name" error={error}>
+      <FormField
+        label="Team name"
+        id="team-name"
+        error={error}
+        className="items-center"
+      >
         <GiantInput
           id="team-name"
           name="team-name"

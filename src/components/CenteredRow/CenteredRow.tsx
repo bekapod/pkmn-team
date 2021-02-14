@@ -19,7 +19,7 @@ export const CenteredRow: FunctionComponent<CenteredRowProps> = ({
   <As
     className={classNames('flex', 'mb-5', className, {
       'justify-center children:not-last:mr-3': !stackVertically,
-      'flex-col children:not-last:mb-4': stackVertically
+      'flex-col items-center children:not-last:mb-4': stackVertically
     })}
     {...props}
   />

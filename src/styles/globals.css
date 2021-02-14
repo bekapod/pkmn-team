@@ -126,10 +126,6 @@
     content: '';
     background-color: var(--color);
     @apply absolute top-0 left-0 w-screen h-full -ml-4;
-
-    @screen md {
-      @apply -ml-6;
-    }
   }
 
   .sticky-bar::after {
@@ -144,8 +140,11 @@
       linear-gradient(45deg, transparent var(--zig-zag-size), var(--color) 0);
     background-size: var(--zig-zag-size) var(--zig-zag-size);
     @apply absolute left-0 w-screen -ml-4 bg-repeat-x bg-left-top;
+  }
 
-    @screen md {
+  @screen md {
+    .sticky-bar,
+    .sticky-bar::after {
       @apply -ml-6;
     }
   }

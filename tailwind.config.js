@@ -226,6 +226,9 @@ module.exports = {
       fill: theme => ({
         white: theme('colors.white'),
         'red-vivid': theme('colors.red-vivid')
+      }),
+      gridTemplateColumns: theme => ({
+        md: `repeat(auto-fit, minmax(${theme('maxWidth.md')}, 1fr))`
       })
     }
   },
@@ -236,6 +239,7 @@ module.exports = {
       flexShrink: ['children'],
       width: ['children', 'important'],
       minWidth: ['children'],
+      maxWidth: ['children'],
       margin: ['children', 'children-not-last'],
       scale: ['motion-safe', 'group-hover'],
       translate: ['group-hover'],
