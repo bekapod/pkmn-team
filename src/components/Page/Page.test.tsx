@@ -1,27 +1,25 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Page } from '.';
 
 describe(Page, () => {
   it('renders header', () => {
-    const { getByText, getByRole } = render(
-      <Page title="Some page" metaTitle="Some page" />
-    );
-    expect(getByRole('banner')).toBeInTheDocument();
-    expect(getByText('Some page')).toBeInTheDocument();
+    render(<Page title="Some page" metaTitle="Some page" />);
+    expect(screen.getByRole('banner')).toBeInTheDocument();
+    expect(screen.getByText('Some page')).toBeInTheDocument();
   });
 
   it('renders content', () => {
-    const { getByText, getByRole } = render(
+    render(
       <Page title="Some page" metaTitle="Some page">
         Some page content
       </Page>
     );
-    expect(getByRole('main')).toBeInTheDocument();
-    expect(getByText('Some page content')).toBeInTheDocument();
+    expect(screen.getByRole('main')).toBeInTheDocument();
+    expect(screen.getByText('Some page content')).toBeInTheDocument();
   });
 
   it('adds custom class name', () => {
-    const { getByRole } = render(
+    render(
       <Page
         title="Some page"
         metaTitle="Some page"
@@ -30,6 +28,8 @@ describe(Page, () => {
         Some page content
       </Page>
     );
-    expect(getByRole('main').parentElement).toHaveClass('some-custom-class');
+    expect(screen.getByRole('main').parentElement).toHaveClass(
+      'some-custom-class'
+    );
   });
 });

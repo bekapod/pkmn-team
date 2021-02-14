@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { PokemonCard, PokemonCardProps } from '.';
 import { pikachu } from '~/mocks/Pokemon';
 import { setupResizeObserverMock } from '~/test-helpers';
@@ -16,24 +16,30 @@ describe(PokemonCard, () => {
   };
 
   it('renders information about the pokemon', () => {
-    const { getByText, getByAltText } = setup();
+    setup();
     expect(
-      getByText(`#${pikachu.pokedex_id} ${pikachu.name}`)
+      screen.getByText(`#${pikachu.pokedex_id} ${pikachu.name}`)
     ).toBeInTheDocument();
-    expect(getByAltText(`${pikachu.name} sprite`)).toHaveAttribute(
+    expect(screen.getByAltText(`${pikachu.name} sprite`)).toHaveAttribute(
       'src',
       `/sprites/${pikachu.sprite}`
     );
-    expect(getByText(pikachu.types[0].type.name)).toBeInTheDocument();
-    expect(getByText(pikachu.learnable_moves[0].move.name)).toBeInTheDocument();
-    expect(getByText(pikachu.learnable_moves[1].move.name)).toBeInTheDocument();
-    expect(getByText(pikachu.learnable_moves[2].move.name)).toBeInTheDocument();
+    expect(screen.getByText(pikachu.types[0].type.name)).toBeInTheDocument();
+    expect(
+      screen.getByText(pikachu.learnable_moves[0].move.name)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(pikachu.learnable_moves[1].move.name)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(pikachu.learnable_moves[2].move.name)
+    ).toBeInTheDocument();
   });
 
   it('renders card actions', () => {
-    const { getByText } = setup({
+    setup({
       renderCardActions: () => <button>Some button</button>
     });
-    expect(getByText('Some button')).toBeInTheDocument();
+    expect(screen.getByText('Some button')).toBeInTheDocument();
   });
 });

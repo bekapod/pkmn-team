@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { screen, render } from '@testing-library/react';
 import { CardMeta } from '.';
 
 describe(CardMeta, () => {
@@ -14,32 +14,32 @@ describe(CardMeta, () => {
     );
 
   it('renders each item', () => {
-    const { getByText } = setup();
-    expect(getByText('Item 1')).toBeInTheDocument();
-    expect(getByText('Value 1')).toBeInTheDocument();
-    expect(getByText('Item 2')).toBeInTheDocument();
-    expect(getByText('Value 2')).toBeInTheDocument();
+    setup();
+    expect(screen.getByText('Item 1')).toBeInTheDocument();
+    expect(screen.getByText('Value 1')).toBeInTheDocument();
+    expect(screen.getByText('Item 2')).toBeInTheDocument();
+    expect(screen.getByText('Value 2')).toBeInTheDocument();
   });
 
   it('renders as a <dl>', () => {
-    const { getByTestId } = setup();
-    expect(getByTestId('card-meta-test').tagName).toBe('DL');
+    setup();
+    expect(screen.getByTestId('card-meta-test').tagName).toBe('DL');
   });
 
   it('renders labels as <dt>', () => {
-    const { getByText } = setup();
-    expect(getByText('Item 1').tagName).toBe('DT');
-    expect(getByText('Item 2').tagName).toBe('DT');
+    setup();
+    expect(screen.getByText('Item 1').tagName).toBe('DT');
+    expect(screen.getByText('Item 2').tagName).toBe('DT');
   });
 
   it('renders values as <dd>', () => {
-    const { getByText } = setup();
-    expect(getByText('Value 1').tagName).toBe('DD');
-    expect(getByText('Value 2').tagName).toBe('DD');
+    setup();
+    expect(screen.getByText('Value 1').tagName).toBe('DD');
+    expect(screen.getByText('Value 2').tagName).toBe('DD');
   });
 
   it('renders empty <dl> when no items are passed', () => {
-    const { getByTestId } = render(<CardMeta id="test" />);
-    expect(getByTestId('card-meta-test')).toBeEmptyDOMElement();
+    render(<CardMeta id="test" />);
+    expect(screen.getByTestId('card-meta-test')).toBeEmptyDOMElement();
   });
 });

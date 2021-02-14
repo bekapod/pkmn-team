@@ -1,34 +1,30 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Autocomplete, AutocompleteDropdown } from '.';
 
 describe(Autocomplete, () => {
   it("renders it's children", () => {
-    const { getByText } = render(<Autocomplete>hello</Autocomplete>);
-    expect(getByText('hello')).toBeInTheDocument();
+    render(<Autocomplete>hello</Autocomplete>);
+    expect(screen.getByText('hello')).toBeInTheDocument();
   });
 
   it('adds additional class names', () => {
-    const { getByText } = render(
-      <Autocomplete className="some-custom-class">hello</Autocomplete>
-    );
-    expect(getByText('hello')).toHaveClass('some-custom-class');
+    render(<Autocomplete className="some-custom-class">hello</Autocomplete>);
+    expect(screen.getByText('hello')).toHaveClass('some-custom-class');
   });
 });
 
 describe(AutocompleteDropdown, () => {
   it("renders it's children", () => {
-    const { getByText } = render(
-      <AutocompleteDropdown>hello</AutocompleteDropdown>
-    );
-    expect(getByText('hello')).toBeInTheDocument();
+    render(<AutocompleteDropdown>hello</AutocompleteDropdown>);
+    expect(screen.getByText('hello')).toBeInTheDocument();
   });
 
   it('adds additional class names', () => {
-    const { getByText } = render(
+    render(
       <AutocompleteDropdown className="some-custom-class">
         hello
       </AutocompleteDropdown>
     );
-    expect(getByText('hello')).toHaveClass('some-custom-class');
+    expect(screen.getByText('hello')).toHaveClass('some-custom-class');
   });
 });

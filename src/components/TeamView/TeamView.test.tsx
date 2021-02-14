@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { TeamView, TeamViewProps } from '.';
 import { charmander, haunter, pikachu } from '~/mocks/Pokemon';
@@ -63,71 +63,86 @@ describe('TeamView', () => {
   };
 
   it('applies props from Tabs component correctly', async () => {
-    const { getByTestId, getByLabelText } = setup();
+    setup();
 
-    expect(getByTestId('tab-item-1')).toHaveAttribute('aria-selected', 'true');
-    expect(getByTestId('tab-content-1')).toHaveAttribute(
-      'aria-hidden',
-      'false'
-    );
-
-    userEvent.click(getByTestId('tab-item-2'));
-    expect(getByTestId('tab-item-2')).toHaveAttribute('aria-selected', 'true');
-    expect(getByTestId('tab-content-2')).toHaveAttribute(
-      'aria-hidden',
-      'false'
-    );
-
-    expect(getByLabelText('Add new pokemon to team')).not.toHaveFocus();
-    await userEvent.type(getByLabelText('Add new pokemon to team'), '[enter]');
-    expect(getByLabelText('Add new pokemon to team')).toHaveAttribute(
+    expect(screen.getByTestId('tab-item-1')).toHaveAttribute(
       'aria-selected',
       'true'
     );
-    expect(getByTestId('tab-content-add-pokemon')).toHaveAttribute(
+    expect(screen.getByTestId('tab-content-1')).toHaveAttribute(
       'aria-hidden',
       'false'
     );
 
-    expect(getByLabelText('Add new pokemon to team')).toHaveFocus();
+    userEvent.click(screen.getByTestId('tab-item-2'));
+    expect(screen.getByTestId('tab-item-2')).toHaveAttribute(
+      'aria-selected',
+      'true'
+    );
+    expect(screen.getByTestId('tab-content-2')).toHaveAttribute(
+      'aria-hidden',
+      'false'
+    );
+
+    expect(screen.getByLabelText('Add new pokemon to team')).not.toHaveFocus();
+    await userEvent.type(
+      screen.getByLabelText('Add new pokemon to team'),
+      '[enter]'
+    );
+    expect(screen.getByLabelText('Add new pokemon to team')).toHaveAttribute(
+      'aria-selected',
+      'true'
+    );
+    expect(screen.getByTestId('tab-content-add-pokemon')).toHaveAttribute(
+      'aria-hidden',
+      'false'
+    );
+
+    expect(screen.getByLabelText('Add new pokemon to team')).toHaveFocus();
   });
 
   describe('with less than 6 team members', () => {
     it('renders a tab for each pokemon plus a tab for pokemon search', (): void => {
-      const { queryByTestId, queryAllByTestId } = setup();
+      setup();
 
-      expect(queryAllByTestId(/tab-item-/)).toHaveLength(4);
-      expect(queryAllByTestId(/tab-content-/)).toHaveLength(4);
-      expect(queryByTestId('tab-item-add-pokemon')).toBeTruthy();
-      expect(queryByTestId('tab-content-add-pokemon')).toBeTruthy();
+      expect(screen.queryAllByTestId(/tab-item-/)).toHaveLength(4);
+      expect(screen.queryAllByTestId(/tab-content-/)).toHaveLength(4);
+      expect(screen.queryByTestId('tab-item-add-pokemon')).toBeTruthy();
+      expect(screen.queryByTestId('tab-content-add-pokemon')).toBeTruthy();
     });
   });
 
   describe('with 6 team members', () => {
     it('renders a tab for each pokemon plus a tab for pokemon search', (): void => {
-      const { queryByTestId, getAllByTestId } = setup({
+      setup({
         initialTeamMembers: fullTeamMembers
       });
 
-      expect(getAllByTestId(/tab-item-/)).toHaveLength(6);
-      expect(getAllByTestId(/tab-content-/)).toHaveLength(6);
-      expect(queryByTestId('tab-item-add-pokemon')).not.toBeInTheDocument();
-      expect(queryByTestId('tab-content-add-pokemon')).not.toBeInTheDocument();
+      expect(screen.getAllByTestId(/tab-item-/)).toHaveLength(6);
+      expect(screen.getAllByTestId(/tab-content-/)).toHaveLength(6);
+      expect(
+        screen.queryByTestId('tab-item-add-pokemon')
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByTestId('tab-content-add-pokemon')
+      ).not.toBeInTheDocument();
     });
   });
 
   describe('with a search pokemon selected', () => {
     it('renders the currently selected pokemon', () => {
-      const { getByText, getByLabelText } = setup();
+      setup();
 
-      userEvent.click(getByLabelText('Add new pokemon to team'));
+      userEvent.click(screen.getByLabelText('Add new pokemon to team'));
       userEvent.click(
-        getByText(new RegExp(pokemon[0].name, 'i'), {
+        screen.getByText(new RegExp(pokemon[0].name, 'i'), {
           selector: '[data-testid="tab-content-add-pokemon"] *'
         })
       );
 
-      expect(getByText(`Add ${pokemon[0].name} to team`)).toBeInTheDocument();
+      expect(
+        screen.getByText(`Add ${pokemon[0].name} to team`)
+      ).toBeInTheDocument();
     });
   });
 });

@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { PokemonLine, PokemonLineProps } from '.';
 import { pikachu } from '~/mocks/Pokemon';
 
@@ -7,15 +7,15 @@ describe('PokemonLine', () => {
     render(<PokemonLine pokemon={pikachu} {...props} />);
 
   it('renders pokemon information', () => {
-    const { getByText, getByAltText } = setup();
+    setup();
     expect(
-      getByText(`#${pikachu.pokedex_id} ${pikachu.name}`)
+      screen.getByText(`#${pikachu.pokedex_id} ${pikachu.name}`)
     ).toBeInTheDocument();
-    expect(getByAltText(`${pikachu.name} sprite`)).toHaveAttribute(
+    expect(screen.getByAltText(`${pikachu.name} sprite`)).toHaveAttribute(
       'src',
       `/sprites/${pikachu.sprite}`
     );
-    expect(getByText(pikachu.types[0].type.name)).toBeInTheDocument();
+    expect(screen.getByText(pikachu.types[0].type.name)).toBeInTheDocument();
   });
 
   it('adds type gradient', () => {
