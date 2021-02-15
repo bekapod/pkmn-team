@@ -28,9 +28,9 @@ import { Pokemon, Team_Member } from '~/generated/graphql';
 import { TeamMemberActionType, useTeamMembersReducer } from './reducer';
 
 export type TeamViewProps = {
-  initialTeamMembers?: Team_Member[];
+  initialTeamMembers?: Omit<Team_Member, 'team'>[];
   allPokemon?: Pokemon[];
-  updateTeamMembers?: (members: Team_Member[]) => void;
+  updateTeamMembers?: (members: Omit<Team_Member, 'team'>[]) => void;
   isSkeleton?: boolean;
 };
 
@@ -101,7 +101,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
         teamMember,
         pokemon
       }: {
-        teamMember?: Team_Member;
+        teamMember?: Omit<Team_Member, 'team'>;
         pokemon: Pokemon;
       }) => {
         if (teamMember) {

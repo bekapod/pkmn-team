@@ -9,7 +9,7 @@ import { TypeTag } from '../TypeTag';
 import { MoveList } from '../MoveList';
 
 export type PokemonCardProps = {
-  teamMember?: Team_Member;
+  teamMember?: Omit<Team_Member, 'team'>;
   pokemon: Pokemon;
   moves?: Moves[];
   renderCardActions?: () => JSX.Element;

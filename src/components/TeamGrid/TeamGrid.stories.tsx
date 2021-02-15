@@ -1,12 +1,12 @@
 import { Meta } from '@storybook/react/types-6-0';
-import { Pokemon, Teams } from '~/generated/graphql';
+import { Pokemon, TeamByIdQuery } from '~/generated/graphql';
 import { charmander, haunter, pikachu } from '~/mocks/Pokemon';
 import { TeamCard } from '../TeamCard';
 import { TeamGrid } from './TeamGrid';
 
 const pokemon: Pokemon[] = [charmander, pikachu, haunter];
 
-const team: Teams = {
+const team: TeamByIdQuery['teamById'] = {
   id: '123',
   name: 'My super team!',
   created_at: '2020-12-12T22:50:59.766899+00:00',

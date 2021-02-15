@@ -9,11 +9,11 @@ import { GiantInput } from '../GiantInput';
 import { LoadingIcon } from '../LoadingIcon';
 import { TeamView } from '../TeamView';
 import { StickyBar } from '../StickyBar';
-import type { Pokemon, Teams, Team_Member } from '~/generated/graphql';
+import type { Pokemon, TeamByIdQuery, Team_Member } from '~/generated/graphql';
 
 export type TeamBuilderProps = {
   allPokemon?: Pokemon[];
-  team?: Teams;
+  team?: TeamByIdQuery['teamById'];
   isLoading?: boolean;
   isSkeleton?: boolean;
   error?: CombinedError;
