@@ -139,11 +139,12 @@
       ),
       linear-gradient(45deg, transparent var(--zig-zag-size), var(--color) 0);
     background-size: var(--zig-zag-size) var(--zig-zag-size);
-    @apply absolute left-0 w-screen -ml-4 bg-repeat-x bg-left-top;
+    background-position: var(--spacing-2) top;
+    @apply absolute left-0 w-screen -ml-4 bg-repeat-x;
   }
 
   @screen md {
-    .sticky-bar,
+    .sticky-bar::before,
     .sticky-bar::after {
       @apply -ml-6;
     }
