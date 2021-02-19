@@ -11,9 +11,6 @@ fragment TeamMemberFragment on team_member {
     }
   }
   learned_moves {
-    order
-    move {
-      ...MoveFragment
-    }
+    ...TeamMemberMoveFragment
   }
 }

@@ -928,6 +928,8 @@ export type Team_Member_Move = {
   /** An object relationship */
   move: Moves;
   order: Scalars['Int'];
+  /** An object relationship */
+  team_member: Team_Member;
 };
 
 /** input type for inserting array relation for remote table "team_member_move" */
@@ -943,6 +945,7 @@ export type Team_Member_Move_Bool_Exp = {
   _or?: Maybe<Array<Maybe<Team_Member_Move_Bool_Exp>>>;
   move?: Maybe<Moves_Bool_Exp>;
   order?: Maybe<Int_Comparison_Exp>;
+  team_member?: Maybe<Team_Member_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "team_member_move" */
@@ -960,7 +963,10 @@ export type Team_Member_Move_Inc_Input = {
 
 /** input type for inserting data into table "team_member_move" */
 export type Team_Member_Move_Insert_Input = {
+  move_id?: Maybe<Scalars['uuid']>;
   order?: Maybe<Scalars['Int']>;
+  team_member?: Maybe<Team_Member_Obj_Rel_Insert_Input>;
+  team_member_id?: Maybe<Scalars['uuid']>;
 };
 
 /** response of any mutation on the table "team_member_move" */
@@ -989,6 +995,7 @@ export type Team_Member_Move_On_Conflict = {
 export type Team_Member_Move_Order_By = {
   move?: Maybe<Moves_Order_By>;
   order?: Maybe<Order_By>;
+  team_member?: Maybe<Team_Member_Order_By>;
 };
 
 /** primary key columns input for table: "team_member_move" */
@@ -1005,13 +1012,19 @@ export enum Team_Member_Move_Select_Column {
 
 /** input type for updating data in table "team_member_move" */
 export type Team_Member_Move_Set_Input = {
+  move_id?: Maybe<Scalars['uuid']>;
   order?: Maybe<Scalars['Int']>;
+  team_member_id?: Maybe<Scalars['uuid']>;
 };
 
 /** update columns of table "team_member_move" */
 export enum Team_Member_Move_Update_Column {
   /** column name */
-  Order = 'order'
+  MoveId = 'move_id',
+  /** column name */
+  Order = 'order',
+  /** column name */
+  TeamMemberId = 'team_member_id'
 }
 
 /** response of any mutation on the table "team_member" */
@@ -1290,12 +1303,17 @@ export type TeamMemberFragmentFragment = (
     & PokemonFragmentFragment
   ), learned_moves: Array<(
     { __typename?: 'team_member_move' }
-    & Pick<Team_Member_Move, 'order'>
-    & { move: (
-      { __typename?: 'moves' }
-      & MoveFragmentFragment
-    ) }
+    & TeamMemberMoveFragmentFragment
   )> }
+);
+
+export type TeamMemberMoveFragmentFragment = (
+  { __typename?: 'team_member_move' }
+  & Pick<Team_Member_Move, 'order'>
+  & { move: (
+    { __typename?: 'moves' }
+    & MoveFragmentFragment
+  ) }
 );
 
 export type TypeFragmentFragment = (
@@ -1313,6 +1331,29 @@ export type CreateTeamMutation = (
   & { createTeam?: Maybe<(
     { __typename?: 'teams' }
     & TeamFragmentFragment
+  )> }
+);
+
+export type CreateTeamMemberMoveMutationVariables = Exact<{
+  memberId: Scalars['uuid'];
+  moveId: Scalars['uuid'];
+  order: Scalars['Int'];
+}>;
+
+
+export type CreateTeamMemberMoveMutation = (
+  { __typename?: 'mutation_root' }
+  & { createTeamMemberMove?: Maybe<(
+    { __typename?: 'team_member_move' }
+    & { team_member: (
+      { __typename?: 'team_member' }
+      & Pick<Team_Member, 'id'>
+      & { team: (
+        { __typename?: 'teams' }
+        & Pick<Teams, 'id'>
+      ) }
+    ) }
+    & TeamMemberMoveFragmentFragment
   )> }
 );
 
@@ -1469,6 +1510,14 @@ export const MoveFragmentFragmentDoc = gql`
   }
 }
     ${TypeFragmentFragmentDoc}`;
+export const TeamMemberMoveFragmentFragmentDoc = gql`
+    fragment TeamMemberMoveFragment on team_member_move {
+  order
+  move {
+    ...MoveFragment
+  }
+}
+    ${MoveFragmentFragmentDoc}`;
 export const TeamMemberFragmentFragmentDoc = gql`
     fragment TeamMemberFragment on team_member {
   id
@@ -1483,14 +1532,12 @@ export const TeamMemberFragmentFragmentDoc = gql`
     }
   }
   learned_moves {
-    order
-    move {
-      ...MoveFragment
-    }
+    ...TeamMemberMoveFragment
   }
 }
     ${PokemonFragmentFragmentDoc}
-${MoveFragmentFragmentDoc}`;
+${MoveFragmentFragmentDoc}
+${TeamMemberMoveFragmentFragmentDoc}`;
 export const TeamFragmentFragmentDoc = gql`
     fragment TeamFragment on teams {
   id
@@ -1511,6 +1558,25 @@ export const CreateTeamDocument = gql`
 
 export function useCreateTeamMutation() {
   return Urql.useMutation<CreateTeamMutation, CreateTeamMutationVariables>(CreateTeamDocument);
+};
+export const CreateTeamMemberMoveDocument = gql`
+    mutation CreateTeamMemberMove($memberId: uuid!, $moveId: uuid!, $order: Int!) {
+  createTeamMemberMove(
+    object: {team_member_id: $memberId, move_id: $moveId, order: $order}
+  ) {
+    ...TeamMemberMoveFragment
+    team_member {
+      id
+      team {
+        id
+      }
+    }
+  }
+}
+    ${TeamMemberMoveFragmentFragmentDoc}`;
+
+export function useCreateTeamMemberMoveMutation() {
+  return Urql.useMutation<CreateTeamMemberMoveMutation, CreateTeamMemberMoveMutationVariables>(CreateTeamMemberMoveDocument);
 };
 export const CreateTeamMembersDocument = gql`
     mutation CreateTeamMembers($members: [team_member_insert_input!]!) {
