@@ -12,12 +12,12 @@ export enum TeamMemberActionType {
 
 type AddTeamMemberAction = {
   type: TeamMemberActionType.AddTeamMember;
-  payload: Team_Member;
+  payload: Omit<Team_Member, 'team'>;
 };
 
 type RemoveTeamMemberAction = {
   type: TeamMemberActionType.RemoveTeamMember;
-  payload: Team_Member;
+  payload: Omit<Team_Member, 'team'>;
 };
 
 type ReorderTeamMemberAction = {
@@ -30,7 +30,7 @@ type ReorderTeamMemberAction = {
 
 type ResetTeamMembersAction = {
   type: TeamMemberActionType.ResetTeamMembers;
-  payload: Team_Member[];
+  payload: Omit<Team_Member, 'team'>[];
 };
 
 type Action =
@@ -39,7 +39,7 @@ type Action =
   | ReorderTeamMemberAction
   | ResetTeamMembersAction;
 
-const reducer = (state: Team_Member[], action: Action) => {
+const reducer = (state: Omit<Team_Member, 'team'>[], action: Action) => {
   switch (action.type) {
     case TeamMemberActionType.AddTeamMember:
       return [...state, action.payload];
@@ -62,7 +62,7 @@ const reducer = (state: Team_Member[], action: Action) => {
 };
 
 export function useTeamMembersReducer(
-  teamMembers: Team_Member[]
-): [Team_Member[], Dispatch<Action>] {
+  teamMembers: Omit<Team_Member, 'team'>[]
+): [Omit<Team_Member, 'team'>[], Dispatch<Action>] {
   return useReducer(reducer, teamMembers);
 }

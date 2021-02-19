@@ -2,6 +2,9 @@ mutation DeleteTeamMembers($members: [uuid!]) {
   deleteTeamMembers(where: { id: { _in: $members } }) {
     returning {
       ...TeamMemberFragment
+      team {
+        id
+      }
     }
   }
 }
