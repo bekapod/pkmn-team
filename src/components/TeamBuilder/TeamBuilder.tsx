@@ -9,7 +9,13 @@ import { GiantInput } from '../GiantInput';
 import { LoadingIcon } from '../LoadingIcon';
 import { TeamView } from '../TeamView';
 import { StickyBar } from '../StickyBar';
-import type { Pokemon, TeamByIdQuery, Team_Member } from '~/generated/graphql';
+import type {
+  Moves,
+  Pokemon,
+  TeamByIdQuery,
+  TeamMemberFragmentFragment,
+  Teams
+} from '~/generated/graphql';
 
 export type TeamBuilderProps = {
   allPokemon?: Pokemon[];
@@ -19,7 +25,11 @@ export type TeamBuilderProps = {
   error?: CombinedError;
   updateTeam?: (name: string) => void;
   deleteTeam?: () => void;
-  updateTeamMembers?: (members: Team_Member[]) => void;
+  updateTeamMembers?: (members: Teams['team_members']) => void;
+  updateTeamMemberMove?: (
+    member: TeamMemberFragmentFragment,
+    moveId: Moves['id']
+  ) => void;
 };
 
 export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
@@ -30,7 +40,8 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
   error,
   updateTeam,
   deleteTeam,
-  updateTeamMembers
+  updateTeamMembers,
+  updateTeamMemberMove
 }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedUpdateTeam = useCallback(
@@ -86,6 +97,7 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
         initialTeamMembers={team?.team_members}
         isSkeleton={isSkeleton}
         updateTeamMembers={debouncedUpdateTeamMembers}
+        updateTeamMemberMove={updateTeamMemberMove}
       />
     </>
   );

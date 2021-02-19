@@ -9,7 +9,7 @@ describe(MoveList, () => {
     setupResizeObserverMock([]);
     return render(
       <MoveList
-        addMoveToTeamMember={jest.fn()}
+        updateTeamMemberMove={jest.fn()}
         removeMoveFromTeamMember={jest.fn()}
         moves={[substitute, flash, explosion]}
         {...props}

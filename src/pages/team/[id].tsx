@@ -13,8 +13,10 @@ import {
   useCreateTeamMembersMutation,
   TeamByIdDocument,
   AllPokemonDocument,
-  Team_Member,
-  useDeleteTeamMembersMutation
+  useDeleteTeamMembersMutation,
+  useCreateTeamMemberMoveMutation,
+  TeamMemberFragmentFragment,
+  MoveFragmentFragment
 } from '~/generated/graphql';
 import { createClient } from '~/lib/client';
 import { FullWidthContainer } from '~/components/FullWidthContainer';
@@ -60,6 +62,10 @@ const Team: NextComponentType<
     { fetching: deleteTeamMembersFetching },
     deleteTeamMembers
   ] = useDeleteTeamMembersMutation();
+  const [
+    { fetching: createTeamMemberMoveFetching },
+    createTeamMemberMove
+  ] = useCreateTeamMemberMoveMutation();
 
   const team = teamData?.teamById ?? undefined;
   const pokemon = allPokemonData?.pokemon;
@@ -81,7 +87,7 @@ const Team: NextComponentType<
   }, [team?.id, router, deleteTeam]);
 
   const updateTeamMembersHandler = useCallback(
-    (members: Team_Member[]) => {
+    (members: TeamMemberFragmentFragment[]) => {
       const membersToUpdate = members.map(({ id, pokemon, order }) => ({
         id,
         pokemon_id: pokemon.id,
@@ -109,6 +115,27 @@ const Team: NextComponentType<
     [JSON.stringify(team), createTeamMembers]
   );
 
+  const createTeamMemberMoveHandler = useCallback(
+    (member: TeamMemberFragmentFragment, moveId: MoveFragmentFragment) => {
+      const lastOrder =
+        member.learned_moves[(member.learned_moves?.length ?? 1) - 1]?.order ??
+        0;
+
+      console.log(
+        member.learned_moves,
+        (member.learned_moves?.length ?? 1) - 1,
+        member.learned_moves[(member.learned_moves?.length ?? 1) - 1]?.order
+      );
+
+      createTeamMemberMove({
+        memberId: member.id,
+        moveId,
+        order: lastOrder + 1
+      });
+    },
+    [createTeamMemberMove]
+  );
+
   return (
     <Page
       title={`Team: ${team?.name ?? '…'}`}
@@ -123,11 +150,13 @@ const Team: NextComponentType<
             updateTeamFetching ||
             deleteTeamFetching ||
             createTeamMembersFetching ||
-            deleteTeamMembersFetching
+            deleteTeamMembersFetching ||
+            createTeamMemberMoveFetching
           }
           updateTeam={updateTeamHandler}
           deleteTeam={deleteTeamHandler}
           updateTeamMembers={updateTeamMembersHandler}
+          updateTeamMemberMove={createTeamMemberMoveHandler}
         />
       </FullWidthContainer>
     </Page>

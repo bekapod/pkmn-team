@@ -26,7 +26,8 @@ export const createClient = (
       keys: {
         damage_class: data => `${data.value}`,
         pokemon_move: () => null,
-        pokemon_type: () => null
+        pokemon_type: () => null,
+        team_member_move: () => null
       },
       updates: {
         Mutation: {
@@ -84,6 +85,7 @@ export const createClient = (
               );
             }
           },
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           deleteTeamMembers: (result: any, _args, cache) => {
             const teamId = result?.deleteTeamMembers?.returning[0]?.team?.id;
             cache.updateQuery(
@@ -92,24 +94,44 @@ export const createClient = (
                 if (data?.teamById) {
                   const deletedMembers = result?.deleteTeamMembers?.returning;
 
-                  console.log({ deletedMembers });
-
                   data.teamById.team_members = data?.teamById?.team_members.filter(
                     ({ id }) =>
                       !deletedMembers.find(
                         (deletedMember: Team_Member) => id === deletedMember.id
                       )
                   );
+                }
 
-                  console.log(
-                    data?.teamById?.team_members.filter(
-                      ({ id }) =>
-                        !deletedMembers.find(
-                          (deletedMember: Team_Member) =>
-                            id === deletedMember.id
-                        )
-                    )
+                return data;
+              }
+            );
+          },
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          createTeamMemberMove: (result: any, _args, cache) => {
+            const teamId = result?.createTeamMemberMove?.team_member?.team?.id;
+            cache.updateQuery(
+              {
+                query: TeamByIdDocument,
+                variables: { id: teamId }
+              },
+              (data: TeamByIdQuery | null) => {
+                if (data?.teamById) {
+                  const teamMember = data.teamById.team_members.find(
+                    ({ id }) =>
+                      result?.createTeamMemberMove?.team_member?.id === id
                   );
+                  const existingMove = teamMember?.learned_moves.find(
+                    ({ move }) =>
+                      move.id === result?.createTeamMemberMove?.move?.id
+                  );
+
+                  if (existingMove) {
+                    existingMove.order = result?.createTeamMemberMove?.order;
+                  } else {
+                    teamMember?.learned_moves.push(
+                      result?.createTeamMemberMove
+                    );
+                  }
                 }
 
                 return data;

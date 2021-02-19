@@ -1,6 +1,6 @@
 import { Dispatch, useReducer } from 'react';
 import isEqual from 'react-fast-compare';
-import { Team_Member } from '~/generated/graphql';
+import { TeamMemberFragmentFragment } from '~/generated/graphql';
 import { reorder } from './helpers';
 
 export enum TeamMemberActionType {
@@ -12,12 +12,12 @@ export enum TeamMemberActionType {
 
 type AddTeamMemberAction = {
   type: TeamMemberActionType.AddTeamMember;
-  payload: Omit<Team_Member, 'team'>;
+  payload: TeamMemberFragmentFragment;
 };
 
 type RemoveTeamMemberAction = {
   type: TeamMemberActionType.RemoveTeamMember;
-  payload: Omit<Team_Member, 'team'>;
+  payload: TeamMemberFragmentFragment;
 };
 
 type ReorderTeamMemberAction = {
@@ -30,7 +30,7 @@ type ReorderTeamMemberAction = {
 
 type ResetTeamMembersAction = {
   type: TeamMemberActionType.ResetTeamMembers;
-  payload: Omit<Team_Member, 'team'>[];
+  payload: TeamMemberFragmentFragment[];
 };
 
 type Action =
@@ -39,7 +39,7 @@ type Action =
   | ReorderTeamMemberAction
   | ResetTeamMembersAction;
 
-const reducer = (state: Omit<Team_Member, 'team'>[], action: Action) => {
+const reducer = (state: TeamMemberFragmentFragment[], action: Action) => {
   switch (action.type) {
     case TeamMemberActionType.AddTeamMember:
       return [...state, action.payload];
@@ -62,7 +62,7 @@ const reducer = (state: Omit<Team_Member, 'team'>[], action: Action) => {
 };
 
 export function useTeamMembersReducer(
-  teamMembers: Omit<Team_Member, 'team'>[]
-): [Omit<Team_Member, 'team'>[], Dispatch<Action>] {
+  teamMembers: TeamMemberFragmentFragment[]
+): [TeamMemberFragmentFragment[], Dispatch<Action>] {
   return useReducer(reducer, teamMembers);
 }

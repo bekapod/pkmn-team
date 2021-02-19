@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { FunctionComponent } from 'react';
 import classNames from 'classnames';
-import { Pokemon, Moves, Team_Member } from '~/generated/graphql';
+import {
+  Pokemon,
+  Moves,
+  TeamMemberFragmentFragment
+} from '~/generated/graphql';
 import { formatPokemonName, sortBySlug } from '~/lib/general';
 import { CardContent, CardHeader, CardWrapper, CardHeading } from '../Card';
 import { InlineList } from '../InlineList';
@@ -9,7 +13,7 @@ import { TypeTag } from '../TypeTag';
 import { MoveList } from '../MoveList';
 
 export type PokemonCardProps = {
-  teamMember?: Omit<Team_Member, 'team'>;
+  teamMember?: TeamMemberFragmentFragment;
   pokemon: Pokemon;
   moves?: Moves[];
   renderCardActions?: () => JSX.Element;
@@ -50,8 +54,9 @@ export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
         </InlineList>
 
         <MoveList
+          className="w-full"
           moves={moves}
-          addMoveToTeamMember={() => {}}
+          updateTeamMemberMove={() => {}}
           removeMoveFromTeamMember={() => {}}
         />
 

@@ -1,4 +1,5 @@
 import {
+  ComponentPropsWithoutRef,
   FunctionComponent,
   HTMLAttributes,
   useCallback,
@@ -13,35 +14,42 @@ import {
   compose,
   cond,
   constant,
-  lte,
+  gt,
   multiply,
   size,
   stubTrue
 } from 'lodash/fp';
 import { MoveLine } from '../MoveLine';
-import { Moves, Team_Member, Team_Member_Move } from '~/generated/graphql';
+import {
+  MoveFragmentFragment,
+  TeamMemberFragmentFragment,
+  TeamMemberMoveFragmentFragment
+} from '~/generated/graphql';
 import { useContainerQuery } from '~/hooks/useContainerQuery';
 import { CtaButton } from '../Cta';
 
-export type MoveListProps = {
-  moves: Moves[];
+export type MoveListProps = ComponentPropsWithoutRef<'div'> & {
+  moves: MoveFragmentFragment[];
   highlightLearnedMoves?: boolean;
   visibleItems?: number;
-  teamMember?: Team_Member;
-  addMoveToTeamMember: (move: Moves) => void;
-  removeMoveFromTeamMember: (move: Team_Member_Move) => void;
+  teamMember?: TeamMemberFragmentFragment;
+  updateTeamMemberMove?: (
+    member: TeamMemberFragmentFragment,
+    moveId: MoveFragmentFragment['id']
+  ) => void;
+  removeMoveFromTeamMember: (move: TeamMemberMoveFragmentFragment) => void;
 };
 
 type RowProps = {
-  data: Moves[];
+  data: MoveFragmentFragment[];
   index: number;
   style: HTMLAttributes<HTMLElement>['style'];
 };
 
 const getTeamMemberMove = (
-  teamMember: Team_Member,
-  move: Moves
-): Team_Member_Move | undefined =>
+  teamMember: TeamMemberFragmentFragment,
+  move: MoveFragmentFragment
+): TeamMemberMoveFragmentFragment | undefined =>
   teamMember.learned_moves.find(
     teamMemberMove => teamMemberMove.move.id === move.id
   );
@@ -53,17 +61,20 @@ const Row = ({
   isCompressed,
   isSpacious,
   onItemStateChange,
-  addMoveToTeamMember,
+  updateTeamMemberMove,
   removeMoveFromTeamMember
 }: {
-  teamMember?: Team_Member;
+  teamMember?: TeamMemberFragmentFragment;
   highlightLearnedMoves: boolean;
   itemStates: boolean[];
   isCompressed: boolean;
   isSpacious: boolean;
   onItemStateChange: (index: number, isOpen: boolean) => void;
-  addMoveToTeamMember: (move: Moves) => void;
-  removeMoveFromTeamMember: (move: Team_Member_Move) => void;
+  updateTeamMemberMove?: (
+    member: TeamMemberFragmentFragment,
+    moveId: MoveFragmentFragment['id']
+  ) => void;
+  removeMoveFromTeamMember: (move: TeamMemberMoveFragmentFragment) => void;
 }) => ({ data, index, style }: RowProps): JSX.Element => {
   const move = data[index];
   const teamMemberMove = teamMember && getTeamMemberMove(teamMember, move);
@@ -75,6 +86,7 @@ const Row = ({
           <CtaButton
             type="button"
             size="tiny"
+            variant="destructive"
             onClick={() => removeMoveFromTeamMember(teamMemberMove)}
           >
             Forget
@@ -83,7 +95,8 @@ const Row = ({
           <CtaButton
             type="button"
             size="tiny"
-            onClick={() => addMoveToTeamMember(move)}
+            variant="primary"
+            onClick={() => updateTeamMemberMove?.(teamMember, move.id)}
           >
             Learn
           </CtaButton>
@@ -128,8 +141,9 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
   visibleItems = 4,
   teamMember,
   highlightLearnedMoves = false,
-  addMoveToTeamMember,
-  removeMoveFromTeamMember
+  updateTeamMemberMove,
+  removeMoveFromTeamMember,
+  ...props
 }) => {
   const listRef = useRef<List>(null);
   const [ref, className] = useContainerQuery(query);
@@ -138,7 +152,7 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
   );
 
   const itemHeight = className.includes('is-compressed-list') ? 126 : 84;
-  const hasOverflowingItems = compose(lte(visibleItems), size);
+  const hasOverflowingItems = compose(gt(visibleItems), size);
   const isCompressed = className.includes('is-compressed-list');
   const isSpacious = className.includes('is-spacious-list');
 
@@ -173,11 +187,11 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
   }, []);
 
   return (
-    <div ref={ref as never} data-testid="move-list">
+    <div ref={ref as never} data-testid="move-list" {...props}>
       <List
         ref={listRef}
         className={classNames('w-full!', 'bg-white', className, {
-          'overflow-hidden': !hasOverflowingItems(moves)
+          'overflow-hidden!': !hasOverflowingItems(moves)
         })}
         height={listHeight}
         itemSize={getItemHeight}
@@ -192,7 +206,7 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
           isCompressed,
           isSpacious,
           onItemStateChange,
-          addMoveToTeamMember,
+          updateTeamMemberMove,
           removeMoveFromTeamMember
         })}
       </List>
