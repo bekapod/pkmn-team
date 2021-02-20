@@ -54,7 +54,7 @@ export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
         </InlineList>
 
         <MoveList
-          className="w-full"
+          className="mt-6 w-full"
           moves={moves}
           updateTeamMemberMove={() => {}}
           removeMoveFromTeamMember={() => {}}

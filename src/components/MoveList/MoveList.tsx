@@ -14,7 +14,7 @@ import {
   compose,
   cond,
   constant,
-  lte,
+  lt,
   multiply,
   size,
   stubTrue
@@ -153,7 +153,7 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
   );
 
   const itemHeight = className.includes('is-compressed-list') ? 126 : 84;
-  const hasOverflowingItems = compose(lte(visibleItems), size);
+  const hasOverflowingItems = compose(lt(visibleItems), size);
   const isCompressed = className.includes('is-compressed-list');
   const isSpacious = className.includes('is-spacious-list');
 
