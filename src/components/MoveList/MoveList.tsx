@@ -87,6 +87,7 @@ const Row = ({
             type="button"
             size="tiny"
             variant="destructive"
+            aria-label={`Forget ${move.name}`}
             onClick={() => removeMoveFromTeamMember?.(teamMember, move.id)}
           >
             Forget
