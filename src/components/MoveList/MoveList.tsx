@@ -96,6 +96,7 @@ const Row = ({
             type="button"
             size="tiny"
             variant="primary"
+            aria-label={`Learn ${move.name}`}
             onClick={() => updateTeamMemberMove?.(teamMember, move.id)}
           >
             Learn
