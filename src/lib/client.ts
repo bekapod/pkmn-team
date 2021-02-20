@@ -138,6 +138,7 @@ export const createClient = (
               }
             );
           },
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           deleteTeamMemberMove: (result: any, _args, cache) => {
             const teamId = result?.deleteTeamMemberMove?.team_member?.team?.id;
             cache.updateQuery(

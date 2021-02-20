@@ -11,7 +11,6 @@ import { TeamView } from '../TeamView';
 import { StickyBar } from '../StickyBar';
 import type {
   MoveFragmentFragment,
-  Moves,
   Pokemon,
   TeamByIdQuery,
   TeamMemberFragmentFragment,
