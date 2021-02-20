@@ -1,13 +1,16 @@
 import {
   ComponentPropsWithoutRef,
   FunctionComponent,
-  HTMLAttributes,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState
 } from 'react';
-import { VariableSizeList as List } from 'react-window';
+import {
+  ListChildComponentProps,
+  VariableSizeList as List
+} from 'react-window';
 import classNames from 'classnames';
 import {
   add,
@@ -43,10 +46,18 @@ export type MoveListProps = ComponentPropsWithoutRef<'div'> & {
   ) => void;
 };
 
-type RowProps = {
-  data: MoveFragmentFragment[];
-  index: number;
-  style: HTMLAttributes<HTMLElement>['style'];
+type RowProps = ListChildComponentProps & {
+  data: {
+    move: MoveFragmentFragment;
+    teamMember?: MoveListProps['teamMember'];
+    highlightLearnedMoves: MoveListProps['highlightLearnedMoves'];
+    itemStates: boolean;
+    isCompressed: boolean;
+    isSpacious: boolean;
+    onItemStateChange: (index: number, isOpen: boolean) => void;
+    updateTeamMemberMove?: MoveListProps['updateTeamMemberMove'];
+    removeMoveFromTeamMember: MoveListProps['removeMoveFromTeamMember'];
+  }[];
 };
 
 const getTeamMemberMove = (
@@ -57,26 +68,18 @@ const getTeamMemberMove = (
     teamMemberMove => teamMemberMove.move.id === move.id
   );
 
-const Row = ({
-  teamMember,
-  highlightLearnedMoves,
-  itemStates,
-  isCompressed,
-  isSpacious,
-  onItemStateChange,
-  updateTeamMemberMove,
-  removeMoveFromTeamMember
-}: {
-  teamMember?: MoveListProps['teamMember'];
-  highlightLearnedMoves: MoveListProps['highlightLearnedMoves'];
-  itemStates: boolean[];
-  isCompressed: boolean;
-  isSpacious: boolean;
-  onItemStateChange: (index: number, isOpen: boolean) => void;
-  updateTeamMemberMove?: MoveListProps['updateTeamMemberMove'];
-  removeMoveFromTeamMember: MoveListProps['removeMoveFromTeamMember'];
-}) => ({ data, index, style }: RowProps): JSX.Element => {
-  const move = data[index];
+const Row = ({ data, index, style }: RowProps): JSX.Element => {
+  const {
+    move,
+    teamMember,
+    highlightLearnedMoves,
+    isOpen,
+    isCompressed,
+    isSpacious,
+    onItemStateChange,
+    updateTeamMemberMove,
+    removeMoveFromTeamMember
+  } = data[index];
   const teamMemberMove = teamMember && getTeamMemberMove(teamMember, move);
 
   const renderLineActions = () => (
@@ -107,7 +110,7 @@ const Row = ({
         type="button"
         size="tiny"
         variant="tertiary"
-        onClick={() => onItemStateChange(index, !itemStates[index])}
+        onClick={() => onItemStateChange(index, !isOpen)}
       >
         Details
       </CtaButton>
@@ -117,7 +120,7 @@ const Row = ({
   return (
     <MoveLine
       {...move}
-      isOpen={itemStates[index]}
+      isOpen={isOpen}
       isHighlighted={highlightLearnedMoves && !!teamMemberMove}
       isCompressed={isCompressed}
       isSpacious={isSpacious}
@@ -162,11 +165,14 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
     listRef.current?.resetAfterIndex(0, false);
   }, [itemHeight]);
 
-  const getItemHeight = (index: number) => {
-    const itemIsOpen = itemStates[index];
-    if (itemIsOpen) return itemHeight * 2.2;
-    return itemHeight;
-  };
+  const getItemHeight = useCallback(
+    (index: number) => {
+      const itemIsOpen = itemStates[index];
+      if (itemIsOpen) return itemHeight * 2.2;
+      return itemHeight;
+    },
+    [itemHeight, itemStates]
+  );
 
   const listHeight = cond([
     [hasOverflowingItems, constant(multiply(itemHeight, visibleItems))],
@@ -188,6 +194,32 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
     listRef.current?.resetAfterIndex(index, false);
   }, []);
 
+  const itemData = useMemo(
+    () =>
+      moves.map((move, idx) => ({
+        move,
+        teamMember,
+        highlightLearnedMoves,
+        isOpen: itemStates[idx],
+        isCompressed,
+        isSpacious,
+        onItemStateChange,
+        updateTeamMemberMove,
+        removeMoveFromTeamMember
+      })),
+    [
+      teamMember,
+      highlightLearnedMoves,
+      isCompressed,
+      isSpacious,
+      itemStates,
+      moves,
+      onItemStateChange,
+      removeMoveFromTeamMember,
+      updateTeamMemberMove
+    ]
+  );
+
   return (
     <div ref={ref as never} data-testid="move-list" {...props}>
       <List
@@ -197,20 +229,11 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
         })}
         height={listHeight}
         itemSize={getItemHeight}
-        itemCount={moves.length}
+        itemCount={itemData.length}
         width={500}
-        itemData={moves}
+        itemData={itemData}
       >
-        {Row({
-          teamMember,
-          highlightLearnedMoves,
-          itemStates,
-          isCompressed,
-          isSpacious,
-          onItemStateChange,
-          updateTeamMemberMove,
-          removeMoveFromTeamMember
-        })}
+        {Row}
       </List>
     </div>
   );
