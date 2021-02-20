@@ -5,7 +5,8 @@ import {
   useCallback,
   useEffect,
   useRef,
-  useState
+  useState,
+  useMemo
 } from 'react';
 import { FixedSizeList as List, ListChildComponentProps } from 'react-window';
 import type { CombinedError } from 'urql';
@@ -24,31 +25,30 @@ export type PokemonSearchProps = {
   error?: CombinedError;
 };
 
-const resultItem = (
-  pokemon: Pokemon[],
-  highlightedIndex: number,
-  onClick: (pkmn: Pokemon, index: number) => void
-) => ({ index, style, isScrolling, ...itemProps }: ListChildComponentProps) => {
-  const pkmn = pokemon[index];
-  const isHighlighted = index === highlightedIndex;
-  const props = {
-    ...itemProps,
-    onClick: (): void => onClick(pkmn, index),
-    style: {
-      ...style,
-      backgroundColor: isHighlighted
-        ? 'var(--colors-yellow-vivid-100)'
-        : 'initial',
-      top: `calc(${style?.top}px + var(--spacing-1))`
-    }
-  };
+type RowProps = ListChildComponentProps & {
+  data: {
+    pokemon: Pokemon;
+    isHighlighted: boolean;
+    onResultClick: (pkmn: Pokemon, index: number) => void;
+  }[];
+};
 
+const Row = ({ index, data, style, isScrolling, ...itemProps }: RowProps) => {
+  const { pokemon, isHighlighted, onResultClick: onClick } = data[index];
   return (
     <PokemonLine
-      aria-selected={index === highlightedIndex}
-      data-testid={`autocomplete-result-${pkmn.pokedex_id}`}
-      pokemon={pkmn}
-      {...props}
+      aria-selected={isHighlighted}
+      data-testid={`autocomplete-result-${pokemon.pokedex_id}`}
+      pokemon={pokemon}
+      {...itemProps}
+      onClick={() => onClick(pokemon, index)}
+      style={{
+        ...style,
+        backgroundColor: isHighlighted
+          ? 'var(--colors-yellow-vivid-100)'
+          : 'initial',
+        top: `calc(${style?.top}px + var(--spacing-1))`
+      }}
     />
   );
 };
@@ -118,6 +118,16 @@ export const PokemonSearch: FunctionComponent<PokemonSearchProps> = ({
     [filteredList, highlightedIndex, setCurrentSearchPokemon]
   );
 
+  const itemData = useMemo(
+    () =>
+      filteredList.map((pokemon, idx) => ({
+        pokemon,
+        isHighlighted: idx === highlightedIndex,
+        onResultClick
+      })),
+    [filteredList, highlightedIndex, onResultClick]
+  );
+
   if (isLoading) {
     return (
       <CenteredRow stackVertically>
@@ -149,11 +159,12 @@ export const PokemonSearch: FunctionComponent<PokemonSearchProps> = ({
           ref={listContainer}
           height={itemHeight * 5}
           itemSize={itemHeight}
-          itemCount={filteredList.length}
+          itemCount={itemData.length}
+          itemData={itemData}
           width={500}
           className="w-full!"
         >
-          {resultItem(filteredList, highlightedIndex, onResultClick)}
+          {Row}
         </List>
       </AutocompleteDropdown>
     </Autocomplete>

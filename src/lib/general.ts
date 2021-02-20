@@ -28,3 +28,15 @@ export const capitalizePokemonName = (pokemon: Pick<Pokemon, 'name'>): string =>
 export const formatPokemonName = (
   pokemon: Pick<Pokemon, 'pokedex_id' | 'name'>
 ): string => `#${pokemon.pokedex_id} ${capitalizePokemonName(pokemon)}`;
+
+export const reorder = <T>(
+  list: T[],
+  startIndex: number,
+  endIndex: number
+): T[] => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+
+  return result;
+};

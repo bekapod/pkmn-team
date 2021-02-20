@@ -1,0 +1,20 @@
+mutation DeleteTeamMemberMoves($moveIds: [uuid!], $memberId: uuid!) {
+  deleteTeamMemberMoves(
+    where: {
+      _and: [
+        { move: { id: { _in: $moveIds } } }
+        { team_member: { id: { _eq: $memberId } } }
+      ]
+    }
+  ) {
+    returning {
+      team_member {
+        id
+        team {
+          id
+        }
+      }
+      ...TeamMemberMoveFragment
+    }
+  }
+}

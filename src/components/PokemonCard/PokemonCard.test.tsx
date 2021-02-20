@@ -2,16 +2,36 @@ import { render, screen } from '@testing-library/react';
 import { PokemonCard, PokemonCardProps } from '.';
 import { pikachu } from '~/mocks/Pokemon';
 import { setupResizeObserverMock } from '~/test-helpers';
+import { substitute, rest, flash } from '~/mocks/Moves';
+import { MovesProvider } from '~/hooks/useMoves';
 
 describe(PokemonCard, () => {
+  const teamMember = {
+    id: '1',
+    order: 0,
+    pokemon: pikachu,
+    learned_moves: [
+      {
+        order: 1,
+        move: substitute
+      },
+      {
+        order: 2,
+        move: rest
+      },
+      {
+        order: 3,
+        move: flash
+      }
+    ]
+  };
+
   const setup = (props: Partial<PokemonCardProps> = {}) => {
     setupResizeObserverMock([]);
     return render(
-      <PokemonCard
-        pokemon={pikachu}
-        moves={pikachu.learnable_moves.map(({ move }) => move)}
-        {...props}
-      />
+      <MovesProvider teamMember={teamMember}>
+        <PokemonCard pokemon={pikachu} teamMember={teamMember} {...props} />
+      </MovesProvider>
     );
   };
 

@@ -26,13 +26,9 @@ export type TeamBuilderProps = {
   updateTeam?: (name: string) => void;
   deleteTeam?: () => void;
   updateTeamMembers?: (members: Teams['team_members']) => void;
-  updateTeamMemberMove?: (
+  updateTeamMemberMoves?: (
     member: TeamMemberFragmentFragment,
-    moveId: MoveFragmentFragment['id']
-  ) => void;
-  removeMoveFromTeamMember?: (
-    member: TeamMemberFragmentFragment,
-    moveId: MoveFragmentFragment['id']
+    moves: MoveFragmentFragment[]
   ) => void;
 };
 
@@ -45,8 +41,7 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
   updateTeam,
   deleteTeam,
   updateTeamMembers,
-  updateTeamMemberMove,
-  removeMoveFromTeamMember
+  updateTeamMemberMoves
 }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedUpdateTeam = useCallback(
@@ -102,8 +97,7 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
         initialTeamMembers={team?.team_members}
         isSkeleton={isSkeleton}
         updateTeamMembers={debouncedUpdateTeamMembers}
-        updateTeamMemberMove={updateTeamMemberMove}
-        removeMoveFromTeamMember={removeMoveFromTeamMember}
+        updateTeamMemberMoves={updateTeamMemberMoves}
       />
     </>
   );

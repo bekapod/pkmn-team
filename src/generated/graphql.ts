@@ -1334,26 +1334,27 @@ export type CreateTeamMutation = (
   )> }
 );
 
-export type CreateTeamMemberMoveMutationVariables = Exact<{
-  memberId: Scalars['uuid'];
-  moveId: Scalars['uuid'];
-  order: Scalars['Int'];
+export type CreateTeamMemberMovesMutationVariables = Exact<{
+  moves: Array<Team_Member_Move_Insert_Input> | Team_Member_Move_Insert_Input;
 }>;
 
 
-export type CreateTeamMemberMoveMutation = (
+export type CreateTeamMemberMovesMutation = (
   { __typename?: 'mutation_root' }
-  & { createTeamMemberMove?: Maybe<(
-    { __typename?: 'team_member_move' }
-    & { team_member: (
-      { __typename?: 'team_member' }
-      & Pick<Team_Member, 'id'>
-      & { team: (
-        { __typename?: 'teams' }
-        & Pick<Teams, 'id'>
+  & { createTeamMemberMoves?: Maybe<(
+    { __typename?: 'team_member_move_mutation_response' }
+    & { returning: Array<(
+      { __typename?: 'team_member_move' }
+      & { team_member: (
+        { __typename?: 'team_member' }
+        & Pick<Team_Member, 'id'>
+        & { team: (
+          { __typename?: 'teams' }
+          & Pick<Teams, 'id'>
+        ) }
       ) }
-    ) }
-    & TeamMemberMoveFragmentFragment
+      & TeamMemberMoveFragmentFragment
+    )> }
   )> }
 );
 
@@ -1386,25 +1387,28 @@ export type DeleteTeamMutation = (
   )> }
 );
 
-export type DeleteTeamMemberMoveMutationVariables = Exact<{
+export type DeleteTeamMemberMovesMutationVariables = Exact<{
+  moveIds?: Maybe<Array<Scalars['uuid']> | Scalars['uuid']>;
   memberId: Scalars['uuid'];
-  moveId: Scalars['uuid'];
 }>;
 
 
-export type DeleteTeamMemberMoveMutation = (
+export type DeleteTeamMemberMovesMutation = (
   { __typename?: 'mutation_root' }
-  & { deleteTeamMemberMove?: Maybe<(
-    { __typename?: 'team_member_move' }
-    & { team_member: (
-      { __typename?: 'team_member' }
-      & Pick<Team_Member, 'id'>
-      & { team: (
-        { __typename?: 'teams' }
-        & Pick<Teams, 'id'>
+  & { deleteTeamMemberMoves?: Maybe<(
+    { __typename?: 'team_member_move_mutation_response' }
+    & { returning: Array<(
+      { __typename?: 'team_member_move' }
+      & { team_member: (
+        { __typename?: 'team_member' }
+        & Pick<Team_Member, 'id'>
+        & { team: (
+          { __typename?: 'teams' }
+          & Pick<Teams, 'id'>
+        ) }
       ) }
-    ) }
-    & TeamMemberMoveFragmentFragment
+      & TeamMemberMoveFragmentFragment
+    )> }
   )> }
 );
 
@@ -1581,24 +1585,27 @@ export const CreateTeamDocument = gql`
 export function useCreateTeamMutation() {
   return Urql.useMutation<CreateTeamMutation, CreateTeamMutationVariables>(CreateTeamDocument);
 };
-export const CreateTeamMemberMoveDocument = gql`
-    mutation CreateTeamMemberMove($memberId: uuid!, $moveId: uuid!, $order: Int!) {
-  createTeamMemberMove(
-    object: {team_member_id: $memberId, move_id: $moveId, order: $order}
+export const CreateTeamMemberMovesDocument = gql`
+    mutation CreateTeamMemberMoves($moves: [team_member_move_insert_input!]!) {
+  createTeamMemberMoves(
+    objects: $moves
+    on_conflict: {constraint: team_member_move_team_member_id_move_id_key, update_columns: [order]}
   ) {
-    ...TeamMemberMoveFragment
-    team_member {
-      id
-      team {
+    returning {
+      ...TeamMemberMoveFragment
+      team_member {
         id
+        team {
+          id
+        }
       }
     }
   }
 }
     ${TeamMemberMoveFragmentFragmentDoc}`;
 
-export function useCreateTeamMemberMoveMutation() {
-  return Urql.useMutation<CreateTeamMemberMoveMutation, CreateTeamMemberMoveMutationVariables>(CreateTeamMemberMoveDocument);
+export function useCreateTeamMemberMovesMutation() {
+  return Urql.useMutation<CreateTeamMemberMovesMutation, CreateTeamMemberMovesMutationVariables>(CreateTeamMemberMovesDocument);
 };
 export const CreateTeamMembersDocument = gql`
     mutation CreateTeamMembers($members: [team_member_insert_input!]!) {
@@ -1627,22 +1634,26 @@ export const DeleteTeamDocument = gql`
 export function useDeleteTeamMutation() {
   return Urql.useMutation<DeleteTeamMutation, DeleteTeamMutationVariables>(DeleteTeamDocument);
 };
-export const DeleteTeamMemberMoveDocument = gql`
-    mutation DeleteTeamMemberMove($memberId: uuid!, $moveId: uuid!) {
-  deleteTeamMemberMove(move_id: $moveId, team_member_id: $memberId) {
-    team_member {
-      id
-      team {
+export const DeleteTeamMemberMovesDocument = gql`
+    mutation DeleteTeamMemberMoves($moveIds: [uuid!], $memberId: uuid!) {
+  deleteTeamMemberMoves(
+    where: {_and: [{move: {id: {_in: $moveIds}}}, {team_member: {id: {_eq: $memberId}}}]}
+  ) {
+    returning {
+      team_member {
         id
+        team {
+          id
+        }
       }
+      ...TeamMemberMoveFragment
     }
-    ...TeamMemberMoveFragment
   }
 }
     ${TeamMemberMoveFragmentFragmentDoc}`;
 
-export function useDeleteTeamMemberMoveMutation() {
-  return Urql.useMutation<DeleteTeamMemberMoveMutation, DeleteTeamMemberMoveMutationVariables>(DeleteTeamMemberMoveDocument);
+export function useDeleteTeamMemberMovesMutation() {
+  return Urql.useMutation<DeleteTeamMemberMovesMutation, DeleteTeamMemberMovesMutationVariables>(DeleteTeamMemberMovesDocument);
 };
 export const DeleteTeamMembersDocument = gql`
     mutation DeleteTeamMembers($members: [uuid!]) {

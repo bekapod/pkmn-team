@@ -24,36 +24,28 @@ import { PokemonCard } from '../PokemonCard';
 import { PokemonLine } from '../PokemonLine';
 import { useTabs } from '../../hooks/useTabs';
 import type {
-  MoveFragmentFragment,
   Pokemon,
-  TeamMemberFragmentFragment
+  TeamMemberFragmentFragment,
+  MoveFragmentFragment
 } from '~/generated/graphql';
 import { TeamMemberActionType, useTeamMembersReducer } from './reducer';
+import { MovesProvider } from '~/hooks/useMoves';
 
 export type TeamViewProps = {
   initialTeamMembers?: TeamMemberFragmentFragment[];
   allPokemon?: Pokemon[];
   updateTeamMembers?: (members: TeamMemberFragmentFragment[]) => void;
-  updateTeamMemberMove?: (
+  updateTeamMemberMoves?: (
     member: TeamMemberFragmentFragment,
-    moveId: MoveFragmentFragment['id']
-  ) => void;
-  removeMoveFromTeamMember?: (
-    member: TeamMemberFragmentFragment,
-    moveId: MoveFragmentFragment['id']
+    moves: MoveFragmentFragment[]
   ) => void;
   isSkeleton?: boolean;
-};
-
-const onDragStart = () => {
-  document.body.classList.add('is-dragging');
 };
 
 export const TeamView: FunctionComponent<TeamViewProps> = memo(
   ({
     updateTeamMembers,
-    updateTeamMemberMove,
-    removeMoveFromTeamMember,
+    updateTeamMemberMoves,
     initialTeamMembers = [],
     allPokemon,
     isSkeleton
@@ -91,7 +83,6 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
     const onDragEnd = useCallback(
       (result: DropResult) => {
         if (!result.destination) {
-          document.body.classList.remove('is-dragging');
           return;
         }
 
@@ -107,8 +98,6 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
               destinationIndex: result.destination.index
             }
           });
-
-          document.body.classList.remove('is-dragging');
         }
       },
       [dispatch, teamMembers]
@@ -171,10 +160,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
           })}
           aria-busy={isSkeleton}
         >
-          <DragDropContext
-            onBeforeDragStart={onDragStart}
-            onDragEnd={onDragEnd}
-          >
+          <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="teamview-tabs" direction="horizontal">
               {droppableProvided => (
                 <div
@@ -306,23 +292,27 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
               key={member.id}
               data-testid={`tab-content-${member.id}`}
             >
-              <PokemonCard
+              <MovesProvider
                 teamMember={member}
-                pokemon={member.pokemon}
-                moves={member.learned_moves.map(({ move }) => move)}
-                renderCardActions={renderCardActions({
-                  teamMember: member,
-                  pokemon: member.pokemon
-                })}
-              />
-              <MoveList
-                teamMember={member}
-                moves={member.pokemon.learnable_moves.map(({ move }) => move)}
-                visibleItems={10}
-                highlightLearnedMoves
-                updateTeamMemberMove={updateTeamMemberMove}
-                removeMoveFromTeamMember={removeMoveFromTeamMember}
-              />
+                updateTeamMemberMoves={updateTeamMemberMoves}
+              >
+                <PokemonCard
+                  teamMember={member}
+                  pokemon={member.pokemon}
+                  renderCardActions={renderCardActions({
+                    teamMember: member,
+                    pokemon: member.pokemon
+                  })}
+                />
+                <MoveList
+                  teamMember={member}
+                  allMoves={member.pokemon.learnable_moves.map(
+                    ({ move }) => move
+                  )}
+                  visibleItems={10}
+                  highlightLearnedMoves
+                />
+              </MovesProvider>
             </div>
           );
         })}
