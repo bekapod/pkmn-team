@@ -10,7 +10,7 @@ import {
 } from 'react';
 import { FixedSizeList as List, ListChildComponentProps } from 'react-window';
 import type { CombinedError } from 'urql';
-import { Pokemon } from '~/generated/graphql';
+import { Pokemon, PokemonFragmentFragment } from '~/generated/graphql';
 import { Autocomplete, AutocompleteDropdown } from '../Autocomplete';
 import { CenteredRow } from '../CenteredRow';
 import { ErrorMessage } from '../ErrorMessage';
@@ -19,15 +19,15 @@ import { LoadingIcon } from '../LoadingIcon';
 import { PokemonLine } from '../PokemonLine';
 
 export type PokemonSearchProps = {
-  setCurrentSearchPokemon: (pokemon: Pokemon) => void;
-  pokemon: Pokemon[];
+  setCurrentSearchPokemon: (pokemon: PokemonFragmentFragment) => void;
+  pokemon: PokemonFragmentFragment[];
   isLoading?: boolean;
   error?: CombinedError;
 };
 
 type RowProps = ListChildComponentProps & {
   data: {
-    pokemon: Pokemon;
+    pokemon: PokemonFragmentFragment;
     isHighlighted: boolean;
     onResultClick: (pkmn: Pokemon, index: number) => void;
   }[];

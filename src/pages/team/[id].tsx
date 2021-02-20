@@ -23,7 +23,7 @@ import { createClient } from '~/lib/client';
 import { FullWidthContainer } from '~/components/FullWidthContainer';
 import { Page } from '~/components/Page';
 import { TeamBuilder } from '~/components/TeamBuilder';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { ssrExchange } from 'urql';
 import isEqual from 'react-fast-compare';
 
@@ -44,7 +44,16 @@ const Team: NextComponentType<
     teamByIdOptions
   );
 
-  const allPokemonOptions = useMemo(() => ({ pause: !id }), [id]);
+  const [limit] = useState(1000);
+  const [offset] = useState(0);
+  const allPokemonOptions = useMemo(
+    () =>
+      ({
+        variables: { offset, limit },
+        pause: !id
+      } as const),
+    [id, limit, offset]
+  );
   const [{ data: allPokemonData }] = useAllPokemonQuery(allPokemonOptions);
 
   const [
@@ -197,7 +206,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
   if (client && id) {
     await Promise.all([
       client.query(TeamByIdDocument, { id }).toPromise(),
-      client.query(AllPokemonDocument).toPromise()
+      client.query(AllPokemonDocument, { offset: 0, limit: 1000 }).toPromise()
     ]);
   }
 

@@ -24,16 +24,16 @@ import { PokemonCard } from '../PokemonCard';
 import { PokemonLine } from '../PokemonLine';
 import { useTabs } from '../../hooks/useTabs';
 import type {
-  Pokemon,
   TeamMemberFragmentFragment,
-  MoveFragmentFragment
+  MoveFragmentFragment,
+  PokemonFragmentFragment
 } from '~/generated/graphql';
 import { TeamMemberActionType, useTeamMembersReducer } from './reducer';
 import { MovesProvider } from '~/hooks/useMoves';
 
 export type TeamViewProps = {
   initialTeamMembers?: TeamMemberFragmentFragment[];
-  allPokemon?: Pokemon[];
+  allPokemon?: PokemonFragmentFragment[];
   updateTeamMembers?: (members: TeamMemberFragmentFragment[]) => void;
   updateTeamMemberMoves?: (
     member: TeamMemberFragmentFragment,
@@ -53,7 +53,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
     const isInitialValue = useRef(true);
     const [teamMembers, dispatch] = useTeamMembersReducer(initialTeamMembers);
     const [currentSearchPokemon, setCurrentSearchPokemon] = useState<
-      Pokemon | undefined
+      PokemonFragmentFragment | undefined
     >();
     const { getTabItemProps, getTabContentProps, setSelectedTab } = useTabs(
       initialTeamMembers?.[0]?.id ?? 'add-pokemon'
@@ -109,7 +109,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
         pokemon
       }: {
         teamMember?: TeamMemberFragmentFragment;
-        pokemon: Pokemon;
+        pokemon: PokemonFragmentFragment;
       }) => {
         if (teamMember) {
           return () => (
@@ -306,7 +306,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
                 />
                 <MoveList
                   teamMember={member}
-                  allMoves={member.pokemon.learnable_moves.map(
+                  allMoves={member.pokemon.learnable_moves?.map(
                     ({ move }) => move
                   )}
                   visibleItems={10}

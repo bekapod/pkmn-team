@@ -1446,21 +1446,16 @@ export type UpdateTeamMutation = (
   )> }
 );
 
-export type AllPokemonQueryVariables = Exact<{ [key: string]: never; }>;
+export type AllPokemonQueryVariables = Exact<{
+  offset: Scalars['Int'];
+  limit: Scalars['Int'];
+}>;
 
 
 export type AllPokemonQuery = (
   { __typename?: 'query_root' }
   & { pokemon: Array<(
     { __typename?: 'pokemon' }
-    & { learnable_moves: Array<(
-      { __typename?: 'pokemon_move' }
-      & Pick<Pokemon_Move, 'move_id'>
-      & { move: (
-        { __typename?: 'moves' }
-        & MoveFragmentFragment
-      ) }
-    )> }
     & PokemonFragmentFragment
   )> }
 );
@@ -1683,19 +1678,12 @@ export function useUpdateTeamMutation() {
   return Urql.useMutation<UpdateTeamMutation, UpdateTeamMutationVariables>(UpdateTeamDocument);
 };
 export const AllPokemonDocument = gql`
-    query AllPokemon {
-  pokemon(order_by: {pokedex_id: asc_nulls_last}) {
+    query AllPokemon($offset: Int!, $limit: Int!) {
+  pokemon(order_by: {pokedex_id: asc_nulls_last}, limit: $limit, offset: $offset) {
     ...PokemonFragment
-    learnable_moves {
-      move_id
-      move {
-        ...MoveFragment
-      }
-    }
   }
 }
-    ${PokemonFragmentFragmentDoc}
-${MoveFragmentFragmentDoc}`;
+    ${PokemonFragmentFragmentDoc}`;
 
 export function useAllPokemonQuery(options: Omit<Urql.UseQueryArgs<AllPokemonQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<AllPokemonQuery>({ query: AllPokemonDocument, ...options });

@@ -11,14 +11,14 @@ import { TeamView } from '../TeamView';
 import { StickyBar } from '../StickyBar';
 import type {
   MoveFragmentFragment,
-  Pokemon,
+  PokemonFragmentFragment,
   TeamByIdQuery,
   TeamMemberFragmentFragment,
   Teams
 } from '~/generated/graphql';
 
 export type TeamBuilderProps = {
-  allPokemon?: Pokemon[];
+  allPokemon?: PokemonFragmentFragment[];
   team?: TeamByIdQuery['teamById'];
   isLoading?: boolean;
   isSkeleton?: boolean;

@@ -1,11 +1,9 @@
-query AllPokemon {
-  pokemon(order_by: { pokedex_id: asc_nulls_last }) {
+query AllPokemon($offset: Int!, $limit: Int!) {
+  pokemon(
+    order_by: { pokedex_id: asc_nulls_last }
+    limit: $limit
+    offset: $offset
+  ) {
     ...PokemonFragment
-    learnable_moves {
-      move_id
-      move {
-        ...MoveFragment
-      }
-    }
   }
 }
