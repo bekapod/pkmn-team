@@ -6,13 +6,7 @@ import { setupResizeObserverMock } from '~/test-helpers';
 describe(PokemonCard, () => {
   const setup = (props: Partial<PokemonCardProps> = {}) => {
     setupResizeObserverMock([]);
-    return render(
-      <PokemonCard
-        pokemon={pikachu}
-        moves={pikachu.learnable_moves.map(({ move }) => move)}
-        {...props}
-      />
-    );
+    return render(<PokemonCard pokemon={pikachu} {...props} />);
   };
 
   it('renders information about the pokemon', () => {

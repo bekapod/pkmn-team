@@ -10,9 +10,8 @@ describe(MoveList, () => {
     setupResizeObserverMock([]);
     return render(
       <MoveList
-        updateTeamMemberMove={jest.fn()}
-        removeMoveFromTeamMember={jest.fn()}
-        initialMoves={[substitute, flash, explosion]}
+        updateTeamMemberMoves={jest.fn()}
+        allMoves={[substitute, flash, explosion]}
         {...props}
       />
     );
@@ -46,7 +45,7 @@ describe(MoveList, () => {
   it('detects overflowing items', () => {
     setup({
       visibleItems: 6,
-      initialMoves: [substitute, flash, explosion, substitute, flash, explosion]
+      allMoves: [substitute, flash, explosion, substitute, flash, explosion]
     });
     expect(screen.getByTestId('move-list').firstChild).not.toHaveClass(
       'overflow-hidden'
@@ -136,28 +135,28 @@ describe(MoveList, () => {
     });
 
     it('calls addMoveToTeamMember', () => {
-      const updateTeamMemberMove = jest.fn();
-      setupWithTeamMember({ updateTeamMemberMove });
-      expect(updateTeamMemberMove).toHaveBeenCalledTimes(0);
+      const updateTeamMemberMoves = jest.fn();
+      setupWithTeamMember({ updateTeamMemberMoves });
+      expect(updateTeamMemberMoves).toHaveBeenCalledTimes(0);
       userEvent.click(
         screen.getByRole('button', { name: `Learn ${substitute.name}` })
       );
-      expect(updateTeamMemberMove).toHaveBeenCalledTimes(1);
-      expect(updateTeamMemberMove).toHaveBeenCalledWith(
+      expect(updateTeamMemberMoves).toHaveBeenCalledTimes(1);
+      expect(updateTeamMemberMoves).toHaveBeenCalledWith(
         teamMember,
         substitute.id
       );
     });
 
     it('calls removeMoveFromTeamMember', () => {
-      const removeMoveFromTeamMember = jest.fn();
-      setupWithTeamMember({ removeMoveFromTeamMember });
-      expect(removeMoveFromTeamMember).toHaveBeenCalledTimes(0);
+      const updateTeamMemberMoves = jest.fn();
+      setupWithTeamMember({ updateTeamMemberMoves });
+      expect(updateTeamMemberMoves).toHaveBeenCalledTimes(0);
       userEvent.click(
         screen.getByRole('button', { name: `Forget ${explosion.name}` })
       );
-      expect(removeMoveFromTeamMember).toHaveBeenCalledTimes(1);
-      expect(removeMoveFromTeamMember).toHaveBeenCalledWith(
+      expect(updateTeamMemberMoves).toHaveBeenCalledTimes(1);
+      expect(updateTeamMemberMoves).toHaveBeenCalledWith(
         teamMember,
         explosion.id
       );

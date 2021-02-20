@@ -1,7 +1,7 @@
 import { Dispatch, useReducer } from 'react';
 import isEqual from 'react-fast-compare';
 import { TeamMemberFragmentFragment } from '~/generated/graphql';
-import { reorder } from './helpers';
+import { reorder } from '~/lib/general';
 
 export enum TeamMemberActionType {
   AddTeamMember = 'add_team_member',

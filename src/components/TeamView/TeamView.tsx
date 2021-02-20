@@ -24,9 +24,9 @@ import { PokemonCard } from '../PokemonCard';
 import { PokemonLine } from '../PokemonLine';
 import { useTabs } from '../../hooks/useTabs';
 import type {
-  MoveFragmentFragment,
   Pokemon,
-  TeamMemberFragmentFragment
+  TeamMemberFragmentFragment,
+  MoveFragmentFragment
 } from '~/generated/graphql';
 import { TeamMemberActionType, useTeamMembersReducer } from './reducer';
 
@@ -34,13 +34,9 @@ export type TeamViewProps = {
   initialTeamMembers?: TeamMemberFragmentFragment[];
   allPokemon?: Pokemon[];
   updateTeamMembers?: (members: TeamMemberFragmentFragment[]) => void;
-  updateTeamMemberMove?: (
+  updateTeamMemberMoves?: (
     member: TeamMemberFragmentFragment,
-    moveId: MoveFragmentFragment['id']
-  ) => void;
-  removeMoveFromTeamMember?: (
-    member: TeamMemberFragmentFragment,
-    moveId: MoveFragmentFragment['id']
+    moves: MoveFragmentFragment[]
   ) => void;
   isSkeleton?: boolean;
 };
@@ -48,8 +44,7 @@ export type TeamViewProps = {
 export const TeamView: FunctionComponent<TeamViewProps> = memo(
   ({
     updateTeamMembers,
-    updateTeamMemberMove,
-    removeMoveFromTeamMember,
+    updateTeamMemberMoves,
     initialTeamMembers = [],
     allPokemon,
     isSkeleton
@@ -299,7 +294,6 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
               <PokemonCard
                 teamMember={member}
                 pokemon={member.pokemon}
-                moves={member.learned_moves.map(({ move }) => move)}
                 renderCardActions={renderCardActions({
                   teamMember: member,
                   pokemon: member.pokemon
@@ -307,13 +301,12 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
               />
               <MoveList
                 teamMember={member}
-                initialMoves={member.pokemon.learnable_moves.map(
+                allMoves={member.pokemon.learnable_moves.map(
                   ({ move }) => move
                 )}
                 visibleItems={10}
                 highlightLearnedMoves
-                updateTeamMemberMove={updateTeamMemberMove}
-                removeMoveFromTeamMember={removeMoveFromTeamMember}
+                updateTeamMemberMoves={updateTeamMemberMoves}
               />
             </div>
           );

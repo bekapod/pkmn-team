@@ -1,0 +1,19 @@
+mutation CreateTeamMemberMoves($moves: [team_member_move_insert_input!]!) {
+  createTeamMemberMoves(
+    objects: $moves
+    on_conflict: {
+      constraint: team_member_move_team_member_id_move_id_key
+      update_columns: [order]
+    }
+  ) {
+    returning {
+      ...TeamMemberMoveFragment
+      team_member {
+        id
+        team {
+          id
+        }
+      }
+    }
+  }
+}

@@ -1,5 +1,6 @@
 import {
   ComponentPropsWithoutRef,
+  Dispatch,
   forwardRef,
   FunctionComponent,
   useCallback,
@@ -37,20 +38,17 @@ import {
 } from '~/generated/graphql';
 import { useContainerQuery } from '~/hooks/useContainerQuery';
 import { CtaButton } from '../Cta';
+import { Action, MoveActionType, useMovesReducer } from './reducer';
+import useDeepCompareEffect from 'use-deep-compare-effect';
 
 export type MoveListProps = ComponentPropsWithoutRef<'div'> & {
-  listStyle?: 'virtual-list' | 'reorder-list';
-  initialMoves: MoveFragmentFragment[];
+  allMoves?: MoveFragmentFragment[];
   highlightLearnedMoves?: boolean;
   visibleItems?: number;
   teamMember?: TeamMemberFragmentFragment;
-  updateTeamMemberMove?: (
+  updateTeamMemberMoves?: (
     member: TeamMemberFragmentFragment,
-    moveId: MoveFragmentFragment['id']
-  ) => void;
-  removeMoveFromTeamMember?: (
-    member: TeamMemberFragmentFragment,
-    moveId: MoveFragmentFragment['id']
+    moves: MoveFragmentFragment[]
   ) => void;
 };
 
@@ -63,8 +61,7 @@ type RowProps = ListChildComponentProps & {
     isCompressed: boolean;
     isSpacious: boolean;
     onItemStateChange: (index: number, isOpen: boolean) => void;
-    updateTeamMemberMove?: MoveListProps['updateTeamMemberMove'];
-    removeMoveFromTeamMember: MoveListProps['removeMoveFromTeamMember'];
+    dispatch: Dispatch<Action>;
   }[];
 };
 
@@ -89,8 +86,7 @@ const Row = forwardRef(
       isCompressed,
       isSpacious,
       onItemStateChange,
-      updateTeamMemberMove,
-      removeMoveFromTeamMember
+      dispatch
     } = data[index];
     const teamMemberMove = teamMember && getTeamMemberMove(teamMember, move);
 
@@ -103,7 +99,12 @@ const Row = forwardRef(
               size="tiny"
               variant="destructive"
               aria-label={`Forget ${move.name}`}
-              onClick={() => removeMoveFromTeamMember?.(teamMember, move.id)}
+              onClick={() =>
+                dispatch({
+                  type: MoveActionType.RemoveMove,
+                  payload: move
+                })
+              }
             >
               Forget
             </CtaButton>
@@ -113,7 +114,12 @@ const Row = forwardRef(
               size="tiny"
               variant="primary"
               aria-label={`Learn ${move.name}`}
-              onClick={() => updateTeamMemberMove?.(teamMember, move.id)}
+              onClick={() =>
+                dispatch({
+                  type: MoveActionType.AddMove,
+                  payload: move
+                })
+              }
             >
               Learn
             </CtaButton>
@@ -128,17 +134,7 @@ const Row = forwardRef(
           </CtaButton>
         </>
       ),
-      [
-        index,
-        isOpen,
-        teamMember,
-        teamMemberMove,
-        move.id,
-        move.name,
-        onItemStateChange,
-        updateTeamMemberMove,
-        removeMoveFromTeamMember
-      ]
+      [index, isOpen, teamMemberMove, move, onItemStateChange, dispatch]
     );
 
     return (
@@ -169,17 +165,19 @@ const query = {
 };
 
 export const MoveList: FunctionComponent<MoveListProps> = ({
-  listStyle = 'virtual-list',
-  initialMoves,
+  allMoves,
   visibleItems = 4,
   teamMember,
   highlightLearnedMoves = false,
-  updateTeamMemberMove,
-  removeMoveFromTeamMember,
+  updateTeamMemberMoves,
   ...props
 }) => {
   const listRef = useRef<List>(null);
-  const [moves] = useState(initialMoves);
+  const isInitialValue = useRef(true);
+  const [teamMemberMoves, dispatch] = useMovesReducer(
+    teamMember?.learned_moves?.map(({ move }) => move) ?? []
+  );
+  const moves = allMoves ? allMoves : teamMemberMoves;
   const [ref, className] = useContainerQuery(query);
   const [itemStates, setItemState] = useState<boolean[]>(
     new Array(moves.length).fill(false)
@@ -193,6 +191,21 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
   useEffect(() => {
     listRef.current?.resetAfterIndex(0, false);
   }, [itemHeight]);
+
+  useEffect(() => {
+    if (!isInitialValue.current && teamMember) {
+      updateTeamMemberMoves?.(teamMember, teamMemberMoves);
+    }
+
+    isInitialValue.current = false;
+  }, [teamMember, teamMemberMoves, updateTeamMemberMoves]);
+
+  useDeepCompareEffect(() => {
+    dispatch({
+      type: MoveActionType.ResetMoves,
+      payload: teamMember?.learned_moves.map(({ move }) => move) ?? []
+    });
+  }, [teamMember?.learned_moves]);
 
   const getItemHeight = useCallback(
     (index: number) => {
@@ -234,16 +247,16 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
           return;
         }
 
-        // dispatch({
-        //   type: TeamMemberActionType.ReorderTeamMember,
-        //   payload: {
-        //     sourceIndex: result.source.index,
-        //     destinationIndex: result.destination.index
-        //   }
-        // });
+        dispatch({
+          type: MoveActionType.ReorderMove,
+          payload: {
+            sourceIndex: result.source.index,
+            destinationIndex: result.destination.index
+          }
+        });
       }
     },
-    [moves]
+    [moves, dispatch]
   );
 
   const itemData = useMemo(
@@ -256,8 +269,7 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
         isCompressed,
         isSpacious,
         onItemStateChange,
-        updateTeamMemberMove,
-        removeMoveFromTeamMember
+        dispatch
       })),
     [
       teamMember,
@@ -267,14 +279,13 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
       itemStates,
       moves,
       onItemStateChange,
-      removeMoveFromTeamMember,
-      updateTeamMemberMove
+      dispatch
     ]
   );
 
   return (
     <div ref={ref as never} data-testid="move-list" {...props}>
-      {listStyle === 'virtual-list' && (
+      {allMoves && (
         <List
           ref={listRef}
           className={classNames('w-full!', 'bg-white', className, {
@@ -290,7 +301,7 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
         </List>
       )}
 
-      {listStyle === 'reorder-list' && (
+      {!allMoves && (
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="move-list" direction="vertical">
             {droppableProvided => (

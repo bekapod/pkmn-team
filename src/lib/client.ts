@@ -9,7 +9,8 @@ import {
   TeamByIdDocument,
   TeamByIdQuery,
   Teams,
-  Team_Member
+  Team_Member,
+  Team_Member_Move
 } from '~/generated/graphql';
 
 export const createClient = (
@@ -107,8 +108,11 @@ export const createClient = (
             );
           },
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          createTeamMemberMove: (result: any, _args, cache) => {
-            const teamId = result?.createTeamMemberMove?.team_member?.team?.id;
+          createTeamMemberMoves: (result: any, _args, cache) => {
+            const teamId =
+              result?.createTeamMemberMoves?.returning[0]?.team_member?.team
+                ?.id;
+
             cache.updateQuery(
               {
                 query: TeamByIdDocument,
@@ -118,19 +122,22 @@ export const createClient = (
                 if (data?.teamById) {
                   const teamMember = data.teamById.team_members.find(
                     ({ id }) =>
-                      result?.createTeamMemberMove?.team_member?.id === id
+                      result?.createTeamMemberMoves?.returning[0]?.team_member
+                        ?.id === id
                   );
-                  const existingMove = teamMember?.learned_moves.find(
-                    ({ move }) =>
-                      move.id === result?.createTeamMemberMove?.move?.id
-                  );
+                  const updatedMoves = result?.createTeamMemberMoves?.returning;
 
-                  if (existingMove) {
-                    existingMove.order = result?.createTeamMemberMove?.order;
-                  } else {
-                    teamMember?.learned_moves.push(
-                      result?.createTeamMemberMove
-                    );
+                  if (teamMember) {
+                    teamMember.learned_moves = [
+                      ...teamMember?.learned_moves?.filter(
+                        ({ move }) =>
+                          !updatedMoves.find(
+                            (updatedMove: Team_Member_Move) =>
+                              move.id === updatedMove.move.id
+                          )
+                      ),
+                      ...updatedMoves
+                    ];
                   }
                 }
 
@@ -139,8 +146,10 @@ export const createClient = (
             );
           },
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          deleteTeamMemberMove: (result: any, _args, cache) => {
-            const teamId = result?.deleteTeamMemberMove?.team_member?.team?.id;
+          deleteTeamMemberMoves: (result: any, _args, cache) => {
+            const teamId =
+              result?.deleteTeamMemberMoves?.returning[0]?.team_member?.team
+                ?.id;
             cache.updateQuery(
               {
                 query: TeamByIdDocument,
@@ -150,18 +159,22 @@ export const createClient = (
                 if (data?.teamById) {
                   const teamMember = data.teamById.team_members.find(
                     ({ id }) =>
-                      result?.deleteTeamMemberMove?.team_member?.id === id
+                      result?.deleteTeamMemberMoves?.returning[0]?.team_member
+                        ?.id === id
                   );
+                  const deletedMoves = result?.deleteTeamMemberMoves?.returning;
 
                   if (teamMember) {
                     teamMember.learned_moves =
                       teamMember.learned_moves?.filter(
                         ({ move }) =>
-                          move.id !== result?.deleteTeamMemberMove?.move?.id
+                          !deletedMoves.find(
+                            (deletedMove: Team_Member_Move) =>
+                              move.id === deletedMove.move.id
+                          )
                       ) ?? [];
                   }
                 }
-
                 return data;
               }
             );

@@ -1,11 +1,6 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 import { FunctionComponent } from 'react';
 import classNames from 'classnames';
-import {
-  Pokemon,
-  Moves,
-  TeamMemberFragmentFragment
-} from '~/generated/graphql';
+import { Pokemon, TeamMemberFragmentFragment } from '~/generated/graphql';
 import { formatPokemonName, sortBySlug } from '~/lib/general';
 import { CardContent, CardHeader, CardWrapper, CardHeading } from '../Card';
 import { InlineList } from '../InlineList';
@@ -15,14 +10,12 @@ import { MoveList } from '../MoveList';
 export type PokemonCardProps = {
   teamMember?: TeamMemberFragmentFragment;
   pokemon: Pokemon;
-  moves?: Moves[];
   renderCardActions?: () => JSX.Element;
 };
 
 export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
   teamMember,
   pokemon,
-  moves = [],
   renderCardActions
 }) => {
   const { pokedex_id, types, name, sprite } = pokemon;
@@ -53,14 +46,9 @@ export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
           ))}
         </InlineList>
 
-        {moves.length > 0 && (
-          <MoveList
-            className="mt-6 w-full"
-            initialMoves={moves}
-            updateTeamMemberMove={() => {}}
-            removeMoveFromTeamMember={() => {}}
-          />
-        )}
+        {/* {(teamMember?.learned_moves?.length ?? 0) > 0 && (
+          <MoveList className="mt-6 w-full" teamMember={teamMember} />
+        )} */}
 
         {renderCardActions ? (
           <div className={classNames('mt-6')}>{renderCardActions()}</div>
