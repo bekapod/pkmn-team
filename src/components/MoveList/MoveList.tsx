@@ -14,7 +14,7 @@ import {
   compose,
   cond,
   constant,
-  lte,
+  lt,
   multiply,
   size,
   stubTrue
@@ -37,7 +37,10 @@ export type MoveListProps = ComponentPropsWithoutRef<'div'> & {
     member: TeamMemberFragmentFragment,
     moveId: MoveFragmentFragment['id']
   ) => void;
-  removeMoveFromTeamMember: (move: TeamMemberMoveFragmentFragment) => void;
+  removeMoveFromTeamMember?: (
+    member: TeamMemberFragmentFragment,
+    moveId: MoveFragmentFragment['id']
+  ) => void;
 };
 
 type RowProps = {
@@ -64,17 +67,14 @@ const Row = ({
   updateTeamMemberMove,
   removeMoveFromTeamMember
 }: {
-  teamMember?: TeamMemberFragmentFragment;
-  highlightLearnedMoves: boolean;
+  teamMember?: MoveListProps['teamMember'];
+  highlightLearnedMoves: MoveListProps['highlightLearnedMoves'];
   itemStates: boolean[];
   isCompressed: boolean;
   isSpacious: boolean;
   onItemStateChange: (index: number, isOpen: boolean) => void;
-  updateTeamMemberMove?: (
-    member: TeamMemberFragmentFragment,
-    moveId: MoveFragmentFragment['id']
-  ) => void;
-  removeMoveFromTeamMember: (move: TeamMemberMoveFragmentFragment) => void;
+  updateTeamMemberMove?: MoveListProps['updateTeamMemberMove'];
+  removeMoveFromTeamMember: MoveListProps['removeMoveFromTeamMember'];
 }) => ({ data, index, style }: RowProps): JSX.Element => {
   const move = data[index];
   const teamMemberMove = teamMember && getTeamMemberMove(teamMember, move);
@@ -87,7 +87,8 @@ const Row = ({
             type="button"
             size="tiny"
             variant="destructive"
-            onClick={() => removeMoveFromTeamMember(teamMemberMove)}
+            aria-label={`Forget ${move.name}`}
+            onClick={() => removeMoveFromTeamMember?.(teamMember, move.id)}
           >
             Forget
           </CtaButton>
@@ -153,7 +154,7 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
   );
 
   const itemHeight = className.includes('is-compressed-list') ? 126 : 84;
-  const hasOverflowingItems = compose(lte(visibleItems), size);
+  const hasOverflowingItems = compose(lt(visibleItems), size);
   const isCompressed = className.includes('is-compressed-list');
   const isSpacious = className.includes('is-spacious-list');
 

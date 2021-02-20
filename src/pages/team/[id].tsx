@@ -16,7 +16,8 @@ import {
   useDeleteTeamMembersMutation,
   useCreateTeamMemberMoveMutation,
   TeamMemberFragmentFragment,
-  MoveFragmentFragment
+  MoveFragmentFragment,
+  useDeleteTeamMemberMoveMutation
 } from '~/generated/graphql';
 import { createClient } from '~/lib/client';
 import { FullWidthContainer } from '~/components/FullWidthContainer';
@@ -66,6 +67,10 @@ const Team: NextComponentType<
     { fetching: createTeamMemberMoveFetching },
     createTeamMemberMove
   ] = useCreateTeamMemberMoveMutation();
+  const [
+    { fetching: deleteTeamMemberMoveFetching },
+    deleteTeamMemberMove
+  ] = useDeleteTeamMemberMoveMutation();
 
   const team = teamData?.teamById ?? undefined;
   const pokemon = allPokemonData?.pokemon;
@@ -116,16 +121,13 @@ const Team: NextComponentType<
   );
 
   const createTeamMemberMoveHandler = useCallback(
-    (member: TeamMemberFragmentFragment, moveId: MoveFragmentFragment) => {
+    (
+      member: TeamMemberFragmentFragment,
+      moveId: MoveFragmentFragment['id']
+    ) => {
       const lastOrder =
         member.learned_moves[(member.learned_moves?.length ?? 1) - 1]?.order ??
         0;
-
-      console.log(
-        member.learned_moves,
-        (member.learned_moves?.length ?? 1) - 1,
-        member.learned_moves[(member.learned_moves?.length ?? 1) - 1]?.order
-      );
 
       createTeamMemberMove({
         memberId: member.id,
@@ -134,6 +136,16 @@ const Team: NextComponentType<
       });
     },
     [createTeamMemberMove]
+  );
+
+  const deleteTeamMemberMoveHandler = useCallback(
+    (
+      member: TeamMemberFragmentFragment,
+      moveId: MoveFragmentFragment['id']
+    ) => {
+      deleteTeamMemberMove({ memberId: member.id, moveId });
+    },
+    [deleteTeamMemberMove]
   );
 
   return (
@@ -151,12 +163,14 @@ const Team: NextComponentType<
             deleteTeamFetching ||
             createTeamMembersFetching ||
             deleteTeamMembersFetching ||
-            createTeamMemberMoveFetching
+            createTeamMemberMoveFetching ||
+            deleteTeamMemberMoveFetching
           }
           updateTeam={updateTeamHandler}
           deleteTeam={deleteTeamHandler}
           updateTeamMembers={updateTeamMembersHandler}
           updateTeamMemberMove={createTeamMemberMoveHandler}
+          removeMoveFromTeamMember={deleteTeamMemberMoveHandler}
         />
       </FullWidthContainer>
     </Page>

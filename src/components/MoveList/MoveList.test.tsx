@@ -150,7 +150,17 @@ describe(MoveList, () => {
     });
 
     it('calls removeMoveFromTeamMember', () => {
-      // @TODO
+      const removeMoveFromTeamMember = jest.fn();
+      setupWithTeamMember({ removeMoveFromTeamMember });
+      expect(removeMoveFromTeamMember).toHaveBeenCalledTimes(0);
+      userEvent.click(
+        screen.getByRole('button', { name: `Forget ${explosion.name}` })
+      );
+      expect(removeMoveFromTeamMember).toHaveBeenCalledTimes(1);
+      expect(removeMoveFromTeamMember).toHaveBeenCalledWith(
+        teamMember,
+        explosion.id
+      );
     });
   });
 });

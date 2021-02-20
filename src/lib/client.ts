@@ -137,6 +137,34 @@ export const createClient = (
                 return data;
               }
             );
+          },
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          deleteTeamMemberMove: (result: any, _args, cache) => {
+            const teamId = result?.deleteTeamMemberMove?.team_member?.team?.id;
+            cache.updateQuery(
+              {
+                query: TeamByIdDocument,
+                variables: { id: teamId }
+              },
+              (data: TeamByIdQuery | null) => {
+                if (data?.teamById) {
+                  const teamMember = data.teamById.team_members.find(
+                    ({ id }) =>
+                      result?.deleteTeamMemberMove?.team_member?.id === id
+                  );
+
+                  if (teamMember) {
+                    teamMember.learned_moves =
+                      teamMember.learned_moves?.filter(
+                        ({ move }) =>
+                          move.id !== result?.deleteTeamMemberMove?.move?.id
+                      ) ?? [];
+                  }
+                }
+
+                return data;
+              }
+            );
           }
         }
       }
