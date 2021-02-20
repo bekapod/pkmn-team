@@ -23,7 +23,7 @@ describe(MoveList, () => {
     expect(screen.getByText(flash.name)).toBeInTheDocument();
     expect(screen.getByText(explosion.name)).toBeInTheDocument();
     expect(screen.getByTestId('move-list').firstChild).toHaveClass(
-      'overflow-hidden'
+      'overflow-hidden!'
     );
   });
 

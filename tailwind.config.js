@@ -241,11 +241,10 @@ module.exports = {
       minWidth: ['children'],
       maxWidth: ['children'],
       margin: ['children', 'children-not-last'],
-      overflow: ['important'],
+      overflow: ['important', 'children'],
       scale: ['motion-safe', 'group-hover'],
       translate: ['group-hover'],
-      zIndex: ['children'],
-      overflow: ['children']
+      zIndex: ['children']
     }
   },
   plugins: [
