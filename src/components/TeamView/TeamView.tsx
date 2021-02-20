@@ -24,13 +24,21 @@ import { MoveList } from '../MoveList';
 import { PokemonCard } from '../PokemonCard';
 import { PokemonLine } from '../PokemonLine';
 import { useTabs } from '../../hooks/useTabs';
-import { Pokemon, Team_Member } from '~/generated/graphql';
+import type {
+  Moves,
+  Pokemon,
+  TeamMemberFragmentFragment
+} from '~/generated/graphql';
 import { TeamMemberActionType, useTeamMembersReducer } from './reducer';
 
 export type TeamViewProps = {
-  initialTeamMembers?: Omit<Team_Member, 'team'>[];
+  initialTeamMembers?: TeamMemberFragmentFragment[];
   allPokemon?: Pokemon[];
-  updateTeamMembers?: (members: Omit<Team_Member, 'team'>[]) => void;
+  updateTeamMembers?: (members: TeamMemberFragmentFragment[]) => void;
+  updateTeamMemberMove?: (
+    member: TeamMemberFragmentFragment,
+    moveId: Moves['id']
+  ) => void;
   isSkeleton?: boolean;
 };
 
@@ -39,7 +47,13 @@ const onDragStart = () => {
 };
 
 export const TeamView: FunctionComponent<TeamViewProps> = memo(
-  ({ updateTeamMembers, initialTeamMembers = [], allPokemon, isSkeleton }) => {
+  ({
+    updateTeamMembers,
+    updateTeamMemberMove,
+    initialTeamMembers = [],
+    allPokemon,
+    isSkeleton
+  }) => {
     const isInitialValue = useRef(true);
     const [teamMembers, dispatch] = useTeamMembersReducer(initialTeamMembers);
     const [currentSearchPokemon, setCurrentSearchPokemon] = useState<
@@ -101,7 +115,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
         teamMember,
         pokemon
       }: {
-        teamMember?: Omit<Team_Member, 'team'>;
+        teamMember?: TeamMemberFragmentFragment;
         pokemon: Pokemon;
       }) => {
         if (teamMember) {
@@ -298,10 +312,11 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
                 })}
               />
               <MoveList
+                teamMember={member}
                 moves={member.pokemon.learnable_moves.map(({ move }) => move)}
                 visibleItems={10}
                 highlightLearnedMoves
-                addMoveToTeamMember={() => {}}
+                updateTeamMemberMove={updateTeamMemberMove}
                 removeMoveFromTeamMember={() => {}}
               />
             </div>
