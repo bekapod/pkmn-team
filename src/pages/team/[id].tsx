@@ -132,6 +132,7 @@ const Team: NextComponentType<
       console.log({
         moves,
         learnedMoves: remainingLearnedMoves,
+        isEqual: isEqual(moves, remainingLearnedMoves),
         movesToDelete
       });
 

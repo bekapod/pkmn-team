@@ -29,6 +29,7 @@ import type {
   MoveFragmentFragment
 } from '~/generated/graphql';
 import { TeamMemberActionType, useTeamMembersReducer } from './reducer';
+import { MovesProvider } from '~/hooks/useMoves';
 
 export type TeamViewProps = {
   initialTeamMembers?: TeamMemberFragmentFragment[];
@@ -291,23 +292,27 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
               key={member.id}
               data-testid={`tab-content-${member.id}`}
             >
-              <PokemonCard
+              <MovesProvider
                 teamMember={member}
-                pokemon={member.pokemon}
-                renderCardActions={renderCardActions({
-                  teamMember: member,
-                  pokemon: member.pokemon
-                })}
-              />
-              <MoveList
-                teamMember={member}
-                allMoves={member.pokemon.learnable_moves.map(
-                  ({ move }) => move
-                )}
-                visibleItems={10}
-                highlightLearnedMoves
                 updateTeamMemberMoves={updateTeamMemberMoves}
-              />
+              >
+                <PokemonCard
+                  teamMember={member}
+                  pokemon={member.pokemon}
+                  renderCardActions={renderCardActions({
+                    teamMember: member,
+                    pokemon: member.pokemon
+                  })}
+                />
+                <MoveList
+                  teamMember={member}
+                  allMoves={member.pokemon.learnable_moves.map(
+                    ({ move }) => move
+                  )}
+                  visibleItems={10}
+                  highlightLearnedMoves
+                />
+              </MovesProvider>
             </div>
           );
         })}

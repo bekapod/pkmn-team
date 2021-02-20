@@ -4,16 +4,21 @@ import { MoveList, MoveListProps } from '.';
 import { explosion, flash, substitute } from '~/mocks/Moves';
 import { setupResizeObserverMock } from '~/test-helpers';
 import { haunter } from '~/mocks/Pokemon';
+import { MovesProvider } from '~/hooks/useMoves';
 
 describe(MoveList, () => {
-  const setup = (props: Partial<MoveListProps> = {}) => {
+  const setup = ({
+    updateTeamMemberMoves,
+    ...props
+  }: Partial<MoveListProps & { updateTeamMemberMoves?: jest.Mock }> = {}) => {
     setupResizeObserverMock([]);
     return render(
-      <MoveList
-        updateTeamMemberMoves={jest.fn()}
-        allMoves={[substitute, flash, explosion]}
-        {...props}
-      />
+      <MovesProvider
+        teamMember={props.teamMember}
+        updateTeamMemberMoves={updateTeamMemberMoves}
+      >
+        <MoveList allMoves={[substitute, flash, explosion]} {...props} />
+      </MovesProvider>
     );
   };
 
@@ -93,7 +98,9 @@ describe(MoveList, () => {
         }
       ]
     };
-    const setupWithTeamMember = (props: Partial<MoveListProps> = {}) => {
+    const setupWithTeamMember = (
+      props: Partial<MoveListProps & { updateTeamMemberMoves?: jest.Mock }> = {}
+    ) => {
       return setup({
         teamMember,
         ...props

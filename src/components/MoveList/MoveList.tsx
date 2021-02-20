@@ -38,18 +38,13 @@ import {
 } from '~/generated/graphql';
 import { useContainerQuery } from '~/hooks/useContainerQuery';
 import { CtaButton } from '../Cta';
-import { Action, MoveActionType, useMovesReducer } from './reducer';
-import useDeepCompareEffect from 'use-deep-compare-effect';
+import { Action, MoveActionType, useMoves } from '~/hooks/useMoves';
 
 export type MoveListProps = ComponentPropsWithoutRef<'div'> & {
   allMoves?: MoveFragmentFragment[];
   highlightLearnedMoves?: boolean;
   visibleItems?: number;
   teamMember?: TeamMemberFragmentFragment;
-  updateTeamMemberMoves?: (
-    member: TeamMemberFragmentFragment,
-    moves: MoveFragmentFragment[]
-  ) => void;
 };
 
 type RowProps = ListChildComponentProps & {
@@ -169,14 +164,10 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
   visibleItems = 4,
   teamMember,
   highlightLearnedMoves = false,
-  updateTeamMemberMoves,
   ...props
 }) => {
   const listRef = useRef<List>(null);
-  const isInitialValue = useRef(true);
-  const [teamMemberMoves, dispatch] = useMovesReducer(
-    teamMember?.learned_moves?.map(({ move }) => move) ?? []
-  );
+  const [teamMemberMoves, dispatch] = useMoves();
   const moves = allMoves ? allMoves : teamMemberMoves;
   const [ref, className] = useContainerQuery(query);
   const [itemStates, setItemState] = useState<boolean[]>(
@@ -191,21 +182,6 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
   useEffect(() => {
     listRef.current?.resetAfterIndex(0, false);
   }, [itemHeight]);
-
-  useEffect(() => {
-    if (!isInitialValue.current && teamMember) {
-      updateTeamMemberMoves?.(teamMember, teamMemberMoves);
-    }
-
-    isInitialValue.current = false;
-  }, [teamMember, teamMemberMoves, updateTeamMemberMoves]);
-
-  useDeepCompareEffect(() => {
-    dispatch({
-      type: MoveActionType.ResetMoves,
-      payload: teamMember?.learned_moves.map(({ move }) => move) ?? []
-    });
-  }, [teamMember?.learned_moves]);
 
   const getItemHeight = useCallback(
     (index: number) => {
