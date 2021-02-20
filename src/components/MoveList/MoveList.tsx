@@ -88,37 +88,38 @@ const Row = forwardRef(
     const renderLineActions = useCallback(
       () => (
         <>
-          {!!teamMemberMove ? (
-            <CtaButton
-              type="button"
-              size="tiny"
-              variant="destructive"
-              aria-label={`Forget ${move.name}`}
-              onClick={() =>
-                dispatch({
-                  type: MoveActionType.RemoveMove,
-                  payload: move
-                })
-              }
-            >
-              Forget
-            </CtaButton>
-          ) : (
-            <CtaButton
-              type="button"
-              size="tiny"
-              variant="primary"
-              aria-label={`Learn ${move.name}`}
-              onClick={() =>
-                dispatch({
-                  type: MoveActionType.AddMove,
-                  payload: move
-                })
-              }
-            >
-              Learn
-            </CtaButton>
-          )}
+          {teamMember &&
+            (!!teamMemberMove ? (
+              <CtaButton
+                type="button"
+                size="tiny"
+                variant="destructive"
+                aria-label={`Forget ${move.name}`}
+                onClick={() =>
+                  dispatch({
+                    type: MoveActionType.RemoveMove,
+                    payload: move
+                  })
+                }
+              >
+                Forget
+              </CtaButton>
+            ) : (
+              <CtaButton
+                type="button"
+                size="tiny"
+                variant="primary"
+                aria-label={`Learn ${move.name}`}
+                onClick={() =>
+                  dispatch({
+                    type: MoveActionType.AddMove,
+                    payload: move
+                  })
+                }
+              >
+                Learn
+              </CtaButton>
+            ))}
           <CtaButton
             type="button"
             size="tiny"
@@ -129,7 +130,15 @@ const Row = forwardRef(
           </CtaButton>
         </>
       ),
-      [index, isOpen, teamMemberMove, move, onItemStateChange, dispatch]
+      [
+        index,
+        isOpen,
+        teamMember,
+        teamMemberMove,
+        move,
+        onItemStateChange,
+        dispatch
+      ]
     );
 
     return (

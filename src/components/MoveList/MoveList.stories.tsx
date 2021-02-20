@@ -1,4 +1,5 @@
 import { Meta } from '@storybook/react/types-6-0';
+import { MovesProvider } from '~/hooks/useMoves';
 import { explosion, flash, substitute, rest, slash } from '~/mocks/Moves';
 import { haunter } from '~/mocks/Pokemon';
 import { MoveList, MoveListProps } from './MoveList';
@@ -7,10 +8,7 @@ export default {
   title: 'Components/MoveList',
   component: MoveList,
   args: {
-    initialMoves: [substitute, flash, explosion]
-  },
-  argTypes: {
-    updateTeamMemberMove: { action: 'updateTeamMemberMove' }
+    allMoves: [substitute, flash, explosion]
   }
 } as Meta<MoveListProps>;
 
@@ -22,12 +20,23 @@ export const WithMoreMoves = (args: MoveListProps): JSX.Element => (
   <MoveList {...args} />
 );
 WithMoreMoves.args = {
-  initialMoves: [substitute, flash, explosion, rest, slash]
+  allMoves: [substitute, flash, explosion, rest, slash]
 };
 
-export const WithTeamMember = (args: MoveListProps): JSX.Element => (
-  <MoveList {...args} />
+export const WithTeamMember = ({
+  updateTeamMemberMoves,
+  ...args
+}: MoveListProps & { updateTeamMemberMoves: never }): JSX.Element => (
+  <MovesProvider
+    teamMember={args.teamMember}
+    updateTeamMemberMoves={updateTeamMemberMoves}
+  >
+    <MoveList {...args} />
+  </MovesProvider>
 );
+WithTeamMember.argTypes = {
+  updateTeamMemberMoves: { action: 'updateTeamMemberMove' }
+};
 WithTeamMember.args = {
   teamMember: {
     id: '1',
