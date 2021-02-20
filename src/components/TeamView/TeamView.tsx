@@ -25,7 +25,7 @@ import { PokemonCard } from '../PokemonCard';
 import { PokemonLine } from '../PokemonLine';
 import { useTabs } from '../../hooks/useTabs';
 import type {
-  Moves,
+  MoveFragmentFragment,
   Pokemon,
   TeamMemberFragmentFragment
 } from '~/generated/graphql';
@@ -37,7 +37,11 @@ export type TeamViewProps = {
   updateTeamMembers?: (members: TeamMemberFragmentFragment[]) => void;
   updateTeamMemberMove?: (
     member: TeamMemberFragmentFragment,
-    moveId: Moves['id']
+    moveId: MoveFragmentFragment['id']
+  ) => void;
+  removeMoveFromTeamMember?: (
+    member: TeamMemberFragmentFragment,
+    moveId: MoveFragmentFragment['id']
   ) => void;
   isSkeleton?: boolean;
 };
@@ -50,6 +54,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
   ({
     updateTeamMembers,
     updateTeamMemberMove,
+    removeMoveFromTeamMember,
     initialTeamMembers = [],
     allPokemon,
     isSkeleton
@@ -317,7 +322,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
                 visibleItems={10}
                 highlightLearnedMoves
                 updateTeamMemberMove={updateTeamMemberMove}
-                removeMoveFromTeamMember={() => {}}
+                removeMoveFromTeamMember={removeMoveFromTeamMember}
               />
             </div>
           );

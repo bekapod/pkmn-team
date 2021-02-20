@@ -10,6 +10,7 @@ import { LoadingIcon } from '../LoadingIcon';
 import { TeamView } from '../TeamView';
 import { StickyBar } from '../StickyBar';
 import type {
+  MoveFragmentFragment,
   Moves,
   Pokemon,
   TeamByIdQuery,
@@ -28,7 +29,11 @@ export type TeamBuilderProps = {
   updateTeamMembers?: (members: Teams['team_members']) => void;
   updateTeamMemberMove?: (
     member: TeamMemberFragmentFragment,
-    moveId: Moves['id']
+    moveId: MoveFragmentFragment['id']
+  ) => void;
+  removeMoveFromTeamMember?: (
+    member: TeamMemberFragmentFragment,
+    moveId: MoveFragmentFragment['id']
   ) => void;
 };
 
@@ -41,7 +46,8 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
   updateTeam,
   deleteTeam,
   updateTeamMembers,
-  updateTeamMemberMove
+  updateTeamMemberMove,
+  removeMoveFromTeamMember
 }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedUpdateTeam = useCallback(
@@ -98,6 +104,7 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
         isSkeleton={isSkeleton}
         updateTeamMembers={debouncedUpdateTeamMembers}
         updateTeamMemberMove={updateTeamMemberMove}
+        removeMoveFromTeamMember={removeMoveFromTeamMember}
       />
     </>
   );

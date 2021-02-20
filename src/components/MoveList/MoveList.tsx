@@ -37,7 +37,10 @@ export type MoveListProps = ComponentPropsWithoutRef<'div'> & {
     member: TeamMemberFragmentFragment,
     moveId: MoveFragmentFragment['id']
   ) => void;
-  removeMoveFromTeamMember: (move: TeamMemberMoveFragmentFragment) => void;
+  removeMoveFromTeamMember?: (
+    member: TeamMemberFragmentFragment,
+    moveId: MoveFragmentFragment['id']
+  ) => void;
 };
 
 type RowProps = {
@@ -64,17 +67,14 @@ const Row = ({
   updateTeamMemberMove,
   removeMoveFromTeamMember
 }: {
-  teamMember?: TeamMemberFragmentFragment;
-  highlightLearnedMoves: boolean;
+  teamMember?: MoveListProps['teamMember'];
+  highlightLearnedMoves: MoveListProps['highlightLearnedMoves'];
   itemStates: boolean[];
   isCompressed: boolean;
   isSpacious: boolean;
   onItemStateChange: (index: number, isOpen: boolean) => void;
-  updateTeamMemberMove?: (
-    member: TeamMemberFragmentFragment,
-    moveId: MoveFragmentFragment['id']
-  ) => void;
-  removeMoveFromTeamMember: (move: TeamMemberMoveFragmentFragment) => void;
+  updateTeamMemberMove?: MoveListProps['updateTeamMemberMove'];
+  removeMoveFromTeamMember: MoveListProps['removeMoveFromTeamMember'];
 }) => ({ data, index, style }: RowProps): JSX.Element => {
   const move = data[index];
   const teamMemberMove = teamMember && getTeamMemberMove(teamMember, move);
@@ -87,7 +87,7 @@ const Row = ({
             type="button"
             size="tiny"
             variant="destructive"
-            onClick={() => removeMoveFromTeamMember(teamMemberMove)}
+            onClick={() => removeMoveFromTeamMember?.(teamMember, move.id)}
           >
             Forget
           </CtaButton>
