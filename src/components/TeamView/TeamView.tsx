@@ -317,7 +317,9 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
               />
               <MoveList
                 teamMember={member}
-                moves={member.pokemon.learnable_moves.map(({ move }) => move)}
+                initialMoves={member.pokemon.learnable_moves.map(
+                  ({ move }) => move
+                )}
                 visibleItems={10}
                 highlightLearnedMoves
                 updateTeamMemberMove={updateTeamMemberMove}

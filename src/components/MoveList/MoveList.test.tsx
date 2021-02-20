@@ -12,7 +12,7 @@ describe(MoveList, () => {
       <MoveList
         updateTeamMemberMove={jest.fn()}
         removeMoveFromTeamMember={jest.fn()}
-        moves={[substitute, flash, explosion]}
+        initialMoves={[substitute, flash, explosion]}
         {...props}
       />
     );
@@ -46,7 +46,7 @@ describe(MoveList, () => {
   it('detects overflowing items', () => {
     setup({
       visibleItems: 6,
-      moves: [substitute, flash, explosion, substitute, flash, explosion]
+      initialMoves: [substitute, flash, explosion, substitute, flash, explosion]
     });
     expect(screen.getByTestId('move-list').firstChild).not.toHaveClass(
       'overflow-hidden'

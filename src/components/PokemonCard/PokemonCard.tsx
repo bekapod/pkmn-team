@@ -56,7 +56,7 @@ export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
         {moves.length > 0 && (
           <MoveList
             className="mt-6 w-full"
-            moves={moves}
+            initialMoves={moves}
             updateTeamMemberMove={() => {}}
             removeMoveFromTeamMember={() => {}}
           />

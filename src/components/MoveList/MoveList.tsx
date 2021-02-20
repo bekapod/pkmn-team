@@ -32,7 +32,8 @@ import { useContainerQuery } from '~/hooks/useContainerQuery';
 import { CtaButton } from '../Cta';
 
 export type MoveListProps = ComponentPropsWithoutRef<'div'> & {
-  moves: MoveFragmentFragment[];
+  listStyle?: 'virtual-list' | 'reorder-list';
+  initialMoves: MoveFragmentFragment[];
   highlightLearnedMoves?: boolean;
   visibleItems?: number;
   teamMember?: TeamMemberFragmentFragment;
@@ -142,7 +143,8 @@ const query = {
 };
 
 export const MoveList: FunctionComponent<MoveListProps> = ({
-  moves,
+  listStyle = 'virtual-list',
+  initialMoves,
   visibleItems = 4,
   teamMember,
   highlightLearnedMoves = false,
@@ -151,6 +153,7 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
   ...props
 }) => {
   const listRef = useRef<List>(null);
+  const [moves] = useState(initialMoves);
   const [ref, className] = useContainerQuery(query);
   const [itemStates, setItemState] = useState<boolean[]>(
     new Array(moves.length).fill(false)
@@ -222,19 +225,21 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
 
   return (
     <div ref={ref as never} data-testid="move-list" {...props}>
-      <List
-        ref={listRef}
-        className={classNames('w-full!', 'bg-white', className, {
-          'overflow-hidden!': !hasOverflowingItems(moves)
-        })}
-        height={listHeight}
-        itemSize={getItemHeight}
-        itemCount={itemData.length}
-        width={500}
-        itemData={itemData}
-      >
-        {Row}
-      </List>
+      {listStyle === 'virtual-list' && (
+        <List
+          ref={listRef}
+          className={classNames('w-full!', 'bg-white', className, {
+            'overflow-hidden!': !hasOverflowingItems(moves)
+          })}
+          height={listHeight}
+          itemSize={getItemHeight}
+          itemCount={itemData.length}
+          width={500}
+          itemData={itemData}
+        >
+          {Row}
+        </List>
+      )}
     </div>
   );
 };

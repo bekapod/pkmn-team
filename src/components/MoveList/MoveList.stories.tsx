@@ -7,7 +7,7 @@ export default {
   title: 'Components/MoveList',
   component: MoveList,
   args: {
-    moves: [substitute, flash, explosion]
+    initialMoves: [substitute, flash, explosion]
   },
   argTypes: {
     updateTeamMemberMove: { action: 'updateTeamMemberMove' }
@@ -22,7 +22,7 @@ export const WithMoreMoves = (args: MoveListProps): JSX.Element => (
   <MoveList {...args} />
 );
 WithMoreMoves.args = {
-  moves: [substitute, flash, explosion, rest, slash]
+  initialMoves: [substitute, flash, explosion, rest, slash]
 };
 
 export const WithTeamMember = (args: MoveListProps): JSX.Element => (
