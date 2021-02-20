@@ -149,10 +149,11 @@ describe(MoveList, () => {
         screen.getByRole('button', { name: `Learn ${substitute.name}` })
       );
       expect(updateTeamMemberMoves).toHaveBeenCalledTimes(1);
-      expect(updateTeamMemberMoves).toHaveBeenCalledWith(
-        teamMember,
-        substitute.id
-      );
+      expect(updateTeamMemberMoves).toHaveBeenCalledWith(teamMember, [
+        explosion,
+        flash,
+        substitute
+      ]);
     });
 
     it('calls removeMoveFromTeamMember', () => {
@@ -163,10 +164,7 @@ describe(MoveList, () => {
         screen.getByRole('button', { name: `Forget ${explosion.name}` })
       );
       expect(updateTeamMemberMoves).toHaveBeenCalledTimes(1);
-      expect(updateTeamMemberMoves).toHaveBeenCalledWith(
-        teamMember,
-        explosion.id
-      );
+      expect(updateTeamMemberMoves).toHaveBeenCalledWith(teamMember, [flash]);
     });
   });
 });

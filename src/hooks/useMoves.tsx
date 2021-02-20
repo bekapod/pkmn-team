@@ -122,7 +122,7 @@ export const MovesProvider: FunctionComponent<{
       type: MoveActionType.ResetMoves,
       payload: teamMember?.learned_moves.map(({ move }) => move) ?? []
     });
-  }, [teamMember?.learned_moves]);
+  }, [teamMember?.learned_moves ?? []]);
 
   return <MovesContext.Provider value={value} {...props} />;
 };
