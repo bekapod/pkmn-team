@@ -1,5 +1,6 @@
 import {
   ComponentPropsWithoutRef,
+  forwardRef,
   FunctionComponent,
   useCallback,
   useEffect,
@@ -11,6 +12,12 @@ import {
   ListChildComponentProps,
   VariableSizeList as List
 } from 'react-window';
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult
+} from 'react-beautiful-dnd';
 import classNames from 'classnames';
 import {
   add,
@@ -52,7 +59,7 @@ type RowProps = ListChildComponentProps & {
     move: MoveFragmentFragment;
     teamMember?: MoveListProps['teamMember'];
     highlightLearnedMoves: MoveListProps['highlightLearnedMoves'];
-    itemStates: boolean;
+    isOpen: boolean;
     isCompressed: boolean;
     isSpacious: boolean;
     onItemStateChange: (index: number, isOpen: boolean) => void;
@@ -69,71 +76,90 @@ const getTeamMemberMove = (
     teamMemberMove => teamMemberMove.move.id === move.id
   );
 
-const Row = ({ data, index, style }: RowProps): JSX.Element => {
-  const {
-    move,
-    teamMember,
-    highlightLearnedMoves,
-    isOpen,
-    isCompressed,
-    isSpacious,
-    onItemStateChange,
-    updateTeamMemberMove,
-    removeMoveFromTeamMember
-  } = data[index];
-  const teamMemberMove = teamMember && getTeamMemberMove(teamMember, move);
+const Row = forwardRef(
+  (
+    { data, index, style, isScrolling, ...rest }: RowProps,
+    ref
+  ): JSX.Element => {
+    const {
+      move,
+      teamMember,
+      highlightLearnedMoves,
+      isOpen,
+      isCompressed,
+      isSpacious,
+      onItemStateChange,
+      updateTeamMemberMove,
+      removeMoveFromTeamMember
+    } = data[index];
+    const teamMemberMove = teamMember && getTeamMemberMove(teamMember, move);
 
-  const renderLineActions = () => (
-    <>
-      {!!teamMember &&
-        (!!teamMemberMove ? (
+    const renderLineActions = useCallback(
+      () => (
+        <>
+          {!!teamMemberMove ? (
+            <CtaButton
+              type="button"
+              size="tiny"
+              variant="destructive"
+              aria-label={`Forget ${move.name}`}
+              onClick={() => removeMoveFromTeamMember?.(teamMember, move.id)}
+            >
+              Forget
+            </CtaButton>
+          ) : (
+            <CtaButton
+              type="button"
+              size="tiny"
+              variant="primary"
+              aria-label={`Learn ${move.name}`}
+              onClick={() => updateTeamMemberMove?.(teamMember, move.id)}
+            >
+              Learn
+            </CtaButton>
+          )}
           <CtaButton
             type="button"
             size="tiny"
-            variant="destructive"
-            aria-label={`Forget ${move.name}`}
-            onClick={() => removeMoveFromTeamMember?.(teamMember, move.id)}
+            variant="tertiary"
+            onClick={() => onItemStateChange(index, !isOpen)}
           >
-            Forget
+            Details
           </CtaButton>
-        ) : (
-          <CtaButton
-            type="button"
-            size="tiny"
-            variant="primary"
-            aria-label={`Learn ${move.name}`}
-            onClick={() => updateTeamMemberMove?.(teamMember, move.id)}
-          >
-            Learn
-          </CtaButton>
-        ))}
-      <CtaButton
-        type="button"
-        size="tiny"
-        variant="tertiary"
-        onClick={() => onItemStateChange(index, !isOpen)}
-      >
-        Details
-      </CtaButton>
-    </>
-  );
+        </>
+      ),
+      [
+        index,
+        isOpen,
+        teamMember,
+        teamMemberMove,
+        move.id,
+        move.name,
+        onItemStateChange,
+        updateTeamMemberMove,
+        removeMoveFromTeamMember
+      ]
+    );
 
-  return (
-    <MoveLine
-      {...move}
-      isOpen={isOpen}
-      isHighlighted={highlightLearnedMoves && !!teamMemberMove}
-      isCompressed={isCompressed}
-      isSpacious={isSpacious}
-      style={{
-        ...style,
-        top: `calc(${style?.top}px + (var(--spacing-2) / 2))`
-      }}
-      renderLineActions={renderLineActions}
-      data-testid="move-list-item"
-    />
-  );
-};
+    return (
+      <MoveLine
+        {...move}
+        ref={ref}
+        isOpen={isOpen}
+        isHighlighted={highlightLearnedMoves && !!teamMemberMove}
+        isCompressed={isCompressed}
+        isSpacious={isSpacious}
+        style={{
+          ...style,
+          top: `calc(${style?.top}px + (var(--spacing-2) / 2))`
+        }}
+        renderLineActions={renderLineActions}
+        data-testid="move-list-item"
+        {...rest}
+      />
+    );
+  }
+);
 
 const query = {
   'is-compressed-list': {
@@ -197,6 +223,29 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
     listRef.current?.resetAfterIndex(index, false);
   }, []);
 
+  const onDragEnd = useCallback(
+    (result: DropResult) => {
+      if (!result.destination) {
+        return;
+      }
+
+      if (result.destination.droppableId === 'move-list') {
+        if (!moves?.[result.source.index]) {
+          return;
+        }
+
+        // dispatch({
+        //   type: TeamMemberActionType.ReorderTeamMember,
+        //   payload: {
+        //     sourceIndex: result.source.index,
+        //     destinationIndex: result.destination.index
+        //   }
+        // });
+      }
+    },
+    [moves]
+  );
+
   const itemData = useMemo(
     () =>
       moves.map((move, idx) => ({
@@ -239,6 +288,48 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
         >
           {Row}
         </List>
+      )}
+
+      {listStyle === 'reorder-list' && (
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="move-list" direction="vertical">
+            {droppableProvided => (
+              <div
+                {...droppableProvided.droppableProps}
+                ref={droppableProvided.innerRef}
+              >
+                <div
+                  className={classNames('w-full!', 'bg-white', className, {
+                    'overflow-hidden!': !hasOverflowingItems(moves)
+                  })}
+                >
+                  {itemData.map((data, idx) => (
+                    <Draggable
+                      key={data.move.id}
+                      draggableId={data.move.id}
+                      index={idx}
+                    >
+                      {draggableProvided => (
+                        <Row
+                          data={itemData}
+                          {...draggableProvided.draggableProps}
+                          {...draggableProvided.dragHandleProps}
+                          ref={draggableProvided.innerRef}
+                          index={idx}
+                          style={{
+                            ...draggableProvided.draggableProps.style
+                          }}
+                        />
+                      )}
+                    </Draggable>
+                  ))}
+
+                  {droppableProvided.placeholder}
+                </div>
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       )}
     </div>
   );

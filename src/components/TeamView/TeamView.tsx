@@ -45,10 +45,6 @@ export type TeamViewProps = {
   isSkeleton?: boolean;
 };
 
-const onDragStart = () => {
-  document.body.classList.add('is-dragging');
-};
-
 export const TeamView: FunctionComponent<TeamViewProps> = memo(
   ({
     updateTeamMembers,
@@ -91,7 +87,6 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
     const onDragEnd = useCallback(
       (result: DropResult) => {
         if (!result.destination) {
-          document.body.classList.remove('is-dragging');
           return;
         }
 
@@ -107,8 +102,6 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
               destinationIndex: result.destination.index
             }
           });
-
-          document.body.classList.remove('is-dragging');
         }
       },
       [dispatch, teamMembers]
@@ -171,10 +164,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
           })}
           aria-busy={isSkeleton}
         >
-          <DragDropContext
-            onBeforeDragStart={onDragStart}
-            onDragEnd={onDragEnd}
-          >
+          <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="teamview-tabs" direction="horizontal">
               {droppableProvided => (
                 <div
