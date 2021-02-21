@@ -1,5 +1,10 @@
 import dateFormat from 'dateformat';
-import { compose, flatMap, get, isNil, map, reject } from 'lodash/fp';
+import compose from 'lodash/fp/compose';
+import flatMap from 'lodash/fp/flatMap';
+import get from 'lodash/fp/get';
+import isNil from 'lodash/fp/isNil';
+import map from 'lodash/fp/map';
+import reject from 'lodash/fp/reject';
 import Link from 'next/link';
 import { FunctionComponent } from 'react';
 import { Pokemon, Teams, Team_Member } from '~/generated/graphql';

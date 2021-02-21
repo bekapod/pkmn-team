@@ -1,6 +1,9 @@
 import { Dispatch, useReducer } from 'react';
 import isEqual from 'react-fast-compare';
-import { TeamMemberFragmentFragment } from '~/generated/graphql';
+import {
+  PokemonFragmentFragment,
+  TeamMemberFragmentFragment
+} from '~/generated/graphql';
 import { reorder } from '~/lib/general';
 
 export enum TeamMemberActionType {
@@ -12,7 +15,9 @@ export enum TeamMemberActionType {
 
 type AddTeamMemberAction = {
   type: TeamMemberActionType.AddTeamMember;
-  payload: TeamMemberFragmentFragment;
+  payload: Omit<TeamMemberFragmentFragment, 'pokemon'> & {
+    pokemon: PokemonFragmentFragment;
+  };
 };
 
 type RemoveTeamMemberAction = {
@@ -42,7 +47,7 @@ type Action =
 const reducer = (state: TeamMemberFragmentFragment[], action: Action) => {
   switch (action.type) {
     case TeamMemberActionType.AddTeamMember:
-      return [...state, action.payload];
+      return [...state, action.payload as TeamMemberFragmentFragment];
     case TeamMemberActionType.RemoveTeamMember:
       return state.filter(({ id }) => id !== action.payload.id);
     case TeamMemberActionType.ReorderTeamMember:

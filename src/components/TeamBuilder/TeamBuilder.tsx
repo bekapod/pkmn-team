@@ -1,5 +1,5 @@
 import { FunctionComponent, useCallback } from 'react';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 import { BiTrash as Trash } from 'react-icons/bi';
 import type { CombinedError } from 'urql';
 import { CenteredRow } from '../CenteredRow';
@@ -11,14 +11,14 @@ import { TeamView } from '../TeamView';
 import { StickyBar } from '../StickyBar';
 import type {
   MoveFragmentFragment,
-  Pokemon,
+  PokemonFragmentFragment,
   TeamByIdQuery,
   TeamMemberFragmentFragment,
   Teams
 } from '~/generated/graphql';
 
 export type TeamBuilderProps = {
-  allPokemon?: Pokemon[];
+  allPokemon?: PokemonFragmentFragment[];
   team?: TeamByIdQuery['teamById'];
   isLoading?: boolean;
   isSkeleton?: boolean;

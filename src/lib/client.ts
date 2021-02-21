@@ -2,7 +2,6 @@ import { dedupExchange, fetchExchange } from 'urql';
 import type { NextUrqlClientConfig } from 'next-urql';
 import { devtoolsExchange } from '@urql/devtools';
 import { cacheExchange } from '@urql/exchange-graphcache';
-import schema from '~/generated/introspection.json';
 import {
   AllTeamsDocument,
   AllTeamsQuery,
@@ -23,7 +22,6 @@ export const createClient = (
     devtoolsExchange,
     dedupExchange,
     cacheExchange({
-      schema: schema as never,
       keys: {
         damage_class: data => `${data.value}`,
         pokemon_move: () => null,

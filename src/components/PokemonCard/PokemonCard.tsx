@@ -1,6 +1,9 @@
 import { FunctionComponent } from 'react';
 import classNames from 'classnames';
-import { Pokemon, TeamMemberFragmentFragment } from '~/generated/graphql';
+import {
+  PokemonFragmentFragment,
+  TeamMemberFragmentFragment
+} from '~/generated/graphql';
 import { formatPokemonName, sortBySlug } from '~/lib/general';
 import { CardContent, CardHeader, CardWrapper, CardHeading } from '../Card';
 import { InlineList } from '../InlineList';
@@ -9,7 +12,7 @@ import { MoveList } from '../MoveList';
 
 export type PokemonCardProps = {
   teamMember?: TeamMemberFragmentFragment;
-  pokemon: Pokemon;
+  pokemon: PokemonFragmentFragment;
   renderCardActions?: () => JSX.Element;
 };
 
