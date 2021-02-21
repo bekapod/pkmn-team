@@ -1,30 +1,65 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { TeamView, TeamViewProps } from '.';
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
 import { charmander, haunter, pikachu } from '~/mocks/Pokemon';
-import type { Pokemon } from '~/generated/graphql';
 import { setupResizeObserverMock } from '~/test-helpers';
+import { TeamView, TeamViewProps } from '.';
 
 describe('TeamView', () => {
-  const pokemon: Pokemon[] = [charmander, pikachu, haunter];
+  const server = setupServer(
+    rest.post(/.*algolia.*/, (_req, res, ctx) =>
+      res(
+        ctx.status(200),
+        ctx.json({
+          results: [
+            {
+              exhaustiveFacetsCount: true,
+              exhaustiveNbHits: true,
+              hits: [
+                { ...charmander, objectID: '1' },
+                { ...haunter, objectID: '2' },
+                { ...pikachu, objectID: '3' }
+              ],
+              hitsPerPage: 50,
+              index: 'pokemon',
+              nbHits: 3,
+              nbPages: 1,
+              page: 0
+            }
+          ]
+        })
+      )
+    )
+  );
+
+  beforeAll(() => {
+    server.listen({
+      onUnhandledRequest: 'warn'
+    });
+  });
+
+  afterEach(() => server.resetHandlers());
+
+  afterAll(() => server.close());
 
   const teamMembers = [
     {
       id: '1',
       order: 1,
-      pokemon: pokemon[0],
+      pokemon: charmander,
       learned_moves: []
     },
     {
       id: '2',
       order: 2,
-      pokemon: pokemon[1],
+      pokemon: haunter,
       learned_moves: []
     },
     {
       id: '3',
       order: 3,
-      pokemon: pokemon[2],
+      pokemon: pikachu,
       learned_moves: []
     }
   ];
@@ -34,32 +69,26 @@ describe('TeamView', () => {
     {
       id: '4',
       order: 4,
-      pokemon: pokemon[0],
+      pokemon: charmander,
       learned_moves: []
     },
     {
       id: '5',
       order: 5,
-      pokemon: pokemon[1],
+      pokemon: haunter,
       learned_moves: []
     },
     {
       id: '6',
       order: 6,
-      pokemon: pokemon[2],
+      pokemon: pikachu,
       learned_moves: []
     }
   ];
 
   const setup = (props: Partial<TeamViewProps> = {}) => {
     setupResizeObserverMock([]);
-    return render(
-      <TeamView
-        initialTeamMembers={teamMembers}
-        allPokemon={pokemon}
-        {...props}
-      />
-    );
+    return render(<TeamView initialTeamMembers={teamMembers} {...props} />);
   };
 
   it('applies props from Tabs component correctly', async () => {
@@ -130,33 +159,35 @@ describe('TeamView', () => {
   });
 
   describe('with a search pokemon selected', () => {
-    it('renders the currently selected pokemon', () => {
+    it('renders the currently selected pokemon', async () => {
       setup();
 
       userEvent.click(screen.getByLabelText('Add new pokemon to team'));
       userEvent.click(
-        screen.getByText(new RegExp(pokemon[0].name, 'i'), {
+        await screen.findByText(new RegExp(charmander.name, 'i'), {
           selector: '[data-testid="tab-content-add-pokemon"] *'
         })
       );
 
       expect(
-        screen.getByText(`Add ${pokemon[0].name} to team`)
+        await screen.findByText(`Add ${charmander.name} to team`)
       ).toBeInTheDocument();
     });
 
-    it('calls updateTeamMembers when add button is clicked', () => {
+    it('calls updateTeamMembers when add button is clicked', async () => {
       const updateTeamMembers = jest.fn();
       setup({ updateTeamMembers });
 
       userEvent.click(screen.getByLabelText('Add new pokemon to team'));
       userEvent.click(
-        screen.getByText(new RegExp(pokemon[0].name, 'i'), {
+        await screen.findByText(new RegExp(charmander.name, 'i'), {
           selector: '[data-testid="tab-content-add-pokemon"] *'
         })
       );
       expect(updateTeamMembers).toHaveBeenCalledTimes(0);
-      userEvent.click(screen.getByText(`Add ${pokemon[0].name} to team`));
+      userEvent.click(
+        await screen.findByText(`Add ${charmander.name} to team`)
+      );
       expect(updateTeamMembers).toHaveBeenCalledTimes(1);
       expect(updateTeamMembers).toHaveBeenCalledWith([
         ...teamMembers,
@@ -164,7 +195,7 @@ describe('TeamView', () => {
           id: expect.any(String),
           learned_moves: [],
           order: 3,
-          pokemon: pokemon[0]
+          pokemon: { ...charmander, learnable_moves: undefined }
         }
       ]);
     });
@@ -177,7 +208,7 @@ describe('TeamView', () => {
       expect(updateTeamMembers).toHaveBeenCalledTimes(0);
       userEvent.click(
         screen.getByRole('button', {
-          name: `Remove ${pokemon[0].name} from team`
+          name: `Remove ${charmander.name} from team`
         })
       );
       expect(updateTeamMembers).toHaveBeenCalledWith([

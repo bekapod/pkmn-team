@@ -33,7 +33,6 @@ import { MovesProvider } from '~/hooks/useMoves';
 
 export type TeamViewProps = {
   initialTeamMembers?: TeamMemberFragmentFragment[];
-  allPokemon?: PokemonFragmentFragment[];
   updateTeamMembers?: (members: TeamMemberFragmentFragment[]) => void;
   updateTeamMemberMoves?: (
     member: TeamMemberFragmentFragment,
@@ -47,7 +46,6 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
     updateTeamMembers,
     updateTeamMemberMoves,
     initialTeamMembers = [],
-    allPokemon,
     isSkeleton
   }) => {
     const isInitialValue = useRef(true);
@@ -337,12 +335,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
             data-testid="tab-content-add-pokemon"
             aria-busy={isSkeleton}
           >
-            {allPokemon && (
-              <PokemonSearch
-                setCurrentSearchPokemon={setCurrentSearchPokemon}
-                pokemon={allPokemon}
-              />
-            )}
+            <PokemonSearch setCurrentSearchPokemon={setCurrentSearchPokemon} />
             {currentSearchPokemon ? (
               <PokemonCard
                 pokemon={currentSearchPokemon}

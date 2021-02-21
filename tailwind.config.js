@@ -176,7 +176,8 @@ module.exports = {
       11: 'calc(var(--baseline) * 4.5rem)',
       12: 'calc(var(--baseline) * 5rem)',
       13: 'calc(var(--baseline) * 5.5rem)',
-      14: 'calc(var(--baseline) * 6rem)'
+      14: 'calc(var(--baseline) * 6rem)',
+      '5-10': 'calc(var(--baseline) * 20rem)'
     },
 
     fontSize: {

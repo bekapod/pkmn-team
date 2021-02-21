@@ -16,6 +16,7 @@ export const AutocompleteDropdown: FunctionComponent<
 > = ({ className, ...props }) => (
   <div
     className={classNames(
+      'relative',
       'flex-grow',
       'flex-shrink-0',
       'w-full',
