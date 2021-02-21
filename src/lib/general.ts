@@ -1,4 +1,5 @@
-import { equals, toUpper } from 'lodash/fp';
+import equals from 'lodash/fp/equals';
+import toUpper from 'lodash/fp/toUpper';
 import { Pokemon } from '~/generated/graphql';
 
 export const percentage = (val: number): number => (val > 100 ? 100 : val);

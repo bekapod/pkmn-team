@@ -1,5 +1,5 @@
 import { FunctionComponent, useCallback } from 'react';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 import { BiTrash as Trash } from 'react-icons/bi';
 import type { CombinedError } from 'urql';
 import { CenteredRow } from '../CenteredRow';

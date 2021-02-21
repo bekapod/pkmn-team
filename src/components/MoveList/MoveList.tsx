@@ -20,16 +20,14 @@ import {
   DropResult
 } from 'react-beautiful-dnd';
 import classNames from 'classnames';
-import {
-  add,
-  compose,
-  cond,
-  constant,
-  lt,
-  multiply,
-  size,
-  stubTrue
-} from 'lodash/fp';
+import add from 'lodash/fp/add';
+import compose from 'lodash/fp/compose';
+import cond from 'lodash/fp/cond';
+import constant from 'lodash/fp/constant';
+import lt from 'lodash/fp/lt';
+import multiply from 'lodash/fp/multiply';
+import size from 'lodash/fp/size';
+import stubTrue from 'lodash/fp/stubTrue';
 import { MoveLine } from '../MoveLine';
 import {
   MoveFragmentFragment,

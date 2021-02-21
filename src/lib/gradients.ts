@@ -1,4 +1,9 @@
-import { add, compose, divide, flatMap, join, multiply } from 'lodash/fp';
+import add from 'lodash/fp/add';
+import compose from 'lodash/fp/compose';
+import divide from 'lodash/fp/divide';
+import flatMap from 'lodash/fp/flatMap';
+import join from 'lodash/fp/join';
+import multiply from 'lodash/fp/multiply';
 import { Types } from '~/generated/graphql';
 import { getTypeColor, percentage, sortBySlug } from './general';
 
