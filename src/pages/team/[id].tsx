@@ -204,10 +204,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
   const id = context.params?.id?.toString();
 
   if (client && id) {
-    await Promise.all([
-      client.query(TeamByIdDocument, { id }).toPromise(),
-      client.query(AllPokemonDocument, { offset: 0, limit: 1000 }).toPromise()
-    ]);
+    await Promise.all([client.query(TeamByIdDocument, { id }).toPromise()]);
   }
 
   return {
