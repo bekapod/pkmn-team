@@ -5,7 +5,7 @@ export default {
   title: 'Components/TypeTag',
   component: TypeTag,
   args: {
-    type: 'electric'
+    typeSlug: 'electric'
   }
 } as Meta<TypeTagProps>;
 

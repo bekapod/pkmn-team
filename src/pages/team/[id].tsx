@@ -6,7 +6,6 @@ import type {
 import { useRouter } from 'next/router';
 import { initUrqlClient, NextUrqlPageContext, withUrqlClient } from 'next-urql';
 import {
-  useAllPokemonQuery,
   useTeamByIdQuery,
   useUpdateTeamMutation,
   useDeleteTeamMutation,
@@ -22,7 +21,7 @@ import { createClient } from '~/lib/client';
 import { FullWidthContainer } from '~/components/FullWidthContainer';
 import { Page } from '~/components/Page';
 import { TeamBuilder } from '~/components/TeamBuilder';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import { ssrExchange } from 'urql';
 import isEqual from 'react-fast-compare';
 
@@ -42,18 +41,6 @@ const Team: NextComponentType<
   const [{ data: teamData, fetching: teamFetching }] = useTeamByIdQuery(
     teamByIdOptions
   );
-
-  const [limit] = useState(1000);
-  const [offset] = useState(0);
-  const allPokemonOptions = useMemo(
-    () =>
-      ({
-        variables: { offset, limit },
-        pause: !id
-      } as const),
-    [id, limit, offset]
-  );
-  const [{ data: allPokemonData }] = useAllPokemonQuery(allPokemonOptions);
 
   const [
     { fetching: updateTeamFetching },
@@ -81,7 +68,6 @@ const Team: NextComponentType<
   ] = useDeleteTeamMemberMovesMutation();
 
   const team = teamData?.teamById ?? undefined;
-  const pokemon = allPokemonData?.pokemon;
 
   const updateTeamHandler = useCallback(
     (name: string) => {
@@ -173,7 +159,6 @@ const Team: NextComponentType<
     >
       <FullWidthContainer>
         <TeamBuilder
-          allPokemon={pokemon}
           team={team}
           isSkeleton={teamFetching}
           isLoading={

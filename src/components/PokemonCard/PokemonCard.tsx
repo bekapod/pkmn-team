@@ -44,7 +44,7 @@ export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
                 teamMember ? `Member: ${teamMember.id}` : ''
               } Pokemon: ${pokedex_id}, Type: ${type.slug}`}
             >
-              <TypeTag type={type.slug}>{type.name}</TypeTag>
+              <TypeTag typeSlug={type.slug}>{type.name}</TypeTag>
             </li>
           ))}
         </InlineList>

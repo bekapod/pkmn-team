@@ -1,9 +1,41 @@
 import React from 'react';
+import { setupWorker, rest } from 'msw';
 import { makeDecorator } from '@storybook/addons';
 import { action } from '@storybook/addon-actions';
 import Router from 'next/router';
 import { RouterContext } from 'next/dist/next-server/lib/router-context';
+import { charmander, haunter, pikachu } from '../src/mocks/Pokemon';
 import '../src/styles/globals.css';
+
+const worker = setupWorker(
+  rest.post(/.*algolia.*/, (_req, res, ctx) =>
+    res(
+      ctx.status(200),
+      ctx.json({
+        results: [
+          {
+            exhaustiveFacetsCount: true,
+            exhaustiveNbHits: true,
+            hits: [
+              { ...charmander, objectID: '1' },
+              { ...haunter, objectID: '2' },
+              { ...pikachu, objectID: '3' }
+            ],
+            hitsPerPage: 50,
+            index: 'pokemon',
+            nbHits: 3,
+            nbPages: 1,
+            page: 0
+          }
+        ]
+      })
+    )
+  )
+);
+
+worker.start({
+  onUnhandledRequest: 'warn'
+});
 
 const withNextRouter = makeDecorator({
   name: 'withNextRouter',

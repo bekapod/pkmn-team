@@ -8,15 +8,15 @@ import classNames from 'classnames';
 import { getTypeColor } from '~/lib/general';
 
 export type TypeTagProps = {
-  type: string;
+  typeSlug: string;
   as?: ComponentType | ElementType;
 };
 
 export const TypeTag: FunctionComponent<
   ComponentPropsWithRef<ElementType> & TypeTagProps
-> = ({ as: As = 'span', className, type, ...props }) => (
+> = ({ as: As = 'span', className, typeSlug, ...props }) => (
   <As
-    style={{ '--type-color': getTypeColor(type) }}
+    style={{ '--type-color': getTypeColor(typeSlug) }}
     className={classNames('type-tag', className)}
     {...props}
   />

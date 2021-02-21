@@ -50,7 +50,7 @@ export const PokemonLine: FunctionComponent<
         <InlineList>
           {sortBySlug(types.map(({ type }) => type)).map(type => (
             <li key={`Pokemon: ${pokedex_id}, Type: ${type.slug}`}>
-              <TypeTag type={type.slug}>{type.name}</TypeTag>
+              <TypeTag typeSlug={type.slug}>{type.name}</TypeTag>
             </li>
           ))}
         </InlineList>

@@ -1446,20 +1446,6 @@ export type UpdateTeamMutation = (
   )> }
 );
 
-export type AllPokemonQueryVariables = Exact<{
-  offset: Scalars['Int'];
-  limit: Scalars['Int'];
-}>;
-
-
-export type AllPokemonQuery = (
-  { __typename?: 'query_root' }
-  & { pokemon: Array<(
-    { __typename?: 'pokemon' }
-    & PokemonFragmentFragment
-  )> }
-);
-
 export type AllTeamsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1676,17 +1662,6 @@ export const UpdateTeamDocument = gql`
 
 export function useUpdateTeamMutation() {
   return Urql.useMutation<UpdateTeamMutation, UpdateTeamMutationVariables>(UpdateTeamDocument);
-};
-export const AllPokemonDocument = gql`
-    query AllPokemon($offset: Int!, $limit: Int!) {
-  pokemon(order_by: {pokedex_id: asc_nulls_last}, limit: $limit, offset: $offset) {
-    ...PokemonFragment
-  }
-}
-    ${PokemonFragmentFragmentDoc}`;
-
-export function useAllPokemonQuery(options: Omit<Urql.UseQueryArgs<AllPokemonQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<AllPokemonQuery>({ query: AllPokemonDocument, ...options });
 };
 export const AllTeamsDocument = gql`
     query AllTeams {

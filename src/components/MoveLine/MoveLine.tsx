@@ -82,11 +82,11 @@ export const MoveLine: FunctionComponent<MoveLineProps> = forwardRef(
             'justify-center': isSpacious
           })}
         >
-          <TypeTag as="li" key={type.slug} type={type.slug}>
+          <TypeTag as="li" key={type.slug} typeSlug={type.slug}>
             {type.name}
           </TypeTag>
           {!!damage_class && (
-            <TypeTag as="li" type={damage_class.value}>
+            <TypeTag as="li" typeSlug={damage_class.value}>
               {damage_class.value}
             </TypeTag>
           )}

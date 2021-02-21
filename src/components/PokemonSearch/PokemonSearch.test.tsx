@@ -1,17 +1,48 @@
 import { render, screen } from '@testing-library/react';
-import { PokemonSearch, PokemonSearchProps } from '.';
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
 import { charmander, haunter, pikachu } from '~/mocks/Pokemon';
-import userEvent from '@testing-library/user-event';
+import { PokemonSearch, PokemonSearchProps } from '.';
 
 describe(PokemonSearch, () => {
+  const server = setupServer(
+    rest.post(/.*algolia.*/, (_req, res, ctx) =>
+      res(
+        ctx.status(200),
+        ctx.json({
+          results: [
+            {
+              exhaustiveFacetsCount: true,
+              exhaustiveNbHits: true,
+              hits: [
+                { ...charmander, objectID: '1' },
+                { ...haunter, objectID: '2' },
+                { ...pikachu, objectID: '3' }
+              ],
+              hitsPerPage: 50,
+              index: 'pokemon',
+              nbHits: 3,
+              nbPages: 1,
+              page: 0
+            }
+          ]
+        })
+      )
+    )
+  );
+
+  beforeAll(() => {
+    server.listen({
+      onUnhandledRequest: 'warn'
+    });
+  });
+
+  afterEach(() => server.resetHandlers());
+
+  afterAll(() => server.close());
+
   const setup = (props: Partial<PokemonSearchProps> = {}) =>
-    render(
-      <PokemonSearch
-        setCurrentSearchPokemon={jest.fn()}
-        pokemon={[charmander, haunter, pikachu]}
-        {...props}
-      />
-    );
+    render(<PokemonSearch setCurrentSearchPokemon={jest.fn()} {...props} />);
 
   it('renders a search input', () => {
     setup();
@@ -19,31 +50,17 @@ describe(PokemonSearch, () => {
     expect(screen.getByPlaceholderText('Find by name')).toBeInTheDocument();
   });
 
-  it('renders all of the pokemon', () => {
+  it('renders all of the pokemon', async () => {
     setup();
     expect(
-      screen.getByText(`#${charmander.pokedex_id} ${charmander.name}`)
+      await screen.findByText(`#${charmander.pokedex_id} ${charmander.name}`)
     ).toBeInTheDocument();
     expect(
-      screen.getByText(`#${haunter.pokedex_id} ${haunter.name}`)
+      await screen.findByText(`#${haunter.pokedex_id} ${haunter.name}`)
     ).toBeInTheDocument();
     expect(
-      screen.getByText(`#${pikachu.pokedex_id} ${pikachu.name}`)
+      await screen.findByText(`#${pikachu.pokedex_id} ${pikachu.name}`)
     ).toBeInTheDocument();
-  });
-
-  it('filters pokemon when a search is inputted', async () => {
-    setup();
-    await userEvent.type(screen.getByLabelText('Find Pokemon by name'), 'Hau');
-    expect(
-      screen.queryByText(`#${charmander.pokedex_id} ${charmander.name}`)
-    ).not.toBeInTheDocument();
-    expect(
-      screen.getByText(`#${haunter.pokedex_id} ${haunter.name}`)
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByText(`#${pikachu.pokedex_id} ${pikachu.name}`)
-    ).not.toBeInTheDocument();
   });
 
   describe('when loading', () => {

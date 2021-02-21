@@ -11,14 +11,12 @@ import { TeamView } from '../TeamView';
 import { StickyBar } from '../StickyBar';
 import type {
   MoveFragmentFragment,
-  PokemonFragmentFragment,
   TeamByIdQuery,
   TeamMemberFragmentFragment,
   Teams
 } from '~/generated/graphql';
 
 export type TeamBuilderProps = {
-  allPokemon?: PokemonFragmentFragment[];
   team?: TeamByIdQuery['teamById'];
   isLoading?: boolean;
   isSkeleton?: boolean;
@@ -33,7 +31,6 @@ export type TeamBuilderProps = {
 };
 
 export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
-  allPokemon,
   team,
   isLoading,
   isSkeleton,
@@ -93,7 +90,6 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
       </CenteredRow>
 
       <TeamView
-        allPokemon={allPokemon}
         initialTeamMembers={team?.team_members}
         isSkeleton={isSkeleton}
         updateTeamMembers={debouncedUpdateTeamMembers}
