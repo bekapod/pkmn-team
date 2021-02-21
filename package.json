@@ -60,6 +60,7 @@
     "@graphql-codegen/typescript": "1.21.0",
     "@graphql-codegen/typescript-operations": "1.17.14",
     "@graphql-codegen/typescript-urql": "^2.0.3",
+    "@next/bundle-analyzer": "^10.0.7",
     "@storybook/addon-a11y": "^6.1.18",
     "@storybook/addon-actions": "^6.1.18",
     "@storybook/addon-essentials": "^6.1.18",
