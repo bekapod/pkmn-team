@@ -47,28 +47,5 @@ export const PokemonSearch: FunctionComponent<PokemonSearchProps> = ({
         </AutocompleteDropdown>
       </Autocomplete>
     </InstantSearch>
-    // <Autocomplete>
-    //   <GiantInput
-    //     aria-label="Find Pokemon by name"
-    //     placeholder="Find by name"
-    //     isFullWidth
-    //     value={inputValue}
-    //     onKeyDown={keyboardNavigation}
-    //     onChange={updateList}
-    //   />
-    //   <AutocompleteDropdown>
-    //     <List
-    //       ref={listContainer}
-    //       height={itemHeight * 5}
-    //       itemSize={itemHeight}
-    //       itemCount={itemData.length}
-    //       itemData={itemData}
-    //       width={500}
-    //       className="w-full!"
-    //     >
-    //       {Row}
-    //     </List>
-    //   </AutocompleteDropdown>
-    // </Autocomplete>
   );
 };
