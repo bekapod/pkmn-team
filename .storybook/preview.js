@@ -16,6 +16,28 @@ const worker = setupWorker(
           {
             exhaustiveFacetsCount: true,
             exhaustiveNbHits: true,
+            facets: {
+              'types.type.name': {
+                Water: 131,
+                Normal: 109,
+                Flying: 98,
+                Grass: 97,
+                Psychic: 82,
+                Bug: 77,
+                Poison: 66,
+                Fire: 64,
+                Ground: 64,
+                Rock: 60,
+                Fighting: 54,
+                Steel: 49,
+                Electric: 48,
+                Fairy: 47,
+                Dark: 46,
+                Dragon: 45,
+                Ghost: 43,
+                Ice: 34
+              }
+            },
             hits: [
               { ...charmander, objectID: '1' },
               { ...haunter, objectID: '2' },

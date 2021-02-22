@@ -14,6 +14,15 @@ describe(PokemonSearch, () => {
             {
               exhaustiveFacetsCount: true,
               exhaustiveNbHits: true,
+              facets: {
+                'types.type.name': {
+                  Water: 131,
+                  Normal: 109,
+                  Flying: 98,
+                  Grass: 97,
+                  Psychic: 82
+                }
+              },
               hits: [
                 { ...charmander, objectID: '1' },
                 { ...haunter, objectID: '2' },
@@ -63,30 +72,22 @@ describe(PokemonSearch, () => {
     ).toBeInTheDocument();
   });
 
-  describe('when loading', () => {
-    it('renders a loading icon', () => {
-      setup({ isLoading: true });
-      expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
-      expect(
-        screen.queryByText(`#${haunter.pokedex_id} ${haunter.name}`)
-      ).not.toBeInTheDocument();
-    });
-  });
-
-  describe('when there is an error', () => {
-    it('renders the error message', () => {
-      setup({
-        error: {
-          name: 'error',
-          message: 'Some error happened',
-          graphQLErrors: []
-        }
-      });
-      expect(screen.getByRole('alert')).toBeInTheDocument();
-      expect(screen.getByText('Some error happened')).toBeInTheDocument();
-      expect(
-        screen.queryByText(`#${haunter.pokedex_id} ${haunter.name}`)
-      ).not.toBeInTheDocument();
-    });
+  it('renders all type facets', async () => {
+    setup();
+    expect(
+      await screen.findByRole('button', { name: 'Water (131)' })
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByRole('button', { name: 'Normal (109)' })
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByRole('button', { name: 'Flying (98)' })
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByRole('button', { name: 'Grass (97)' })
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByRole('button', { name: 'Psychic (82)' })
+    ).toBeInTheDocument();
   });
 });
