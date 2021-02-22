@@ -1,20 +1,14 @@
 import { FunctionComponent, useCallback } from 'react';
-import type { CombinedError } from 'urql';
 import algoliasearch from 'algoliasearch/lite';
 import { InstantSearch } from 'react-instantsearch-dom';
 import { PokemonFragmentFragment } from '~/generated/graphql';
 import { Autocomplete, AutocompleteDropdown } from '../Autocomplete';
-import { CenteredRow } from '../CenteredRow';
-import { ErrorMessage } from '../ErrorMessage';
-import { LoadingIcon } from '../LoadingIcon';
 import { ConnectedTypeRefinementList } from '../TypeRefinementList';
 import { ConnectedSearchBox } from '../SearchBox';
 import { ConnectedInfinitePokemon } from '../InfinitePokemon';
 
 export type PokemonSearchProps = {
   setCurrentSearchPokemon: (pokemon: PokemonFragmentFragment) => void;
-  isLoading?: boolean;
-  error?: CombinedError;
 };
 
 const searchClient = algoliasearch(
@@ -23,9 +17,7 @@ const searchClient = algoliasearch(
 );
 
 export const PokemonSearch: FunctionComponent<PokemonSearchProps> = ({
-  setCurrentSearchPokemon,
-  isLoading,
-  error
+  setCurrentSearchPokemon
 }) => {
   const onResultClick = useCallback(
     (pkmn: PokemonFragmentFragment) => {
@@ -33,22 +25,6 @@ export const PokemonSearch: FunctionComponent<PokemonSearchProps> = ({
     },
     [setCurrentSearchPokemon]
   );
-
-  if (isLoading) {
-    return (
-      <CenteredRow stackVertically>
-        <LoadingIcon isSpinner />
-      </CenteredRow>
-    );
-  }
-
-  if (!isLoading && error) {
-    return (
-      <CenteredRow stackVertically>
-        <ErrorMessage>{error.message}</ErrorMessage>
-      </CenteredRow>
-    );
-  }
 
   return (
     <InstantSearch
@@ -71,28 +47,5 @@ export const PokemonSearch: FunctionComponent<PokemonSearchProps> = ({
         </AutocompleteDropdown>
       </Autocomplete>
     </InstantSearch>
-    // <Autocomplete>
-    //   <GiantInput
-    //     aria-label="Find Pokemon by name"
-    //     placeholder="Find by name"
-    //     isFullWidth
-    //     value={inputValue}
-    //     onKeyDown={keyboardNavigation}
-    //     onChange={updateList}
-    //   />
-    //   <AutocompleteDropdown>
-    //     <List
-    //       ref={listContainer}
-    //       height={itemHeight * 5}
-    //       itemSize={itemHeight}
-    //       itemCount={itemData.length}
-    //       itemData={itemData}
-    //       width={500}
-    //       className="w-full!"
-    //     >
-    //       {Row}
-    //     </List>
-    //   </AutocompleteDropdown>
-    // </Autocomplete>
   );
 };
