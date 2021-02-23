@@ -7,7 +7,11 @@ import map from 'lodash/fp/map';
 import reject from 'lodash/fp/reject';
 import Link from 'next/link';
 import { FunctionComponent } from 'react';
-import { Pokemon, Teams, Team_Member } from '~/generated/graphql';
+import {
+  PokemonFragmentFragment,
+  Teams,
+  Team_Member
+} from '~/generated/graphql';
 import {
   CardContent,
   CardHeader,
@@ -21,10 +25,7 @@ import { PokemonLine } from '../PokemonLine';
 const getAllTypes = compose(flatMap(get('type')), flatMap(get('types')));
 
 type TeamMember = Pick<Team_Member, 'id' | 'order'> & {
-  pokemon: Pick<
-    Pokemon,
-    'id' | 'pokedex_id' | 'name' | 'slug' | 'sprite' | 'types'
-  >;
+  pokemon: PokemonFragmentFragment;
 };
 export type TeamCardProps = Pick<Teams, 'id' | 'name' | 'created_at'> & {
   team_members: TeamMember[];
@@ -36,9 +37,10 @@ export const TeamCard: FunctionComponent<TeamCardProps> = ({
   team_members,
   created_at
 }) => {
-  const pokemon: Pokemon[] = compose([reject(isNil), map(get('pokemon'))])(
-    team_members
-  );
+  const pokemon: PokemonFragmentFragment[] = compose([
+    reject(isNil),
+    map(get('pokemon'))
+  ])(team_members);
 
   return (
     <Link href={`/team/${id}/`} passHref>
