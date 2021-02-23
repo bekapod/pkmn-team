@@ -38,7 +38,18 @@ export const InfinitePokemon: FunctionComponent<
           sprite: rest.sprite,
           id: rest.id,
           name: rest.name,
-          types: rest.types
+          types: rest.types,
+          abilities: rest.abilities,
+          attack: rest.attack,
+          defense: rest.defense,
+          description: rest.description,
+          hp: rest.hp,
+          is_baby: rest.is_baby,
+          is_legendary: rest.is_legendary,
+          is_mythical: rest.is_mythical,
+          special_attack: rest.special_attack,
+          special_defense: rest.special_defense,
+          speed: rest.speed
         };
         return (
           <li key={objectID} className="ais-InfiniteHits-item">

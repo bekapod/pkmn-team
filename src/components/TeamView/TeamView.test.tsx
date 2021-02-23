@@ -174,7 +174,7 @@ describe('TeamView', () => {
       ).toBeInTheDocument();
     });
 
-    it('calls updateTeamMembers when add button is clicked', async () => {
+    it.only('calls updateTeamMembers when add button is clicked', async () => {
       const updateTeamMembers = jest.fn();
       setup({ updateTeamMembers });
 

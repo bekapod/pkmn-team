@@ -294,7 +294,7 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
               >
                 <div
                   className={classNames('w-full!', 'bg-white', className, {
-                    'overflow-hidden!': !hasOverflowingItems(moves)
+                    'overflow-hidden! pt-1': !hasOverflowingItems(moves)
                   })}
                 >
                   {itemData.map((data, idx) => (

@@ -1,16 +1,13 @@
 import type { ComponentPropsWithRef, FunctionComponent } from 'react';
 import classNames from 'classnames';
-import type { Pokemon } from '~/generated/graphql';
+import type { PokemonFragmentFragment } from '~/generated/graphql';
 import { formatPokemonName, sortBySlug } from '~/lib/general';
 import { getTypeGradient } from '~/lib/gradients';
 import { InlineList } from '../InlineList';
 import { TypeTag } from '../TypeTag';
 
 export type PokemonLineProps = {
-  pokemon: Pick<
-    Pokemon,
-    'id' | 'pokedex_id' | 'name' | 'slug' | 'sprite' | 'types'
-  >;
+  pokemon: PokemonFragmentFragment;
   outdent?: string;
 };
 
