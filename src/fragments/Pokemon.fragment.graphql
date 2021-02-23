@@ -1,13 +1,32 @@
 fragment PokemonFragment on pokemon {
   id
-  pokedex_id
   name
   slug
+  pokedex_id
   sprite
+  hp
+  attack
+  defense
+  special_attack
+  special_defense
+  speed
+  is_baby
+  is_legendary
+  is_mythical
+  description
   types {
-    type_id
     type {
-      ...TypeFragment
+      name
+      slug
+    }
+  }
+  abilities {
+    ability_id
+    ability {
+      id
+      name
+      slug
+      effect
     }
   }
 }

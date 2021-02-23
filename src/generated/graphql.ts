@@ -16,6 +16,19 @@ export type Scalars = {
   uuid: any;
 };
 
+/** expression to compare columns of type Boolean. All fields are combined with logical 'AND'. */
+export type Boolean_Comparison_Exp = {
+  _eq?: Maybe<Scalars['Boolean']>;
+  _gt?: Maybe<Scalars['Boolean']>;
+  _gte?: Maybe<Scalars['Boolean']>;
+  _in?: Maybe<Array<Scalars['Boolean']>>;
+  _is_null?: Maybe<Scalars['Boolean']>;
+  _lt?: Maybe<Scalars['Boolean']>;
+  _lte?: Maybe<Scalars['Boolean']>;
+  _neq?: Maybe<Scalars['Boolean']>;
+  _nin?: Maybe<Array<Scalars['Boolean']>>;
+};
+
 /** expression to compare columns of type Int. All fields are combined with logical 'AND'. */
 export type Int_Comparison_Exp = {
   _eq?: Maybe<Scalars['Int']>;
@@ -47,6 +60,51 @@ export type String_Comparison_Exp = {
   _nsimilar?: Maybe<Scalars['String']>;
   _similar?: Maybe<Scalars['String']>;
 };
+
+/** columns and relationships of "abilities" */
+export type Abilities = {
+  __typename?: 'abilities';
+  effect?: Maybe<Scalars['String']>;
+  id: Scalars['uuid'];
+  name: Scalars['String'];
+  slug: Scalars['String'];
+};
+
+/** Boolean expression to filter rows from the table "abilities". All fields are combined with a logical 'AND'. */
+export type Abilities_Bool_Exp = {
+  _and?: Maybe<Array<Maybe<Abilities_Bool_Exp>>>;
+  _not?: Maybe<Abilities_Bool_Exp>;
+  _or?: Maybe<Array<Maybe<Abilities_Bool_Exp>>>;
+  effect?: Maybe<String_Comparison_Exp>;
+  id?: Maybe<Uuid_Comparison_Exp>;
+  name?: Maybe<String_Comparison_Exp>;
+  slug?: Maybe<String_Comparison_Exp>;
+};
+
+/** ordering options when selecting data from "abilities" */
+export type Abilities_Order_By = {
+  effect?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+  slug?: Maybe<Order_By>;
+};
+
+/** primary key columns input for table: "abilities" */
+export type Abilities_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "abilities" */
+export enum Abilities_Select_Column {
+  /** column name */
+  Effect = 'effect',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Slug = 'slug'
+}
 
 /** columns and relationships of "damage_class" */
 export type Damage_Class = {
@@ -341,15 +399,37 @@ export enum Order_By {
 /** columns and relationships of "pokemon" */
 export type Pokemon = {
   __typename?: 'pokemon';
+  /** An array relationship */
+  abilities: Array<Pokemon_Ability>;
+  attack: Scalars['Int'];
+  defense: Scalars['Int'];
+  description?: Maybe<Scalars['String']>;
+  hp: Scalars['Int'];
   id: Scalars['uuid'];
+  is_baby: Scalars['Boolean'];
+  is_legendary: Scalars['Boolean'];
+  is_mythical: Scalars['Boolean'];
   /** An array relationship */
   learnable_moves: Array<Pokemon_Move>;
   name: Scalars['String'];
   pokedex_id: Scalars['Int'];
   slug: Scalars['String'];
+  special_attack: Scalars['Int'];
+  special_defense: Scalars['Int'];
+  speed: Scalars['Int'];
   sprite?: Maybe<Scalars['String']>;
   /** An array relationship */
   types: Array<Pokemon_Type>;
+};
+
+
+/** columns and relationships of "pokemon" */
+export type PokemonAbilitiesArgs = {
+  distinct_on?: Maybe<Array<Pokemon_Ability_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Pokemon_Ability_Order_By>>;
+  where?: Maybe<Pokemon_Ability_Bool_Exp>;
 };
 
 
@@ -372,16 +452,62 @@ export type PokemonTypesArgs = {
   where?: Maybe<Pokemon_Type_Bool_Exp>;
 };
 
+/** columns and relationships of "pokemon_ability" */
+export type Pokemon_Ability = {
+  __typename?: 'pokemon_ability';
+  /** An object relationship */
+  ability: Abilities;
+  ability_id: Scalars['uuid'];
+};
+
+/** Boolean expression to filter rows from the table "pokemon_ability". All fields are combined with a logical 'AND'. */
+export type Pokemon_Ability_Bool_Exp = {
+  _and?: Maybe<Array<Maybe<Pokemon_Ability_Bool_Exp>>>;
+  _not?: Maybe<Pokemon_Ability_Bool_Exp>;
+  _or?: Maybe<Array<Maybe<Pokemon_Ability_Bool_Exp>>>;
+  ability?: Maybe<Abilities_Bool_Exp>;
+  ability_id?: Maybe<Uuid_Comparison_Exp>;
+};
+
+/** ordering options when selecting data from "pokemon_ability" */
+export type Pokemon_Ability_Order_By = {
+  ability?: Maybe<Abilities_Order_By>;
+  ability_id?: Maybe<Order_By>;
+};
+
+/** primary key columns input for table: "pokemon_ability" */
+export type Pokemon_Ability_Pk_Columns_Input = {
+  ability_id: Scalars['uuid'];
+  pokemon_id: Scalars['uuid'];
+};
+
+/** select columns of table "pokemon_ability" */
+export enum Pokemon_Ability_Select_Column {
+  /** column name */
+  AbilityId = 'ability_id'
+}
+
 /** Boolean expression to filter rows from the table "pokemon". All fields are combined with a logical 'AND'. */
 export type Pokemon_Bool_Exp = {
   _and?: Maybe<Array<Maybe<Pokemon_Bool_Exp>>>;
   _not?: Maybe<Pokemon_Bool_Exp>;
   _or?: Maybe<Array<Maybe<Pokemon_Bool_Exp>>>;
+  abilities?: Maybe<Pokemon_Ability_Bool_Exp>;
+  attack?: Maybe<Int_Comparison_Exp>;
+  defense?: Maybe<Int_Comparison_Exp>;
+  description?: Maybe<String_Comparison_Exp>;
+  hp?: Maybe<Int_Comparison_Exp>;
   id?: Maybe<Uuid_Comparison_Exp>;
+  is_baby?: Maybe<Boolean_Comparison_Exp>;
+  is_legendary?: Maybe<Boolean_Comparison_Exp>;
+  is_mythical?: Maybe<Boolean_Comparison_Exp>;
   learnable_moves?: Maybe<Pokemon_Move_Bool_Exp>;
   name?: Maybe<String_Comparison_Exp>;
   pokedex_id?: Maybe<Int_Comparison_Exp>;
   slug?: Maybe<String_Comparison_Exp>;
+  special_attack?: Maybe<Int_Comparison_Exp>;
+  special_defense?: Maybe<Int_Comparison_Exp>;
+  speed?: Maybe<Int_Comparison_Exp>;
   sprite?: Maybe<String_Comparison_Exp>;
   types?: Maybe<Pokemon_Type_Bool_Exp>;
 };
@@ -423,10 +549,20 @@ export enum Pokemon_Move_Select_Column {
 
 /** ordering options when selecting data from "pokemon" */
 export type Pokemon_Order_By = {
+  attack?: Maybe<Order_By>;
+  defense?: Maybe<Order_By>;
+  description?: Maybe<Order_By>;
+  hp?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
+  is_baby?: Maybe<Order_By>;
+  is_legendary?: Maybe<Order_By>;
+  is_mythical?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
   pokedex_id?: Maybe<Order_By>;
   slug?: Maybe<Order_By>;
+  special_attack?: Maybe<Order_By>;
+  special_defense?: Maybe<Order_By>;
+  speed?: Maybe<Order_By>;
   sprite?: Maybe<Order_By>;
 };
 
@@ -438,13 +574,33 @@ export type Pokemon_Pk_Columns_Input = {
 /** select columns of table "pokemon" */
 export enum Pokemon_Select_Column {
   /** column name */
+  Attack = 'attack',
+  /** column name */
+  Defense = 'defense',
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Hp = 'hp',
+  /** column name */
   Id = 'id',
+  /** column name */
+  IsBaby = 'is_baby',
+  /** column name */
+  IsLegendary = 'is_legendary',
+  /** column name */
+  IsMythical = 'is_mythical',
   /** column name */
   Name = 'name',
   /** column name */
   PokedexId = 'pokedex_id',
   /** column name */
   Slug = 'slug',
+  /** column name */
+  SpecialAttack = 'special_attack',
+  /** column name */
+  SpecialDefense = 'special_defense',
+  /** column name */
+  Speed = 'speed',
   /** column name */
   Sprite = 'sprite'
 }
@@ -487,6 +643,10 @@ export enum Pokemon_Type_Select_Column {
 /** query root */
 export type Query_Root = {
   __typename?: 'query_root';
+  /** fetch data from the table: "abilities" */
+  abilities: Array<Abilities>;
+  /** fetch data from the table: "abilities" using primary key columns */
+  abilities_by_pk?: Maybe<Abilities>;
   /** fetch data from the table: "damage_class" using primary key columns */
   damageClassById?: Maybe<Damage_Class>;
   /** fetch data from the table: "damage_class" */
@@ -507,6 +667,10 @@ export type Query_Root = {
   pokemonTypeById?: Maybe<Pokemon_Type>;
   /** fetch data from the table: "pokemon_type" */
   pokemonTypes: Array<Pokemon_Type>;
+  /** fetch data from the table: "pokemon_ability" */
+  pokemon_ability: Array<Pokemon_Ability>;
+  /** fetch data from the table: "pokemon_ability" using primary key columns */
+  pokemon_ability_by_pk?: Maybe<Pokemon_Ability>;
   /** fetch data from the table: "teams" using primary key columns */
   teamById?: Maybe<Teams>;
   /** fetch data from the table: "team_member" using primary key columns */
@@ -523,6 +687,22 @@ export type Query_Root = {
   typeById?: Maybe<Types>;
   /** fetch data from the table: "types" */
   types: Array<Types>;
+};
+
+
+/** query root */
+export type Query_RootAbilitiesArgs = {
+  distinct_on?: Maybe<Array<Abilities_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Abilities_Order_By>>;
+  where?: Maybe<Abilities_Bool_Exp>;
+};
+
+
+/** query root */
+export type Query_RootAbilities_By_PkArgs = {
+  id: Scalars['uuid'];
 };
 
 
@@ -609,6 +789,23 @@ export type Query_RootPokemonTypesArgs = {
 
 
 /** query root */
+export type Query_RootPokemon_AbilityArgs = {
+  distinct_on?: Maybe<Array<Pokemon_Ability_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Pokemon_Ability_Order_By>>;
+  where?: Maybe<Pokemon_Ability_Bool_Exp>;
+};
+
+
+/** query root */
+export type Query_RootPokemon_Ability_By_PkArgs = {
+  ability_id: Scalars['uuid'];
+  pokemon_id: Scalars['uuid'];
+};
+
+
+/** query root */
 export type Query_RootTeamByIdArgs = {
   id: Scalars['uuid'];
 };
@@ -675,6 +872,10 @@ export type Query_RootTypesArgs = {
 /** subscription root */
 export type Subscription_Root = {
   __typename?: 'subscription_root';
+  /** fetch data from the table: "abilities" */
+  abilities: Array<Abilities>;
+  /** fetch data from the table: "abilities" using primary key columns */
+  abilities_by_pk?: Maybe<Abilities>;
   /** fetch data from the table: "damage_class" using primary key columns */
   damageClassById?: Maybe<Damage_Class>;
   /** fetch data from the table: "damage_class" */
@@ -695,6 +896,10 @@ export type Subscription_Root = {
   pokemonTypeById?: Maybe<Pokemon_Type>;
   /** fetch data from the table: "pokemon_type" */
   pokemonTypes: Array<Pokemon_Type>;
+  /** fetch data from the table: "pokemon_ability" */
+  pokemon_ability: Array<Pokemon_Ability>;
+  /** fetch data from the table: "pokemon_ability" using primary key columns */
+  pokemon_ability_by_pk?: Maybe<Pokemon_Ability>;
   /** fetch data from the table: "teams" using primary key columns */
   teamById?: Maybe<Teams>;
   /** fetch data from the table: "team_member" using primary key columns */
@@ -711,6 +916,22 @@ export type Subscription_Root = {
   typeById?: Maybe<Types>;
   /** fetch data from the table: "types" */
   types: Array<Types>;
+};
+
+
+/** subscription root */
+export type Subscription_RootAbilitiesArgs = {
+  distinct_on?: Maybe<Array<Abilities_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Abilities_Order_By>>;
+  where?: Maybe<Abilities_Bool_Exp>;
+};
+
+
+/** subscription root */
+export type Subscription_RootAbilities_By_PkArgs = {
+  id: Scalars['uuid'];
 };
 
 
@@ -793,6 +1014,23 @@ export type Subscription_RootPokemonTypesArgs = {
   offset?: Maybe<Scalars['Int']>;
   order_by?: Maybe<Array<Pokemon_Type_Order_By>>;
   where?: Maybe<Pokemon_Type_Bool_Exp>;
+};
+
+
+/** subscription root */
+export type Subscription_RootPokemon_AbilityArgs = {
+  distinct_on?: Maybe<Array<Pokemon_Ability_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Pokemon_Ability_Order_By>>;
+  where?: Maybe<Pokemon_Ability_Bool_Exp>;
+};
+
+
+/** subscription root */
+export type Subscription_RootPokemon_Ability_By_PkArgs = {
+  ability_id: Scalars['uuid'];
+  pokemon_id: Scalars['uuid'];
 };
 
 
@@ -1267,13 +1505,19 @@ export type MoveFragmentFragment = (
 
 export type PokemonFragmentFragment = (
   { __typename?: 'pokemon' }
-  & Pick<Pokemon, 'id' | 'pokedex_id' | 'name' | 'slug' | 'sprite'>
+  & Pick<Pokemon, 'id' | 'name' | 'slug' | 'pokedex_id' | 'sprite' | 'hp' | 'attack' | 'defense' | 'special_attack' | 'special_defense' | 'speed' | 'is_baby' | 'is_legendary' | 'is_mythical' | 'description'>
   & { types: Array<(
     { __typename?: 'pokemon_type' }
-    & Pick<Pokemon_Type, 'type_id'>
     & { type: (
       { __typename?: 'types' }
-      & TypeFragmentFragment
+      & Pick<Types, 'name' | 'slug'>
+    ) }
+  )>, abilities: Array<(
+    { __typename?: 'pokemon_ability' }
+    & Pick<Pokemon_Ability, 'ability_id'>
+    & { ability: (
+      { __typename?: 'abilities' }
+      & Pick<Abilities, 'id' | 'name' | 'slug' | 'effect'>
     ) }
   )> }
 );
@@ -1478,6 +1722,40 @@ export type TeamByIdQuery = (
   )> }
 );
 
+export const PokemonFragmentFragmentDoc = gql`
+    fragment PokemonFragment on pokemon {
+  id
+  name
+  slug
+  pokedex_id
+  sprite
+  hp
+  attack
+  defense
+  special_attack
+  special_defense
+  speed
+  is_baby
+  is_legendary
+  is_mythical
+  description
+  types {
+    type {
+      name
+      slug
+    }
+  }
+  abilities {
+    ability_id
+    ability {
+      id
+      name
+      slug
+      effect
+    }
+  }
+}
+    `;
 export const TypeFragmentFragmentDoc = gql`
     fragment TypeFragment on types {
   id
@@ -1485,21 +1763,6 @@ export const TypeFragmentFragmentDoc = gql`
   slug
 }
     `;
-export const PokemonFragmentFragmentDoc = gql`
-    fragment PokemonFragment on pokemon {
-  id
-  pokedex_id
-  name
-  slug
-  sprite
-  types {
-    type_id
-    type {
-      ...TypeFragment
-    }
-  }
-}
-    ${TypeFragmentFragmentDoc}`;
 export const MoveFragmentFragmentDoc = gql`
     fragment MoveFragment on moves {
   id

@@ -49,12 +49,14 @@ export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
           ))}
         </InlineList>
 
+        <p>{pokemon.description}</p>
+
         {(teamMember?.learned_moves?.length ?? 0) > 0 && (
-          <MoveList className="mt-6 w-full" teamMember={teamMember} />
+          <MoveList className="mt-3 w-full" teamMember={teamMember} />
         )}
 
         {renderCardActions ? (
-          <div className={classNames('mt-6')}>{renderCardActions()}</div>
+          <div className={classNames('mt-3')}>{renderCardActions()}</div>
         ) : null}
       </CardContent>
     </CardWrapper>
