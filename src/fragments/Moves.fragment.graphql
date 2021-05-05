@@ -1,15 +1,33 @@
-fragment MoveFragment on moves {
+fragment MoveFragment on Move {
   id
   slug
   name
   accuracy
-  power
   pp
+  power
+  damageClass
   effect
-  damage_class {
-    value
-  }
+  effectChance
+  target
   type {
     ...TypeFragment
+    noDamageTo {
+      total
+      types {
+        ...TypeFragment
+      }
+    }
+    halfDamageTo {
+      total
+      types {
+        ...TypeFragment
+      }
+    }
+    doubleDamageTo {
+      total
+      types {
+        ...TypeFragment
+      }
+    }
   }
 }

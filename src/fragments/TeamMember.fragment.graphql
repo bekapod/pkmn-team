@@ -1,16 +1,23 @@
-fragment TeamMemberFragment on team_member {
+fragment TeamMemberFragment on TeamMember {
   id
-  order
+  slot
   pokemon {
     ...PokemonFragment
-    learnable_moves {
-      move_id
-      move {
-        ...MoveFragment
+    moves {
+      total
+      pokemonMoves {
+        learnMethod
+        levelLearnedAt
+        move {
+          ...MoveFragment
+        }
       }
     }
   }
-  learned_moves {
-    ...TeamMemberMoveFragment
+  moves {
+    total
+    teamMemberMoves {
+      ...TeamMemberMoveFragment
+    }
   }
 }

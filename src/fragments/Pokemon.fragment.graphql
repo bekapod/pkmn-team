@@ -1,32 +1,215 @@
-fragment PokemonFragment on pokemon {
+fragment PokemonFragment on Pokemon {
   id
   name
   slug
-  pokedex_id
+  pokedexId
   sprite
+  color
+  shape
+  habitat
   hp
   attack
   defense
-  special_attack
-  special_defense
+  specialAttack
+  specialDefense
   speed
-  is_baby
-  is_legendary
-  is_mythical
+  height
+  weight
+  isDefaultVariant
+  isBaby
+  isLegendary
+  isMythical
   description
-  types {
-    type {
+  abilities {
+    total
+    pokemonAbilities {
+      slot
+      isHidden
+      ability {
+        id
+        slug
+        name
+        effect
+      }
+    }
+  }
+  eggGroups {
+    total
+    eggGroups {
+      id
       name
       slug
     }
   }
-  abilities {
-    ability_id
-    ability {
-      id
-      name
-      slug
-      effect
+  evolvesTo {
+    total
+    pokemonEvolutions {
+      pokemon {
+        name
+        evolvesTo {
+          total
+          pokemonEvolutions {
+            pokemon {
+              id
+              name
+            }
+          }
+        }
+      }
+      trigger
+      item {
+        id
+        slug
+        name
+        cost
+        flingPower
+        flingEffect
+        effect
+        sprite
+        category
+        attributes
+      }
+      gender
+      heldItem {
+        id
+        slug
+        name
+        cost
+        flingPower
+        flingEffect
+        effect
+        sprite
+        category
+        attributes
+      }
+      knownMove {
+        name
+        type {
+          name
+        }
+      }
+      knownMoveType {
+        name
+      }
+      minLevel
+      minHappiness
+      minBeauty
+      minAffection
+      needsOverworldRain
+      partyPokemon {
+        name
+      }
+      partyPokemonType {
+        name
+      }
+      relativePhysicalStats
+      timeOfDay
+      tradeWithPokemon {
+        name
+      }
+      turnUpsideDown
+      spin
+      takeDamage
+      criticalHits
+    }
+  }
+  evolvesFrom {
+    total
+    pokemonEvolutions {
+      pokemon {
+        name
+        evolvesFrom {
+          total
+          pokemonEvolutions {
+            pokemon {
+              id
+              name
+            }
+          }
+        }
+      }
+      trigger
+      item {
+        id
+        slug
+        name
+        cost
+        flingPower
+        flingEffect
+        effect
+        sprite
+        category
+        attributes
+      }
+      gender
+      heldItem {
+        id
+        slug
+        name
+        cost
+        flingPower
+        flingEffect
+        effect
+        sprite
+        category
+        attributes
+      }
+      knownMove {
+        name
+        type {
+          name
+        }
+      }
+      knownMoveType {
+        name
+      }
+      minLevel
+      minHappiness
+      minBeauty
+      minAffection
+      needsOverworldRain
+      partyPokemon {
+        name
+      }
+      partyPokemonType {
+        name
+      }
+      relativePhysicalStats
+      timeOfDay
+      tradeWithPokemon {
+        name
+      }
+      turnUpsideDown
+      spin
+      takeDamage
+      criticalHits
+    }
+  }
+  types {
+    total
+    pokemonTypes {
+      slot
+      type {
+        ...TypeFragment
+        noDamageFrom {
+          total
+          types {
+            ...TypeFragment
+          }
+        }
+        halfDamageFrom {
+          total
+          types {
+            ...TypeFragment
+          }
+        }
+        doubleDamageFrom {
+          total
+          types {
+            ...TypeFragment
+          }
+        }
+      }
     }
   }
 }
