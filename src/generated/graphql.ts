@@ -12,1557 +12,732 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  timestamptz: any;
-  uuid: any;
 };
 
-/** expression to compare columns of type Boolean. All fields are combined with logical 'AND'. */
-export type Boolean_Comparison_Exp = {
-  _eq?: Maybe<Scalars['Boolean']>;
-  _gt?: Maybe<Scalars['Boolean']>;
-  _gte?: Maybe<Scalars['Boolean']>;
-  _in?: Maybe<Array<Scalars['Boolean']>>;
-  _is_null?: Maybe<Scalars['Boolean']>;
-  _lt?: Maybe<Scalars['Boolean']>;
-  _lte?: Maybe<Scalars['Boolean']>;
-  _neq?: Maybe<Scalars['Boolean']>;
-  _nin?: Maybe<Array<Scalars['Boolean']>>;
+export type UpdateTeamMemberInput = {
+  id?: Maybe<Scalars['ID']>;
+  pokemonId?: Maybe<Scalars['ID']>;
+  slot?: Maybe<Scalars['Int']>;
 };
 
-/** expression to compare columns of type Int. All fields are combined with logical 'AND'. */
-export type Int_Comparison_Exp = {
-  _eq?: Maybe<Scalars['Int']>;
-  _gt?: Maybe<Scalars['Int']>;
-  _gte?: Maybe<Scalars['Int']>;
-  _in?: Maybe<Array<Scalars['Int']>>;
-  _is_null?: Maybe<Scalars['Boolean']>;
-  _lt?: Maybe<Scalars['Int']>;
-  _lte?: Maybe<Scalars['Int']>;
-  _neq?: Maybe<Scalars['Int']>;
-  _nin?: Maybe<Array<Scalars['Int']>>;
+export type PokemonEvolutionList = {
+  __typename?: 'PokemonEvolutionList';
+  total: Scalars['Int'];
+  pokemonEvolutions: Array<PokemonEvolution>;
 };
 
-/** expression to compare columns of type String. All fields are combined with logical 'AND'. */
-export type String_Comparison_Exp = {
-  _eq?: Maybe<Scalars['String']>;
-  _gt?: Maybe<Scalars['String']>;
-  _gte?: Maybe<Scalars['String']>;
-  _ilike?: Maybe<Scalars['String']>;
-  _in?: Maybe<Array<Scalars['String']>>;
-  _is_null?: Maybe<Scalars['Boolean']>;
-  _like?: Maybe<Scalars['String']>;
-  _lt?: Maybe<Scalars['String']>;
-  _lte?: Maybe<Scalars['String']>;
-  _neq?: Maybe<Scalars['String']>;
-  _nilike?: Maybe<Scalars['String']>;
-  _nin?: Maybe<Array<Scalars['String']>>;
-  _nlike?: Maybe<Scalars['String']>;
-  _nsimilar?: Maybe<Scalars['String']>;
-  _similar?: Maybe<Scalars['String']>;
+export type PokemonType = {
+  __typename?: 'PokemonType';
+  type: Type;
+  pokemon: Pokemon;
+  slot: Scalars['Int'];
 };
 
-/** columns and relationships of "abilities" */
-export type Abilities = {
-  __typename?: 'abilities';
-  effect?: Maybe<Scalars['String']>;
-  id: Scalars['uuid'];
-  name: Scalars['String'];
+export type CreateTeamMemberInput = {
+  pokemonId: Scalars['ID'];
+  slot: Scalars['Int'];
+};
+
+export type TeamMemberMove = {
+  __typename?: 'TeamMemberMove';
+  id: Scalars['ID'];
+  slot: Scalars['Int'];
+  move: PokemonMove;
+};
+
+export enum Habitat {
+  Cave = 'CAVE',
+  Forest = 'FOREST',
+  Grassland = 'GRASSLAND',
+  Mountain = 'MOUNTAIN',
+  Rare = 'RARE',
+  RoughTerrain = 'ROUGH_TERRAIN',
+  Sea = 'SEA',
+  Urban = 'URBAN',
+  WatersEdge = 'WATERS_EDGE'
+}
+
+export type Ability = {
+  __typename?: 'Ability';
+  id: Scalars['ID'];
   slug: Scalars['String'];
-};
-
-/** Boolean expression to filter rows from the table "abilities". All fields are combined with a logical 'AND'. */
-export type Abilities_Bool_Exp = {
-  _and?: Maybe<Array<Maybe<Abilities_Bool_Exp>>>;
-  _not?: Maybe<Abilities_Bool_Exp>;
-  _or?: Maybe<Array<Maybe<Abilities_Bool_Exp>>>;
-  effect?: Maybe<String_Comparison_Exp>;
-  id?: Maybe<Uuid_Comparison_Exp>;
-  name?: Maybe<String_Comparison_Exp>;
-  slug?: Maybe<String_Comparison_Exp>;
-};
-
-/** ordering options when selecting data from "abilities" */
-export type Abilities_Order_By = {
-  effect?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  name?: Maybe<Order_By>;
-  slug?: Maybe<Order_By>;
-};
-
-/** primary key columns input for table: "abilities" */
-export type Abilities_Pk_Columns_Input = {
-  id: Scalars['uuid'];
-};
-
-/** select columns of table "abilities" */
-export enum Abilities_Select_Column {
-  /** column name */
-  Effect = 'effect',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  Name = 'name',
-  /** column name */
-  Slug = 'slug'
-}
-
-/** columns and relationships of "damage_class" */
-export type Damage_Class = {
-  __typename?: 'damage_class';
-  value: Scalars['String'];
-};
-
-/** Boolean expression to filter rows from the table "damage_class". All fields are combined with a logical 'AND'. */
-export type Damage_Class_Bool_Exp = {
-  _and?: Maybe<Array<Maybe<Damage_Class_Bool_Exp>>>;
-  _not?: Maybe<Damage_Class_Bool_Exp>;
-  _or?: Maybe<Array<Maybe<Damage_Class_Bool_Exp>>>;
-  value?: Maybe<String_Comparison_Exp>;
-};
-
-/** ordering options when selecting data from "damage_class" */
-export type Damage_Class_Order_By = {
-  value?: Maybe<Order_By>;
-};
-
-/** primary key columns input for table: "damage_class" */
-export type Damage_Class_Pk_Columns_Input = {
-  value: Scalars['String'];
-};
-
-/** select columns of table "damage_class" */
-export enum Damage_Class_Select_Column {
-  /** column name */
-  Value = 'value'
-}
-
-/** columns and relationships of "moves" */
-export type Moves = {
-  __typename?: 'moves';
-  accuracy?: Maybe<Scalars['Int']>;
-  /** An object relationship */
-  damage_class?: Maybe<Damage_Class>;
-  effect?: Maybe<Scalars['String']>;
-  effect_chance?: Maybe<Scalars['Int']>;
-  id: Scalars['uuid'];
   name: Scalars['String'];
-  power?: Maybe<Scalars['Int']>;
-  pp?: Maybe<Scalars['Int']>;
-  slug: Scalars['String'];
-  target?: Maybe<Scalars['String']>;
-  /** An object relationship */
-  type: Types;
+  effect?: Maybe<Scalars['String']>;
+  pokemon: PokemonAbilityList;
 };
 
-/** Boolean expression to filter rows from the table "moves". All fields are combined with a logical 'AND'. */
-export type Moves_Bool_Exp = {
-  _and?: Maybe<Array<Maybe<Moves_Bool_Exp>>>;
-  _not?: Maybe<Moves_Bool_Exp>;
-  _or?: Maybe<Array<Maybe<Moves_Bool_Exp>>>;
-  accuracy?: Maybe<Int_Comparison_Exp>;
-  damage_class?: Maybe<Damage_Class_Bool_Exp>;
-  effect?: Maybe<String_Comparison_Exp>;
-  effect_chance?: Maybe<Int_Comparison_Exp>;
-  id?: Maybe<Uuid_Comparison_Exp>;
-  name?: Maybe<String_Comparison_Exp>;
-  power?: Maybe<Int_Comparison_Exp>;
-  pp?: Maybe<Int_Comparison_Exp>;
-  slug?: Maybe<String_Comparison_Exp>;
-  target?: Maybe<String_Comparison_Exp>;
-  type?: Maybe<Types_Bool_Exp>;
-};
-
-/** ordering options when selecting data from "moves" */
-export type Moves_Order_By = {
-  accuracy?: Maybe<Order_By>;
-  damage_class?: Maybe<Damage_Class_Order_By>;
-  effect?: Maybe<Order_By>;
-  effect_chance?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  name?: Maybe<Order_By>;
-  power?: Maybe<Order_By>;
-  pp?: Maybe<Order_By>;
-  slug?: Maybe<Order_By>;
-  target?: Maybe<Order_By>;
-  type?: Maybe<Types_Order_By>;
-};
-
-/** primary key columns input for table: "moves" */
-export type Moves_Pk_Columns_Input = {
-  id: Scalars['uuid'];
-};
-
-/** select columns of table "moves" */
-export enum Moves_Select_Column {
-  /** column name */
-  Accuracy = 'accuracy',
-  /** column name */
-  Effect = 'effect',
-  /** column name */
-  EffectChance = 'effect_chance',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  Name = 'name',
-  /** column name */
-  Power = 'power',
-  /** column name */
-  Pp = 'pp',
-  /** column name */
-  Slug = 'slug',
-  /** column name */
-  Target = 'target'
+export enum MoveLearnMethod {
+  LevelUp = 'LEVEL_UP',
+  Egg = 'EGG',
+  Tutor = 'TUTOR',
+  Machine = 'MACHINE',
+  StadiumSurfingPikachu = 'STADIUM_SURFING_PIKACHU',
+  LightBallEgg = 'LIGHT_BALL_EGG',
+  ColosseumPurification = 'COLOSSEUM_PURIFICATION',
+  XdShadow = 'XD_SHADOW',
+  XdPurification = 'XD_PURIFICATION',
+  FormChange = 'FORM_CHANGE',
+  Record = 'RECORD',
+  Transfer = 'TRANSFER'
 }
 
-/** mutation root */
-export type Mutation_Root = {
-  __typename?: 'mutation_root';
-  /** insert a single row into the table: "teams" */
-  createTeam?: Maybe<Teams>;
-  /** insert a single row into the table: "team_member" */
-  createTeamMember?: Maybe<Team_Member>;
-  /** insert a single row into the table: "team_member_move" */
-  createTeamMemberMove?: Maybe<Team_Member_Move>;
-  /** insert data into the table: "team_member_move" */
-  createTeamMemberMoves?: Maybe<Team_Member_Move_Mutation_Response>;
-  /** insert data into the table: "team_member" */
-  createTeamMembers?: Maybe<Team_Member_Mutation_Response>;
-  /** insert data into the table: "teams" */
-  createTeams?: Maybe<Teams_Mutation_Response>;
-  /** delete single row from the table: "teams" */
-  deleteTeam?: Maybe<Teams>;
-  /** delete single row from the table: "team_member" */
-  deleteTeamMember?: Maybe<Team_Member>;
-  /** delete single row from the table: "team_member_move" */
-  deleteTeamMemberMove?: Maybe<Team_Member_Move>;
-  /** delete data from the table: "team_member_move" */
-  deleteTeamMemberMoves?: Maybe<Team_Member_Move_Mutation_Response>;
-  /** delete data from the table: "team_member" */
-  deleteTeamMembers?: Maybe<Team_Member_Mutation_Response>;
-  /** delete data from the table: "teams" */
-  deleteTeams?: Maybe<Teams_Mutation_Response>;
-  /** update single row of the table: "teams" */
-  updateTeam?: Maybe<Teams>;
-  /** update single row of the table: "team_member" */
-  updateTeamMember?: Maybe<Team_Member>;
-  /** update single row of the table: "team_member_move" */
-  updateTeamMemberMove?: Maybe<Team_Member_Move>;
-  /** update data of the table: "team_member_move" */
-  updateTeamMemberMoves?: Maybe<Team_Member_Move_Mutation_Response>;
-  /** update data of the table: "team_member" */
-  updateTeamMembers?: Maybe<Team_Member_Mutation_Response>;
-  /** update data of the table: "teams" */
-  updateTeams?: Maybe<Teams_Mutation_Response>;
-};
-
-
-/** mutation root */
-export type Mutation_RootCreateTeamArgs = {
-  object: Teams_Insert_Input;
-  on_conflict?: Maybe<Teams_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootCreateTeamMemberArgs = {
-  object: Team_Member_Insert_Input;
-  on_conflict?: Maybe<Team_Member_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootCreateTeamMemberMoveArgs = {
-  object: Team_Member_Move_Insert_Input;
-  on_conflict?: Maybe<Team_Member_Move_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootCreateTeamMemberMovesArgs = {
-  objects: Array<Team_Member_Move_Insert_Input>;
-  on_conflict?: Maybe<Team_Member_Move_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootCreateTeamMembersArgs = {
-  objects: Array<Team_Member_Insert_Input>;
-  on_conflict?: Maybe<Team_Member_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootCreateTeamsArgs = {
-  objects: Array<Teams_Insert_Input>;
-  on_conflict?: Maybe<Teams_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootDeleteTeamArgs = {
-  id: Scalars['uuid'];
-};
-
-
-/** mutation root */
-export type Mutation_RootDeleteTeamMemberArgs = {
-  id: Scalars['uuid'];
-};
-
-
-/** mutation root */
-export type Mutation_RootDeleteTeamMemberMoveArgs = {
-  move_id: Scalars['uuid'];
-  team_member_id: Scalars['uuid'];
-};
-
-
-/** mutation root */
-export type Mutation_RootDeleteTeamMemberMovesArgs = {
-  where: Team_Member_Move_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootDeleteTeamMembersArgs = {
-  where: Team_Member_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootDeleteTeamsArgs = {
-  where: Teams_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdateTeamArgs = {
-  _set?: Maybe<Teams_Set_Input>;
-  pk_columns: Teams_Pk_Columns_Input;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdateTeamMemberArgs = {
-  _inc?: Maybe<Team_Member_Inc_Input>;
-  _set?: Maybe<Team_Member_Set_Input>;
-  pk_columns: Team_Member_Pk_Columns_Input;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdateTeamMemberMoveArgs = {
-  _inc?: Maybe<Team_Member_Move_Inc_Input>;
-  _set?: Maybe<Team_Member_Move_Set_Input>;
-  pk_columns: Team_Member_Move_Pk_Columns_Input;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdateTeamMemberMovesArgs = {
-  _inc?: Maybe<Team_Member_Move_Inc_Input>;
-  _set?: Maybe<Team_Member_Move_Set_Input>;
-  where: Team_Member_Move_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdateTeamMembersArgs = {
-  _inc?: Maybe<Team_Member_Inc_Input>;
-  _set?: Maybe<Team_Member_Set_Input>;
-  where: Team_Member_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdateTeamsArgs = {
-  _set?: Maybe<Teams_Set_Input>;
-  where: Teams_Bool_Exp;
-};
-
-/** column ordering options */
-export enum Order_By {
-  /** in the ascending order, nulls last */
-  Asc = 'asc',
-  /** in the ascending order, nulls first */
-  AscNullsFirst = 'asc_nulls_first',
-  /** in the ascending order, nulls last */
-  AscNullsLast = 'asc_nulls_last',
-  /** in the descending order, nulls first */
-  Desc = 'desc',
-  /** in the descending order, nulls first */
-  DescNullsFirst = 'desc_nulls_first',
-  /** in the descending order, nulls last */
-  DescNullsLast = 'desc_nulls_last'
-}
-
-/** columns and relationships of "pokemon" */
 export type Pokemon = {
-  __typename?: 'pokemon';
-  /** An array relationship */
-  abilities: Array<Pokemon_Ability>;
+  __typename?: 'Pokemon';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  slug: Scalars['String'];
+  pokedexId: Scalars['Int'];
+  sprite: Scalars['String'];
+  hp: Scalars['Int'];
   attack: Scalars['Int'];
   defense: Scalars['Int'];
-  description?: Maybe<Scalars['String']>;
-  hp: Scalars['Int'];
-  id: Scalars['uuid'];
-  is_baby: Scalars['Boolean'];
-  is_legendary: Scalars['Boolean'];
-  is_mythical: Scalars['Boolean'];
-  /** An array relationship */
-  learnable_moves: Array<Pokemon_Move>;
-  name: Scalars['String'];
-  pokedex_id: Scalars['Int'];
-  slug: Scalars['String'];
-  special_attack: Scalars['Int'];
-  special_defense: Scalars['Int'];
+  specialAttack: Scalars['Int'];
+  specialDefense: Scalars['Int'];
   speed: Scalars['Int'];
-  sprite?: Maybe<Scalars['String']>;
-  /** An array relationship */
-  types: Array<Pokemon_Type>;
-};
-
-
-/** columns and relationships of "pokemon" */
-export type PokemonAbilitiesArgs = {
-  distinct_on?: Maybe<Array<Pokemon_Ability_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Pokemon_Ability_Order_By>>;
-  where?: Maybe<Pokemon_Ability_Bool_Exp>;
-};
-
-
-/** columns and relationships of "pokemon" */
-export type PokemonLearnable_MovesArgs = {
-  distinct_on?: Maybe<Array<Pokemon_Move_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Pokemon_Move_Order_By>>;
-  where?: Maybe<Pokemon_Move_Bool_Exp>;
-};
-
-
-/** columns and relationships of "pokemon" */
-export type PokemonTypesArgs = {
-  distinct_on?: Maybe<Array<Pokemon_Type_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Pokemon_Type_Order_By>>;
-  where?: Maybe<Pokemon_Type_Bool_Exp>;
-};
-
-/** columns and relationships of "pokemon_ability" */
-export type Pokemon_Ability = {
-  __typename?: 'pokemon_ability';
-  /** An object relationship */
-  ability: Abilities;
-  ability_id: Scalars['uuid'];
-};
-
-/** Boolean expression to filter rows from the table "pokemon_ability". All fields are combined with a logical 'AND'. */
-export type Pokemon_Ability_Bool_Exp = {
-  _and?: Maybe<Array<Maybe<Pokemon_Ability_Bool_Exp>>>;
-  _not?: Maybe<Pokemon_Ability_Bool_Exp>;
-  _or?: Maybe<Array<Maybe<Pokemon_Ability_Bool_Exp>>>;
-  ability?: Maybe<Abilities_Bool_Exp>;
-  ability_id?: Maybe<Uuid_Comparison_Exp>;
-};
-
-/** ordering options when selecting data from "pokemon_ability" */
-export type Pokemon_Ability_Order_By = {
-  ability?: Maybe<Abilities_Order_By>;
-  ability_id?: Maybe<Order_By>;
-};
-
-/** primary key columns input for table: "pokemon_ability" */
-export type Pokemon_Ability_Pk_Columns_Input = {
-  ability_id: Scalars['uuid'];
-  pokemon_id: Scalars['uuid'];
-};
-
-/** select columns of table "pokemon_ability" */
-export enum Pokemon_Ability_Select_Column {
-  /** column name */
-  AbilityId = 'ability_id'
-}
-
-/** Boolean expression to filter rows from the table "pokemon". All fields are combined with a logical 'AND'. */
-export type Pokemon_Bool_Exp = {
-  _and?: Maybe<Array<Maybe<Pokemon_Bool_Exp>>>;
-  _not?: Maybe<Pokemon_Bool_Exp>;
-  _or?: Maybe<Array<Maybe<Pokemon_Bool_Exp>>>;
-  abilities?: Maybe<Pokemon_Ability_Bool_Exp>;
-  attack?: Maybe<Int_Comparison_Exp>;
-  defense?: Maybe<Int_Comparison_Exp>;
-  description?: Maybe<String_Comparison_Exp>;
-  hp?: Maybe<Int_Comparison_Exp>;
-  id?: Maybe<Uuid_Comparison_Exp>;
-  is_baby?: Maybe<Boolean_Comparison_Exp>;
-  is_legendary?: Maybe<Boolean_Comparison_Exp>;
-  is_mythical?: Maybe<Boolean_Comparison_Exp>;
-  learnable_moves?: Maybe<Pokemon_Move_Bool_Exp>;
-  name?: Maybe<String_Comparison_Exp>;
-  pokedex_id?: Maybe<Int_Comparison_Exp>;
-  slug?: Maybe<String_Comparison_Exp>;
-  special_attack?: Maybe<Int_Comparison_Exp>;
-  special_defense?: Maybe<Int_Comparison_Exp>;
-  speed?: Maybe<Int_Comparison_Exp>;
-  sprite?: Maybe<String_Comparison_Exp>;
-  types?: Maybe<Pokemon_Type_Bool_Exp>;
-};
-
-/** columns and relationships of "pokemon_move" */
-export type Pokemon_Move = {
-  __typename?: 'pokemon_move';
-  /** An object relationship */
-  move: Moves;
-  move_id: Scalars['uuid'];
-};
-
-/** Boolean expression to filter rows from the table "pokemon_move". All fields are combined with a logical 'AND'. */
-export type Pokemon_Move_Bool_Exp = {
-  _and?: Maybe<Array<Maybe<Pokemon_Move_Bool_Exp>>>;
-  _not?: Maybe<Pokemon_Move_Bool_Exp>;
-  _or?: Maybe<Array<Maybe<Pokemon_Move_Bool_Exp>>>;
-  move?: Maybe<Moves_Bool_Exp>;
-  move_id?: Maybe<Uuid_Comparison_Exp>;
-};
-
-/** ordering options when selecting data from "pokemon_move" */
-export type Pokemon_Move_Order_By = {
-  move?: Maybe<Moves_Order_By>;
-  move_id?: Maybe<Order_By>;
-};
-
-/** primary key columns input for table: "pokemon_move" */
-export type Pokemon_Move_Pk_Columns_Input = {
-  move_id: Scalars['uuid'];
-  pokemon_id: Scalars['uuid'];
-};
-
-/** select columns of table "pokemon_move" */
-export enum Pokemon_Move_Select_Column {
-  /** column name */
-  MoveId = 'move_id'
-}
-
-/** ordering options when selecting data from "pokemon" */
-export type Pokemon_Order_By = {
-  attack?: Maybe<Order_By>;
-  defense?: Maybe<Order_By>;
-  description?: Maybe<Order_By>;
-  hp?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  is_baby?: Maybe<Order_By>;
-  is_legendary?: Maybe<Order_By>;
-  is_mythical?: Maybe<Order_By>;
-  name?: Maybe<Order_By>;
-  pokedex_id?: Maybe<Order_By>;
-  slug?: Maybe<Order_By>;
-  special_attack?: Maybe<Order_By>;
-  special_defense?: Maybe<Order_By>;
-  speed?: Maybe<Order_By>;
-  sprite?: Maybe<Order_By>;
-};
-
-/** primary key columns input for table: "pokemon" */
-export type Pokemon_Pk_Columns_Input = {
-  id: Scalars['uuid'];
-};
-
-/** select columns of table "pokemon" */
-export enum Pokemon_Select_Column {
-  /** column name */
-  Attack = 'attack',
-  /** column name */
-  Defense = 'defense',
-  /** column name */
-  Description = 'description',
-  /** column name */
-  Hp = 'hp',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  IsBaby = 'is_baby',
-  /** column name */
-  IsLegendary = 'is_legendary',
-  /** column name */
-  IsMythical = 'is_mythical',
-  /** column name */
-  Name = 'name',
-  /** column name */
-  PokedexId = 'pokedex_id',
-  /** column name */
-  Slug = 'slug',
-  /** column name */
-  SpecialAttack = 'special_attack',
-  /** column name */
-  SpecialDefense = 'special_defense',
-  /** column name */
-  Speed = 'speed',
-  /** column name */
-  Sprite = 'sprite'
-}
-
-/** columns and relationships of "pokemon_type" */
-export type Pokemon_Type = {
-  __typename?: 'pokemon_type';
-  /** An object relationship */
-  type: Types;
-  type_id: Scalars['uuid'];
-};
-
-/** Boolean expression to filter rows from the table "pokemon_type". All fields are combined with a logical 'AND'. */
-export type Pokemon_Type_Bool_Exp = {
-  _and?: Maybe<Array<Maybe<Pokemon_Type_Bool_Exp>>>;
-  _not?: Maybe<Pokemon_Type_Bool_Exp>;
-  _or?: Maybe<Array<Maybe<Pokemon_Type_Bool_Exp>>>;
-  type?: Maybe<Types_Bool_Exp>;
-  type_id?: Maybe<Uuid_Comparison_Exp>;
-};
-
-/** ordering options when selecting data from "pokemon_type" */
-export type Pokemon_Type_Order_By = {
-  type?: Maybe<Types_Order_By>;
-  type_id?: Maybe<Order_By>;
-};
-
-/** primary key columns input for table: "pokemon_type" */
-export type Pokemon_Type_Pk_Columns_Input = {
-  pokemon_id: Scalars['uuid'];
-  type_id: Scalars['uuid'];
-};
-
-/** select columns of table "pokemon_type" */
-export enum Pokemon_Type_Select_Column {
-  /** column name */
-  TypeId = 'type_id'
-}
-
-/** query root */
-export type Query_Root = {
-  __typename?: 'query_root';
-  /** fetch data from the table: "abilities" */
-  abilities: Array<Abilities>;
-  /** fetch data from the table: "abilities" using primary key columns */
-  abilities_by_pk?: Maybe<Abilities>;
-  /** fetch data from the table: "damage_class" using primary key columns */
-  damageClassById?: Maybe<Damage_Class>;
-  /** fetch data from the table: "damage_class" */
-  damageClasses: Array<Damage_Class>;
-  /** fetch data from the table: "moves" using primary key columns */
-  moveById?: Maybe<Moves>;
-  /** fetch data from the table: "moves" */
-  moves: Array<Moves>;
-  /** fetch data from the table: "pokemon" */
-  pokemon: Array<Pokemon>;
-  /** fetch data from the table: "pokemon" using primary key columns */
-  pokemonById?: Maybe<Pokemon>;
-  /** fetch data from the table: "pokemon_move" using primary key columns */
-  pokemonMoveById?: Maybe<Pokemon_Move>;
-  /** fetch data from the table: "pokemon_move" */
-  pokemonMoves: Array<Pokemon_Move>;
-  /** fetch data from the table: "pokemon_type" using primary key columns */
-  pokemonTypeById?: Maybe<Pokemon_Type>;
-  /** fetch data from the table: "pokemon_type" */
-  pokemonTypes: Array<Pokemon_Type>;
-  /** fetch data from the table: "pokemon_ability" */
-  pokemon_ability: Array<Pokemon_Ability>;
-  /** fetch data from the table: "pokemon_ability" using primary key columns */
-  pokemon_ability_by_pk?: Maybe<Pokemon_Ability>;
-  /** fetch data from the table: "teams" using primary key columns */
-  teamById?: Maybe<Teams>;
-  /** fetch data from the table: "team_member" using primary key columns */
-  teamMemberById?: Maybe<Team_Member>;
-  /** fetch data from the table: "team_member_move" using primary key columns */
-  teamMemberMoveById?: Maybe<Team_Member_Move>;
-  /** fetch data from the table: "team_member_move" */
-  teamMemberMoves: Array<Team_Member_Move>;
-  /** fetch data from the table: "team_member" */
-  teamMembers: Array<Team_Member>;
-  /** fetch data from the table: "teams" */
-  teams: Array<Teams>;
-  /** fetch data from the table: "types" using primary key columns */
-  typeById?: Maybe<Types>;
-  /** fetch data from the table: "types" */
-  types: Array<Types>;
-};
-
-
-/** query root */
-export type Query_RootAbilitiesArgs = {
-  distinct_on?: Maybe<Array<Abilities_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Abilities_Order_By>>;
-  where?: Maybe<Abilities_Bool_Exp>;
-};
-
-
-/** query root */
-export type Query_RootAbilities_By_PkArgs = {
-  id: Scalars['uuid'];
-};
-
-
-/** query root */
-export type Query_RootDamageClassByIdArgs = {
-  value: Scalars['String'];
-};
-
-
-/** query root */
-export type Query_RootDamageClassesArgs = {
-  distinct_on?: Maybe<Array<Damage_Class_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Damage_Class_Order_By>>;
-  where?: Maybe<Damage_Class_Bool_Exp>;
-};
-
-
-/** query root */
-export type Query_RootMoveByIdArgs = {
-  id: Scalars['uuid'];
-};
-
-
-/** query root */
-export type Query_RootMovesArgs = {
-  distinct_on?: Maybe<Array<Moves_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Moves_Order_By>>;
-  where?: Maybe<Moves_Bool_Exp>;
-};
-
-
-/** query root */
-export type Query_RootPokemonArgs = {
-  distinct_on?: Maybe<Array<Pokemon_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Pokemon_Order_By>>;
-  where?: Maybe<Pokemon_Bool_Exp>;
-};
-
-
-/** query root */
-export type Query_RootPokemonByIdArgs = {
-  id: Scalars['uuid'];
-};
-
-
-/** query root */
-export type Query_RootPokemonMoveByIdArgs = {
-  move_id: Scalars['uuid'];
-  pokemon_id: Scalars['uuid'];
-};
-
-
-/** query root */
-export type Query_RootPokemonMovesArgs = {
-  distinct_on?: Maybe<Array<Pokemon_Move_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Pokemon_Move_Order_By>>;
-  where?: Maybe<Pokemon_Move_Bool_Exp>;
-};
-
-
-/** query root */
-export type Query_RootPokemonTypeByIdArgs = {
-  pokemon_id: Scalars['uuid'];
-  type_id: Scalars['uuid'];
-};
-
-
-/** query root */
-export type Query_RootPokemonTypesArgs = {
-  distinct_on?: Maybe<Array<Pokemon_Type_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Pokemon_Type_Order_By>>;
-  where?: Maybe<Pokemon_Type_Bool_Exp>;
-};
-
-
-/** query root */
-export type Query_RootPokemon_AbilityArgs = {
-  distinct_on?: Maybe<Array<Pokemon_Ability_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Pokemon_Ability_Order_By>>;
-  where?: Maybe<Pokemon_Ability_Bool_Exp>;
-};
-
-
-/** query root */
-export type Query_RootPokemon_Ability_By_PkArgs = {
-  ability_id: Scalars['uuid'];
-  pokemon_id: Scalars['uuid'];
-};
-
-
-/** query root */
-export type Query_RootTeamByIdArgs = {
-  id: Scalars['uuid'];
-};
-
-
-/** query root */
-export type Query_RootTeamMemberByIdArgs = {
-  id: Scalars['uuid'];
-};
-
-
-/** query root */
-export type Query_RootTeamMemberMoveByIdArgs = {
-  move_id: Scalars['uuid'];
-  team_member_id: Scalars['uuid'];
-};
-
-
-/** query root */
-export type Query_RootTeamMemberMovesArgs = {
-  distinct_on?: Maybe<Array<Team_Member_Move_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Team_Member_Move_Order_By>>;
-  where?: Maybe<Team_Member_Move_Bool_Exp>;
-};
-
-
-/** query root */
-export type Query_RootTeamMembersArgs = {
-  distinct_on?: Maybe<Array<Team_Member_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Team_Member_Order_By>>;
-  where?: Maybe<Team_Member_Bool_Exp>;
-};
-
-
-/** query root */
-export type Query_RootTeamsArgs = {
-  distinct_on?: Maybe<Array<Teams_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Teams_Order_By>>;
-  where?: Maybe<Teams_Bool_Exp>;
-};
-
-
-/** query root */
-export type Query_RootTypeByIdArgs = {
-  id: Scalars['uuid'];
-};
-
-
-/** query root */
-export type Query_RootTypesArgs = {
-  distinct_on?: Maybe<Array<Types_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Types_Order_By>>;
-  where?: Maybe<Types_Bool_Exp>;
-};
-
-/** subscription root */
-export type Subscription_Root = {
-  __typename?: 'subscription_root';
-  /** fetch data from the table: "abilities" */
-  abilities: Array<Abilities>;
-  /** fetch data from the table: "abilities" using primary key columns */
-  abilities_by_pk?: Maybe<Abilities>;
-  /** fetch data from the table: "damage_class" using primary key columns */
-  damageClassById?: Maybe<Damage_Class>;
-  /** fetch data from the table: "damage_class" */
-  damageClasses: Array<Damage_Class>;
-  /** fetch data from the table: "moves" using primary key columns */
-  moveById?: Maybe<Moves>;
-  /** fetch data from the table: "moves" */
-  moves: Array<Moves>;
-  /** fetch data from the table: "pokemon" */
-  pokemon: Array<Pokemon>;
-  /** fetch data from the table: "pokemon" using primary key columns */
-  pokemonById?: Maybe<Pokemon>;
-  /** fetch data from the table: "pokemon_move" using primary key columns */
-  pokemonMoveById?: Maybe<Pokemon_Move>;
-  /** fetch data from the table: "pokemon_move" */
-  pokemonMoves: Array<Pokemon_Move>;
-  /** fetch data from the table: "pokemon_type" using primary key columns */
-  pokemonTypeById?: Maybe<Pokemon_Type>;
-  /** fetch data from the table: "pokemon_type" */
-  pokemonTypes: Array<Pokemon_Type>;
-  /** fetch data from the table: "pokemon_ability" */
-  pokemon_ability: Array<Pokemon_Ability>;
-  /** fetch data from the table: "pokemon_ability" using primary key columns */
-  pokemon_ability_by_pk?: Maybe<Pokemon_Ability>;
-  /** fetch data from the table: "teams" using primary key columns */
-  teamById?: Maybe<Teams>;
-  /** fetch data from the table: "team_member" using primary key columns */
-  teamMemberById?: Maybe<Team_Member>;
-  /** fetch data from the table: "team_member_move" using primary key columns */
-  teamMemberMoveById?: Maybe<Team_Member_Move>;
-  /** fetch data from the table: "team_member_move" */
-  teamMemberMoves: Array<Team_Member_Move>;
-  /** fetch data from the table: "team_member" */
-  teamMembers: Array<Team_Member>;
-  /** fetch data from the table: "teams" */
-  teams: Array<Teams>;
-  /** fetch data from the table: "types" using primary key columns */
-  typeById?: Maybe<Types>;
-  /** fetch data from the table: "types" */
-  types: Array<Types>;
-};
-
-
-/** subscription root */
-export type Subscription_RootAbilitiesArgs = {
-  distinct_on?: Maybe<Array<Abilities_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Abilities_Order_By>>;
-  where?: Maybe<Abilities_Bool_Exp>;
-};
-
-
-/** subscription root */
-export type Subscription_RootAbilities_By_PkArgs = {
-  id: Scalars['uuid'];
-};
-
-
-/** subscription root */
-export type Subscription_RootDamageClassByIdArgs = {
-  value: Scalars['String'];
-};
-
-
-/** subscription root */
-export type Subscription_RootDamageClassesArgs = {
-  distinct_on?: Maybe<Array<Damage_Class_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Damage_Class_Order_By>>;
-  where?: Maybe<Damage_Class_Bool_Exp>;
-};
-
-
-/** subscription root */
-export type Subscription_RootMoveByIdArgs = {
-  id: Scalars['uuid'];
-};
-
-
-/** subscription root */
-export type Subscription_RootMovesArgs = {
-  distinct_on?: Maybe<Array<Moves_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Moves_Order_By>>;
-  where?: Maybe<Moves_Bool_Exp>;
-};
-
-
-/** subscription root */
-export type Subscription_RootPokemonArgs = {
-  distinct_on?: Maybe<Array<Pokemon_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Pokemon_Order_By>>;
-  where?: Maybe<Pokemon_Bool_Exp>;
-};
-
-
-/** subscription root */
-export type Subscription_RootPokemonByIdArgs = {
-  id: Scalars['uuid'];
-};
-
-
-/** subscription root */
-export type Subscription_RootPokemonMoveByIdArgs = {
-  move_id: Scalars['uuid'];
-  pokemon_id: Scalars['uuid'];
-};
-
-
-/** subscription root */
-export type Subscription_RootPokemonMovesArgs = {
-  distinct_on?: Maybe<Array<Pokemon_Move_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Pokemon_Move_Order_By>>;
-  where?: Maybe<Pokemon_Move_Bool_Exp>;
-};
-
-
-/** subscription root */
-export type Subscription_RootPokemonTypeByIdArgs = {
-  pokemon_id: Scalars['uuid'];
-  type_id: Scalars['uuid'];
-};
-
-
-/** subscription root */
-export type Subscription_RootPokemonTypesArgs = {
-  distinct_on?: Maybe<Array<Pokemon_Type_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Pokemon_Type_Order_By>>;
-  where?: Maybe<Pokemon_Type_Bool_Exp>;
-};
-
-
-/** subscription root */
-export type Subscription_RootPokemon_AbilityArgs = {
-  distinct_on?: Maybe<Array<Pokemon_Ability_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Pokemon_Ability_Order_By>>;
-  where?: Maybe<Pokemon_Ability_Bool_Exp>;
-};
-
-
-/** subscription root */
-export type Subscription_RootPokemon_Ability_By_PkArgs = {
-  ability_id: Scalars['uuid'];
-  pokemon_id: Scalars['uuid'];
-};
-
-
-/** subscription root */
-export type Subscription_RootTeamByIdArgs = {
-  id: Scalars['uuid'];
-};
-
-
-/** subscription root */
-export type Subscription_RootTeamMemberByIdArgs = {
-  id: Scalars['uuid'];
-};
-
-
-/** subscription root */
-export type Subscription_RootTeamMemberMoveByIdArgs = {
-  move_id: Scalars['uuid'];
-  team_member_id: Scalars['uuid'];
-};
-
-
-/** subscription root */
-export type Subscription_RootTeamMemberMovesArgs = {
-  distinct_on?: Maybe<Array<Team_Member_Move_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Team_Member_Move_Order_By>>;
-  where?: Maybe<Team_Member_Move_Bool_Exp>;
-};
-
-
-/** subscription root */
-export type Subscription_RootTeamMembersArgs = {
-  distinct_on?: Maybe<Array<Team_Member_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Team_Member_Order_By>>;
-  where?: Maybe<Team_Member_Bool_Exp>;
-};
-
-
-/** subscription root */
-export type Subscription_RootTeamsArgs = {
-  distinct_on?: Maybe<Array<Teams_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Teams_Order_By>>;
-  where?: Maybe<Teams_Bool_Exp>;
-};
-
-
-/** subscription root */
-export type Subscription_RootTypeByIdArgs = {
-  id: Scalars['uuid'];
-};
-
-
-/** subscription root */
-export type Subscription_RootTypesArgs = {
-  distinct_on?: Maybe<Array<Types_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Types_Order_By>>;
-  where?: Maybe<Types_Bool_Exp>;
-};
-
-/** columns and relationships of "team_member" */
-export type Team_Member = {
-  __typename?: 'team_member';
-  id: Scalars['uuid'];
-  /** An array relationship */
-  learned_moves: Array<Team_Member_Move>;
-  order: Scalars['Int'];
-  /** An object relationship */
-  pokemon: Pokemon;
-  /** An object relationship */
-  team: Teams;
-};
-
-
-/** columns and relationships of "team_member" */
-export type Team_MemberLearned_MovesArgs = {
-  distinct_on?: Maybe<Array<Team_Member_Move_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Team_Member_Move_Order_By>>;
-  where?: Maybe<Team_Member_Move_Bool_Exp>;
-};
-
-/** input type for inserting array relation for remote table "team_member" */
-export type Team_Member_Arr_Rel_Insert_Input = {
-  data: Array<Team_Member_Insert_Input>;
-  on_conflict?: Maybe<Team_Member_On_Conflict>;
-};
-
-/** Boolean expression to filter rows from the table "team_member". All fields are combined with a logical 'AND'. */
-export type Team_Member_Bool_Exp = {
-  _and?: Maybe<Array<Maybe<Team_Member_Bool_Exp>>>;
-  _not?: Maybe<Team_Member_Bool_Exp>;
-  _or?: Maybe<Array<Maybe<Team_Member_Bool_Exp>>>;
-  id?: Maybe<Uuid_Comparison_Exp>;
-  learned_moves?: Maybe<Team_Member_Move_Bool_Exp>;
-  order?: Maybe<Int_Comparison_Exp>;
-  pokemon?: Maybe<Pokemon_Bool_Exp>;
-  team?: Maybe<Teams_Bool_Exp>;
-};
-
-/** unique or primary key constraints on table "team_member" */
-export enum Team_Member_Constraint {
-  /** unique or primary key constraint */
-  TeamMemberPkey = 'team_member_pkey'
-}
-
-/** input type for incrementing integer column in table "team_member" */
-export type Team_Member_Inc_Input = {
-  order?: Maybe<Scalars['Int']>;
-};
-
-/** input type for inserting data into table "team_member" */
-export type Team_Member_Insert_Input = {
-  id?: Maybe<Scalars['uuid']>;
-  learned_moves?: Maybe<Team_Member_Move_Arr_Rel_Insert_Input>;
-  order?: Maybe<Scalars['Int']>;
-  pokemon_id?: Maybe<Scalars['uuid']>;
-  team?: Maybe<Teams_Obj_Rel_Insert_Input>;
-  team_id?: Maybe<Scalars['uuid']>;
-};
-
-/** columns and relationships of "team_member_move" */
-export type Team_Member_Move = {
-  __typename?: 'team_member_move';
-  /** An object relationship */
-  move: Moves;
-  order: Scalars['Int'];
-  /** An object relationship */
-  team_member: Team_Member;
-};
-
-/** input type for inserting array relation for remote table "team_member_move" */
-export type Team_Member_Move_Arr_Rel_Insert_Input = {
-  data: Array<Team_Member_Move_Insert_Input>;
-  on_conflict?: Maybe<Team_Member_Move_On_Conflict>;
-};
-
-/** Boolean expression to filter rows from the table "team_member_move". All fields are combined with a logical 'AND'. */
-export type Team_Member_Move_Bool_Exp = {
-  _and?: Maybe<Array<Maybe<Team_Member_Move_Bool_Exp>>>;
-  _not?: Maybe<Team_Member_Move_Bool_Exp>;
-  _or?: Maybe<Array<Maybe<Team_Member_Move_Bool_Exp>>>;
-  move?: Maybe<Moves_Bool_Exp>;
-  order?: Maybe<Int_Comparison_Exp>;
-  team_member?: Maybe<Team_Member_Bool_Exp>;
-};
-
-/** unique or primary key constraints on table "team_member_move" */
-export enum Team_Member_Move_Constraint {
-  /** unique or primary key constraint */
-  TeamMemberMoveTeamMemberIdMoveIdKey = 'team_member_move_team_member_id_move_id_key',
-  /** unique or primary key constraint */
-  TeamMemberPokemonMovePkey = 'team_member_pokemon_move_pkey'
-}
-
-/** input type for incrementing integer column in table "team_member_move" */
-export type Team_Member_Move_Inc_Input = {
-  order?: Maybe<Scalars['Int']>;
-};
-
-/** input type for inserting data into table "team_member_move" */
-export type Team_Member_Move_Insert_Input = {
-  move_id?: Maybe<Scalars['uuid']>;
-  order?: Maybe<Scalars['Int']>;
-  team_member?: Maybe<Team_Member_Obj_Rel_Insert_Input>;
-  team_member_id?: Maybe<Scalars['uuid']>;
-};
-
-/** response of any mutation on the table "team_member_move" */
-export type Team_Member_Move_Mutation_Response = {
-  __typename?: 'team_member_move_mutation_response';
-  /** number of affected rows by the mutation */
-  affected_rows: Scalars['Int'];
-  /** data of the affected rows by the mutation */
-  returning: Array<Team_Member_Move>;
-};
-
-/** input type for inserting object relation for remote table "team_member_move" */
-export type Team_Member_Move_Obj_Rel_Insert_Input = {
-  data: Team_Member_Move_Insert_Input;
-  on_conflict?: Maybe<Team_Member_Move_On_Conflict>;
-};
-
-/** on conflict condition type for table "team_member_move" */
-export type Team_Member_Move_On_Conflict = {
-  constraint: Team_Member_Move_Constraint;
-  update_columns: Array<Team_Member_Move_Update_Column>;
-  where?: Maybe<Team_Member_Move_Bool_Exp>;
-};
-
-/** ordering options when selecting data from "team_member_move" */
-export type Team_Member_Move_Order_By = {
-  move?: Maybe<Moves_Order_By>;
-  order?: Maybe<Order_By>;
-  team_member?: Maybe<Team_Member_Order_By>;
-};
-
-/** primary key columns input for table: "team_member_move" */
-export type Team_Member_Move_Pk_Columns_Input = {
-  move_id: Scalars['uuid'];
-  team_member_id: Scalars['uuid'];
-};
-
-/** select columns of table "team_member_move" */
-export enum Team_Member_Move_Select_Column {
-  /** column name */
-  Order = 'order'
-}
-
-/** input type for updating data in table "team_member_move" */
-export type Team_Member_Move_Set_Input = {
-  move_id?: Maybe<Scalars['uuid']>;
-  order?: Maybe<Scalars['Int']>;
-  team_member_id?: Maybe<Scalars['uuid']>;
-};
-
-/** update columns of table "team_member_move" */
-export enum Team_Member_Move_Update_Column {
-  /** column name */
-  MoveId = 'move_id',
-  /** column name */
-  Order = 'order',
-  /** column name */
-  TeamMemberId = 'team_member_id'
-}
-
-/** response of any mutation on the table "team_member" */
-export type Team_Member_Mutation_Response = {
-  __typename?: 'team_member_mutation_response';
-  /** number of affected rows by the mutation */
-  affected_rows: Scalars['Int'];
-  /** data of the affected rows by the mutation */
-  returning: Array<Team_Member>;
-};
-
-/** input type for inserting object relation for remote table "team_member" */
-export type Team_Member_Obj_Rel_Insert_Input = {
-  data: Team_Member_Insert_Input;
-  on_conflict?: Maybe<Team_Member_On_Conflict>;
-};
-
-/** on conflict condition type for table "team_member" */
-export type Team_Member_On_Conflict = {
-  constraint: Team_Member_Constraint;
-  update_columns: Array<Team_Member_Update_Column>;
-  where?: Maybe<Team_Member_Bool_Exp>;
-};
-
-/** ordering options when selecting data from "team_member" */
-export type Team_Member_Order_By = {
-  id?: Maybe<Order_By>;
-  order?: Maybe<Order_By>;
-  pokemon?: Maybe<Pokemon_Order_By>;
-  team?: Maybe<Teams_Order_By>;
-};
-
-/** primary key columns input for table: "team_member" */
-export type Team_Member_Pk_Columns_Input = {
-  id: Scalars['uuid'];
-};
-
-/** select columns of table "team_member" */
-export enum Team_Member_Select_Column {
-  /** column name */
-  Id = 'id',
-  /** column name */
-  Order = 'order'
-}
-
-/** input type for updating data in table "team_member" */
-export type Team_Member_Set_Input = {
-  order?: Maybe<Scalars['Int']>;
-};
-
-/** update columns of table "team_member" */
-export enum Team_Member_Update_Column {
-  /** column name */
-  Order = 'order'
-}
-
-/** columns and relationships of "teams" */
-export type Teams = {
-  __typename?: 'teams';
-  created_at: Scalars['timestamptz'];
-  id: Scalars['uuid'];
+  isBaby: Scalars['Boolean'];
+  isLegendary: Scalars['Boolean'];
+  isMythical: Scalars['Boolean'];
+  description?: Maybe<Scalars['String']>;
+  color: Color;
+  shape: Shape;
+  habitat?: Maybe<Habitat>;
+  height: Scalars['Int'];
+  weight: Scalars['Int'];
+  isDefaultVariant: Scalars['Boolean'];
+  genus: Scalars['String'];
+  abilities: PokemonAbilityList;
+  types: PokemonTypeList;
+  moves: PokemonMoveList;
+  eggGroups: EggGroupList;
+  evolvesTo: PokemonEvolutionList;
+  evolvesFrom: PokemonEvolutionList;
+};
+
+export type Move = {
+  __typename?: 'Move';
+  id: Scalars['ID'];
+  slug: Scalars['String'];
   name: Scalars['String'];
-  /** An array relationship */
-  team_members: Array<Team_Member>;
+  accuracy?: Maybe<Scalars['Int']>;
+  pp?: Maybe<Scalars['Int']>;
+  power?: Maybe<Scalars['Int']>;
+  damageClass: DamageClass;
+  effect?: Maybe<Scalars['String']>;
+  effectChance?: Maybe<Scalars['Int']>;
+  target: MoveTarget;
+  type: Type;
+  pokemon: PokemonMoveList;
 };
 
-
-/** columns and relationships of "teams" */
-export type TeamsTeam_MembersArgs = {
-  distinct_on?: Maybe<Array<Team_Member_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Team_Member_Order_By>>;
-  where?: Maybe<Team_Member_Bool_Exp>;
-};
-
-/** input type for inserting array relation for remote table "teams" */
-export type Teams_Arr_Rel_Insert_Input = {
-  data: Array<Teams_Insert_Input>;
-  on_conflict?: Maybe<Teams_On_Conflict>;
-};
-
-/** Boolean expression to filter rows from the table "teams". All fields are combined with a logical 'AND'. */
-export type Teams_Bool_Exp = {
-  _and?: Maybe<Array<Maybe<Teams_Bool_Exp>>>;
-  _not?: Maybe<Teams_Bool_Exp>;
-  _or?: Maybe<Array<Maybe<Teams_Bool_Exp>>>;
-  created_at?: Maybe<Timestamptz_Comparison_Exp>;
-  id?: Maybe<Uuid_Comparison_Exp>;
-  name?: Maybe<String_Comparison_Exp>;
-  team_members?: Maybe<Team_Member_Bool_Exp>;
-};
-
-/** unique or primary key constraints on table "teams" */
-export enum Teams_Constraint {
-  /** unique or primary key constraint */
-  TeamPkey = 'team_pkey'
+export enum Color {
+  Black = 'BLACK',
+  Blue = 'BLUE',
+  Brown = 'BROWN',
+  Gray = 'GRAY',
+  Green = 'GREEN',
+  Pink = 'PINK',
+  Purple = 'PURPLE',
+  Red = 'RED',
+  White = 'WHITE',
+  Yellow = 'YELLOW'
 }
 
-/** input type for inserting data into table "teams" */
-export type Teams_Insert_Input = {
+export type TeamMemberMoveList = {
+  __typename?: 'TeamMemberMoveList';
+  total: Scalars['Int'];
+  teamMemberMoves: Array<TeamMemberMove>;
+};
+
+export type Team = {
+  __typename?: 'Team';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  members: TeamMemberList;
+};
+
+export type CreateTeamInput = {
+  name: Scalars['String'];
+  members?: Maybe<Array<CreateTeamMemberInput>>;
+};
+
+export type UpdateTeamInput = {
+  id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
-  team_members?: Maybe<Team_Member_Arr_Rel_Insert_Input>;
+  members?: Maybe<Array<UpdateTeamMemberInput>>;
 };
 
-/** response of any mutation on the table "teams" */
-export type Teams_Mutation_Response = {
-  __typename?: 'teams_mutation_response';
-  /** number of affected rows by the mutation */
-  affected_rows: Scalars['Int'];
-  /** data of the affected rows by the mutation */
-  returning: Array<Teams>;
+export type Item = {
+  __typename?: 'Item';
+  id: Scalars['ID'];
+  slug: Scalars['String'];
+  name: Scalars['String'];
+  cost?: Maybe<Scalars['Int']>;
+  flingPower?: Maybe<Scalars['Int']>;
+  flingEffect?: Maybe<Scalars['String']>;
+  effect?: Maybe<Scalars['String']>;
+  sprite?: Maybe<Scalars['String']>;
+  category: ItemCategory;
+  attributes: Array<ItemAttribute>;
 };
 
-/** input type for inserting object relation for remote table "teams" */
-export type Teams_Obj_Rel_Insert_Input = {
-  data: Teams_Insert_Input;
-  on_conflict?: Maybe<Teams_On_Conflict>;
+export type TeamMemberList = {
+  __typename?: 'TeamMemberList';
+  total: Scalars['Int'];
+  teamMembers: Array<TeamMember>;
 };
 
-/** on conflict condition type for table "teams" */
-export type Teams_On_Conflict = {
-  constraint: Teams_Constraint;
-  update_columns: Array<Teams_Update_Column>;
-  where?: Maybe<Teams_Bool_Exp>;
+export type TypeList = {
+  __typename?: 'TypeList';
+  total: Scalars['Int'];
+  types: Array<Type>;
 };
 
-/** ordering options when selecting data from "teams" */
-export type Teams_Order_By = {
-  created_at?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  name?: Maybe<Order_By>;
-};
-
-/** primary key columns input for table: "teams" */
-export type Teams_Pk_Columns_Input = {
-  id: Scalars['uuid'];
-};
-
-/** select columns of table "teams" */
-export enum Teams_Select_Column {
-  /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  Name = 'name'
+export enum Gender {
+  Male = 'MALE',
+  Female = 'FEMALE',
+  Any = 'ANY'
 }
 
-/** input type for updating data in table "teams" */
-export type Teams_Set_Input = {
-  name?: Maybe<Scalars['String']>;
+export type Query = {
+  __typename?: 'Query';
+  abilityById?: Maybe<Ability>;
+  abilities: AbilityList;
+  moveById?: Maybe<Move>;
+  moves: MoveList;
+  pokemonById?: Maybe<Pokemon>;
+  pokemon: PokemonList;
+  teamById?: Maybe<Team>;
+  teams: TeamList;
+  typeById?: Maybe<Type>;
+  types: TypeList;
 };
 
-/** update columns of table "teams" */
-export enum Teams_Update_Column {
-  /** column name */
-  Name = 'name'
+
+export type QueryAbilityByIdArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryMoveByIdArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryPokemonByIdArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryTeamByIdArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryTypeByIdArgs = {
+  id: Scalars['ID'];
+};
+
+export type PokemonMoveList = {
+  __typename?: 'PokemonMoveList';
+  total: Scalars['Int'];
+  pokemonMoves: Array<PokemonMove>;
+};
+
+export type MoveList = {
+  __typename?: 'MoveList';
+  total: Scalars['Int'];
+  moves: Array<Move>;
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  createTeam: Team;
+  updateTeam: Team;
+  deleteTeam: Team;
+  removeTeamMember: TeamMember;
+};
+
+
+export type MutationCreateTeamArgs = {
+  input: CreateTeamInput;
+};
+
+
+export type MutationUpdateTeamArgs = {
+  input: UpdateTeamInput;
+};
+
+
+export type MutationDeleteTeamArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationRemoveTeamMemberArgs = {
+  id: Scalars['ID'];
+};
+
+export type PokemonEvolution = {
+  __typename?: 'PokemonEvolution';
+  pokemon: Pokemon;
+  trigger: EvolutionTrigger;
+  item?: Maybe<Item>;
+  gender: Gender;
+  heldItem?: Maybe<Item>;
+  knownMove?: Maybe<Move>;
+  knownMoveType?: Maybe<Type>;
+  minLevel?: Maybe<Scalars['Int']>;
+  minHappiness?: Maybe<Scalars['Int']>;
+  minBeauty?: Maybe<Scalars['Int']>;
+  minAffection?: Maybe<Scalars['Int']>;
+  needsOverworldRain: Scalars['Boolean'];
+  partyPokemon?: Maybe<Pokemon>;
+  partyPokemonType?: Maybe<Type>;
+  relativePhysicalStats?: Maybe<Scalars['Int']>;
+  timeOfDay: TimeOfDay;
+  tradeWithPokemon?: Maybe<Pokemon>;
+  turnUpsideDown: Scalars['Boolean'];
+  spin: Scalars['Boolean'];
+  takeDamage?: Maybe<Scalars['Int']>;
+  criticalHits?: Maybe<Scalars['Int']>;
+};
+
+export type PokemonMove = {
+  __typename?: 'PokemonMove';
+  move: Move;
+  pokemon: Pokemon;
+  learnMethod: MoveLearnMethod;
+  levelLearnedAt: Scalars['Int'];
+};
+
+export type TeamMember = {
+  __typename?: 'TeamMember';
+  id: Scalars['ID'];
+  slot: Scalars['Int'];
+  pokemon: Pokemon;
+  moves: TeamMemberMoveList;
+  team?: Maybe<Team>;
+};
+
+export enum EvolutionTrigger {
+  LevelUp = 'LEVEL_UP',
+  Other = 'OTHER',
+  Shed = 'SHED',
+  Trade = 'TRADE',
+  UseItem = 'USE_ITEM'
 }
 
+export enum ItemAttribute {
+  Consumable = 'CONSUMABLE',
+  Countable = 'COUNTABLE',
+  Holdable = 'HOLDABLE',
+  HoldableActive = 'HOLDABLE_ACTIVE',
+  HoldablePassive = 'HOLDABLE_PASSIVE',
+  Underground = 'UNDERGROUND',
+  UsableInBattle = 'USABLE_IN_BATTLE',
+  UsableOverworld = 'USABLE_OVERWORLD'
+}
 
-/** expression to compare columns of type timestamptz. All fields are combined with logical 'AND'. */
-export type Timestamptz_Comparison_Exp = {
-  _eq?: Maybe<Scalars['timestamptz']>;
-  _gt?: Maybe<Scalars['timestamptz']>;
-  _gte?: Maybe<Scalars['timestamptz']>;
-  _in?: Maybe<Array<Scalars['timestamptz']>>;
-  _is_null?: Maybe<Scalars['Boolean']>;
-  _lt?: Maybe<Scalars['timestamptz']>;
-  _lte?: Maybe<Scalars['timestamptz']>;
-  _neq?: Maybe<Scalars['timestamptz']>;
-  _nin?: Maybe<Array<Scalars['timestamptz']>>;
+export type Type = {
+  __typename?: 'Type';
+  id: Scalars['ID'];
+  slug: Scalars['String'];
+  name: Scalars['String'];
+  pokemon: PokemonTypeList;
+  moves: MoveList;
+  noDamageTo: TypeList;
+  halfDamageTo: TypeList;
+  doubleDamageTo: TypeList;
+  noDamageFrom: TypeList;
+  halfDamageFrom: TypeList;
+  doubleDamageFrom: TypeList;
 };
 
-/** columns and relationships of "types" */
-export type Types = {
-  __typename?: 'types';
-  id: Scalars['uuid'];
+export type PokemonAbilityList = {
+  __typename?: 'PokemonAbilityList';
+  total: Scalars['Int'];
+  pokemonAbilities: Array<PokemonAbility>;
+};
+
+export type PokemonAbility = {
+  __typename?: 'PokemonAbility';
+  slot: Scalars['Int'];
+  isHidden: Scalars['Boolean'];
+  ability: Ability;
+  pokemon: Pokemon;
+};
+
+export type EggGroupList = {
+  __typename?: 'EggGroupList';
+  total: Scalars['Int'];
+  eggGroups: Array<EggGroup>;
+};
+
+export type PokemonTypeList = {
+  __typename?: 'PokemonTypeList';
+  total: Scalars['Int'];
+  pokemonTypes: Array<PokemonType>;
+};
+
+export type TeamList = {
+  __typename?: 'TeamList';
+  total: Scalars['Int'];
+  teams: Array<Team>;
+};
+
+export enum ItemCategory {
+  AllMachines = 'ALL_MACHINES',
+  AllMail = 'ALL_MAIL',
+  ApricornBalls = 'APRICORN_BALLS',
+  ApricornBox = 'APRICORN_BOX',
+  BadHeldItems = 'BAD_HELD_ITEMS',
+  BakingOnly = 'BAKING_ONLY',
+  Choice = 'CHOICE',
+  Collectibles = 'COLLECTIBLES',
+  DataCards = 'DATA_CARDS',
+  DexCompletion = 'DEX_COMPLETION',
+  EffortDrop = 'EFFORT_DROP',
+  EffortTraining = 'EFFORT_TRAINING',
+  EventItems = 'EVENT_ITEMS',
+  Evolution = 'EVOLUTION',
+  Flutes = 'FLUTES',
+  Gameplay = 'GAMEPLAY',
+  Healing = 'HEALING',
+  HeldItems = 'HELD_ITEMS',
+  InAPinch = 'IN_A_PINCH',
+  Jewels = 'JEWELS',
+  Loot = 'LOOT',
+  Medicine = 'MEDICINE',
+  MegaStones = 'MEGA_STONES',
+  Memories = 'MEMORIES',
+  MiracleShooter = 'MIRACLE_SHOOTER',
+  Mulch = 'MULCH',
+  Other = 'OTHER',
+  PickyHealing = 'PICKY_HEALING',
+  Plates = 'PLATES',
+  PlotAdvancement = 'PLOT_ADVANCEMENT',
+  PpRecovery = 'PP_RECOVERY',
+  Revival = 'REVIVAL',
+  Scarves = 'SCARVES',
+  SpecialBalls = 'SPECIAL_BALLS',
+  SpeciesSpecific = 'SPECIES_SPECIFIC',
+  Spelunking = 'SPELUNKING',
+  StandardBalls = 'STANDARD_BALLS',
+  StatBoosts = 'STAT_BOOSTS',
+  StatusCures = 'STATUS_CURES',
+  Training = 'TRAINING',
+  TypeEnhancement = 'TYPE_ENHANCEMENT',
+  TypeProtection = 'TYPE_PROTECTION',
+  Unused = 'UNUSED',
+  Vitamins = 'VITAMINS',
+  ZCrystals = 'Z_CRYSTALS'
+}
+
+export enum MoveTarget {
+  SpecificMove = 'SPECIFIC_MOVE',
+  SelectedPokemonMeFirst = 'SELECTED_POKEMON_ME_FIRST',
+  Ally = 'ALLY',
+  UsersField = 'USERS_FIELD',
+  UserOrAlly = 'USER_OR_ALLY',
+  OpponentsField = 'OPPONENTS_FIELD',
+  User = 'USER',
+  RandomOpponent = 'RANDOM_OPPONENT',
+  AllOtherPokemon = 'ALL_OTHER_POKEMON',
+  SelectedPokemon = 'SELECTED_POKEMON',
+  AllOpponents = 'ALL_OPPONENTS',
+  EntireField = 'ENTIRE_FIELD',
+  UserAndAllies = 'USER_AND_ALLIES',
+  AllPokemon = 'ALL_POKEMON',
+  AllAllies = 'ALL_ALLIES'
+}
+
+export type AbilityList = {
+  __typename?: 'AbilityList';
+  total: Scalars['Int'];
+  abilities: Array<Ability>;
+};
+
+export enum DamageClass {
+  Physical = 'PHYSICAL',
+  Special = 'SPECIAL',
+  Status = 'STATUS'
+}
+
+export enum Shape {
+  Ball = 'BALL',
+  Squiggle = 'SQUIGGLE',
+  Fish = 'FISH',
+  Arms = 'ARMS',
+  Blob = 'BLOB',
+  Upright = 'UPRIGHT',
+  Legs = 'LEGS',
+  Quadruped = 'QUADRUPED',
+  Wings = 'WINGS',
+  Tentacles = 'TENTACLES',
+  Heads = 'HEADS',
+  Humanoid = 'HUMANOID',
+  BugWings = 'BUG_WINGS',
+  Armor = 'ARMOR'
+}
+
+export enum TimeOfDay {
+  Day = 'DAY',
+  Night = 'NIGHT',
+  Any = 'ANY'
+}
+
+export type PokemonList = {
+  __typename?: 'PokemonList';
+  total: Scalars['Int'];
+  pokemon: Array<Pokemon>;
+};
+
+export type EggGroup = {
+  __typename?: 'EggGroup';
+  id: Scalars['ID'];
   name: Scalars['String'];
   slug: Scalars['String'];
-};
-
-/** Boolean expression to filter rows from the table "types". All fields are combined with a logical 'AND'. */
-export type Types_Bool_Exp = {
-  _and?: Maybe<Array<Maybe<Types_Bool_Exp>>>;
-  _not?: Maybe<Types_Bool_Exp>;
-  _or?: Maybe<Array<Maybe<Types_Bool_Exp>>>;
-  id?: Maybe<Uuid_Comparison_Exp>;
-  name?: Maybe<String_Comparison_Exp>;
-  slug?: Maybe<String_Comparison_Exp>;
-};
-
-/** ordering options when selecting data from "types" */
-export type Types_Order_By = {
-  id?: Maybe<Order_By>;
-  name?: Maybe<Order_By>;
-  slug?: Maybe<Order_By>;
-};
-
-/** primary key columns input for table: "types" */
-export type Types_Pk_Columns_Input = {
-  id: Scalars['uuid'];
-};
-
-/** select columns of table "types" */
-export enum Types_Select_Column {
-  /** column name */
-  Id = 'id',
-  /** column name */
-  Name = 'name',
-  /** column name */
-  Slug = 'slug'
-}
-
-
-/** expression to compare columns of type uuid. All fields are combined with logical 'AND'. */
-export type Uuid_Comparison_Exp = {
-  _eq?: Maybe<Scalars['uuid']>;
-  _gt?: Maybe<Scalars['uuid']>;
-  _gte?: Maybe<Scalars['uuid']>;
-  _in?: Maybe<Array<Scalars['uuid']>>;
-  _is_null?: Maybe<Scalars['Boolean']>;
-  _lt?: Maybe<Scalars['uuid']>;
-  _lte?: Maybe<Scalars['uuid']>;
-  _neq?: Maybe<Scalars['uuid']>;
-  _nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
 export type MoveFragmentFragment = (
-  { __typename?: 'moves' }
-  & Pick<Moves, 'id' | 'slug' | 'name' | 'accuracy' | 'power' | 'pp' | 'effect'>
-  & { damage_class?: Maybe<(
-    { __typename?: 'damage_class' }
-    & Pick<Damage_Class, 'value'>
-  )>, type: (
-    { __typename?: 'types' }
+  { __typename?: 'Move' }
+  & Pick<Move, 'id' | 'slug' | 'name' | 'accuracy' | 'pp' | 'power' | 'damageClass' | 'effect' | 'effectChance' | 'target'>
+  & { type: (
+    { __typename?: 'Type' }
+    & { noDamageTo: (
+      { __typename?: 'TypeList' }
+      & Pick<TypeList, 'total'>
+      & { types: Array<(
+        { __typename?: 'Type' }
+        & TypeFragmentFragment
+      )> }
+    ), halfDamageTo: (
+      { __typename?: 'TypeList' }
+      & Pick<TypeList, 'total'>
+      & { types: Array<(
+        { __typename?: 'Type' }
+        & TypeFragmentFragment
+      )> }
+    ), doubleDamageTo: (
+      { __typename?: 'TypeList' }
+      & Pick<TypeList, 'total'>
+      & { types: Array<(
+        { __typename?: 'Type' }
+        & TypeFragmentFragment
+      )> }
+    ) }
     & TypeFragmentFragment
   ) }
 );
 
 export type PokemonFragmentFragment = (
-  { __typename?: 'pokemon' }
-  & Pick<Pokemon, 'id' | 'name' | 'slug' | 'pokedex_id' | 'sprite' | 'hp' | 'attack' | 'defense' | 'special_attack' | 'special_defense' | 'speed' | 'is_baby' | 'is_legendary' | 'is_mythical' | 'description'>
-  & { types: Array<(
-    { __typename?: 'pokemon_type' }
-    & { type: (
-      { __typename?: 'types' }
-      & Pick<Types, 'name' | 'slug'>
-    ) }
-  )>, abilities: Array<(
-    { __typename?: 'pokemon_ability' }
-    & Pick<Pokemon_Ability, 'ability_id'>
-    & { ability: (
-      { __typename?: 'abilities' }
-      & Pick<Abilities, 'id' | 'name' | 'slug' | 'effect'>
-    ) }
-  )> }
+  { __typename?: 'Pokemon' }
+  & Pick<Pokemon, 'id' | 'name' | 'slug' | 'pokedexId' | 'sprite' | 'color' | 'shape' | 'habitat' | 'hp' | 'attack' | 'defense' | 'specialAttack' | 'specialDefense' | 'speed' | 'height' | 'weight' | 'isDefaultVariant' | 'isBaby' | 'isLegendary' | 'isMythical' | 'description'>
+  & { abilities: (
+    { __typename?: 'PokemonAbilityList' }
+    & Pick<PokemonAbilityList, 'total'>
+    & { pokemonAbilities: Array<(
+      { __typename?: 'PokemonAbility' }
+      & Pick<PokemonAbility, 'slot' | 'isHidden'>
+      & { ability: (
+        { __typename?: 'Ability' }
+        & Pick<Ability, 'id' | 'slug' | 'name' | 'effect'>
+      ) }
+    )> }
+  ), eggGroups: (
+    { __typename?: 'EggGroupList' }
+    & Pick<EggGroupList, 'total'>
+    & { eggGroups: Array<(
+      { __typename?: 'EggGroup' }
+      & Pick<EggGroup, 'id' | 'name' | 'slug'>
+    )> }
+  ), evolvesTo: (
+    { __typename?: 'PokemonEvolutionList' }
+    & Pick<PokemonEvolutionList, 'total'>
+    & { pokemonEvolutions: Array<(
+      { __typename?: 'PokemonEvolution' }
+      & Pick<PokemonEvolution, 'trigger' | 'gender' | 'minLevel' | 'minHappiness' | 'minBeauty' | 'minAffection' | 'needsOverworldRain' | 'relativePhysicalStats' | 'timeOfDay' | 'turnUpsideDown' | 'spin' | 'takeDamage' | 'criticalHits'>
+      & { pokemon: (
+        { __typename?: 'Pokemon' }
+        & Pick<Pokemon, 'name'>
+        & { evolvesTo: (
+          { __typename?: 'PokemonEvolutionList' }
+          & Pick<PokemonEvolutionList, 'total'>
+          & { pokemonEvolutions: Array<(
+            { __typename?: 'PokemonEvolution' }
+            & { pokemon: (
+              { __typename?: 'Pokemon' }
+              & Pick<Pokemon, 'id' | 'name'>
+            ) }
+          )> }
+        ) }
+      ), item?: Maybe<(
+        { __typename?: 'Item' }
+        & Pick<Item, 'id' | 'slug' | 'name' | 'cost' | 'flingPower' | 'flingEffect' | 'effect' | 'sprite' | 'category' | 'attributes'>
+      )>, heldItem?: Maybe<(
+        { __typename?: 'Item' }
+        & Pick<Item, 'id' | 'slug' | 'name' | 'cost' | 'flingPower' | 'flingEffect' | 'effect' | 'sprite' | 'category' | 'attributes'>
+      )>, knownMove?: Maybe<(
+        { __typename?: 'Move' }
+        & Pick<Move, 'name'>
+        & { type: (
+          { __typename?: 'Type' }
+          & Pick<Type, 'name'>
+        ) }
+      )>, knownMoveType?: Maybe<(
+        { __typename?: 'Type' }
+        & Pick<Type, 'name'>
+      )>, partyPokemon?: Maybe<(
+        { __typename?: 'Pokemon' }
+        & Pick<Pokemon, 'name'>
+      )>, partyPokemonType?: Maybe<(
+        { __typename?: 'Type' }
+        & Pick<Type, 'name'>
+      )>, tradeWithPokemon?: Maybe<(
+        { __typename?: 'Pokemon' }
+        & Pick<Pokemon, 'name'>
+      )> }
+    )> }
+  ), evolvesFrom: (
+    { __typename?: 'PokemonEvolutionList' }
+    & Pick<PokemonEvolutionList, 'total'>
+    & { pokemonEvolutions: Array<(
+      { __typename?: 'PokemonEvolution' }
+      & Pick<PokemonEvolution, 'trigger' | 'gender' | 'minLevel' | 'minHappiness' | 'minBeauty' | 'minAffection' | 'needsOverworldRain' | 'relativePhysicalStats' | 'timeOfDay' | 'turnUpsideDown' | 'spin' | 'takeDamage' | 'criticalHits'>
+      & { pokemon: (
+        { __typename?: 'Pokemon' }
+        & Pick<Pokemon, 'name'>
+        & { evolvesFrom: (
+          { __typename?: 'PokemonEvolutionList' }
+          & Pick<PokemonEvolutionList, 'total'>
+          & { pokemonEvolutions: Array<(
+            { __typename?: 'PokemonEvolution' }
+            & { pokemon: (
+              { __typename?: 'Pokemon' }
+              & Pick<Pokemon, 'id' | 'name'>
+            ) }
+          )> }
+        ) }
+      ), item?: Maybe<(
+        { __typename?: 'Item' }
+        & Pick<Item, 'id' | 'slug' | 'name' | 'cost' | 'flingPower' | 'flingEffect' | 'effect' | 'sprite' | 'category' | 'attributes'>
+      )>, heldItem?: Maybe<(
+        { __typename?: 'Item' }
+        & Pick<Item, 'id' | 'slug' | 'name' | 'cost' | 'flingPower' | 'flingEffect' | 'effect' | 'sprite' | 'category' | 'attributes'>
+      )>, knownMove?: Maybe<(
+        { __typename?: 'Move' }
+        & Pick<Move, 'name'>
+        & { type: (
+          { __typename?: 'Type' }
+          & Pick<Type, 'name'>
+        ) }
+      )>, knownMoveType?: Maybe<(
+        { __typename?: 'Type' }
+        & Pick<Type, 'name'>
+      )>, partyPokemon?: Maybe<(
+        { __typename?: 'Pokemon' }
+        & Pick<Pokemon, 'name'>
+      )>, partyPokemonType?: Maybe<(
+        { __typename?: 'Type' }
+        & Pick<Type, 'name'>
+      )>, tradeWithPokemon?: Maybe<(
+        { __typename?: 'Pokemon' }
+        & Pick<Pokemon, 'name'>
+      )> }
+    )> }
+  ), types: (
+    { __typename?: 'PokemonTypeList' }
+    & Pick<PokemonTypeList, 'total'>
+    & { pokemonTypes: Array<(
+      { __typename?: 'PokemonType' }
+      & Pick<PokemonType, 'slot'>
+      & { type: (
+        { __typename?: 'Type' }
+        & { noDamageFrom: (
+          { __typename?: 'TypeList' }
+          & Pick<TypeList, 'total'>
+          & { types: Array<(
+            { __typename?: 'Type' }
+            & TypeFragmentFragment
+          )> }
+        ), halfDamageFrom: (
+          { __typename?: 'TypeList' }
+          & Pick<TypeList, 'total'>
+          & { types: Array<(
+            { __typename?: 'Type' }
+            & TypeFragmentFragment
+          )> }
+        ), doubleDamageFrom: (
+          { __typename?: 'TypeList' }
+          & Pick<TypeList, 'total'>
+          & { types: Array<(
+            { __typename?: 'Type' }
+            & TypeFragmentFragment
+          )> }
+        ) }
+        & TypeFragmentFragment
+      ) }
+    )> }
+  ) }
 );
 
 export type TeamFragmentFragment = (
-  { __typename?: 'teams' }
-  & Pick<Teams, 'id' | 'name' | 'created_at'>
-  & { team_members: Array<(
-    { __typename?: 'team_member' }
-    & TeamMemberFragmentFragment
-  )> }
+  { __typename?: 'Team' }
+  & Pick<Team, 'id' | 'name'>
+  & { members: (
+    { __typename?: 'TeamMemberList' }
+    & Pick<TeamMemberList, 'total'>
+    & { teamMembers: Array<(
+      { __typename?: 'TeamMember' }
+      & TeamMemberFragmentFragment
+    )> }
+  ) }
 );
 
 export type TeamMemberFragmentFragment = (
-  { __typename?: 'team_member' }
-  & Pick<Team_Member, 'id' | 'order'>
+  { __typename?: 'TeamMember' }
+  & Pick<TeamMember, 'id' | 'slot'>
   & { pokemon: (
-    { __typename?: 'pokemon' }
-    & { learnable_moves: Array<(
-      { __typename?: 'pokemon_move' }
-      & Pick<Pokemon_Move, 'move_id'>
-      & { move: (
-        { __typename?: 'moves' }
-        & MoveFragmentFragment
-      ) }
-    )> }
+    { __typename?: 'Pokemon' }
+    & { moves: (
+      { __typename?: 'PokemonMoveList' }
+      & Pick<PokemonMoveList, 'total'>
+      & { pokemonMoves: Array<(
+        { __typename?: 'PokemonMove' }
+        & Pick<PokemonMove, 'learnMethod' | 'levelLearnedAt'>
+        & { move: (
+          { __typename?: 'Move' }
+          & MoveFragmentFragment
+        ) }
+      )> }
+    ) }
     & PokemonFragmentFragment
-  ), learned_moves: Array<(
-    { __typename?: 'team_member_move' }
-    & TeamMemberMoveFragmentFragment
-  )> }
+  ), moves: (
+    { __typename?: 'TeamMemberMoveList' }
+    & Pick<TeamMemberMoveList, 'total'>
+    & { teamMemberMoves: Array<(
+      { __typename?: 'TeamMemberMove' }
+      & TeamMemberMoveFragmentFragment
+    )> }
+  ) }
 );
 
 export type TeamMemberMoveFragmentFragment = (
-  { __typename?: 'team_member_move' }
-  & Pick<Team_Member_Move, 'order'>
+  { __typename?: 'TeamMemberMove' }
+  & Pick<TeamMemberMove, 'id' | 'slot'>
   & { move: (
-    { __typename?: 'moves' }
-    & MoveFragmentFragment
+    { __typename?: 'PokemonMove' }
+    & Pick<PokemonMove, 'learnMethod' | 'levelLearnedAt'>
+    & { move: (
+      { __typename?: 'Move' }
+      & MoveFragmentFragment
+    ) }
   ) }
 );
 
 export type TypeFragmentFragment = (
-  { __typename?: 'types' }
-  & Pick<Types, 'id' | 'name' | 'slug'>
+  { __typename?: 'Type' }
+  & Pick<Type, 'id' | 'name' | 'slug'>
 );
 
 export type CreateTeamMutationVariables = Exact<{
@@ -1571,256 +746,412 @@ export type CreateTeamMutationVariables = Exact<{
 
 
 export type CreateTeamMutation = (
-  { __typename?: 'mutation_root' }
-  & { createTeam?: Maybe<(
-    { __typename?: 'teams' }
+  { __typename?: 'Mutation' }
+  & { createTeam: (
+    { __typename?: 'Team' }
     & TeamFragmentFragment
-  )> }
-);
-
-export type CreateTeamMemberMovesMutationVariables = Exact<{
-  moves: Array<Team_Member_Move_Insert_Input> | Team_Member_Move_Insert_Input;
-}>;
-
-
-export type CreateTeamMemberMovesMutation = (
-  { __typename?: 'mutation_root' }
-  & { createTeamMemberMoves?: Maybe<(
-    { __typename?: 'team_member_move_mutation_response' }
-    & { returning: Array<(
-      { __typename?: 'team_member_move' }
-      & { team_member: (
-        { __typename?: 'team_member' }
-        & Pick<Team_Member, 'id'>
-        & { team: (
-          { __typename?: 'teams' }
-          & Pick<Teams, 'id'>
-        ) }
-      ) }
-      & TeamMemberMoveFragmentFragment
-    )> }
-  )> }
-);
-
-export type CreateTeamMembersMutationVariables = Exact<{
-  members: Array<Team_Member_Insert_Input> | Team_Member_Insert_Input;
-}>;
-
-
-export type CreateTeamMembersMutation = (
-  { __typename?: 'mutation_root' }
-  & { createTeamMembers?: Maybe<(
-    { __typename?: 'team_member_mutation_response' }
-    & { returning: Array<(
-      { __typename?: 'team_member' }
-      & TeamMemberFragmentFragment
-    )> }
-  )> }
+  ) }
 );
 
 export type DeleteTeamMutationVariables = Exact<{
-  id: Scalars['uuid'];
+  id: Scalars['ID'];
 }>;
 
 
 export type DeleteTeamMutation = (
-  { __typename?: 'mutation_root' }
-  & { deleteTeam?: Maybe<(
-    { __typename?: 'teams' }
+  { __typename?: 'Mutation' }
+  & { deleteTeam: (
+    { __typename?: 'Team' }
     & TeamFragmentFragment
-  )> }
-);
-
-export type DeleteTeamMemberMovesMutationVariables = Exact<{
-  moveIds?: Maybe<Array<Scalars['uuid']> | Scalars['uuid']>;
-  memberId: Scalars['uuid'];
-}>;
-
-
-export type DeleteTeamMemberMovesMutation = (
-  { __typename?: 'mutation_root' }
-  & { deleteTeamMemberMoves?: Maybe<(
-    { __typename?: 'team_member_move_mutation_response' }
-    & { returning: Array<(
-      { __typename?: 'team_member_move' }
-      & { team_member: (
-        { __typename?: 'team_member' }
-        & Pick<Team_Member, 'id'>
-        & { team: (
-          { __typename?: 'teams' }
-          & Pick<Teams, 'id'>
-        ) }
-      ) }
-      & TeamMemberMoveFragmentFragment
-    )> }
-  )> }
+  ) }
 );
 
 export type DeleteTeamMembersMutationVariables = Exact<{
-  members?: Maybe<Array<Scalars['uuid']> | Scalars['uuid']>;
+  id: Scalars['ID'];
 }>;
 
 
 export type DeleteTeamMembersMutation = (
-  { __typename?: 'mutation_root' }
-  & { deleteTeamMembers?: Maybe<(
-    { __typename?: 'team_member_mutation_response' }
-    & { returning: Array<(
-      { __typename?: 'team_member' }
-      & { team: (
-        { __typename?: 'teams' }
-        & Pick<Teams, 'id'>
-      ) }
-      & TeamMemberFragmentFragment
+  { __typename?: 'Mutation' }
+  & { removeTeamMember: (
+    { __typename?: 'TeamMember' }
+    & { team?: Maybe<(
+      { __typename?: 'Team' }
+      & TeamFragmentFragment
     )> }
-  )> }
+    & TeamMemberFragmentFragment
+  ) }
 );
 
 export type UpdateTeamMutationVariables = Exact<{
-  id: Scalars['uuid'];
+  id: Scalars['ID'];
   name: Scalars['String'];
+  members?: Maybe<Array<UpdateTeamMemberInput> | UpdateTeamMemberInput>;
 }>;
 
 
 export type UpdateTeamMutation = (
-  { __typename?: 'mutation_root' }
-  & { updateTeam?: Maybe<(
-    { __typename?: 'teams' }
+  { __typename?: 'Mutation' }
+  & { updateTeam: (
+    { __typename?: 'Team' }
     & TeamFragmentFragment
-  )> }
+  ) }
 );
 
 export type AllTeamsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type AllTeamsQuery = (
-  { __typename?: 'query_root' }
-  & { teams: Array<(
-    { __typename?: 'teams' }
-    & Pick<Teams, 'id' | 'name' | 'created_at'>
-    & { team_members: Array<(
-      { __typename?: 'team_member' }
-      & Pick<Team_Member, 'id' | 'order'>
-      & { pokemon: (
-        { __typename?: 'pokemon' }
-        & PokemonFragmentFragment
+  { __typename?: 'Query' }
+  & { teams: (
+    { __typename?: 'TeamList' }
+    & Pick<TeamList, 'total'>
+    & { teams: Array<(
+      { __typename?: 'Team' }
+      & Pick<Team, 'id' | 'name'>
+      & { members: (
+        { __typename?: 'TeamMemberList' }
+        & Pick<TeamMemberList, 'total'>
+        & { teamMembers: Array<(
+          { __typename?: 'TeamMember' }
+          & Pick<TeamMember, 'id' | 'slot'>
+          & { pokemon: (
+            { __typename?: 'Pokemon' }
+            & PokemonFragmentFragment
+          ) }
+        )> }
       ) }
     )> }
-  )> }
+  ) }
 );
 
 export type TeamByIdQueryVariables = Exact<{
-  id: Scalars['uuid'];
+  id: Scalars['ID'];
 }>;
 
 
 export type TeamByIdQuery = (
-  { __typename?: 'query_root' }
+  { __typename?: 'Query' }
   & { teamById?: Maybe<(
-    { __typename?: 'teams' }
+    { __typename?: 'Team' }
     & TeamFragmentFragment
   )> }
 );
 
-export const PokemonFragmentFragmentDoc = gql`
-    fragment PokemonFragment on pokemon {
+export const TypeFragmentFragmentDoc = gql`
+    fragment TypeFragment on Type {
   id
   name
   slug
-  pokedex_id
+}
+    `;
+export const PokemonFragmentFragmentDoc = gql`
+    fragment PokemonFragment on Pokemon {
+  id
+  name
+  slug
+  pokedexId
   sprite
+  color
+  shape
+  habitat
   hp
   attack
   defense
-  special_attack
-  special_defense
+  specialAttack
+  specialDefense
   speed
-  is_baby
-  is_legendary
-  is_mythical
+  height
+  weight
+  isDefaultVariant
+  isBaby
+  isLegendary
+  isMythical
   description
-  types {
-    type {
-      name
-      slug
+  abilities {
+    total
+    pokemonAbilities {
+      slot
+      isHidden
+      ability {
+        id
+        slug
+        name
+        effect
+      }
     }
   }
-  abilities {
-    ability_id
-    ability {
+  eggGroups {
+    total
+    eggGroups {
       id
       name
       slug
-      effect
+    }
+  }
+  evolvesTo {
+    total
+    pokemonEvolutions {
+      pokemon {
+        name
+        evolvesTo {
+          total
+          pokemonEvolutions {
+            pokemon {
+              id
+              name
+            }
+          }
+        }
+      }
+      trigger
+      item {
+        id
+        slug
+        name
+        cost
+        flingPower
+        flingEffect
+        effect
+        sprite
+        category
+        attributes
+      }
+      gender
+      heldItem {
+        id
+        slug
+        name
+        cost
+        flingPower
+        flingEffect
+        effect
+        sprite
+        category
+        attributes
+      }
+      knownMove {
+        name
+        type {
+          name
+        }
+      }
+      knownMoveType {
+        name
+      }
+      minLevel
+      minHappiness
+      minBeauty
+      minAffection
+      needsOverworldRain
+      partyPokemon {
+        name
+      }
+      partyPokemonType {
+        name
+      }
+      relativePhysicalStats
+      timeOfDay
+      tradeWithPokemon {
+        name
+      }
+      turnUpsideDown
+      spin
+      takeDamage
+      criticalHits
+    }
+  }
+  evolvesFrom {
+    total
+    pokemonEvolutions {
+      pokemon {
+        name
+        evolvesFrom {
+          total
+          pokemonEvolutions {
+            pokemon {
+              id
+              name
+            }
+          }
+        }
+      }
+      trigger
+      item {
+        id
+        slug
+        name
+        cost
+        flingPower
+        flingEffect
+        effect
+        sprite
+        category
+        attributes
+      }
+      gender
+      heldItem {
+        id
+        slug
+        name
+        cost
+        flingPower
+        flingEffect
+        effect
+        sprite
+        category
+        attributes
+      }
+      knownMove {
+        name
+        type {
+          name
+        }
+      }
+      knownMoveType {
+        name
+      }
+      minLevel
+      minHappiness
+      minBeauty
+      minAffection
+      needsOverworldRain
+      partyPokemon {
+        name
+      }
+      partyPokemonType {
+        name
+      }
+      relativePhysicalStats
+      timeOfDay
+      tradeWithPokemon {
+        name
+      }
+      turnUpsideDown
+      spin
+      takeDamage
+      criticalHits
+    }
+  }
+  types {
+    total
+    pokemonTypes {
+      slot
+      type {
+        ...TypeFragment
+        noDamageFrom {
+          total
+          types {
+            ...TypeFragment
+          }
+        }
+        halfDamageFrom {
+          total
+          types {
+            ...TypeFragment
+          }
+        }
+        doubleDamageFrom {
+          total
+          types {
+            ...TypeFragment
+          }
+        }
+      }
     }
   }
 }
-    `;
-export const TypeFragmentFragmentDoc = gql`
-    fragment TypeFragment on types {
-  id
-  name
-  slug
-}
-    `;
+    ${TypeFragmentFragmentDoc}`;
 export const MoveFragmentFragmentDoc = gql`
-    fragment MoveFragment on moves {
+    fragment MoveFragment on Move {
   id
   slug
   name
   accuracy
-  power
   pp
+  power
+  damageClass
   effect
-  damage_class {
-    value
-  }
+  effectChance
+  target
   type {
     ...TypeFragment
+    noDamageTo {
+      total
+      types {
+        ...TypeFragment
+      }
+    }
+    halfDamageTo {
+      total
+      types {
+        ...TypeFragment
+      }
+    }
+    doubleDamageTo {
+      total
+      types {
+        ...TypeFragment
+      }
+    }
   }
 }
     ${TypeFragmentFragmentDoc}`;
 export const TeamMemberMoveFragmentFragmentDoc = gql`
-    fragment TeamMemberMoveFragment on team_member_move {
-  order
+    fragment TeamMemberMoveFragment on TeamMemberMove {
+  id
+  slot
   move {
-    ...MoveFragment
+    learnMethod
+    levelLearnedAt
+    move {
+      ...MoveFragment
+    }
   }
 }
     ${MoveFragmentFragmentDoc}`;
 export const TeamMemberFragmentFragmentDoc = gql`
-    fragment TeamMemberFragment on team_member {
+    fragment TeamMemberFragment on TeamMember {
   id
-  order
+  slot
   pokemon {
     ...PokemonFragment
-    learnable_moves {
-      move_id
-      move {
-        ...MoveFragment
+    moves {
+      total
+      pokemonMoves {
+        learnMethod
+        levelLearnedAt
+        move {
+          ...MoveFragment
+        }
       }
     }
   }
-  learned_moves {
-    ...TeamMemberMoveFragment
+  moves {
+    total
+    teamMemberMoves {
+      ...TeamMemberMoveFragment
+    }
   }
 }
     ${PokemonFragmentFragmentDoc}
 ${MoveFragmentFragmentDoc}
 ${TeamMemberMoveFragmentFragmentDoc}`;
 export const TeamFragmentFragmentDoc = gql`
-    fragment TeamFragment on teams {
+    fragment TeamFragment on Team {
   id
   name
-  created_at
-  team_members {
-    ...TeamMemberFragment
+  members {
+    total
+    teamMembers {
+      ...TeamMemberFragment
+    }
   }
 }
     ${TeamMemberFragmentFragmentDoc}`;
 export const CreateTeamDocument = gql`
     mutation CreateTeam($name: String!) {
-  createTeam(object: {name: $name}) {
+  createTeam(input: {name: $name}) {
     ...TeamFragment
   }
 }
@@ -1829,46 +1160,8 @@ export const CreateTeamDocument = gql`
 export function useCreateTeamMutation() {
   return Urql.useMutation<CreateTeamMutation, CreateTeamMutationVariables>(CreateTeamDocument);
 };
-export const CreateTeamMemberMovesDocument = gql`
-    mutation CreateTeamMemberMoves($moves: [team_member_move_insert_input!]!) {
-  createTeamMemberMoves(
-    objects: $moves
-    on_conflict: {constraint: team_member_move_team_member_id_move_id_key, update_columns: [order]}
-  ) {
-    returning {
-      ...TeamMemberMoveFragment
-      team_member {
-        id
-        team {
-          id
-        }
-      }
-    }
-  }
-}
-    ${TeamMemberMoveFragmentFragmentDoc}`;
-
-export function useCreateTeamMemberMovesMutation() {
-  return Urql.useMutation<CreateTeamMemberMovesMutation, CreateTeamMemberMovesMutationVariables>(CreateTeamMemberMovesDocument);
-};
-export const CreateTeamMembersDocument = gql`
-    mutation CreateTeamMembers($members: [team_member_insert_input!]!) {
-  createTeamMembers(
-    objects: $members
-    on_conflict: {constraint: team_member_pkey, update_columns: [order]}
-  ) {
-    returning {
-      ...TeamMemberFragment
-    }
-  }
-}
-    ${TeamMemberFragmentFragmentDoc}`;
-
-export function useCreateTeamMembersMutation() {
-  return Urql.useMutation<CreateTeamMembersMutation, CreateTeamMembersMutationVariables>(CreateTeamMembersDocument);
-};
 export const DeleteTeamDocument = gql`
-    mutation DeleteTeam($id: uuid!) {
+    mutation DeleteTeam($id: ID!) {
   deleteTeam(id: $id) {
     ...TeamFragment
   }
@@ -1878,46 +1171,24 @@ export const DeleteTeamDocument = gql`
 export function useDeleteTeamMutation() {
   return Urql.useMutation<DeleteTeamMutation, DeleteTeamMutationVariables>(DeleteTeamDocument);
 };
-export const DeleteTeamMemberMovesDocument = gql`
-    mutation DeleteTeamMemberMoves($moveIds: [uuid!], $memberId: uuid!) {
-  deleteTeamMemberMoves(
-    where: {_and: [{move: {id: {_in: $moveIds}}}, {team_member: {id: {_eq: $memberId}}}]}
-  ) {
-    returning {
-      team_member {
-        id
-        team {
-          id
-        }
-      }
-      ...TeamMemberMoveFragment
-    }
-  }
-}
-    ${TeamMemberMoveFragmentFragmentDoc}`;
-
-export function useDeleteTeamMemberMovesMutation() {
-  return Urql.useMutation<DeleteTeamMemberMovesMutation, DeleteTeamMemberMovesMutationVariables>(DeleteTeamMemberMovesDocument);
-};
 export const DeleteTeamMembersDocument = gql`
-    mutation DeleteTeamMembers($members: [uuid!]) {
-  deleteTeamMembers(where: {id: {_in: $members}}) {
-    returning {
-      ...TeamMemberFragment
-      team {
-        id
-      }
+    mutation DeleteTeamMembers($id: ID!) {
+  removeTeamMember(id: $id) {
+    ...TeamMemberFragment
+    team {
+      ...TeamFragment
     }
   }
 }
-    ${TeamMemberFragmentFragmentDoc}`;
+    ${TeamMemberFragmentFragmentDoc}
+${TeamFragmentFragmentDoc}`;
 
 export function useDeleteTeamMembersMutation() {
   return Urql.useMutation<DeleteTeamMembersMutation, DeleteTeamMembersMutationVariables>(DeleteTeamMembersDocument);
 };
 export const UpdateTeamDocument = gql`
-    mutation UpdateTeam($id: uuid!, $name: String!) {
-  updateTeam(pk_columns: {id: $id}, _set: {name: $name}) {
+    mutation UpdateTeam($id: ID!, $name: String!, $members: [UpdateTeamMemberInput!]) {
+  updateTeam(input: {id: $id, name: $name, members: $members}) {
     ...TeamFragment
   }
 }
@@ -1928,15 +1199,20 @@ export function useUpdateTeamMutation() {
 };
 export const AllTeamsDocument = gql`
     query AllTeams {
-  teams(order_by: {created_at: desc_nulls_last}) {
-    id
-    name
-    created_at
-    team_members {
+  teams {
+    total
+    teams {
       id
-      order
-      pokemon {
-        ...PokemonFragment
+      name
+      members {
+        total
+        teamMembers {
+          id
+          slot
+          pokemon {
+            ...PokemonFragment
+          }
+        }
       }
     }
   }
@@ -1947,7 +1223,7 @@ export function useAllTeamsQuery(options: Omit<Urql.UseQueryArgs<AllTeamsQueryVa
   return Urql.useQuery<AllTeamsQuery>({ query: AllTeamsDocument, ...options });
 };
 export const TeamByIdDocument = gql`
-    query TeamById($id: uuid!) {
+    query TeamById($id: ID!) {
   teamById(id: $id) {
     ...TeamFragment
   }

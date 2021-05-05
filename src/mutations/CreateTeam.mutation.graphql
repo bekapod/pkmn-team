@@ -1,5 +1,5 @@
 mutation CreateTeam($name: String!) {
-  createTeam(object: { name: $name }) {
+  createTeam(input: { name: $name }) {
     ...TeamFragment
   }
 }

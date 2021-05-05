@@ -1,4 +1,4 @@
-query TeamById($id: uuid!) {
+query TeamById($id: ID!) {
   teamById(id: $id) {
     ...TeamFragment
   }

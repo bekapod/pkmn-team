@@ -1,6 +1,11 @@
-fragment TeamMemberMoveFragment on team_member_move {
-  order
+fragment TeamMemberMoveFragment on TeamMemberMove {
+  id
+  slot
   move {
-    ...MoveFragment
+    learnMethod
+    levelLearnedAt
+    move {
+      ...MoveFragment
+    }
   }
 }
