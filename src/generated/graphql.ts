@@ -14,37 +14,6 @@ export type Scalars = {
   Float: number;
 };
 
-export type UpdateTeamMemberInput = {
-  id?: Maybe<Scalars['ID']>;
-  pokemonId?: Maybe<Scalars['ID']>;
-  slot?: Maybe<Scalars['Int']>;
-};
-
-export type PokemonEvolutionList = {
-  __typename?: 'PokemonEvolutionList';
-  total: Scalars['Int'];
-  pokemonEvolutions: Array<PokemonEvolution>;
-};
-
-export type PokemonType = {
-  __typename?: 'PokemonType';
-  type: Type;
-  pokemon: Pokemon;
-  slot: Scalars['Int'];
-};
-
-export type CreateTeamMemberInput = {
-  pokemonId: Scalars['ID'];
-  slot: Scalars['Int'];
-};
-
-export type TeamMemberMove = {
-  __typename?: 'TeamMemberMove';
-  id: Scalars['ID'];
-  slot: Scalars['Int'];
-  move: PokemonMove;
-};
-
 export enum Habitat {
   Cave = 'CAVE',
   Forest = 'FOREST',
@@ -57,76 +26,17 @@ export enum Habitat {
   WatersEdge = 'WATERS_EDGE'
 }
 
-export type Ability = {
-  __typename?: 'Ability';
-  id: Scalars['ID'];
-  slug: Scalars['String'];
-  name: Scalars['String'];
-  effect?: Maybe<Scalars['String']>;
-  pokemon: PokemonAbilityList;
+export type TeamMemberList = {
+  __typename?: 'TeamMemberList';
+  total: Scalars['Int'];
+  teamMembers: Array<TeamMember>;
 };
 
-export enum MoveLearnMethod {
-  LevelUp = 'LEVEL_UP',
-  Egg = 'EGG',
-  Tutor = 'TUTOR',
-  Machine = 'MACHINE',
-  StadiumSurfingPikachu = 'STADIUM_SURFING_PIKACHU',
-  LightBallEgg = 'LIGHT_BALL_EGG',
-  ColosseumPurification = 'COLOSSEUM_PURIFICATION',
-  XdShadow = 'XD_SHADOW',
-  XdPurification = 'XD_PURIFICATION',
-  FormChange = 'FORM_CHANGE',
-  Record = 'RECORD',
-  Transfer = 'TRANSFER'
-}
-
-export type Pokemon = {
-  __typename?: 'Pokemon';
+export type TeamMemberMove = {
+  __typename?: 'TeamMemberMove';
   id: Scalars['ID'];
-  name: Scalars['String'];
-  slug: Scalars['String'];
-  pokedexId: Scalars['Int'];
-  sprite: Scalars['String'];
-  hp: Scalars['Int'];
-  attack: Scalars['Int'];
-  defense: Scalars['Int'];
-  specialAttack: Scalars['Int'];
-  specialDefense: Scalars['Int'];
-  speed: Scalars['Int'];
-  isBaby: Scalars['Boolean'];
-  isLegendary: Scalars['Boolean'];
-  isMythical: Scalars['Boolean'];
-  description?: Maybe<Scalars['String']>;
-  color: Color;
-  shape: Shape;
-  habitat?: Maybe<Habitat>;
-  height: Scalars['Int'];
-  weight: Scalars['Int'];
-  isDefaultVariant: Scalars['Boolean'];
-  genus: Scalars['String'];
-  abilities: PokemonAbilityList;
-  types: PokemonTypeList;
-  moves: PokemonMoveList;
-  eggGroups: EggGroupList;
-  evolvesTo: PokemonEvolutionList;
-  evolvesFrom: PokemonEvolutionList;
-};
-
-export type Move = {
-  __typename?: 'Move';
-  id: Scalars['ID'];
-  slug: Scalars['String'];
-  name: Scalars['String'];
-  accuracy?: Maybe<Scalars['Int']>;
-  pp?: Maybe<Scalars['Int']>;
-  power?: Maybe<Scalars['Int']>;
-  damageClass: DamageClass;
-  effect?: Maybe<Scalars['String']>;
-  effectChance?: Maybe<Scalars['Int']>;
-  target: MoveTarget;
-  type: Type;
-  pokemon: PokemonMoveList;
+  slot: Scalars['Int'];
+  move: PokemonMove;
 };
 
 export enum Color {
@@ -142,10 +52,30 @@ export enum Color {
   Yellow = 'YELLOW'
 }
 
-export type TeamMemberMoveList = {
-  __typename?: 'TeamMemberMoveList';
+export enum ItemAttribute {
+  Consumable = 'CONSUMABLE',
+  Countable = 'COUNTABLE',
+  Holdable = 'HOLDABLE',
+  HoldableActive = 'HOLDABLE_ACTIVE',
+  HoldablePassive = 'HOLDABLE_PASSIVE',
+  Underground = 'UNDERGROUND',
+  UsableInBattle = 'USABLE_IN_BATTLE',
+  UsableOverworld = 'USABLE_OVERWORLD'
+}
+
+export type TeamMember = {
+  __typename?: 'TeamMember';
+  id: Scalars['ID'];
+  slot: Scalars['Int'];
+  pokemon: Pokemon;
+  moves: TeamMemberMoveList;
+  team?: Maybe<Team>;
+};
+
+export type PokemonList = {
+  __typename?: 'PokemonList';
   total: Scalars['Int'];
-  teamMemberMoves: Array<TeamMemberMove>;
+  pokemon: Array<Pokemon>;
 };
 
 export type Team = {
@@ -155,15 +85,28 @@ export type Team = {
   members: TeamMemberList;
 };
 
+export enum DamageClass {
+  Physical = 'PHYSICAL',
+  Special = 'SPECIAL',
+  Status = 'STATUS'
+}
+
 export type CreateTeamInput = {
   name: Scalars['String'];
   members?: Maybe<Array<CreateTeamMemberInput>>;
 };
 
-export type UpdateTeamInput = {
+export type PokemonAbilityList = {
+  __typename?: 'PokemonAbilityList';
+  total: Scalars['Int'];
+  pokemonAbilities: Array<PokemonAbility>;
+};
+
+export type EggGroup = {
+  __typename?: 'EggGroup';
   id: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
-  members?: Maybe<Array<UpdateTeamMemberInput>>;
+  name: Scalars['String'];
+  slug: Scalars['String'];
 };
 
 export type Item = {
@@ -180,16 +123,10 @@ export type Item = {
   attributes: Array<ItemAttribute>;
 };
 
-export type TeamMemberList = {
-  __typename?: 'TeamMemberList';
+export type MoveList = {
+  __typename?: 'MoveList';
   total: Scalars['Int'];
-  teamMembers: Array<TeamMember>;
-};
-
-export type TypeList = {
-  __typename?: 'TypeList';
-  total: Scalars['Int'];
-  types: Array<Type>;
+  moves: Array<Move>;
 };
 
 export enum Gender {
@@ -237,17 +174,117 @@ export type QueryTypeByIdArgs = {
   id: Scalars['ID'];
 };
 
+export type PokemonMove = {
+  __typename?: 'PokemonMove';
+  move: Move;
+  pokemon: Pokemon;
+  learnMethod: MoveLearnMethod;
+  levelLearnedAt: Scalars['Int'];
+};
+
+export type AbilityList = {
+  __typename?: 'AbilityList';
+  total: Scalars['Int'];
+  abilities: Array<Ability>;
+};
+
+export type PokemonAbility = {
+  __typename?: 'PokemonAbility';
+  slot: Scalars['Int'];
+  isHidden: Scalars['Boolean'];
+  ability: Ability;
+  pokemon: Pokemon;
+};
+
+export type TeamList = {
+  __typename?: 'TeamList';
+  total: Scalars['Int'];
+  teams: Array<Team>;
+};
+
+export type TeamMemberMoveList = {
+  __typename?: 'TeamMemberMoveList';
+  total: Scalars['Int'];
+  teamMemberMoves: Array<TeamMemberMove>;
+};
+
+export enum EvolutionTrigger {
+  LevelUp = 'LEVEL_UP',
+  Other = 'OTHER',
+  Shed = 'SHED',
+  Trade = 'TRADE',
+  UseItem = 'USE_ITEM'
+}
+
+export type CreateTeamMemberInput = {
+  pokemonId: Scalars['ID'];
+  slot: Scalars['Int'];
+};
+
+export type Pokemon = {
+  __typename?: 'Pokemon';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  slug: Scalars['String'];
+  pokedexId: Scalars['Int'];
+  sprite: Scalars['String'];
+  hp: Scalars['Int'];
+  attack: Scalars['Int'];
+  defense: Scalars['Int'];
+  specialAttack: Scalars['Int'];
+  specialDefense: Scalars['Int'];
+  speed: Scalars['Int'];
+  isBaby: Scalars['Boolean'];
+  isLegendary: Scalars['Boolean'];
+  isMythical: Scalars['Boolean'];
+  description?: Maybe<Scalars['String']>;
+  color: Color;
+  shape: Shape;
+  habitat?: Maybe<Habitat>;
+  height: Scalars['Int'];
+  weight: Scalars['Int'];
+  isDefaultVariant: Scalars['Boolean'];
+  genus: Scalars['String'];
+  abilities: PokemonAbilityList;
+  types: PokemonTypeList;
+  moves: PokemonMoveList;
+  eggGroups: EggGroupList;
+  evolvesTo: PokemonEvolutionList;
+  evolvesFrom: PokemonEvolutionList;
+};
+
 export type PokemonMoveList = {
   __typename?: 'PokemonMoveList';
   total: Scalars['Int'];
   pokemonMoves: Array<PokemonMove>;
 };
 
-export type MoveList = {
-  __typename?: 'MoveList';
+export type TypeList = {
+  __typename?: 'TypeList';
   total: Scalars['Int'];
-  moves: Array<Move>;
+  types: Array<Type>;
 };
+
+export enum MoveLearnMethod {
+  LevelUp = 'LEVEL_UP',
+  Egg = 'EGG',
+  Tutor = 'TUTOR',
+  Machine = 'MACHINE',
+  StadiumSurfingPikachu = 'STADIUM_SURFING_PIKACHU',
+  LightBallEgg = 'LIGHT_BALL_EGG',
+  ColosseumPurification = 'COLOSSEUM_PURIFICATION',
+  XdShadow = 'XD_SHADOW',
+  XdPurification = 'XD_PURIFICATION',
+  FormChange = 'FORM_CHANGE',
+  Record = 'RECORD',
+  Transfer = 'TRANSFER'
+}
+
+export enum TimeOfDay {
+  Day = 'DAY',
+  Night = 'NIGHT',
+  Any = 'ANY'
+}
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -277,66 +314,21 @@ export type MutationRemoveTeamMemberArgs = {
   id: Scalars['ID'];
 };
 
-export type PokemonEvolution = {
-  __typename?: 'PokemonEvolution';
+export type PokemonType = {
+  __typename?: 'PokemonType';
+  type: Type;
   pokemon: Pokemon;
-  trigger: EvolutionTrigger;
-  item?: Maybe<Item>;
-  gender: Gender;
-  heldItem?: Maybe<Item>;
-  knownMove?: Maybe<Move>;
-  knownMoveType?: Maybe<Type>;
-  minLevel?: Maybe<Scalars['Int']>;
-  minHappiness?: Maybe<Scalars['Int']>;
-  minBeauty?: Maybe<Scalars['Int']>;
-  minAffection?: Maybe<Scalars['Int']>;
-  needsOverworldRain: Scalars['Boolean'];
-  partyPokemon?: Maybe<Pokemon>;
-  partyPokemonType?: Maybe<Type>;
-  relativePhysicalStats?: Maybe<Scalars['Int']>;
-  timeOfDay: TimeOfDay;
-  tradeWithPokemon?: Maybe<Pokemon>;
-  turnUpsideDown: Scalars['Boolean'];
-  spin: Scalars['Boolean'];
-  takeDamage?: Maybe<Scalars['Int']>;
-  criticalHits?: Maybe<Scalars['Int']>;
-};
-
-export type PokemonMove = {
-  __typename?: 'PokemonMove';
-  move: Move;
-  pokemon: Pokemon;
-  learnMethod: MoveLearnMethod;
-  levelLearnedAt: Scalars['Int'];
-};
-
-export type TeamMember = {
-  __typename?: 'TeamMember';
-  id: Scalars['ID'];
   slot: Scalars['Int'];
-  pokemon: Pokemon;
-  moves: TeamMemberMoveList;
-  team?: Maybe<Team>;
 };
 
-export enum EvolutionTrigger {
-  LevelUp = 'LEVEL_UP',
-  Other = 'OTHER',
-  Shed = 'SHED',
-  Trade = 'TRADE',
-  UseItem = 'USE_ITEM'
-}
-
-export enum ItemAttribute {
-  Consumable = 'CONSUMABLE',
-  Countable = 'COUNTABLE',
-  Holdable = 'HOLDABLE',
-  HoldableActive = 'HOLDABLE_ACTIVE',
-  HoldablePassive = 'HOLDABLE_PASSIVE',
-  Underground = 'UNDERGROUND',
-  UsableInBattle = 'USABLE_IN_BATTLE',
-  UsableOverworld = 'USABLE_OVERWORLD'
-}
+export type Ability = {
+  __typename?: 'Ability';
+  id: Scalars['ID'];
+  slug: Scalars['String'];
+  name: Scalars['String'];
+  effect?: Maybe<Scalars['String']>;
+  pokemon: PokemonAbilityList;
+};
 
 export type Type = {
   __typename?: 'Type';
@@ -353,25 +345,22 @@ export type Type = {
   doubleDamageFrom: TypeList;
 };
 
-export type PokemonAbilityList = {
-  __typename?: 'PokemonAbilityList';
-  total: Scalars['Int'];
-  pokemonAbilities: Array<PokemonAbility>;
-};
-
-export type PokemonAbility = {
-  __typename?: 'PokemonAbility';
-  slot: Scalars['Int'];
-  isHidden: Scalars['Boolean'];
-  ability: Ability;
-  pokemon: Pokemon;
-};
-
-export type EggGroupList = {
-  __typename?: 'EggGroupList';
-  total: Scalars['Int'];
-  eggGroups: Array<EggGroup>;
-};
+export enum Shape {
+  Ball = 'BALL',
+  Squiggle = 'SQUIGGLE',
+  Fish = 'FISH',
+  Arms = 'ARMS',
+  Blob = 'BLOB',
+  Upright = 'UPRIGHT',
+  Legs = 'LEGS',
+  Quadruped = 'QUADRUPED',
+  Wings = 'WINGS',
+  Tentacles = 'TENTACLES',
+  Heads = 'HEADS',
+  Humanoid = 'HUMANOID',
+  BugWings = 'BUG_WINGS',
+  Armor = 'ARMOR'
+}
 
 export type PokemonTypeList = {
   __typename?: 'PokemonTypeList';
@@ -379,10 +368,10 @@ export type PokemonTypeList = {
   pokemonTypes: Array<PokemonType>;
 };
 
-export type TeamList = {
-  __typename?: 'TeamList';
-  total: Scalars['Int'];
-  teams: Array<Team>;
+export type UpdateTeamMemberInput = {
+  id?: Maybe<Scalars['ID']>;
+  pokemonId?: Maybe<Scalars['ID']>;
+  slot?: Maybe<Scalars['Int']>;
 };
 
 export enum ItemCategory {
@@ -433,6 +422,65 @@ export enum ItemCategory {
   ZCrystals = 'Z_CRYSTALS'
 }
 
+export type UpdateTeamInput = {
+  id: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
+  members?: Maybe<Array<UpdateTeamMemberInput>>;
+};
+
+export type PokemonEvolution = {
+  __typename?: 'PokemonEvolution';
+  pokemon: Pokemon;
+  trigger: EvolutionTrigger;
+  item?: Maybe<Item>;
+  gender: Gender;
+  heldItem?: Maybe<Item>;
+  knownMove?: Maybe<Move>;
+  knownMoveType?: Maybe<Type>;
+  minLevel?: Maybe<Scalars['Int']>;
+  minHappiness?: Maybe<Scalars['Int']>;
+  minBeauty?: Maybe<Scalars['Int']>;
+  minAffection?: Maybe<Scalars['Int']>;
+  needsOverworldRain: Scalars['Boolean'];
+  partyPokemon?: Maybe<Pokemon>;
+  partyPokemonType?: Maybe<Type>;
+  relativePhysicalStats?: Maybe<Scalars['Int']>;
+  timeOfDay: TimeOfDay;
+  tradeWithPokemon?: Maybe<Pokemon>;
+  turnUpsideDown: Scalars['Boolean'];
+  spin: Scalars['Boolean'];
+  takeDamage?: Maybe<Scalars['Int']>;
+  criticalHits?: Maybe<Scalars['Int']>;
+};
+
+export type EggGroupList = {
+  __typename?: 'EggGroupList';
+  total: Scalars['Int'];
+  eggGroups: Array<EggGroup>;
+};
+
+export type Move = {
+  __typename?: 'Move';
+  id: Scalars['ID'];
+  slug: Scalars['String'];
+  name: Scalars['String'];
+  accuracy?: Maybe<Scalars['Int']>;
+  pp?: Maybe<Scalars['Int']>;
+  power?: Maybe<Scalars['Int']>;
+  damageClass: DamageClass;
+  effect?: Maybe<Scalars['String']>;
+  effectChance?: Maybe<Scalars['Int']>;
+  target: MoveTarget;
+  type: Type;
+  pokemon: PokemonMoveList;
+};
+
+export type PokemonEvolutionList = {
+  __typename?: 'PokemonEvolutionList';
+  total: Scalars['Int'];
+  pokemonEvolutions: Array<PokemonEvolution>;
+};
+
 export enum MoveTarget {
   SpecificMove = 'SPECIFIC_MOVE',
   SelectedPokemonMeFirst = 'SELECTED_POKEMON_ME_FIRST',
@@ -450,54 +498,6 @@ export enum MoveTarget {
   AllPokemon = 'ALL_POKEMON',
   AllAllies = 'ALL_ALLIES'
 }
-
-export type AbilityList = {
-  __typename?: 'AbilityList';
-  total: Scalars['Int'];
-  abilities: Array<Ability>;
-};
-
-export enum DamageClass {
-  Physical = 'PHYSICAL',
-  Special = 'SPECIAL',
-  Status = 'STATUS'
-}
-
-export enum Shape {
-  Ball = 'BALL',
-  Squiggle = 'SQUIGGLE',
-  Fish = 'FISH',
-  Arms = 'ARMS',
-  Blob = 'BLOB',
-  Upright = 'UPRIGHT',
-  Legs = 'LEGS',
-  Quadruped = 'QUADRUPED',
-  Wings = 'WINGS',
-  Tentacles = 'TENTACLES',
-  Heads = 'HEADS',
-  Humanoid = 'HUMANOID',
-  BugWings = 'BUG_WINGS',
-  Armor = 'ARMOR'
-}
-
-export enum TimeOfDay {
-  Day = 'DAY',
-  Night = 'NIGHT',
-  Any = 'ANY'
-}
-
-export type PokemonList = {
-  __typename?: 'PokemonList';
-  total: Scalars['Int'];
-  pokemon: Array<Pokemon>;
-};
-
-export type EggGroup = {
-  __typename?: 'EggGroup';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  slug: Scalars['String'];
-};
 
 export type MoveFragmentFragment = (
   { __typename?: 'Move' }
@@ -681,6 +681,15 @@ export type PokemonFragmentFragment = (
   ) }
 );
 
+export type PokemonMoveFragmentFragment = (
+  { __typename?: 'PokemonMove' }
+  & Pick<PokemonMove, 'learnMethod' | 'levelLearnedAt'>
+  & { move: (
+    { __typename?: 'Move' }
+    & MoveFragmentFragment
+  ) }
+);
+
 export type TeamFragmentFragment = (
   { __typename?: 'Team' }
   & Pick<Team, 'id' | 'name'>
@@ -704,11 +713,7 @@ export type TeamMemberFragmentFragment = (
       & Pick<PokemonMoveList, 'total'>
       & { pokemonMoves: Array<(
         { __typename?: 'PokemonMove' }
-        & Pick<PokemonMove, 'learnMethod' | 'levelLearnedAt'>
-        & { move: (
-          { __typename?: 'Move' }
-          & MoveFragmentFragment
-        ) }
+        & PokemonMoveFragmentFragment
       )> }
     ) }
     & PokemonFragmentFragment
@@ -1097,6 +1102,15 @@ export const MoveFragmentFragmentDoc = gql`
   }
 }
     ${TypeFragmentFragmentDoc}`;
+export const PokemonMoveFragmentFragmentDoc = gql`
+    fragment PokemonMoveFragment on PokemonMove {
+  learnMethod
+  levelLearnedAt
+  move {
+    ...MoveFragment
+  }
+}
+    ${MoveFragmentFragmentDoc}`;
 export const TeamMemberMoveFragmentFragmentDoc = gql`
     fragment TeamMemberMoveFragment on TeamMemberMove {
   id
@@ -1119,11 +1133,7 @@ export const TeamMemberFragmentFragmentDoc = gql`
     moves {
       total
       pokemonMoves {
-        learnMethod
-        levelLearnedAt
-        move {
-          ...MoveFragment
-        }
+        ...PokemonMoveFragment
       }
     }
   }
@@ -1135,7 +1145,7 @@ export const TeamMemberFragmentFragmentDoc = gql`
   }
 }
     ${PokemonFragmentFragmentDoc}
-${MoveFragmentFragmentDoc}
+${PokemonMoveFragmentFragmentDoc}
 ${TeamMemberMoveFragmentFragmentDoc}`;
 export const TeamFragmentFragmentDoc = gql`
     fragment TeamFragment on Team {

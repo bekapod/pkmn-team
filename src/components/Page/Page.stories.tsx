@@ -1,4 +1,4 @@
-import { Meta } from '@storybook/react/types-6-0';
+import { Meta, Story } from '@storybook/react/types-6-0';
 import { Page, PageProps } from './Page';
 import { FullWidthContainer } from '../FullWidthContainer';
 
@@ -11,7 +11,7 @@ export default {
   }
 } as Meta<PageProps>;
 
-export const Standard = (args: PageProps): JSX.Element => (
+export const page: Story<PageProps> = args => (
   <Page {...args}>
     <FullWidthContainer>A section of content</FullWidthContainer>
   </Page>

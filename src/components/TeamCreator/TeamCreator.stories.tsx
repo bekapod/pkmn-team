@@ -1,4 +1,4 @@
-import { Meta } from '@storybook/react/types-6-0';
+import { Meta, Story } from '@storybook/react/types-6-0';
 import { TeamCreator, TeamCreatorProps } from './TeamCreator';
 
 export default {
@@ -9,6 +9,6 @@ export default {
   }
 } as Meta<TeamCreatorProps>;
 
-export const Default = (args: TeamCreatorProps): JSX.Element => (
+export const Default: Story<TeamCreatorProps> = args => (
   <TeamCreator {...args} />
 );

@@ -1,8 +1,8 @@
-import { Meta } from '@storybook/react/types-6-0';
+import { Meta, Story } from '@storybook/react/types-6-0';
 import { CardMeta, CardMetaProps } from './CardMeta';
 
 export default {
-  title: 'Components/CardMeta',
+  title: 'Components/Card Meta',
   component: CardMeta,
   args: {
     id: '1',
@@ -13,6 +13,4 @@ export default {
   }
 } as Meta<CardMetaProps>;
 
-export const Standard = (args: CardMetaProps): JSX.Element => (
-  <CardMeta {...args} />
-);
+export const cardMeta: Story<CardMetaProps> = args => <CardMeta {...args} />;

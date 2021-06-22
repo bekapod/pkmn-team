@@ -1,0 +1,21 @@
+fragment moveType on Type {
+  ...type
+  noDamageTo {
+    total
+    types {
+      ...type
+    }
+  }
+  halfDamageTo {
+    total
+    types {
+      ...type
+    }
+  }
+  doubleDamageTo {
+    total
+    types {
+      ...type
+    }
+  }
+}

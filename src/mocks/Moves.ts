@@ -1,7 +1,11 @@
-import { Moves } from '~/generated/graphql';
+import {
+  DamageClass,
+  MoveFragmentFragment as Move,
+  MoveTarget
+} from '~/generated/graphql';
 import { normal, psychic } from './Types';
 
-export const substitute: Moves = {
+export const substitute: Move = {
   id: '623bcd4a-da0d-4b47-9b4b-96601d465cc1',
   name: 'Substitute',
   slug: 'substitute',
@@ -9,15 +13,13 @@ export const substitute: Moves = {
   power: null,
   accuracy: null,
   pp: 10,
-  target: 'User',
-  damage_class: {
-    value: 'status'
-  },
+  target: MoveTarget.User,
+  damageClass: DamageClass.Status,
   effect:
     "Transfers 1/4 of the user's max HP into a doll, protecting the user from further damage or status changes until it breaks."
 };
 
-export const slash: Moves = {
+export const slash: Move = {
   id: '38335f1b-6c2c-4e63-b046-d9c57edb2501',
   name: 'Slash',
   slug: 'slash',
@@ -25,14 +27,12 @@ export const slash: Moves = {
   power: 70,
   accuracy: 100,
   pp: 20,
-  target: 'Selected Pokémon',
-  damage_class: {
-    value: 'physical'
-  },
+  target: MoveTarget.SelectedPokemon,
+  damageClass: DamageClass.Physical,
   effect: 'Has an increased chance for a critical hit.'
 };
 
-export const rest: Moves = {
+export const rest: Move = {
   id: 'b85adec9-3993-436e-b5bd-78056a14c617',
   name: 'Rest',
   slug: 'rest',
@@ -40,14 +40,12 @@ export const rest: Moves = {
   power: null,
   accuracy: null,
   pp: 10,
-  target: 'User',
-  damage_class: {
-    value: 'status'
-  },
+  target: MoveTarget.User,
+  damageClass: DamageClass.Status,
   effect: 'User sleeps for two turns, completely healing itself.'
 };
 
-export const flash: Moves = {
+export const flash: Move = {
   id: '44560082-e180-4a5c-9e65-ceb8251935c6',
   name: 'Flash',
   slug: 'flash',
@@ -55,14 +53,12 @@ export const flash: Moves = {
   power: null,
   accuracy: 100,
   pp: 20,
-  target: 'Selected Pokémon',
-  damage_class: {
-    value: 'status'
-  },
+  target: MoveTarget.SelectedPokemon,
+  damageClass: DamageClass.Status,
   effect: "Lowers the target's accuracy by one stage."
 };
 
-export const explosion: Moves = {
+export const explosion: Move = {
   id: '226c7a31-fcbd-4557-b432-8abe86767879',
   name: 'Explosion',
   slug: 'explosion',
@@ -70,9 +66,7 @@ export const explosion: Moves = {
   power: 250,
   accuracy: 100,
   pp: 5,
-  target: 'All other Pokémon',
-  damage_class: {
-    value: 'physical'
-  },
+  target: MoveTarget.AllOtherPokemon,
+  damageClass: DamageClass.Physical,
   effect: 'User faints.'
 };

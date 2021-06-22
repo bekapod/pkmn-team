@@ -15,8 +15,11 @@ export enum TeamMemberActionType {
 
 type AddTeamMemberAction = {
   type: TeamMemberActionType.AddTeamMember;
-  payload: Omit<TeamMemberFragmentFragment, 'pokemon'> & {
-    pokemon: PokemonFragmentFragment;
+  payload: Omit<TeamMemberFragmentFragment, 'pokemon' | 'moves'> & {
+    pokemon: Omit<
+      PokemonFragmentFragment,
+      'moves' | 'eggGroups' | 'evolvesTo' | 'evolvesFrom'
+    >;
   };
 };
 

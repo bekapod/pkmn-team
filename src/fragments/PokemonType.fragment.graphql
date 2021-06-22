@@ -1,0 +1,24 @@
+fragment pokemonType on PokemonType {
+  slot
+  type {
+    ...type
+    noDamageFrom {
+      total
+      types {
+        ...type
+      }
+    }
+    halfDamageFrom {
+      total
+      types {
+        ...type
+      }
+    }
+    doubleDamageFrom {
+      total
+      types {
+        ...type
+      }
+    }
+  }
+}

@@ -1,9 +1,9 @@
-import { Meta } from '@storybook/react/types-6-0';
+import { Meta, Story } from '@storybook/react/types-6-0';
 import { pikachu } from '~/mocks/Pokemon';
 import { CtaButton } from '~/components/Cta';
 import { MovesProvider } from '~/hooks/useMoves';
 import { PokemonCard, PokemonCardProps } from './PokemonCard';
-import { flash, substitute } from '~/mocks/Pokemon_Move';
+import { explosion, flash } from '~/mocks/Pokemon_Move';
 
 export default {
   title: 'Components/PokemonCard',
@@ -13,13 +13,13 @@ export default {
   }
 } as Meta<PokemonCardProps>;
 
-export const Standard = (args: PokemonCardProps): JSX.Element => (
+export const Standard: Story<PokemonCardProps> = args => (
   <PokemonCard {...args} />
 );
 
-export const WithTeamMember = (
-  args: PokemonCardProps & { updateTeamMemberMoves: never }
-): JSX.Element => (
+export const WithTeamMember: Story<
+  PokemonCardProps & { updateTeamMemberMoves: any }
+> = args => (
   <MovesProvider
     teamMember={args.teamMember}
     updateTeamMemberMoves={args.updateTeamMemberMoves}
@@ -33,9 +33,23 @@ WithTeamMember.argTypes = {
 WithTeamMember.args = {
   teamMember: {
     id: '3',
-    order: 3,
+    slot: 3,
     pokemon: pikachu,
-    learned_moves: [flash, substitute]
+    moves: {
+      total: 2,
+      teamMemberMoves: [
+        {
+          id: 'explosion',
+          slot: 1,
+          move: explosion
+        },
+        {
+          id: 'flash',
+          slot: 2,
+          move: flash
+        }
+      ]
+    }
   },
   renderCardActions: () => (
     <CtaButton type="button" size="small" variant="destructive">
@@ -44,7 +58,7 @@ WithTeamMember.args = {
   )
 };
 
-export const WithActions = (args: PokemonCardProps): JSX.Element => (
+export const WithActions: Story<PokemonCardProps> = args => (
   <PokemonCard {...args} />
 );
 WithActions.args = {

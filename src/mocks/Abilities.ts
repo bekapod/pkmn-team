@@ -1,4 +1,4 @@
-import { Abilities } from '~/generated/graphql';
+import { AbilityFragmentFragment } from '~/generated/graphql';
 
 export const blaze: Abilities = {
   id: '995cd36d-1dde-4c6c-91ef-fea2c7151772',

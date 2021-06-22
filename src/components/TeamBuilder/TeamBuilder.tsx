@@ -10,10 +10,10 @@ import { LoadingIcon } from '../LoadingIcon';
 import { TeamView } from '../TeamView';
 import { StickyBar } from '../StickyBar';
 import type {
-  MoveFragmentFragment,
   TeamByIdQuery,
   TeamMemberFragmentFragment,
-  Teams
+  Team,
+  TeamMemberMoveFragmentFragment
 } from '~/generated/graphql';
 
 export type TeamBuilderProps = {
@@ -23,10 +23,10 @@ export type TeamBuilderProps = {
   error?: CombinedError;
   updateTeam?: (name: string) => void;
   deleteTeam?: () => void;
-  updateTeamMembers?: (members: Teams['team_members']) => void;
+  updateTeamMembers?: (members: Team['members']) => void;
   updateTeamMemberMoves?: (
     member: TeamMemberFragmentFragment,
-    moves: MoveFragmentFragment[]
+    moves: TeamMemberMoveFragmentFragment['move'][]
   ) => void;
 };
 
@@ -90,7 +90,7 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
       </CenteredRow>
 
       <TeamView
-        initialTeamMembers={team?.team_members}
+        initialTeamMembers={team?.members?.teamMembers}
         isSkeleton={isSkeleton}
         updateTeamMembers={debouncedUpdateTeamMembers}
         updateTeamMemberMoves={updateTeamMemberMoves}

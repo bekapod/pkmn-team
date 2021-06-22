@@ -1,11 +1,11 @@
-fragment TeamMemberMoveFragment on TeamMemberMove {
+fragment teamMemberMove on TeamMemberMove {
   id
   slot
   move {
     learnMethod
     levelLearnedAt
     move {
-      ...MoveFragment
+      ...move
     }
   }
 }
