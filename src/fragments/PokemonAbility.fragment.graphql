@@ -1,0 +1,7 @@
+fragment pokemonAbility on PokemonAbility {
+  slot
+  isHidden
+  ability {
+    ...ability
+  }
+}

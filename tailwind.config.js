@@ -30,6 +30,7 @@ const createCustomProperties = (theme, propertyName) => {
 };
 
 module.exports = {
+  jit: true,
   purge: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}'

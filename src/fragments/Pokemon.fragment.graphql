@@ -1,4 +1,4 @@
-fragment PokemonFragment on Pokemon {
+fragment pokemon on Pokemon {
   id
   name
   slug
@@ -23,14 +23,7 @@ fragment PokemonFragment on Pokemon {
   abilities {
     total
     pokemonAbilities {
-      slot
-      isHidden
-      ability {
-        id
-        slug
-        name
-        effect
-      }
+      ...pokemonAbility
     }
   }
   eggGroups {
@@ -188,28 +181,7 @@ fragment PokemonFragment on Pokemon {
   types {
     total
     pokemonTypes {
-      slot
-      type {
-        ...TypeFragment
-        noDamageFrom {
-          total
-          types {
-            ...TypeFragment
-          }
-        }
-        halfDamageFrom {
-          total
-          types {
-            ...TypeFragment
-          }
-        }
-        doubleDamageFrom {
-          total
-          types {
-            ...TypeFragment
-          }
-        }
-      }
+      ...pokemonType
     }
   }
 }

@@ -30,7 +30,7 @@ import size from 'lodash/fp/size';
 import stubTrue from 'lodash/fp/stubTrue';
 import { MoveLine } from '../MoveLine';
 import {
-  MoveFragmentFragment,
+  PokemonMoveFragmentFragment,
   TeamMemberFragmentFragment,
   TeamMemberMoveFragmentFragment
 } from '~/generated/graphql';
@@ -39,15 +39,15 @@ import { CtaButton } from '../Cta';
 import { Action, MoveActionType, useMoves } from '~/hooks/useMoves';
 
 export type MoveListProps = ComponentPropsWithoutRef<'div'> & {
-  allMoves?: MoveFragmentFragment[];
+  allMoves?: PokemonMoveFragmentFragment[];
   highlightLearnedMoves?: boolean;
   visibleItems?: number;
   teamMember?: TeamMemberFragmentFragment;
 };
 
-type RowProps = ListChildComponentProps & {
-  data: {
-    move: MoveFragmentFragment;
+type RowProps = ListChildComponentProps<
+  {
+    move: PokemonMoveFragmentFragment;
     teamMember?: MoveListProps['teamMember'];
     highlightLearnedMoves: MoveListProps['highlightLearnedMoves'];
     isOpen: boolean;
@@ -55,22 +55,19 @@ type RowProps = ListChildComponentProps & {
     isSpacious: boolean;
     onItemStateChange: (index: number, isOpen: boolean) => void;
     dispatch: Dispatch<Action>;
-  }[];
-};
+  }[]
+>;
 
 const getTeamMemberMove = (
   teamMember: TeamMemberFragmentFragment,
-  move: MoveFragmentFragment
+  move: PokemonMoveFragmentFragment
 ): TeamMemberMoveFragmentFragment | undefined =>
-  teamMember.learned_moves.find(
-    teamMemberMove => teamMemberMove.move.id === move.id
+  teamMember.moves.teamMemberMoves.find(
+    teamMemberMove => teamMemberMove.move.move.id === move.move?.id
   );
 
-const Row = forwardRef(
-  (
-    { data, index, style, isScrolling, ...rest }: RowProps,
-    ref
-  ): JSX.Element => {
+const Row = forwardRef<HTMLDivElement, RowProps>(
+  ({ data, index, style, isScrolling, ...rest }, ref) => {
     const {
       move,
       teamMember,
@@ -92,7 +89,7 @@ const Row = forwardRef(
                 type="button"
                 size="tiny"
                 variant="destructive"
-                aria-label={`Forget ${move.name}`}
+                aria-label={`Forget ${move.move.name}`}
                 onClick={() =>
                   dispatch({
                     type: MoveActionType.RemoveMove,
@@ -107,7 +104,7 @@ const Row = forwardRef(
                 type="button"
                 size="tiny"
                 variant="primary"
-                aria-label={`Learn ${move.name}`}
+                aria-label={`Learn ${move.move.name}`}
                 onClick={() =>
                   dispatch({
                     type: MoveActionType.AddMove,
@@ -299,8 +296,8 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
                 >
                   {itemData.map((data, idx) => (
                     <Draggable
-                      key={data.move.id}
-                      draggableId={data.move.id}
+                      key={data.move.move.id}
+                      draggableId={data.move.move.id}
                       index={idx}
                     >
                       {draggableProvided => (

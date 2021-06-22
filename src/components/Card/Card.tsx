@@ -1,6 +1,6 @@
 import { ComponentPropsWithRef, forwardRef, FunctionComponent } from 'react';
 import classNames from 'classnames';
-import { Types } from '~/generated/graphql';
+import { Type } from '~/generated/graphql';
 import { getTypeGradient } from '~/lib/gradients';
 
 export const CardLink: FunctionComponent<
@@ -26,15 +26,16 @@ export const CardLink: FunctionComponent<
 
 export const CardWrapper: FunctionComponent<
   ComponentPropsWithRef<'article'>
-> = ({ className, ...props }) => (
+> = forwardRef(({ className, ...props }, ref) => (
   <article
+    ref={ref}
     className={classNames('flex', 'flex-col', 'h-full', className)}
     {...props}
   />
-);
+));
 
 export type CardHeaderProps = ComponentPropsWithRef<'header'> & {
-  types?: Pick<Types, 'name' | 'slug'>[];
+  types?: Pick<Type, 'name' | 'slug'>[];
 };
 export const CardHeader: FunctionComponent<CardHeaderProps> = ({
   types = [],

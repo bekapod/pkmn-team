@@ -1,4 +1,4 @@
-fragment TypeFragment on Type {
+fragment type on Type {
   id
   name
   slug

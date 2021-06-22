@@ -1,4 +1,4 @@
-import { Meta } from '@storybook/react/types-6-0';
+import { Meta, Story } from '@storybook/react/types-6-0';
 import { Pokemon } from '~/generated/graphql';
 import { charmander, haunter, pikachu } from '~/mocks/Pokemon';
 import { TeamCard, TeamCardProps } from './TeamCard';
@@ -12,26 +12,27 @@ export default {
     id: '123',
     created_at: '2020-12-12T22:50:59.766899+00:00',
     name: 'My super team!',
-    team_members: [
+    members: [
       {
         id: '1',
-        order: 1,
-        pokemon: pokemon[0]
+        slot: 1,
+        pokemon: pokemon[0],
+        moves: { total: 0, teamMemberMoves: [] }
       },
       {
         id: '2',
-        order: 2,
-        pokemon: pokemon[1]
+        slot: 2,
+        pokemon: pokemon[1],
+        moves: { total: 0, teamMemberMoves: [] }
       },
       {
         id: '3',
-        order: 3,
-        pokemon: pokemon[2]
+        slot: 3,
+        pokemon: pokemon[2],
+        moves: { total: 0, teamMemberMoves: [] }
       }
     ]
   }
 } as Meta<TeamCardProps>;
 
-export const Standard = (args: TeamCardProps): JSX.Element => (
-  <TeamCard {...args} />
-);
+export const Standard: Story<TeamCardProps> = args => <TeamCard {...args} />;

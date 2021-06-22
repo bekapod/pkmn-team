@@ -7,9 +7,8 @@ import {
   AllTeamsQuery,
   TeamByIdDocument,
   TeamByIdQuery,
-  Teams,
-  Team_Member,
-  Team_Member_Move
+  Team,
+  TeamMember
 } from '~/generated/graphql';
 
 export const createClient = (
@@ -35,7 +34,8 @@ export const createClient = (
               { query: AllTeamsDocument },
               (data: AllTeamsQuery | null) => {
                 if (data?.teams && result.createTeam) {
-                  data.teams.unshift(result.createTeam as Teams);
+                  data.teams.teams.unshift(result.createTeam as Team);
+                  data.teams.total = data.teams.teams.length;
                 }
 
                 return data;
@@ -47,10 +47,11 @@ export const createClient = (
               { query: AllTeamsDocument },
               (data: AllTeamsQuery | null) => {
                 if (data?.teams) {
-                  const newTeams = data.teams.filter(
+                  const newTeams = data.teams.teams.filter(
                     team => team.id !== args.id
                   );
-                  data.teams = newTeams;
+                  data.teams.teams = newTeams;
+                  data.teams.total = data.teams.teams.length;
                 }
 
                 return data;
@@ -67,16 +68,21 @@ export const createClient = (
                   if (data?.teamById) {
                     const updatedMembers = result?.createTeamMembers?.returning;
 
-                    data.teamById.team_members = [
-                      ...data?.teamById?.team_members.filter(
-                        ({ id }) =>
-                          !updatedMembers.find(
-                            (updatedMember: Team_Member) =>
-                              id === updatedMember.id
-                          )
-                      ),
-                      ...updatedMembers
-                    ];
+                    data.teamById.members = {
+                      ...data.teamById.members,
+                      teamMembers: [
+                        ...data?.teamById?.members.teamMembers.filter(
+                          ({ id }) =>
+                            !updatedMembers.find(
+                              (updatedMember: TeamMember) =>
+                                id === updatedMember.id
+                            )
+                        ),
+                        ...updatedMembers
+                      ]
+                    };
+                    data.teamById.members.total =
+                      data.teamById.members.teamMembers.length;
                   }
 
                   return data;
@@ -93,90 +99,95 @@ export const createClient = (
                 if (data?.teamById) {
                   const deletedMembers = result?.deleteTeamMembers?.returning;
 
-                  data.teamById.team_members = data?.teamById?.team_members.filter(
-                    ({ id }) =>
-                      !deletedMembers.find(
-                        (deletedMember: Team_Member) => id === deletedMember.id
-                      )
-                  );
+                  data.teamById.members = {
+                    ...data.teamById.members,
+                    teamMembers: data?.teamById?.members.teamMembers.filter(
+                      ({ id }) =>
+                        !deletedMembers.find(
+                          (deletedMember: TeamMember) => id === deletedMember.id
+                        )
+                    )
+                  };
+                  data.teamById.members.total =
+                    data.teamById.members.teamMembers.length;
                 }
 
-                return data;
-              }
-            );
-          },
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          createTeamMemberMoves: (result: any, _args, cache) => {
-            const teamId =
-              result?.createTeamMemberMoves?.returning[0]?.team_member?.team
-                ?.id;
-
-            cache.updateQuery(
-              {
-                query: TeamByIdDocument,
-                variables: { id: teamId }
-              },
-              (data: TeamByIdQuery | null) => {
-                if (data?.teamById) {
-                  const teamMember = data.teamById.team_members.find(
-                    ({ id }) =>
-                      result?.createTeamMemberMoves?.returning[0]?.team_member
-                        ?.id === id
-                  );
-                  const updatedMoves = result?.createTeamMemberMoves?.returning;
-
-                  if (teamMember) {
-                    teamMember.learned_moves = [
-                      ...teamMember?.learned_moves?.filter(
-                        ({ move }) =>
-                          !updatedMoves.find(
-                            (updatedMove: Team_Member_Move) =>
-                              move.id === updatedMove.move.id
-                          )
-                      ),
-                      ...updatedMoves
-                    ];
-                  }
-                }
-
-                return data;
-              }
-            );
-          },
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          deleteTeamMemberMoves: (result: any, _args, cache) => {
-            const teamId =
-              result?.deleteTeamMemberMoves?.returning[0]?.team_member?.team
-                ?.id;
-            cache.updateQuery(
-              {
-                query: TeamByIdDocument,
-                variables: { id: teamId }
-              },
-              (data: TeamByIdQuery | null) => {
-                if (data?.teamById) {
-                  const teamMember = data.teamById.team_members.find(
-                    ({ id }) =>
-                      result?.deleteTeamMemberMoves?.returning[0]?.team_member
-                        ?.id === id
-                  );
-                  const deletedMoves = result?.deleteTeamMemberMoves?.returning;
-
-                  if (teamMember) {
-                    teamMember.learned_moves =
-                      teamMember.learned_moves?.filter(
-                        ({ move }) =>
-                          !deletedMoves.find(
-                            (deletedMove: Team_Member_Move) =>
-                              move.id === deletedMove.move.id
-                          )
-                      ) ?? [];
-                  }
-                }
                 return data;
               }
             );
           }
+          // // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          // createTeamMemberMoves: (result: any, _args, cache) => {
+          //   const teamId =
+          //     result?.createTeamMemberMoves?.returning[0]?.team_member?.team
+          //       ?.id;
+
+          //   cache.updateQuery(
+          //     {
+          //       query: TeamByIdDocument,
+          //       variables: { id: teamId }
+          //     },
+          //     (data: TeamByIdQuery | null) => {
+          //       if (data?.teamById) {
+          //         const teamMember = data.teamById.team_members.find(
+          //           ({ id }) =>
+          //             result?.createTeamMemberMoves?.returning[0]?.team_member
+          //               ?.id === id
+          //         );
+          //         const updatedMoves = result?.createTeamMemberMoves?.returning;
+
+          //         if (teamMember) {
+          //           teamMember.learned_moves = [
+          //             ...teamMember?.learned_moves?.filter(
+          //               ({ move }) =>
+          //                 !updatedMoves.find(
+          //                   (updatedMove: Team_Member_Move) =>
+          //                     move.id === updatedMove.move.id
+          //                 )
+          //             ),
+          //             ...updatedMoves
+          //           ];
+          //         }
+          //       }
+
+          //       return data;
+          //     }
+          //   );
+          // },
+          // // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          // deleteTeamMemberMoves: (result: any, _args, cache) => {
+          //   const teamId =
+          //     result?.deleteTeamMemberMoves?.returning[0]?.team_member?.team
+          //       ?.id;
+          //   cache.updateQuery(
+          //     {
+          //       query: TeamByIdDocument,
+          //       variables: { id: teamId }
+          //     },
+          //     (data: TeamByIdQuery | null) => {
+          //       if (data?.teamById) {
+          //         const teamMember = data.teamById.team_members.find(
+          //           ({ id }) =>
+          //             result?.deleteTeamMemberMoves?.returning[0]?.team_member
+          //               ?.id === id
+          //         );
+          //         const deletedMoves = result?.deleteTeamMemberMoves?.returning;
+
+          //         if (teamMember) {
+          //           teamMember.learned_moves =
+          //             teamMember.learned_moves?.filter(
+          //               ({ move }) =>
+          //                 !deletedMoves.find(
+          //                   (deletedMove: Team_Member_Move) =>
+          //                     move.id === deletedMove.move.id
+          //                 )
+          //             ) ?? [];
+          //         }
+          //       }
+          //       return data;
+          //     }
+          //   );
+          // }
         }
       }
     }),

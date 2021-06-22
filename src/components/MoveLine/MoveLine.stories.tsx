@@ -1,9 +1,9 @@
-import { Meta } from '@storybook/react/types-6-0';
-import { substitute } from '~/mocks/Moves';
+import { Meta, Story } from '@storybook/react/types-6-0';
+import { substitute } from '~/mocks/Pokemon_Move';
 import { MoveLine, MoveLineProps } from './MoveLine';
 
 export default {
-  title: 'Components/MoveLine',
+  title: 'Components/Move Line',
   component: MoveLine,
   args: {
     ...substitute,
@@ -11,6 +11,4 @@ export default {
   }
 } as Meta<MoveLineProps>;
 
-export const Standard = (args: MoveLineProps): JSX.Element => (
-  <MoveLine {...args} />
-);
+export const moveLine: Story<MoveLineProps> = args => <MoveLine {...args} />;

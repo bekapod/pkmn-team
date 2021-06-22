@@ -1,10 +1,10 @@
-fragment TeamFragment on Team {
+fragment team on Team {
   id
   name
   members {
     total
     teamMembers {
-      ...TeamMemberFragment
+      ...teamMember
     }
   }
 }

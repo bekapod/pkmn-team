@@ -9,13 +9,10 @@ import {
   useTeamByIdQuery,
   useUpdateTeamMutation,
   useDeleteTeamMutation,
-  useCreateTeamMembersMutation,
   TeamByIdDocument,
-  useDeleteTeamMembersMutation,
-  useCreateTeamMemberMovesMutation,
   TeamMemberFragmentFragment,
-  useDeleteTeamMemberMovesMutation,
-  MoveFragmentFragment
+  TeamMemberList,
+  TeamMemberMoveFragmentFragment
 } from '~/generated/graphql';
 import { createClient } from '~/lib/client';
 import { FullWidthContainer } from '~/components/FullWidthContainer';
@@ -26,12 +23,12 @@ import { ssrExchange } from 'urql';
 import isEqual from 'react-fast-compare';
 
 type Props = {
-  id?: string;
+  id: string;
 };
 
 const Team: NextComponentType<
   NextUrqlPageContext & { query: NextPageContext['query'] },
-  Props,
+  unknown,
   Props
 > = ({ id }) => {
   const router = useRouter();
@@ -50,22 +47,6 @@ const Team: NextComponentType<
     { fetching: deleteTeamFetching },
     deleteTeam
   ] = useDeleteTeamMutation();
-  const [
-    { fetching: createTeamMembersFetching },
-    createTeamMembers
-  ] = useCreateTeamMembersMutation();
-  const [
-    { fetching: deleteTeamMembersFetching },
-    deleteTeamMembers
-  ] = useDeleteTeamMembersMutation();
-  const [
-    { fetching: createTeamMemberMovesFetching },
-    createTeamMemberMoves
-  ] = useCreateTeamMemberMovesMutation();
-  const [
-    { fetching: deleteTeamMemberMovesFetching },
-    deleteTeamMemberMoves
-  ] = useDeleteTeamMemberMovesMutation();
 
   const team = teamData?.teamById ?? undefined;
 
@@ -86,70 +67,76 @@ const Team: NextComponentType<
   }, [team?.id, router, deleteTeam]);
 
   const updateTeamMembersHandler = useCallback(
-    (members: TeamMemberFragmentFragment[]) => {
-      const membersToUpdate = members.map(({ id, pokemon, order }) => ({
-        id,
-        pokemon_id: pokemon.id,
-        order,
-        team_id: team?.id
-      }));
+    (members: TeamMemberList) => {
+      const membersToUpdate = members.teamMembers.map(
+        ({ id, pokemon, slot }) => ({
+          id,
+          pokemon_id: pokemon.id,
+          slot,
+          team_id: team?.id
+        })
+      );
 
-      const membersToDelete = team?.team_members
-        .filter(({ id }) => !members.find(newMember => id === newMember.id))
+      const membersToDelete = team?.members.teamMembers
+        .filter(
+          ({ id }) =>
+            !members.teamMembers.find(newMember => id === newMember.id)
+        )
         .map(({ id }) => id);
 
-      if (membersToUpdate.length && !isEqual(members, team?.team_members)) {
-        createTeamMembers({
-          members: membersToUpdate
-        });
+      if (
+        membersToUpdate.length &&
+        !isEqual(members, team?.members.teamMembers)
+      ) {
+        // createTeamMembers({
+        //   members: membersToUpdate
+        // });
       }
 
       if (membersToDelete && membersToDelete.length) {
-        deleteTeamMembers({
-          members: membersToDelete
-        });
+        // deleteTeamMembers({
+        //   members: membersToDelete
+        // });
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [JSON.stringify(team), createTeamMembers]
+    [JSON.stringify(team)]
   );
 
   const updateTeamMemberMovesHandler = useCallback(
-    (member: TeamMemberFragmentFragment, moves: MoveFragmentFragment[]) => {
-      const movesToDelete = member?.learned_moves
-        ?.filter(({ move }) => !moves.find(newMove => move.id === newMove.id))
-        .map(({ move }) => move.id);
-      const remainingLearnedMoves = member?.learned_moves
-        ?.filter(({ move }) => moves.find(newMove => move.id === newMove.id))
+    (
+      member: TeamMemberFragmentFragment,
+      moves: TeamMemberMoveFragmentFragment['move'][]
+    ) => {
+      const movesToDelete = member?.moves?.teamMemberMoves
+        ?.filter(
+          ({ move }) => !moves.find(newMove => move.move.id === newMove.move.id)
+        )
+        .map(({ move }) => move.move.id);
+      const remainingLearnedMoves = member?.moves?.teamMemberMoves
+        ?.filter(({ move }) =>
+          moves.find(newMove => move.move.id === newMove.move.id)
+        )
         .map(({ move }) => move);
 
-      console.log({
-        moves,
-        learnedMoves: remainingLearnedMoves,
-        isEqual: isEqual(moves, remainingLearnedMoves),
-        movesToDelete
-      });
-
       if (moves.length && !isEqual(moves, remainingLearnedMoves)) {
-        console.log('CREATING');
-        createTeamMemberMoves({
-          moves: moves.map((move, idx) => ({
-            move_id: move.id,
-            order: idx,
-            team_member_id: member.id
-          }))
-        });
+        // createTeamMemberMoves({
+        //   moves: moves.map((move, idx) => ({
+        //     move_id: move.id,
+        //     order: idx,
+        //     team_member_id: member.id
+        //   }))
+        // });
       }
 
       if (movesToDelete && movesToDelete.length) {
-        console.log('DELETING');
-        deleteTeamMemberMoves({
-          moveIds: movesToDelete,
-          memberId: member.id
-        });
+        // deleteTeamMemberMoves({
+        //   moveIds: movesToDelete,
+        //   memberId: member.id
+        // });
       }
     },
-    [createTeamMemberMoves, deleteTeamMemberMoves]
+    []
   );
 
   return (
@@ -162,12 +149,11 @@ const Team: NextComponentType<
           team={team}
           isSkeleton={teamFetching}
           isLoading={
-            updateTeamFetching ||
-            deleteTeamFetching ||
-            createTeamMembersFetching ||
-            deleteTeamMembersFetching ||
-            createTeamMemberMovesFetching ||
-            deleteTeamMemberMovesFetching
+            updateTeamFetching || deleteTeamFetching
+            // createTeamMembersFetching ||
+            // deleteTeamMembersFetching ||
+            // createTeamMemberMovesFetching ||
+            // deleteTeamMemberMovesFetching
           }
           updateTeam={updateTeamHandler}
           deleteTeam={deleteTeamHandler}

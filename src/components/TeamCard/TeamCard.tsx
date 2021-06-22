@@ -1,4 +1,4 @@
-import dateFormat from 'dateformat';
+// import dateFormat from 'dateformat';
 import compose from 'lodash/fp/compose';
 import flatMap from 'lodash/fp/flatMap';
 import get from 'lodash/fp/get';
@@ -9,8 +9,8 @@ import Link from 'next/link';
 import { FunctionComponent } from 'react';
 import {
   PokemonFragmentFragment,
-  Teams,
-  Team_Member
+  Team,
+  TeamMemberFragmentFragment
 } from '~/generated/graphql';
 import {
   CardContent,
@@ -24,23 +24,19 @@ import { PokemonLine } from '../PokemonLine';
 
 const getAllTypes = compose(flatMap(get('type')), flatMap(get('types')));
 
-type TeamMember = Pick<Team_Member, 'id' | 'order'> & {
-  pokemon: PokemonFragmentFragment;
-};
-export type TeamCardProps = Pick<Teams, 'id' | 'name' | 'created_at'> & {
-  team_members: TeamMember[];
+export type TeamCardProps = Pick<Team, 'id' | 'name'> & {
+  members: TeamMemberFragmentFragment[];
 };
 
 export const TeamCard: FunctionComponent<TeamCardProps> = ({
   id,
   name,
-  team_members,
-  created_at
+  members
 }) => {
   const pokemon: PokemonFragmentFragment[] = compose([
     reject(isNil),
     map(get('pokemon'))
-  ])(team_members);
+  ])(members);
 
   return (
     <Link href={`/team/${id}/`} passHref>
@@ -54,12 +50,12 @@ export const TeamCard: FunctionComponent<TeamCardProps> = ({
             <CardMeta
               id={id}
               items={[
-                { label: 'Pkmn', value: team_members.length },
-                { label: 'Created', value: dateFormat(created_at, 'd/m/yy') }
+                { label: 'Pkmn', value: members.length }
+                // { label: 'Created', value: dateFormat(created_at, 'd/m/yy') }
               ]}
             />
 
-            {team_members.map(
+            {members.map(
               ({ id: memberId, pokemon: memberPkmn }): JSX.Element => (
                 <PokemonLine
                   key={`Team Member: ${memberId}`}

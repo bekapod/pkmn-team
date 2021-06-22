@@ -25,8 +25,8 @@ import { PokemonLine } from '../PokemonLine';
 import { useTabs } from '../../hooks/useTabs';
 import type {
   TeamMemberFragmentFragment,
-  MoveFragmentFragment,
-  PokemonFragmentFragment
+  PokemonFragmentFragment,
+  TeamMemberMoveFragmentFragment
 } from '~/generated/graphql';
 import { TeamMemberActionType, useTeamMembersReducer } from './reducer';
 import { MovesProvider } from '~/hooks/useMoves';
@@ -36,7 +36,7 @@ export type TeamViewProps = {
   updateTeamMembers?: (members: TeamMemberFragmentFragment[]) => void;
   updateTeamMemberMoves?: (
     member: TeamMemberFragmentFragment,
-    moves: MoveFragmentFragment[]
+    moves: TeamMemberMoveFragmentFragment['move'][]
   ) => void;
   isSkeleton?: boolean;
 };
@@ -51,7 +51,8 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
     const isInitialValue = useRef(true);
     const [teamMembers, dispatch] = useTeamMembersReducer(initialTeamMembers);
     const [currentSearchPokemon, setCurrentSearchPokemon] = useState<
-      PokemonFragmentFragment | undefined
+      | Omit<PokemonFragmentFragment, 'eggGroups' | 'evolvesTo' | 'evolvesFrom'>
+      | undefined
     >();
     const { getTabItemProps, getTabContentProps, setSelectedTab } = useTabs(
       initialTeamMembers?.[0]?.id ?? 'add-pokemon'
@@ -107,7 +108,10 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
         pokemon
       }: {
         teamMember?: TeamMemberFragmentFragment;
-        pokemon: PokemonFragmentFragment;
+        pokemon: Omit<
+          PokemonFragmentFragment,
+          'eggGroups' | 'evolvesTo' | 'evolvesFrom'
+        >;
       }) => {
         if (teamMember) {
           return () => (
@@ -135,9 +139,8 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
                 type: TeamMemberActionType.AddTeamMember,
                 payload: {
                   id: uuid(),
-                  pokemon: pokemon,
-                  order: teamMembers.length,
-                  learned_moves: []
+                  slot: teamMembers.length,
+                  pokemon
                 }
               })
             }
@@ -304,7 +307,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
                 />
                 <MoveList
                   teamMember={member}
-                  allMoves={member.pokemon.learnable_moves?.map(
+                  allMoves={member.pokemon.moves?.pokemonMoves?.map(
                     ({ move }) => move
                   )}
                   visibleItems={10}

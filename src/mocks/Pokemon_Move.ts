@@ -1,27 +1,35 @@
-import { Pokemon_Move } from '~/generated/graphql';
+import {
+  MoveLearnMethod,
+  PokemonMoveFragmentFragment
+} from '~/generated/graphql';
 import * as move from './Moves';
 
-export const substitute: Pokemon_Move = {
-  move_id: 'subtitute',
-  move: move.substitute
+export const substitute: PokemonMoveFragmentFragment = {
+  move: move.substitute,
+  learnMethod: MoveLearnMethod.LevelUp,
+  levelLearnedAt: 22
 };
 
-export const slash: Pokemon_Move = {
-  move_id: 'slash',
-  move: move.slash
+export const slash: PokemonMoveFragmentFragment = {
+  move: move.slash,
+  learnMethod: MoveLearnMethod.Record,
+  levelLearnedAt: 0
 };
 
-export const rest: Pokemon_Move = {
-  move_id: 'rest',
-  move: move.rest
+export const rest: PokemonMoveFragmentFragment = {
+  move: move.rest,
+  learnMethod: MoveLearnMethod.Record,
+  levelLearnedAt: 0
 };
 
-export const flash: Pokemon_Move = {
-  move_id: 'flash',
-  move: move.flash
+export const flash: PokemonMoveFragmentFragment = {
+  move: move.flash,
+  learnMethod: MoveLearnMethod.Egg,
+  levelLearnedAt: 0
 };
 
-export const explosion: Pokemon_Move = {
-  move_id: 'explosion',
-  move: move.explosion
+export const explosion: PokemonMoveFragmentFragment = {
+  move: move.explosion,
+  learnMethod: MoveLearnMethod.Tutor,
+  levelLearnedAt: 0
 };

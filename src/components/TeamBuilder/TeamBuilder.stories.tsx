@@ -1,4 +1,4 @@
-import { Meta } from '@storybook/react/types-6-0';
+import { Meta, Story } from '@storybook/react/types-6-0';
 import { Pokemon } from '~/generated/graphql';
 import { charmander, haunter, pikachu } from '~/mocks/Pokemon';
 import { TeamBuilder, TeamBuilderProps } from './TeamBuilder';
@@ -15,42 +15,42 @@ export default {
   args: {
     team: {
       id: '1',
-      created_at: '2020-12-12T22:50:59.766899+00:00',
       name: 'My super team!',
-      team_members: [
-        {
-          id: '1',
-          order: 1,
-          pokemon: pokemon[0],
-          learned_moves: []
-        },
-        {
-          id: '2',
-          order: 2,
-          pokemon: pokemon[1],
-          learned_moves: []
-        },
-        {
-          id: '3',
-          order: 3,
-          pokemon: pokemon[2],
-          learned_moves: []
-        }
-      ]
-    },
-    allPokemon: pokemon
+      members: {
+        total: 0,
+        teamMembers: [
+          {
+            id: '1',
+            slot: 1,
+            pokemon: pokemon[0],
+            moves: { total: 0, teamMemberMoves: [] }
+          },
+          {
+            id: '2',
+            slot: 2,
+            pokemon: pokemon[1],
+            moves: { total: 0, teamMemberMoves: [] }
+          },
+          {
+            id: '3',
+            slot: 3,
+            pokemon: pokemon[2],
+            moves: { total: 0, teamMemberMoves: [] }
+          }
+        ]
+      }
+    }
   }
 } as Meta<TeamBuilderProps>;
 
-export const WithTeam = (args: TeamBuilderProps): JSX.Element => (
+export const WithTeam: Story<TeamBuilderProps> = args => (
   <TeamBuilder {...args} />
 );
 
-export const Skeleton = (args: TeamBuilderProps): JSX.Element => (
+export const Skeleton: Story<TeamBuilderProps> = args => (
   <TeamBuilder {...args} />
 );
 Skeleton.args = {
   isSkeleton: true,
-  team: undefined,
-  allPokemon: undefined
+  team: undefined
 };

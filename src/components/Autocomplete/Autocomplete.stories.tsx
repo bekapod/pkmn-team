@@ -1,4 +1,4 @@
-import { Meta } from '@storybook/react/types-6-0';
+import { Meta, Story } from '@storybook/react/types-6-0';
 import { Autocomplete, AutocompleteDropdown } from './Autocomplete';
 
 export default {
@@ -6,7 +6,7 @@ export default {
   component: Autocomplete
 } as Meta;
 
-export const Standard = (): JSX.Element => (
+export const autocomplete: Story = () => (
   <Autocomplete>
     <AutocompleteDropdown>
       <div>Item 1</div>

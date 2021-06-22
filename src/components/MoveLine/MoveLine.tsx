@@ -4,10 +4,10 @@ import { TypeTag } from '../TypeTag';
 import { Label } from '../Label';
 import { InlineList } from '../InlineList';
 import { getTypeGradient } from '~/lib/gradients';
-import { Moves } from '~/generated/graphql';
+import { PokemonMoveFragmentFragment } from '~/generated/graphql';
 
 export type MoveLineProps = ComponentPropsWithRef<'div'> &
-  Moves & {
+  PokemonMoveFragmentFragment & {
     isOpen?: boolean;
     isHighlighted?: boolean;
     isCompressed?: boolean;
@@ -21,15 +21,7 @@ export const MoveLine: FunctionComponent<MoveLineProps> = forwardRef(
   (
     {
       __typename,
-      name,
-      slug,
-      type,
-      damage_class,
-      pp,
-      accuracy,
-      power,
-      effect,
-      target,
+      move: { name, type, damageClass, pp, accuracy, power, effect, target },
       isOpen,
       isHighlighted,
       style,
@@ -59,10 +51,10 @@ export const MoveLine: FunctionComponent<MoveLineProps> = forwardRef(
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           '--type-gradient': getTypeGradient(
-            damage_class
-              ? [{ name: damage_class.value, slug: damage_class.value }].concat(
-                  type
-                )
+            damageClass
+              ? [
+                  { name: damageClass as string, slug: damageClass as string }
+                ].concat([type])
               : [type]
           )
         }}
@@ -85,9 +77,9 @@ export const MoveLine: FunctionComponent<MoveLineProps> = forwardRef(
           <TypeTag as="li" key={type.slug} typeSlug={type.slug}>
             {type.name}
           </TypeTag>
-          {!!damage_class && (
-            <TypeTag as="li" typeSlug={damage_class.value}>
-              {damage_class.value}
+          {!!damageClass && (
+            <TypeTag as="li" typeSlug={damageClass}>
+              {damageClass}
             </TypeTag>
           )}
         </InlineList>
