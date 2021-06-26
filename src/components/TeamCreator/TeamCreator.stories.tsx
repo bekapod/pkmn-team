@@ -1,14 +1,15 @@
 import { Meta, Story } from '@storybook/react/types-6-0';
-import { TeamCreator, TeamCreatorProps } from './TeamCreator';
+import { ComponentProps } from 'react';
+import { TeamCreator } from './TeamCreator';
 
 export default {
-  title: 'Components/TeamCreator',
+  title: 'Components/Team Creator',
   component: TeamCreator,
   argTypes: {
     createTeam: { action: 'createTeam' }
   }
-} as Meta<TeamCreatorProps>;
+} as Meta<ComponentProps<typeof TeamCreator>>;
 
-export const Default: Story<TeamCreatorProps> = args => (
+export const teamCreator: Story<ComponentProps<typeof TeamCreator>> = args => (
   <TeamCreator {...args} />
 );

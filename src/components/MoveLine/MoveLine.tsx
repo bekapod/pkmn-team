@@ -49,7 +49,8 @@ export const MoveLine: FunctionComponent<MoveLineProps> = forwardRef(
           'p-4',
           {
             'move-line-template-compressed': isCompressed,
-            'bg-yellow-vivid-100': isHighlighted
+            'bg-yellow-vivid-100': isHighlighted,
+            'bg-white': !isHighlighted
           }
         )}
         style={{
@@ -59,7 +60,10 @@ export const MoveLine: FunctionComponent<MoveLineProps> = forwardRef(
           '--type-gradient': getTypeGradient(
             damageClass
               ? [
-                  { name: damageClass as string, slug: damageClass as string }
+                  {
+                    name: damageClass.toLowerCase(),
+                    slug: damageClass.toLowerCase()
+                  }
                 ].concat([type])
               : [type]
           )
@@ -83,7 +87,7 @@ export const MoveLine: FunctionComponent<MoveLineProps> = forwardRef(
           <TypeTag as="li" key={type.slug} typeSlug={type.slug}>
             {type.name}
           </TypeTag>
-          <TypeTag as="li" typeSlug={damageClass}>
+          <TypeTag as="li" typeSlug={damageClass.toLowerCase()}>
             {damageClass}
           </TypeTag>
         </InlineList>

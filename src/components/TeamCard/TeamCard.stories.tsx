@@ -1,12 +1,13 @@
 import { Meta, Story } from '@storybook/react/types-6-0';
+import { ComponentProps } from 'react';
 import { PokemonFragment } from '~/generated/graphql';
 import { charmander, haunter, pikachu } from '~/mocks/Pokemon';
-import { TeamCard, TeamCardProps } from './TeamCard';
+import { TeamCard } from './TeamCard';
 
 const pokemon: PokemonFragment[] = [charmander, pikachu, haunter];
 
 export default {
-  title: 'Components/TeamCard',
+  title: 'Components/Team Card',
   component: TeamCard,
   args: {
     id: '123',
@@ -37,6 +38,8 @@ export default {
       ]
     }
   }
-} as Meta<TeamCardProps>;
+} as Meta<ComponentProps<typeof TeamCard>>;
 
-export const teamCard: Story<TeamCardProps> = args => <TeamCard {...args} />;
+export const teamCard: Story<ComponentProps<typeof TeamCard>> = args => (
+  <TeamCard {...args} />
+);

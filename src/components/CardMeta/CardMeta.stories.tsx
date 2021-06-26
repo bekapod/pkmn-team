@@ -1,5 +1,6 @@
 import { Meta, Story } from '@storybook/react/types-6-0';
-import { CardMeta, CardMetaProps } from './CardMeta';
+import { ComponentProps } from 'react';
+import { CardMeta } from './CardMeta';
 
 export default {
   title: 'Components/Card Meta',
@@ -11,6 +12,8 @@ export default {
       { label: 'Item 2', value: 2 }
     ]
   }
-} as Meta<CardMetaProps>;
+} as Meta<ComponentProps<typeof CardMeta>>;
 
-export const cardMeta: Story<CardMetaProps> = args => <CardMeta {...args} />;
+export const cardMeta: Story<ComponentProps<typeof CardMeta>> = args => (
+  <CardMeta {...args} />
+);

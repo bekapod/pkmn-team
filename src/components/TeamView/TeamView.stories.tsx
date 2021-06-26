@@ -1,12 +1,13 @@
-import { Meta } from '@storybook/react/types-6-0';
+import { Meta, Story } from '@storybook/react/types-6-0';
+import { ComponentProps } from 'react';
 import { PokemonFragment } from '~/generated/graphql';
 import { charmander, haunter, pikachu } from '~/mocks/Pokemon';
-import { TeamView, TeamViewProps } from './TeamView';
+import { TeamView } from './TeamView';
 
 const pokemon: PokemonFragment[] = [charmander, pikachu, haunter];
 
 export default {
-  title: 'Components/TeamView',
+  title: 'Components/Team View',
   component: TeamView,
   argTypes: {
     updateTeamMembers: { action: 'updateTeamMembers' }
@@ -31,17 +32,16 @@ export default {
     ],
     allPokemon: pokemon
   }
-} as Meta<TeamViewProps>;
+} as Meta<ComponentProps<typeof TeamView>>;
 
-export const teamView = (args: TeamViewProps): JSX.Element => (
+export const teamView: Story<ComponentProps<typeof TeamView>> = args => (
   <TeamView {...args} />
 );
 
-export const skeleton = (args: TeamViewProps): JSX.Element => (
+export const skeleton: Story<ComponentProps<typeof TeamView>> = args => (
   <TeamView {...args} />
 );
 skeleton.args = {
   initialTeamMembers: undefined,
-  allPokemon: undefined,
   isSkeleton: true
 };

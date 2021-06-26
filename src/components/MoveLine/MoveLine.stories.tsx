@@ -1,12 +1,17 @@
 import { Meta, Story } from '@storybook/react/types-6-0';
-import { MoveLine, MoveLineProps } from './MoveLine';
+import { ComponentProps } from 'react';
+import { substitute } from '~/mocks/Moves';
+import { MoveLine } from './MoveLine';
 
 export default {
   title: 'Components/Move Line',
   component: MoveLine,
   args: {
+    ...substitute,
     renderLineActions: () => <div>Some interactivity would be placed here</div>
   }
-} as Meta<MoveLineProps>;
+} as Meta<ComponentProps<typeof MoveLine>>;
 
-export const moveLine: Story<MoveLineProps> = args => <MoveLine {...args} />;
+export const moveLine: Story<ComponentProps<typeof MoveLine>> = args => (
+  <MoveLine {...args} />
+);

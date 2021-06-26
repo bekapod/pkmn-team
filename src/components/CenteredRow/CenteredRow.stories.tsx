@@ -1,5 +1,6 @@
 import { Meta, Story } from '@storybook/react/types-6-0';
-import { CenteredRow, CenteredRowProps } from './CenteredRow';
+import { ComponentProps } from 'react';
+import { CenteredRow } from './CenteredRow';
 
 export default {
   title: 'Components/Centered Row',
@@ -7,9 +8,9 @@ export default {
   args: {
     stackVertically: false
   }
-} as Meta<CenteredRowProps>;
+} as Meta<ComponentProps<typeof CenteredRow>>;
 
-export const centeredRow: Story<CenteredRowProps> = args => (
+export const centeredRow: Story<ComponentProps<typeof CenteredRow>> = args => (
   <CenteredRow {...args}>
     <span>Child 1</span>
     <span>Child 2</span>

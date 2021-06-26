@@ -1,27 +1,31 @@
 import { Meta, Story } from '@storybook/react/types-6-0';
+import { ComponentProps } from 'react';
 import { MovesProvider } from '~/hooks/useMoves';
+import { explosion, flash, substitute, rest, slash } from '~/mocks/Moves';
 import { haunter } from '~/mocks/Pokemon';
-import { MoveList, MoveListProps } from './MoveList';
+import { MoveList } from './MoveList';
 
 export default {
-  title: 'Components/MoveList',
+  title: 'Components/Move List',
   component: MoveList,
   args: {
-    allMoves: []
+    allMoves: [substitute, flash, explosion]
   }
-} as Meta<MoveListProps>;
+} as Meta<ComponentProps<typeof MoveList>>;
 
-export const moveList: Story<MoveListProps> = args => <MoveList {...args} />;
+export const moveList: Story<ComponentProps<typeof MoveList>> = args => (
+  <MoveList {...args} />
+);
 
-export const withMoreMoves: Story<MoveListProps> = args => (
+export const withMoreMoves: Story<ComponentProps<typeof MoveList>> = args => (
   <MoveList {...args} />
 );
 withMoreMoves.args = {
-  allMoves: []
+  allMoves: [substitute, flash, explosion, rest, slash]
 };
 
 export const withTeamMember: Story<
-  MoveListProps & { updateTeamMemberMoves: never }
+  ComponentProps<typeof MoveList> & { updateTeamMemberMoves: never }
 > = ({ updateTeamMemberMoves, ...args }) => (
   <MovesProvider
     teamMember={args.teamMember}

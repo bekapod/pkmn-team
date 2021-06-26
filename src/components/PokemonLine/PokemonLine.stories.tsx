@@ -1,22 +1,23 @@
 import { Meta, Story } from '@storybook/react/types-6-0';
+import { ComponentProps } from 'react';
 import { pikachu } from '~/mocks/Pokemon';
-import { PokemonLine, PokemonLineProps } from './PokemonLine';
+import { PokemonLine } from './PokemonLine';
 
 export default {
-  title: 'Components/PokemonLine',
+  title: 'Components/Pokemon Line',
   component: PokemonLine,
   args: {
     pokemon: pikachu
   }
-} as Meta<PokemonLineProps>;
+} as Meta<ComponentProps<typeof PokemonLine>>;
 
-export const Standard: Story<PokemonLineProps> = args => (
+export const pokemonLine: Story<ComponentProps<typeof PokemonLine>> = args => (
   <PokemonLine {...args} />
 );
 
-export const WithOutdent: Story<PokemonLineProps> = args => (
+export const withOutdent: Story<ComponentProps<typeof PokemonLine>> = args => (
   <PokemonLine {...args} />
 );
-WithOutdent.args = {
+withOutdent.args = {
   outdent: '1rem'
 };

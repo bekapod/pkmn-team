@@ -1,14 +1,15 @@
-import { Meta } from '@storybook/react/types-6-0';
-import { TypeTag, TypeTagProps } from './TypeTag';
+import { Meta, Story } from '@storybook/react/types-6-0';
+import { ComponentProps } from 'react';
+import { TypeTag } from './TypeTag';
 
 export default {
-  title: 'Components/TypeTag',
+  title: 'Components/Type Tag',
   component: TypeTag,
   args: {
     typeSlug: 'electric'
   }
-} as Meta<TypeTagProps>;
+} as Meta<ComponentProps<typeof TypeTag>>;
 
-export const Standard = (args: TypeTagProps): JSX.Element => (
+export const typeTag: Story<ComponentProps<typeof TypeTag>> = args => (
   <TypeTag {...args}>Type name</TypeTag>
 );

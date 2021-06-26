@@ -1,12 +1,12 @@
 import { Meta, Story } from '@storybook/react/types-6-0';
-import { PokemonSearch, PokemonSearchProps } from './PokemonSearch';
+import { ComponentProps } from 'react';
+import { PokemonSearch } from './PokemonSearch';
 
 export default {
-  title: 'Components/PokemonSearch',
+  title: 'Components/Pokemon Search',
   component: PokemonSearch,
   argTypes: { setCurrentSearchPokemon: { action: 'setCurrentSearchPokemon' } }
-} as Meta<PokemonSearchProps>;
+} as Meta<ComponentProps<typeof PokemonSearch>>;
 
-export const pokemonSearch: Story<PokemonSearchProps> = args => (
-  <PokemonSearch {...args} />
-);
+export const pokemonSearch: Story<ComponentProps<typeof PokemonSearch>> =
+  args => <PokemonSearch {...args} />;

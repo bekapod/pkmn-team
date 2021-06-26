@@ -1,37 +1,39 @@
 import { Meta, Story } from '@storybook/react/types-6-0';
+import { ComponentProps } from 'react';
 import { GiantInput } from '../GiantInput';
 import { TextInput } from '../TextInput';
-import { FormField, FormFieldProps } from './FormField';
+import { FormField } from './FormField';
 
 export default {
-  title: 'Components/FormField',
+  title: 'Components/Form Field',
   component: FormField,
   args: {
     label: 'Some label',
     id: 'some-id'
   }
-} as Meta<FormFieldProps>;
+} as Meta<ComponentProps<typeof FormField>>;
 
-export const Standard: Story<FormFieldProps> = args => (
+export const formField: Story<ComponentProps<typeof FormField>> = args => (
   <FormField {...args}>
     <TextInput id={args.id} />
   </FormField>
 );
-export const StandardWithError: Story<FormFieldProps> = args => (
+export const withError: Story<ComponentProps<typeof FormField>> = args => (
   <FormField {...args}>
     <TextInput id={args.id} isInvalid />
   </FormField>
 );
-StandardWithError.args = { error: 'Some error message' };
+withError.args = { error: 'Some error message' };
 
-export const WithGiantInput: Story<FormFieldProps> = args => (
+export const withGiantInput: Story<ComponentProps<typeof FormField>> = args => (
   <FormField {...args}>
     <GiantInput id={args.id} />
   </FormField>
 );
-export const WithGiantInputAndError: Story<FormFieldProps> = args => (
-  <FormField {...args}>
-    <GiantInput id={args.id} isInvalid />
-  </FormField>
-);
-WithGiantInputAndError.args = { error: 'Some error message' };
+export const withGiantInputAndError: Story<ComponentProps<typeof FormField>> =
+  args => (
+    <FormField {...args}>
+      <GiantInput id={args.id} isInvalid />
+    </FormField>
+  );
+withGiantInputAndError.args = { error: 'Some error message' };

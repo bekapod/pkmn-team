@@ -1,12 +1,13 @@
 import { Meta, Story } from '@storybook/react/types-6-0';
+import { ComponentProps } from 'react';
 import { PokemonFragment } from '~/generated/graphql';
 import { charmander, haunter, pikachu } from '~/mocks/Pokemon';
-import { TeamBuilder, TeamBuilderProps } from './TeamBuilder';
+import { TeamBuilder } from './TeamBuilder';
 
 const pokemon: PokemonFragment[] = [charmander, pikachu, haunter];
 
 export default {
-  title: 'Components/TeamBuilder',
+  title: 'Components/Team Builder',
   component: TeamBuilder,
   argTypes: {
     updateTeam: { action: 'updateTeam' },
@@ -41,13 +42,13 @@ export default {
       }
     }
   }
-} as Meta<TeamBuilderProps>;
+} as Meta<ComponentProps<typeof TeamBuilder>>;
 
-export const teamBuilder: Story<TeamBuilderProps> = args => (
+export const teamBuilder: Story<ComponentProps<typeof TeamBuilder>> = args => (
   <TeamBuilder {...args} />
 );
 
-export const skeleton: Story<TeamBuilderProps> = args => (
+export const skeleton: Story<ComponentProps<typeof TeamBuilder>> = args => (
   <TeamBuilder {...args} />
 );
 skeleton.args = {

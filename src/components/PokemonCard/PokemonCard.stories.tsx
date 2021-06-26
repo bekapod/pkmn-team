@@ -2,22 +2,29 @@ import { Meta, Story } from '@storybook/react/types-6-0';
 import { pikachu } from '~/mocks/Pokemon';
 import { CtaButton } from '~/components/Cta';
 import { MovesProvider } from '~/hooks/useMoves';
-import { PokemonCard, PokemonCardProps } from './PokemonCard';
+import { PokemonCard } from './PokemonCard';
+import { ComponentProps } from 'react';
+import { TeamMemberFragment, TeamMemberMoveEdge } from '~/generated/graphql';
 
 export default {
-  title: 'Components/PokemonCard',
+  title: 'Components/Pokemon Card',
   component: PokemonCard,
   args: {
     pokemon: pikachu
   }
-} as Meta<PokemonCardProps>;
+} as Meta<ComponentProps<typeof PokemonCard>>;
 
-export const pokemonCard: Story<PokemonCardProps> = args => (
+export const pokemonCard: Story<ComponentProps<typeof PokemonCard>> = args => (
   <PokemonCard {...args} />
 );
 
 export const withTeamMember: Story<
-  PokemonCardProps & { updateTeamMemberMoves: any }
+  ComponentProps<typeof PokemonCard> & {
+    updateTeamMemberMoves: (
+      member: TeamMemberFragment,
+      moves: TeamMemberMoveEdge[]
+    ) => void;
+  }
 > = args => (
   <MovesProvider
     teamMember={args.teamMember}
@@ -42,7 +49,7 @@ withTeamMember.args = {
   )
 };
 
-export const withActions: Story<PokemonCardProps> = args => (
+export const withActions: Story<ComponentProps<typeof PokemonCard>> = args => (
   <PokemonCard {...args} />
 );
 withActions.args = {

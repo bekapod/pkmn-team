@@ -1,4 +1,4 @@
-import { Meta } from '@storybook/react/types-6-0';
+import { Meta, Story } from '@storybook/react/types-6-0';
 import { PokemonFragment, TeamFragment } from '~/generated/graphql';
 import { charmander, haunter, pikachu } from '~/mocks/Pokemon';
 import { TeamCard } from '../TeamCard';
@@ -40,11 +40,11 @@ const team: TeamFragment = {
 };
 
 export default {
-  title: 'Components/TeamGrid',
+  title: 'Components/Team Grid',
   component: TeamGrid
 } as Meta;
 
-export const Standard = (): JSX.Element => (
+export const teamGrid: Story = () => (
   <TeamGrid>
     <TeamCard {...team} id="1" />
     <TeamCard {...team} id="2" />
