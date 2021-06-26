@@ -26,7 +26,8 @@ import { useTabs } from '../../hooks/useTabs';
 import type {
   TeamMemberFragment,
   PokemonFragment,
-  TeamMemberMoveFragment
+  TeamMemberMoveFragment,
+  PokemonMoveFragment
 } from '~/generated/graphql';
 import { TeamMemberActionType, useTeamMembersReducer } from './reducer';
 import { MovesProvider } from '~/hooks/useMoves';
@@ -301,7 +302,11 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
                 />
                 <MoveList
                   teamMember={member}
-                  allMoves={[]}
+                  allMoves={
+                    member.pokemon.moves.edges?.filter(
+                      (edge): edge is PokemonMoveFragment => !!edge
+                    ) ?? []
+                  }
                   visibleItems={10}
                   highlightLearnedMoves
                 />

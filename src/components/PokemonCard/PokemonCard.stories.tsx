@@ -8,6 +8,7 @@ import {
   TeamMemberFragment,
   TeamMemberMoveFragment
 } from '~/generated/graphql';
+import { flash, substitute } from '~/mocks/Moves';
 
 export default {
   title: 'Components/Pokemon Card',
@@ -43,7 +44,7 @@ withTeamMember.args = {
   teamMember: {
     id: '3',
     pokemon: pikachu,
-    moves: { edges: [] }
+    moves: { edges: [{ node: substitute }, { node: flash }] }
   },
   renderCardActions: () => (
     <CtaButton type="button" size="small" variant="destructive">

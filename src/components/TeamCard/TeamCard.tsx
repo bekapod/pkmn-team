@@ -1,13 +1,11 @@
 import dateFormat from 'dateformat';
-import compose from 'lodash/fp/compose';
-import flatMap from 'lodash/fp/flatMap';
-import get from 'lodash/fp/get';
-import isNil from 'lodash/fp/isNil';
-import map from 'lodash/fp/map';
-import reject from 'lodash/fp/reject';
 import Link from 'next/link';
 import { FunctionComponent } from 'react';
-import { PokemonFragment, TeamFragment } from '~/generated/graphql';
+import {
+  PokemonFragment,
+  PokemonTypeFragment,
+  TeamFragment
+} from '~/generated/graphql';
 import { extractNodesFromEdges } from '~/lib/relay';
 import {
   CardContent,
@@ -19,7 +17,10 @@ import {
 import { CardMeta } from '../CardMeta';
 import { PokemonLine } from '../PokemonLine';
 
-const getAllTypes = compose(flatMap(get('type')), flatMap(get('types')));
+const getAllTypes = (pokemon?: PokemonFragment[]) =>
+  pokemon
+    ?.flatMap(p => p.types.edges?.flatMap(t => t?.node))
+    .filter((t): t is PokemonTypeFragment => !!t);
 
 export type TeamCardProps = TeamFragment;
 
@@ -29,10 +30,9 @@ export const TeamCard: FunctionComponent<TeamCardProps> = ({
   createdAt,
   members
 }) => {
-  const pokemon: PokemonFragment[] = compose([
-    reject(isNil),
-    map(get('pokemon'))
-  ])(members);
+  const pokemon = members.edges
+    ?.map(member => member?.node?.pokemon)
+    .filter((p): p is PokemonFragment => !!p);
 
   return (
     <Link href={`/team/${id}/`} passHref>

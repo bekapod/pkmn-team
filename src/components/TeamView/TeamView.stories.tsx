@@ -1,6 +1,7 @@
 import { Meta, Story } from '@storybook/react/types-6-0';
 import { ComponentProps } from 'react';
 import { PokemonFragment } from '~/generated/graphql';
+import { explosion, flash, rest, slash, substitute } from '~/mocks/Moves';
 import { charmander, haunter, pikachu } from '~/mocks/Pokemon';
 import { TeamView } from './TeamView';
 
@@ -16,18 +17,37 @@ export default {
     initialTeamMembers: [
       {
         id: '1',
-        pokemon: pokemon[0],
+        pokemon: {
+          ...pokemon[0],
+          moves: {
+            edges: [{ node: substitute }, { node: slash }, { node: rest }]
+          }
+        },
         moves: { edges: [] }
       },
       {
         id: '2',
-        pokemon: pokemon[1],
-        moves: { edges: [] }
+        pokemon: {
+          ...pokemon[1],
+          moves: {
+            edges: [{ node: substitute }, { node: rest }, { node: flash }]
+          }
+        },
+        moves: {
+          edges: [{ node: substitute }, { node: rest }, { node: flash }]
+        }
       },
       {
         id: '3',
-        pokemon: pokemon[2],
-        moves: { edges: [] }
+        pokemon: {
+          ...pokemon[2],
+          moves: {
+            edges: [{ node: substitute }, { node: rest }, { node: explosion }]
+          }
+        },
+        moves: {
+          edges: [{ node: explosion }]
+        }
       }
     ],
     allPokemon: pokemon

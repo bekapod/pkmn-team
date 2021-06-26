@@ -10,6 +10,7 @@ import { CardContent, CardHeader, CardWrapper, CardHeading } from '../Card';
 import { InlineList } from '../InlineList';
 import { TypeTag } from '../TypeTag';
 import { Label } from '../Label';
+import { MoveList } from '../MoveList';
 import { useContainerQuery } from '~/hooks/useContainerQuery';
 
 export type PokemonCardProps = {
@@ -223,9 +224,9 @@ export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
           </div>
         </dl>
 
-        {/* {(teamMember?.moves?.total ?? 0) > 0 && (
+        {(teamMember?.moves?.edges?.length ?? 0) > 0 && (
           <MoveList className="mt-5 w-full" teamMember={teamMember} />
-        )} */}
+        )}
 
         {renderCardActions ? (
           <div className={classNames('mt-5')}>{renderCardActions()}</div>

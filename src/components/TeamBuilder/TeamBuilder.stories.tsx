@@ -1,6 +1,7 @@
 import { Meta, Story } from '@storybook/react/types-6-0';
 import { ComponentProps } from 'react';
 import { PokemonFragment } from '~/generated/graphql';
+import { explosion, flash, rest, slash, substitute } from '~/mocks/Moves';
 import { charmander, haunter, pikachu } from '~/mocks/Pokemon';
 import { TeamBuilder } from './TeamBuilder';
 
@@ -19,25 +20,53 @@ export default {
       name: 'My super team!',
       createdAt: '2021-06-26T19:17:37Z',
       members: {
-        total: 0,
-        teamMembers: [
+        edges: [
           {
-            id: '1',
-            slot: 1,
-            pokemon: pokemon[0],
-            moves: { total: 0, teamMemberMoves: [] }
+            order: 1,
+            node: {
+              id: '1',
+              pokemon: {
+                ...pokemon[0],
+                moves: {
+                  edges: [{ node: substitute }, { node: slash }, { node: rest }]
+                }
+              },
+              moves: { edges: [] }
+            }
           },
           {
-            id: '2',
-            slot: 2,
-            pokemon: pokemon[1],
-            moves: { total: 0, teamMemberMoves: [] }
+            order: 2,
+            node: {
+              id: '2',
+              pokemon: {
+                ...pokemon[1],
+                moves: {
+                  edges: [{ node: substitute }, { node: rest }, { node: flash }]
+                }
+              },
+              moves: {
+                edges: [{ node: substitute }, { node: rest }, { node: flash }]
+              }
+            }
           },
           {
-            id: '3',
-            slot: 3,
-            pokemon: pokemon[2],
-            moves: { total: 0, teamMemberMoves: [] }
+            order: 3,
+            node: {
+              id: '3',
+              pokemon: {
+                ...pokemon[2],
+                moves: {
+                  edges: [
+                    { node: substitute },
+                    { node: rest },
+                    { node: explosion }
+                  ]
+                }
+              },
+              moves: {
+                edges: [{ node: explosion }]
+              }
+            }
           }
         ]
       }
