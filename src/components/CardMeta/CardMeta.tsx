@@ -3,18 +3,14 @@ import classNames from 'classnames';
 import { Label } from '../Label';
 
 export type CardMetaProps = {
-  id: string;
   items?: {
     label: string;
     value: string | number;
   }[];
 };
 
-export const CardMeta: FunctionComponent<CardMetaProps> = ({
-  id,
-  items = []
-}) => (
-  <dl className={classNames('flex', 'my-4')} data-testid={`card-meta-${id}`}>
+export const CardMeta: FunctionComponent<CardMetaProps> = ({ items = [] }) => (
+  <dl role="associationlist" className={classNames('flex', 'my-4')}>
     {items.map(({ label, value }, idx) => (
       <div
         className={classNames(
@@ -28,10 +24,17 @@ export const CardMeta: FunctionComponent<CardMetaProps> = ({
         )}
         key={label}
       >
-        <Label className={classNames('mb-1')} as="dt">
+        <Label
+          className={classNames('mb-1')}
+          as="dt"
+          role="associationlistitemkey"
+          aria-label={label}
+        >
           {label}
         </Label>
         <dd
+          role="associationlistitemvalue"
+          aria-label={value.toString()}
           className={classNames(
             'm-0',
             'text-indigo-800',

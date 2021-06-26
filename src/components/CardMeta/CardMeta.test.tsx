@@ -1,45 +1,37 @@
 import { screen, render } from '@testing-library/react';
-import { CardMeta } from '.';
+import { composeStory } from '@storybook/testing-react';
+import Meta, { cardMeta } from './CardMeta.stories';
 
-describe(CardMeta, () => {
-  const setup = () =>
-    render(
-      <CardMeta
-        id="test"
-        items={[
-          { label: 'Item 1', value: 'Value 1' },
-          { label: 'Item 2', value: 'Value 2' }
-        ]}
-      />
-    );
+const CardMeta = composeStory(cardMeta, Meta);
 
-  it('renders each item', () => {
-    setup();
-    expect(screen.getByText('Item 1')).toBeInTheDocument();
-    expect(screen.getByText('Value 1')).toBeInTheDocument();
-    expect(screen.getByText('Item 2')).toBeInTheDocument();
-    expect(screen.getByText('Value 2')).toBeInTheDocument();
-  });
-
+describe('CardMeta', () => {
   it('renders as a <dl>', () => {
-    setup();
-    expect(screen.getByTestId('card-meta-test').tagName).toBe('DL');
+    render(<CardMeta />);
+    expect(screen.getByRole('associationlist')).toBeInTheDocument();
   });
 
   it('renders labels as <dt>', () => {
-    setup();
-    expect(screen.getByText('Item 1').tagName).toBe('DT');
-    expect(screen.getByText('Item 2').tagName).toBe('DT');
+    render(<CardMeta />);
+    expect(
+      screen.getByRole('associationlistitemkey', { name: 'Item 1' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('associationlistitemkey', { name: 'Item 2' })
+    ).toBeInTheDocument();
   });
 
   it('renders values as <dd>', () => {
-    setup();
-    expect(screen.getByText('Value 1').tagName).toBe('DD');
-    expect(screen.getByText('Value 2').tagName).toBe('DD');
+    render(<CardMeta />);
+    expect(
+      screen.getByRole('associationlistitemvalue', { name: 'Value 1' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('associationlistitemvalue', { name: '2' })
+    ).toBeInTheDocument();
   });
 
   it('renders empty <dl> when no items are passed', () => {
-    render(<CardMeta id="test" />);
-    expect(screen.getByTestId('card-meta-test')).toBeEmptyDOMElement();
+    render(<CardMeta items={undefined} />);
+    expect(screen.getByRole('associationlist')).toBeEmptyDOMElement();
   });
 });

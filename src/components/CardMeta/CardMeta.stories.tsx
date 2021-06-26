@@ -6,7 +6,6 @@ export default {
   title: 'Components/Card Meta',
   component: CardMeta,
   args: {
-    id: '1',
     items: [
       { label: 'Item 1', value: 'Value 1' },
       { label: 'Item 2', value: 2 }

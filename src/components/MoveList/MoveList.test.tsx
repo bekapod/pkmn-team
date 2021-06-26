@@ -47,6 +47,7 @@ describe(MoveList, () => {
     expect(screen.getByText(substitute.name)).toBeInTheDocument();
     expect(screen.getByText(flash.name)).toBeInTheDocument();
     expect(screen.getByText(explosion.name)).toBeInTheDocument();
+    // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByTestId('move-list').firstChild).toHaveClass(
       'overflow-hidden!'
     );
@@ -57,12 +58,15 @@ describe(MoveList, () => {
     expect(
       screen
         .getByText(substitute.name)
+        // eslint-disable-next-line testing-library/no-node-access
         .closest('[data-testid="move-list-item"]')
     ).toHaveAttribute('aria-selected', 'false');
     expect(
+      // eslint-disable-next-line testing-library/no-node-access
       screen.getByText(flash.name).closest('[data-testid="move-list-item"]')
     ).toHaveAttribute('aria-selected', 'false');
     expect(
+      // eslint-disable-next-line testing-library/no-node-access
       screen.getByText(explosion.name).closest('[data-testid="move-list-item"]')
     ).toHaveAttribute('aria-selected', 'false');
   });
@@ -103,6 +107,7 @@ describe(MoveList, () => {
         }
       ]
     });
+    // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByTestId('move-list').firstChild).not.toHaveClass(
       'overflow-hidden'
     );
@@ -118,16 +123,19 @@ describe(MoveList, () => {
       setup();
       userEvent.click(screen.getAllByText('Details')[1]);
       expect(
+        // eslint-disable-next-line testing-library/no-node-access
         screen.getByText(flash.name).closest('[data-testid="move-list-item"]')
       ).toHaveAttribute('aria-expanded', 'true');
       expect(
         screen
           .getByText(substitute.name)
+          // eslint-disable-next-line testing-library/no-node-access
           .closest('[data-testid="move-list-item"]')
       ).toHaveAttribute('aria-expanded', 'false');
       expect(
         screen
           .getByText(explosion.name)
+          // eslint-disable-next-line testing-library/no-node-access
           .closest('[data-testid="move-list-item"]')
       ).toHaveAttribute('aria-expanded', 'false');
     });
@@ -164,16 +172,19 @@ describe(MoveList, () => {
     it('can highlight learned moves', () => {
       setupWithTeamMember({ highlightLearnedMoves: true });
       expect(
+        // eslint-disable-next-line testing-library/no-node-access
         screen.getByText(flash.name).closest('[data-testid="move-list-item"]')
       ).toHaveAttribute('aria-selected', 'true');
       expect(
         screen
           .getByText(explosion.name)
+          // eslint-disable-next-line testing-library/no-node-access
           .closest('[data-testid="move-list-item"]')
       ).toHaveAttribute('aria-selected', 'true');
       expect(
         screen
           .getByText(substitute.name)
+          // eslint-disable-next-line testing-library/no-node-access
           .closest('[data-testid="move-list-item"]')
       ).not.toHaveAttribute('aria-selected', 'true');
     });
@@ -181,16 +192,19 @@ describe(MoveList, () => {
     it("doesn't highlight learned moves when option is off", () => {
       setupWithTeamMember({ highlightLearnedMoves: false });
       expect(
+        // eslint-disable-next-line testing-library/no-node-access
         screen.getByText(flash.name).closest('[data-testid="move-list-item"]')
       ).not.toHaveAttribute('aria-selected', 'true');
       expect(
         screen
           .getByText(explosion.name)
+          // eslint-disable-next-line testing-library/no-node-access
           .closest('[data-testid="move-list-item"]')
       ).not.toHaveAttribute('aria-selected', 'true');
       expect(
         screen
           .getByText(substitute.name)
+          // eslint-disable-next-line testing-library/no-node-access
           .closest('[data-testid="move-list-item"]')
       ).not.toHaveAttribute('aria-selected', 'true');
     });

@@ -93,7 +93,13 @@ const CtaBase: FunctionComponent<
         )}
       />
       {props['aria-busy'] ? (
-        <LoadingIcon isSpinner isSmall className="spinner-white" />
+        <LoadingIcon
+          role="alert"
+          aria-label="Loading"
+          isSpinner
+          isSmall
+          className="spinner-white"
+        />
       ) : (
         <>
           {Icon && (
@@ -112,9 +118,8 @@ const CtaBase: FunctionComponent<
   )
 );
 
-export const CtaLink: FunctionComponent<
-  ComponentPropsWithRef<'a'> & CtaProps
-> = forwardRef((props, ref) => <CtaBase ref={ref} as="a" {...props} />);
+export const CtaLink: FunctionComponent<ComponentPropsWithRef<'a'> & CtaProps> =
+  forwardRef((props, ref) => <CtaBase ref={ref} as="a" {...props} />);
 
 export const CtaButton: FunctionComponent<
   ComponentPropsWithRef<'button'> & CtaProps

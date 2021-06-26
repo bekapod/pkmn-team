@@ -101,7 +101,14 @@ describe('TeamView', () => {
 
   describe('with 6 team members', () => {
     it('renders a tab for each pokemon and no tab for pokemon search', (): void => {
-      render(<TeamView />);
+      render(
+        <TeamView
+          initialTeamMembers={[
+            ...(Meta.args?.initialTeamMembers ?? []),
+            ...(Meta.args?.initialTeamMembers ?? [])
+          ]}
+        />
+      );
 
       expect(screen.getAllByTestId(/tab-item-/)).toHaveLength(6);
       expect(screen.getAllByTestId(/tab-content-/)).toHaveLength(6);
@@ -130,7 +137,7 @@ describe('TeamView', () => {
       ).toBeInTheDocument();
     });
 
-    it.only('calls updateTeamMembers when add button is clicked', async () => {
+    it('calls updateTeamMembers when add button is clicked', async () => {
       const updateTeamMembers = jest.fn();
       render(<TeamView updateTeamMembers={updateTeamMembers} />);
 

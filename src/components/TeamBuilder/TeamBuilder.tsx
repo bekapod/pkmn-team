@@ -12,7 +12,8 @@ import { StickyBar } from '../StickyBar';
 import type {
   TeamByIdQuery,
   TeamMemberFragment,
-  Team
+  Team,
+  TeamMemberMoveFragment
 } from '~/generated/graphql';
 import { extractNodesFromEdges } from '~/lib/relay';
 
@@ -24,7 +25,10 @@ export type TeamBuilderProps = {
   updateTeam?: (name: string) => void;
   deleteTeam?: () => void;
   updateTeamMembers?: (members: Team['members']) => void;
-  updateTeamMemberMoves?: (member: TeamMemberFragment, moves: any[]) => void;
+  updateTeamMemberMoves?: (
+    member: TeamMemberFragment,
+    moves: TeamMemberMoveFragment[]
+  ) => void;
 };
 
 export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({

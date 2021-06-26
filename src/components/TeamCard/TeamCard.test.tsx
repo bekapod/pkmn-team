@@ -5,10 +5,12 @@ import Meta, { teamCard } from './TeamCard.stories';
 const TeamCard = composeStory(teamCard, Meta);
 
 describe('TeamCard', () => {
-  it('renders as a link to the team', () => {
-    const { container } = render(<TeamCard />);
-    expect(container.firstChild?.nodeName).toBe('A');
-    expect(container.firstChild).toHaveAttribute('href', '/team/123');
+  it('renders a link to the team', () => {
+    render(<TeamCard />);
+    expect(screen.getByRole('link', { name: /My super team/ })).toHaveAttribute(
+      'href',
+      '/team/123'
+    );
   });
 
   it('renders the team name', () => {
@@ -18,10 +20,12 @@ describe('TeamCard', () => {
 
   it('renders the team meta data', () => {
     render(<TeamCard />);
-    expect(screen.getByText('Pkmn').nextSibling).toHaveTextContent('3');
-    expect(screen.getByText('Created').nextSibling).toHaveTextContent(
-      '12/12/20'
-    );
+    expect(
+      screen.getByRole('associationlistitemvalue', { name: '3' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('associationlistitemvalue', { name: '12/12/20' })
+    ).toBeInTheDocument();
   });
 
   it('renders the team members', () => {

@@ -8,7 +8,8 @@ import {
 } from './Card';
 
 export default {
-  title: 'Components/Card'
+  title: 'Components/Card',
+  subcomponents: { CardLink, CardWrapper, CardHeader, CardHeading, CardContent }
 } as Meta;
 
 export const card: Story = () => (

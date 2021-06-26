@@ -9,9 +9,7 @@ import {
 } from 'react';
 import wait from 'waait';
 
-export type GetTabItemProps = (
-  id: string
-) => {
+export type GetTabItemProps = (id: string) => {
   id: string;
   role: string;
   'aria-selected': boolean;
@@ -20,13 +18,12 @@ export type GetTabItemProps = (
   onKeyDown: (e: KeyboardEvent) => void;
 };
 
-export type GetTabContentProps = (
-  id: string
-) => { 'aria-hidden': boolean; 'aria-labelledby': string };
+export type GetTabContentProps = (id: string) => {
+  'aria-hidden': boolean;
+  'aria-labelledby': string;
+};
 
-export function useTabs(
-  initialSelectedItem?: string
-): {
+export function useTabs(initialSelectedItem?: string): {
   getTabItemProps: GetTabItemProps;
   getTabContentProps: GetTabContentProps;
   setSelectedTab: Dispatch<SetStateAction<string | undefined>>;

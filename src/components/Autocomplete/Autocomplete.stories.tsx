@@ -6,8 +6,8 @@ export default {
   component: Autocomplete
 } as Meta;
 
-export const autocomplete: Story = () => (
-  <Autocomplete>
+export const autocomplete: Story = args => (
+  <Autocomplete {...args} data-testid="parent">
     <AutocompleteDropdown>
       <div>Item 1</div>
       <div>Item 2</div>
