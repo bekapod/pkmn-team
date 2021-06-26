@@ -85,18 +85,8 @@ describe(MoveList, () => {
   describe('with team member context', () => {
     const teamMember = {
       id: '1',
-      order: 0,
       pokemon: haunter,
-      learned_moves: [
-        {
-          order: 1,
-          move: explosion
-        },
-        {
-          order: 2,
-          move: flash
-        }
-      ]
+      moves: { edges: [] }
     };
     const setupWithTeamMember = (
       props: Partial<MoveListProps & { updateTeamMemberMoves?: jest.Mock }> = {}

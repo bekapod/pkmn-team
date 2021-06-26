@@ -18,9 +18,8 @@ const createCustomProperties = (theme, propertyName) => {
         (subProperties, subPropertyName) => {
           return {
             ...subProperties,
-            [`--${propertyName}-${name}-${subPropertyName}`]: property[name][
-              subPropertyName
-            ]
+            [`--${propertyName}-${name}-${subPropertyName}`]:
+              property[name][subPropertyName]
           };
         },
         {}

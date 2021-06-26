@@ -9,17 +9,20 @@ describe('PokemonLine', () => {
   it('renders pokemon information', () => {
     setup();
     expect(
-      screen.getByText(`#${pikachu.pokedex_id} ${pikachu.name}`)
+      screen.getByText(`#${pikachu.pokedexId} ${pikachu.name}`)
     ).toBeInTheDocument();
     expect(screen.getByAltText(`${pikachu.name} sprite`)).toHaveAttribute(
       'src',
       `/sprites/${pikachu.sprite}`
     );
-    expect(screen.getByText(pikachu.types[0].type.name)).toBeInTheDocument();
+    expect(
+      screen.getByText(pikachu.types.edges?.[0]?.node?.name as string)
+    ).toBeInTheDocument();
   });
 
   it('adds type gradient', () => {
     const { container } = setup();
+    // eslint-disable-next-line testing-library/no-node-access
     expect(container.firstChild).toHaveStyle({
       '--type-gradient':
         'linear-gradient(90deg, var(--colors-electric) 0%, var(--colors-electric) 100%)'
@@ -28,6 +31,7 @@ describe('PokemonLine', () => {
 
   it('adds outdent', () => {
     const { container } = setup({ outdent: '1rem' });
+    // eslint-disable-next-line testing-library/no-node-access
     expect(container.firstChild).toHaveStyle({ '--outdent': '1rem' });
   });
 });

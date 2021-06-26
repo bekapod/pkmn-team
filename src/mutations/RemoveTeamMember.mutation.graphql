@@ -1,8 +1,5 @@
 mutation DeleteTeamMembers($id: ID!) {
   removeTeamMember(id: $id) {
-    ...TeamMemberFragment
-    team {
-      ...TeamFragment
-    }
+    ...teamMember
   }
 }

@@ -1,0 +1,55 @@
+fragment type on Type {
+  id
+  name
+  slug
+}
+
+fragment pokemonType on Type {
+  ...type
+  noDamageFrom {
+    edges {
+      node {
+        ...type
+      }
+    }
+  }
+  halfDamageFrom {
+    edges {
+      node {
+        ...type
+      }
+    }
+  }
+  doubleDamageFrom {
+    edges {
+      node {
+        ...type
+      }
+    }
+  }
+}
+
+fragment moveType on Type {
+  ...type
+  noDamageTo {
+    edges {
+      node {
+        ...type
+      }
+    }
+  }
+  halfDamageTo {
+    edges {
+      node {
+        ...type
+      }
+    }
+  }
+  doubleDamageTo {
+    edges {
+      node {
+        ...type
+      }
+    }
+  }
+}

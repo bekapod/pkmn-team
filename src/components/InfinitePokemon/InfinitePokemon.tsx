@@ -1,11 +1,11 @@
 import { FunctionComponent, useEffect, useRef } from 'react';
 import { connectInfiniteHits } from 'react-instantsearch-dom';
 import type { InfiniteHitsProvided, Hit } from 'react-instantsearch-core';
-import type { PokemonFragmentFragment } from '~/generated/graphql';
+import type { PokemonFragment } from '~/generated/graphql';
 import { PokemonLine, PokemonLineProps } from '../PokemonLine';
 
 export const InfinitePokemon: FunctionComponent<
-  InfiniteHitsProvided<Hit<PokemonFragmentFragment>> & {
+  InfiniteHitsProvided<Hit<PokemonFragment>> & {
     onClick: (pokemon: PokemonLineProps['pokemon']) => void;
   }
 > = ({ hits, hasMore, refineNext, onClick }) => {
@@ -52,9 +52,14 @@ export const InfinitePokemon: FunctionComponent<
           speed: rest.speed,
           color: rest.color,
           shape: rest.shape,
+          habitat: rest.habitat,
           height: rest.height,
           weight: rest.weight,
-          isDefaultVariant: rest.isDefaultVariant
+          isDefaultVariant: rest.isDefaultVariant,
+          eggGroups: { edges: [] },
+          evolvesTo: { edges: [] },
+          evolvesFrom: { edges: [] },
+          moves: { edges: [] }
         };
         return (
           <li key={objectID} className="ais-InfiniteHits-item">

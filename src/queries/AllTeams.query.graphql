@@ -1,18 +1,8 @@
 query AllTeams {
   teams {
-    total
-    teams {
-      id
-      name
-      members {
-        total
-        teamMembers {
-          id
-          slot
-          pokemon {
-            ...PokemonFragment
-          }
-        }
+    edges {
+      node {
+        ...team
       }
     }
   }

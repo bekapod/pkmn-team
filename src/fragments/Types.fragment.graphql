@@ -1,5 +1,0 @@
-fragment type on Type {
-  id
-  name
-  slug
-}

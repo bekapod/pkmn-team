@@ -1,0 +1,43 @@
+fragment pokemonEvolution on PokemonEvolution {
+  pokemon {
+    id
+    name
+  }
+  trigger
+  item {
+    ...item
+  }
+  gender
+  heldItem {
+    ...item
+  }
+  knownMove {
+    name
+    type {
+      name
+    }
+  }
+  knownMoveType {
+    name
+  }
+  minLevel
+  minHappiness
+  minBeauty
+  minAffection
+  needsOverworldRain
+  partyPokemon {
+    name
+  }
+  partyPokemonType {
+    name
+  }
+  relativePhysicalStats
+  timeOfDay
+  tradeWithPokemon {
+    name
+  }
+  turnUpsideDown
+  spin
+  takeDamage
+  criticalHits
+}

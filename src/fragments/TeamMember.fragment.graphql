@@ -1,19 +1,15 @@
 fragment teamMember on TeamMember {
   id
-  slot
   pokemon {
     ...pokemon
-    moves {
-      total
-      pokemonMoves {
-        ...pokemonMove
-      }
-    }
   }
   moves {
-    total
-    teamMemberMoves {
-      ...teamMemberMove
+    edges {
+      learnMethod
+      levelLearnedAt
+      node {
+        ...move
+      }
     }
   }
 }

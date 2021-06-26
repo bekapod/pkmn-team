@@ -4,10 +4,10 @@ import { TypeTag } from '../TypeTag';
 import { Label } from '../Label';
 import { InlineList } from '../InlineList';
 import { getTypeGradient } from '~/lib/gradients';
-import { PokemonMoveFragmentFragment } from '~/generated/graphql';
+import { MoveFragment } from '~/generated/graphql';
 
 export type MoveLineProps = ComponentPropsWithRef<'div'> &
-  PokemonMoveFragmentFragment & {
+  MoveFragment & {
     isOpen?: boolean;
     isHighlighted?: boolean;
     isCompressed?: boolean;
@@ -20,8 +20,14 @@ const printStat = (stat?: string | number | null) => `${stat ?? '-'}`;
 export const MoveLine: FunctionComponent<MoveLineProps> = forwardRef(
   (
     {
-      __typename,
-      move: { name, type, damageClass, pp, accuracy, power, effect, target },
+      name,
+      type,
+      damageClass,
+      pp,
+      accuracy,
+      power,
+      effect,
+      target,
       isOpen,
       isHighlighted,
       style,
@@ -77,11 +83,9 @@ export const MoveLine: FunctionComponent<MoveLineProps> = forwardRef(
           <TypeTag as="li" key={type.slug} typeSlug={type.slug}>
             {type.name}
           </TypeTag>
-          {!!damageClass && (
-            <TypeTag as="li" typeSlug={damageClass}>
-              {damageClass}
-            </TypeTag>
-          )}
+          <TypeTag as="li" typeSlug={damageClass}>
+            {damageClass}
+          </TypeTag>
         </InlineList>
 
         {renderLineActions && (

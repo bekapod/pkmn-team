@@ -21,167 +21,52 @@ fragment pokemon on Pokemon {
   isMythical
   description
   abilities {
-    total
-    pokemonAbilities {
-      ...pokemonAbility
+    edges {
+      slot
+      isHidden
+      node {
+        ...ability
+      }
     }
   }
   eggGroups {
-    total
-    eggGroups {
-      id
-      name
-      slug
+    edges {
+      node {
+        id
+        name
+        slug
+      }
     }
   }
   evolvesTo {
-    total
-    pokemonEvolutions {
-      pokemon {
-        name
-        evolvesTo {
-          total
-          pokemonEvolutions {
-            pokemon {
-              id
-              name
-            }
-          }
-        }
+    edges {
+      node {
+        ...pokemonEvolution
       }
-      trigger
-      item {
-        id
-        slug
-        name
-        cost
-        flingPower
-        flingEffect
-        effect
-        sprite
-        category
-        attributes
-      }
-      gender
-      heldItem {
-        id
-        slug
-        name
-        cost
-        flingPower
-        flingEffect
-        effect
-        sprite
-        category
-        attributes
-      }
-      knownMove {
-        name
-        type {
-          name
-        }
-      }
-      knownMoveType {
-        name
-      }
-      minLevel
-      minHappiness
-      minBeauty
-      minAffection
-      needsOverworldRain
-      partyPokemon {
-        name
-      }
-      partyPokemonType {
-        name
-      }
-      relativePhysicalStats
-      timeOfDay
-      tradeWithPokemon {
-        name
-      }
-      turnUpsideDown
-      spin
-      takeDamage
-      criticalHits
     }
   }
   evolvesFrom {
-    total
-    pokemonEvolutions {
-      pokemon {
-        name
-        evolvesFrom {
-          total
-          pokemonEvolutions {
-            pokemon {
-              id
-              name
-            }
-          }
-        }
+    edges {
+      node {
+        ...pokemonEvolution
       }
-      trigger
-      item {
-        id
-        slug
-        name
-        cost
-        flingPower
-        flingEffect
-        effect
-        sprite
-        category
-        attributes
-      }
-      gender
-      heldItem {
-        id
-        slug
-        name
-        cost
-        flingPower
-        flingEffect
-        effect
-        sprite
-        category
-        attributes
-      }
-      knownMove {
-        name
-        type {
-          name
-        }
-      }
-      knownMoveType {
-        name
-      }
-      minLevel
-      minHappiness
-      minBeauty
-      minAffection
-      needsOverworldRain
-      partyPokemon {
-        name
-      }
-      partyPokemonType {
-        name
-      }
-      relativePhysicalStats
-      timeOfDay
-      tradeWithPokemon {
-        name
-      }
-      turnUpsideDown
-      spin
-      takeDamage
-      criticalHits
     }
   }
   types {
-    total
-    pokemonTypes {
-      ...pokemonType
+    edges {
+      slot
+      node {
+        ...pokemonType
+      }
+    }
+  }
+  moves {
+    edges {
+      learnMethod
+      levelLearnedAt
+      node {
+        ...move
+      }
     }
   }
 }

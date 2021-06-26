@@ -1,23 +1,20 @@
 import { FunctionComponent, RefObject } from 'react';
 import classNames from 'classnames';
 import {
-  PokemonFragmentFragment,
-  TeamMemberFragmentFragment
+  PokemonFragment,
+  TeamMemberFragment,
+  PokemonTypeFragment
 } from '~/generated/graphql';
 import { formatPokemonName, sortBySlug } from '~/lib/general';
 import { CardContent, CardHeader, CardWrapper, CardHeading } from '../Card';
 import { InlineList } from '../InlineList';
 import { TypeTag } from '../TypeTag';
-import { MoveList } from '../MoveList';
 import { Label } from '../Label';
 import { useContainerQuery } from '~/hooks/useContainerQuery';
 
 export type PokemonCardProps = {
-  teamMember?: TeamMemberFragmentFragment;
-  pokemon: Omit<
-    PokemonFragmentFragment,
-    'eggGroups' | 'evolvesTo' | 'evolvesFrom'
-  >;
+  teamMember?: TeamMemberFragment;
+  pokemon: PokemonFragment;
   renderCardActions?: () => JSX.Element;
 };
 
@@ -35,7 +32,10 @@ export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
 }) => {
   const [ref, className] = useContainerQuery<HTMLElement>(query);
   const { pokedexId, types, name, sprite } = pokemon;
-  const actualTypes = types.pokemonTypes.map(({ type }) => type);
+  const actualTypes =
+    types.edges
+      ?.map(edge => edge?.node)
+      ?.filter((node): node is PokemonTypeFragment => !!node) ?? [];
   const stats = [
     pokemon.hp,
     pokemon.attack,
@@ -223,9 +223,9 @@ export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
           </div>
         </dl>
 
-        {(teamMember?.moves?.total ?? 0) > 0 && (
+        {/* {(teamMember?.moves?.total ?? 0) > 0 && (
           <MoveList className="mt-5 w-full" teamMember={teamMember} />
-        )}
+        )} */}
 
         {renderCardActions ? (
           <div className={classNames('mt-5')}>{renderCardActions()}</div>

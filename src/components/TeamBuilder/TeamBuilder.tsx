@@ -11,10 +11,10 @@ import { TeamView } from '../TeamView';
 import { StickyBar } from '../StickyBar';
 import type {
   TeamByIdQuery,
-  TeamMemberFragmentFragment,
-  Team,
-  TeamMemberMoveFragmentFragment
+  TeamMemberFragment,
+  Team
 } from '~/generated/graphql';
+import { extractNodesFromEdges } from '~/lib/relay';
 
 export type TeamBuilderProps = {
   team?: TeamByIdQuery['teamById'];
@@ -24,10 +24,7 @@ export type TeamBuilderProps = {
   updateTeam?: (name: string) => void;
   deleteTeam?: () => void;
   updateTeamMembers?: (members: Team['members']) => void;
-  updateTeamMemberMoves?: (
-    member: TeamMemberFragmentFragment,
-    moves: TeamMemberMoveFragmentFragment['move'][]
-  ) => void;
+  updateTeamMemberMoves?: (member: TeamMemberFragment, moves: any[]) => void;
 };
 
 export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
@@ -90,7 +87,7 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
       </CenteredRow>
 
       <TeamView
-        initialTeamMembers={team?.members?.teamMembers}
+        initialTeamMembers={extractNodesFromEdges(team?.members.edges)}
         isSkeleton={isSkeleton}
         updateTeamMembers={debouncedUpdateTeamMembers}
         updateTeamMemberMoves={updateTeamMemberMoves}

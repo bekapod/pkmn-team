@@ -2,9 +2,11 @@ fragment team on Team {
   id
   name
   members {
-    total
-    teamMembers {
-      ...teamMember
+    edges {
+      slot
+      node {
+        ...teamMember
+      }
     }
   }
 }
