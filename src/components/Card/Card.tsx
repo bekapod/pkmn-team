@@ -3,36 +3,34 @@ import classNames from 'classnames';
 import { Type } from '~/generated/graphql';
 import { getTypeGradient } from '~/lib/gradients';
 
-export const CardLink: FunctionComponent<
-  ComponentPropsWithRef<'a'>
-> = forwardRef(({ className, ...props }, ref) => (
-  <a
-    ref={ref}
-    className={classNames(
-      'block',
-      'transition-transform',
-      'duration-300',
-      'ease-out',
-      'text-initial',
-      'no-underline',
-      'scale-100',
-      'transform-gpu',
-      'motion-safe:hover:scale-105 motion-safe:focus:scale-105',
-      className
-    )}
-    {...props}
-  />
-));
+export const CardLink: FunctionComponent<ComponentPropsWithRef<'a'>> =
+  forwardRef(({ className, ...props }, ref) => (
+    <a
+      ref={ref}
+      className={classNames(
+        'block',
+        'transition-transform',
+        'duration-300',
+        'ease-out',
+        'text-initial',
+        'no-underline',
+        'scale-100',
+        'transform-gpu',
+        'motion-safe:hover:scale-105 motion-safe:focus:scale-105',
+        className
+      )}
+      {...props}
+    />
+  ));
 
-export const CardWrapper: FunctionComponent<
-  ComponentPropsWithRef<'article'>
-> = forwardRef(({ className, ...props }, ref) => (
-  <article
-    ref={ref}
-    className={classNames('flex', 'flex-col', 'h-full', className)}
-    {...props}
-  />
-));
+export const CardWrapper: FunctionComponent<ComponentPropsWithRef<'article'>> =
+  forwardRef(({ className, ...props }, ref) => (
+    <article
+      ref={ref}
+      className={classNames('flex', 'flex-col', 'h-full', className)}
+      {...props}
+    />
+  ));
 
 export type CardHeaderProps = ComponentPropsWithRef<'header'> & {
   types?: Pick<Type, 'name' | 'slug'>[];

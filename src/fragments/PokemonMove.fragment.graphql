@@ -1,7 +1,0 @@
-fragment PokemonMove on PokemonMove {
-  learnMethod
-  levelLearnedAt
-  move {
-    ...move
-  }
-}

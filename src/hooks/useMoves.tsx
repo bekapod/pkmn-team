@@ -10,10 +10,7 @@ import {
 } from 'react';
 import isEqual from 'react-fast-compare';
 import useDeepCompareEffect from 'use-deep-compare-effect';
-import {
-  TeamMemberFragmentFragment,
-  TeamMemberMoveFragmentFragment
-} from '~/generated/graphql';
+import { TeamMemberFragment, TeamMemberMoveEdge } from '~/generated/graphql';
 import { reorder } from '~/lib/general';
 
 export enum MoveActionType {
@@ -25,12 +22,12 @@ export enum MoveActionType {
 
 type AddMoveAction = {
   type: MoveActionType.AddMove;
-  payload: TeamMemberMoveFragmentFragment['move'];
+  payload: TeamMemberMoveEdge;
 };
 
 type RemoveMoveAction = {
   type: MoveActionType.RemoveMove;
-  payload: TeamMemberMoveFragmentFragment['move'];
+  payload: TeamMemberMoveEdge;
 };
 
 type ReorderMoveAction = {
@@ -43,7 +40,7 @@ type ReorderMoveAction = {
 
 type ResetMovesAction = {
   type: MoveActionType.ResetMoves;
-  payload: TeamMemberMoveFragmentFragment['move'][];
+  payload: TeamMemberMoveEdge[];
 };
 
 export type Action =
@@ -52,15 +49,12 @@ export type Action =
   | ReorderMoveAction
   | ResetMovesAction;
 
-const reducer = (
-  state: TeamMemberMoveFragmentFragment['move'][],
-  action: Action
-) => {
+const reducer = (state: TeamMemberMoveEdge[], action: Action) => {
   switch (action.type) {
     case MoveActionType.AddMove:
       return [...state, action.payload];
     case MoveActionType.RemoveMove:
-      return state.filter(({ move: { id } }) => id !== action.payload.move.id);
+      return state.filter(({ node }) => node?.id !== action.payload.node?.id);
     case MoveActionType.ReorderMove:
       return reorder(
         state,
@@ -75,23 +69,18 @@ const reducer = (
 };
 
 const useMovesReducer = (
-  moves: TeamMemberMoveFragmentFragment['move'][]
-): [TeamMemberMoveFragmentFragment['move'][], Dispatch<Action>] => {
+  moves: TeamMemberMoveEdge[]
+): [TeamMemberMoveEdge[], Dispatch<Action>] => {
   return useReducer(reducer, moves);
 };
 
-const MovesContext = createContext<
-  [TeamMemberMoveFragmentFragment['move'][], Dispatch<Action>]
->([
+const MovesContext = createContext<[TeamMemberMoveEdge[], Dispatch<Action>]>([
   [],
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   () => {}
 ]);
 
-export const useMoves = (): [
-  TeamMemberMoveFragmentFragment['move'][],
-  Dispatch<Action>
-] => {
+export const useMoves = (): [TeamMemberMoveEdge[], Dispatch<Action>] => {
   const context = useContext(MovesContext);
   if (!context) {
     throw new Error(
@@ -102,19 +91,22 @@ export const useMoves = (): [
 };
 
 export const MovesProvider: FunctionComponent<{
-  teamMember?: TeamMemberFragmentFragment;
+  teamMember?: TeamMemberFragment;
   updateTeamMemberMoves?: (
-    member: TeamMemberFragmentFragment,
-    moves: TeamMemberMoveFragmentFragment['move'][]
+    member: TeamMemberFragment,
+    moves: TeamMemberMoveEdge[]
   ) => void;
 }> = ({ teamMember, updateTeamMemberMoves, ...props }) => {
   const isInitialValue = useRef(true);
   const [moves, dispatch] = useMovesReducer(
-    teamMember?.moves?.teamMemberMoves?.map(({ move }) => move) ?? []
+    teamMember?.moves?.edges?.filter(
+      (edge): edge is TeamMemberMoveEdge => !!edge
+    ) ?? []
   );
-  const value = useMemo<
-    [TeamMemberMoveFragmentFragment['move'][], Dispatch<Action>]
-  >(() => [moves, dispatch], [moves, dispatch]);
+  const value = useMemo<[TeamMemberMoveEdge[], Dispatch<Action>]>(
+    () => [moves, dispatch],
+    [moves, dispatch]
+  );
 
   useEffect(() => {
     if (!isInitialValue.current && teamMember) {
@@ -127,9 +119,12 @@ export const MovesProvider: FunctionComponent<{
   useDeepCompareEffect(() => {
     dispatch({
       type: MoveActionType.ResetMoves,
-      payload: teamMember?.moves?.teamMemberMoves?.map(({ move }) => move) ?? []
+      payload:
+        teamMember?.moves?.edges?.filter(
+          (edge): edge is TeamMemberMoveEdge => !!edge
+        ) ?? []
     });
-  }, [teamMember?.moves?.teamMemberMoves ?? []]);
+  }, [teamMember?.moves?.edges ?? []]);
 
   return <MovesContext.Provider value={value} {...props} />;
 };

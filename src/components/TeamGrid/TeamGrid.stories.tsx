@@ -1,35 +1,42 @@
 import { Meta } from '@storybook/react/types-6-0';
-import { Pokemon, TeamByIdQuery } from '~/generated/graphql';
+import { PokemonFragment, TeamFragment } from '~/generated/graphql';
 import { charmander, haunter, pikachu } from '~/mocks/Pokemon';
 import { TeamCard } from '../TeamCard';
 import { TeamGrid } from './TeamGrid';
 
-const pokemon: Pokemon[] = [charmander, pikachu, haunter];
+const pokemon: PokemonFragment[] = [charmander, pikachu, haunter];
 
-const team: TeamByIdQuery['teamById'] = {
+const team: TeamFragment = {
   id: '123',
   name: 'My super team!',
-  created_at: '2020-12-12T22:50:59.766899+00:00',
-  team_members: [
-    {
-      id: '1',
-      order: 1,
-      pokemon: pokemon[0],
-      learned_moves: []
-    },
-    {
-      id: '2',
-      order: 2,
-      pokemon: pokemon[1],
-      learned_moves: []
-    },
-    {
-      id: '3',
-      order: 3,
-      pokemon: pokemon[2],
-      learned_moves: []
-    }
-  ]
+  members: {
+    edges: [
+      {
+        slot: 1,
+        node: {
+          id: '1',
+          pokemon: pokemon[0],
+          moves: { edges: [] }
+        }
+      },
+      {
+        slot: 2,
+        node: {
+          id: '1',
+          pokemon: pokemon[1],
+          moves: { edges: [] }
+        }
+      },
+      {
+        slot: 3,
+        node: {
+          id: '2',
+          pokemon: pokemon[2],
+          moves: { edges: [] }
+        }
+      }
+    ]
+  }
 };
 
 export default {

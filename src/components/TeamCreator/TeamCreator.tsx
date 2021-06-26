@@ -21,7 +21,11 @@ export const TeamCreator: FunctionComponent<TeamCreatorProps> = ({
   createTeam,
   ...props
 }) => {
-  const { register, handleSubmit, errors } = useForm<TeamCreatorFormValues>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<TeamCreatorFormValues>({
     defaultValues
   });
   const error = errors['team-name']?.message;
@@ -43,11 +47,10 @@ export const TeamCreator: FunctionComponent<TeamCreatorProps> = ({
       >
         <GiantInput
           id="team-name"
-          name="team-name"
           isInvalid={!!error}
           aria-required="true"
           disabled={isLoading}
-          ref={register({
+          {...register('team-name', {
             required: {
               value: true,
               message: 'You must name your team'

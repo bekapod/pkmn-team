@@ -1,16 +1,13 @@
 import type { ComponentPropsWithRef, FunctionComponent } from 'react';
 import classNames from 'classnames';
-import type { PokemonFragmentFragment } from '~/generated/graphql';
+import type { PokemonFragment, PokemonTypeFragment } from '~/generated/graphql';
 import { formatPokemonName, sortBySlug } from '~/lib/general';
 import { getTypeGradient } from '~/lib/gradients';
 import { InlineList } from '../InlineList';
 import { TypeTag } from '../TypeTag';
 
 export type PokemonLineProps = {
-  pokemon: Omit<
-    PokemonFragmentFragment,
-    'eggGroups' | 'evolvesTo' | 'evolvesFrom' | 'moves'
-  >;
+  pokemon: PokemonFragment;
   outdent?: string;
 };
 
@@ -35,7 +32,9 @@ export const PokemonLine: FunctionComponent<
         // @ts-ignore
         '--outdent': outdent,
         '--type-gradient': getTypeGradient(
-          types.pokemonTypes.map(({ type }) => type)
+          types.edges
+            ?.map(edge => edge?.node)
+            ?.filter((node): node is PokemonTypeFragment => !!node) ?? []
         )
       }}
       {...props}
@@ -50,9 +49,13 @@ export const PokemonLine: FunctionComponent<
           {formatPokemonName(pokemon)}
         </div>
         <InlineList>
-          {sortBySlug(types.pokemonTypes.map(({ type }) => type)).map(type => (
+          {sortBySlug(
+            types.edges
+              ?.map(edge => edge?.node)
+              ?.filter((node): node is PokemonTypeFragment => !!node) ?? []
+          ).map(type => (
             <li key={`Pokemon: ${pokedexId}, Type: ${type.slug}`}>
-              <TypeTag typeSlug={type.slug}>{type.name}</TypeTag>
+              <TypeTag typeSlug={type.slug}>{type?.name}</TypeTag>
             </li>
           ))}
         </InlineList>

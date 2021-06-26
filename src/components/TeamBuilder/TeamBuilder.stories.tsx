@@ -1,9 +1,9 @@
 import { Meta, Story } from '@storybook/react/types-6-0';
-import { Pokemon } from '~/generated/graphql';
+import { PokemonFragment } from '~/generated/graphql';
 import { charmander, haunter, pikachu } from '~/mocks/Pokemon';
 import { TeamBuilder, TeamBuilderProps } from './TeamBuilder';
 
-const pokemon: Pokemon[] = [charmander, pikachu, haunter];
+const pokemon: PokemonFragment[] = [charmander, pikachu, haunter];
 
 export default {
   title: 'Components/TeamBuilder',
@@ -43,14 +43,14 @@ export default {
   }
 } as Meta<TeamBuilderProps>;
 
-export const WithTeam: Story<TeamBuilderProps> = args => (
+export const teamBuilder: Story<TeamBuilderProps> = args => (
   <TeamBuilder {...args} />
 );
 
-export const Skeleton: Story<TeamBuilderProps> = args => (
+export const skeleton: Story<TeamBuilderProps> = args => (
   <TeamBuilder {...args} />
 );
-Skeleton.args = {
+skeleton.args = {
   isSkeleton: true,
   team: undefined
 };

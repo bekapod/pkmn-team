@@ -10,6 +10,7 @@ import { CenteredRow } from '~/components/CenteredRow';
 import { CtaLink } from '~/components/Cta';
 import { ssrExchange } from 'urql';
 import { GetStaticProps } from 'next';
+import { extractNodesFromEdges } from '~/lib/relay';
 
 function Home(): JSX.Element {
   const [{ data }] = useAllTeamsQuery();
@@ -22,7 +23,7 @@ function Home(): JSX.Element {
           </Link>
         </CenteredRow>
         <TeamGrid as="ul" role="list" className="u-unstyled-list">
-          {data?.teams.map(team => (
+          {extractNodesFromEdges(data?.teams.edges).map(team => (
             <li key={team.id}>
               <TeamCard {...team} />
             </li>

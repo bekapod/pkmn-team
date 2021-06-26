@@ -1,9 +1,6 @@
 import { Dispatch, useReducer } from 'react';
 import isEqual from 'react-fast-compare';
-import {
-  PokemonFragmentFragment,
-  TeamMemberFragmentFragment
-} from '~/generated/graphql';
+import { PokemonFragment, TeamMemberFragment } from '~/generated/graphql';
 import { reorder } from '~/lib/general';
 
 export enum TeamMemberActionType {
@@ -15,9 +12,9 @@ export enum TeamMemberActionType {
 
 type AddTeamMemberAction = {
   type: TeamMemberActionType.AddTeamMember;
-  payload: Omit<TeamMemberFragmentFragment, 'pokemon' | 'moves'> & {
+  payload: Omit<TeamMemberFragment, 'pokemon' | 'moves'> & {
     pokemon: Omit<
-      PokemonFragmentFragment,
+      PokemonFragment,
       'moves' | 'eggGroups' | 'evolvesTo' | 'evolvesFrom'
     >;
   };
@@ -25,7 +22,7 @@ type AddTeamMemberAction = {
 
 type RemoveTeamMemberAction = {
   type: TeamMemberActionType.RemoveTeamMember;
-  payload: TeamMemberFragmentFragment;
+  payload: TeamMemberFragment;
 };
 
 type ReorderTeamMemberAction = {
@@ -38,7 +35,7 @@ type ReorderTeamMemberAction = {
 
 type ResetTeamMembersAction = {
   type: TeamMemberActionType.ResetTeamMembers;
-  payload: TeamMemberFragmentFragment[];
+  payload: TeamMemberFragment[];
 };
 
 type Action =
@@ -47,10 +44,10 @@ type Action =
   | ReorderTeamMemberAction
   | ResetTeamMembersAction;
 
-const reducer = (state: TeamMemberFragmentFragment[], action: Action) => {
+const reducer = (state: TeamMemberFragment[], action: Action) => {
   switch (action.type) {
     case TeamMemberActionType.AddTeamMember:
-      return [...state, action.payload as TeamMemberFragmentFragment];
+      return [...state, action.payload as TeamMemberFragment];
     case TeamMemberActionType.RemoveTeamMember:
       return state.filter(({ id }) => id !== action.payload.id);
     case TeamMemberActionType.ReorderTeamMember:
@@ -70,7 +67,7 @@ const reducer = (state: TeamMemberFragmentFragment[], action: Action) => {
 };
 
 export function useTeamMembersReducer(
-  teamMembers: TeamMemberFragmentFragment[]
-): [TeamMemberFragmentFragment[], Dispatch<Action>] {
+  teamMembers: TeamMemberFragment[]
+): [TeamMemberFragment[], Dispatch<Action>] {
   return useReducer(reducer, teamMembers);
 }

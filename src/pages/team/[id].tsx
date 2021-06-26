@@ -1,18 +1,12 @@
-import type {
-  GetServerSideProps,
-  NextComponentType,
-  NextPageContext
-} from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { initUrqlClient, NextUrqlPageContext, withUrqlClient } from 'next-urql';
+import { initUrqlClient, withUrqlClient } from 'next-urql';
 import {
   useTeamByIdQuery,
   useUpdateTeamMutation,
   useDeleteTeamMutation,
   TeamByIdDocument,
-  TeamMemberFragmentFragment,
-  TeamMemberList,
-  TeamMemberMoveFragmentFragment
+  TeamFragment
 } from '~/generated/graphql';
 import { createClient } from '~/lib/client';
 import { FullWidthContainer } from '~/components/FullWidthContainer';
@@ -23,30 +17,22 @@ import { ssrExchange } from 'urql';
 import isEqual from 'react-fast-compare';
 
 type Props = {
-  id: string;
+  id?: string;
 };
 
-const Team: NextComponentType<
-  NextUrqlPageContext & { query: NextPageContext['query'] },
-  unknown,
-  Props
-> = ({ id }) => {
+const Team: NextPage<Props> = ({ id }) => {
   const router = useRouter();
-  const teamByIdOptions = useMemo(() => ({ variables: { id }, pause: !id }), [
-    id
-  ]);
-  const [{ data: teamData, fetching: teamFetching }] = useTeamByIdQuery(
-    teamByIdOptions
+  const teamByIdOptions = useMemo(
+    () => ({ variables: { id: id as string }, pause: !id }),
+    [id]
   );
+  const [{ data: teamData, fetching: teamFetching }] =
+    useTeamByIdQuery(teamByIdOptions);
 
-  const [
-    { fetching: updateTeamFetching },
-    updateTeam
-  ] = useUpdateTeamMutation();
-  const [
-    { fetching: deleteTeamFetching },
-    deleteTeam
-  ] = useDeleteTeamMutation();
+  const [{ fetching: updateTeamFetching }, updateTeam] =
+    useUpdateTeamMutation();
+  const [{ fetching: deleteTeamFetching }, deleteTeam] =
+    useDeleteTeamMutation();
 
   const team = teamData?.teamById ?? undefined;
 
@@ -67,27 +53,17 @@ const Team: NextComponentType<
   }, [team?.id, router, deleteTeam]);
 
   const updateTeamMembersHandler = useCallback(
-    (members: TeamMemberList) => {
-      const membersToUpdate = members.teamMembers.map(
-        ({ id, pokemon, slot }) => ({
-          id,
-          pokemon_id: pokemon.id,
-          slot,
-          team_id: team?.id
-        })
-      );
-
-      const membersToDelete = team?.members.teamMembers
-        .filter(
-          ({ id }) =>
-            !members.teamMembers.find(newMember => id === newMember.id)
+    (members: TeamFragment['members']) => {
+      const membersToDelete = team?.members.edges
+        ?.filter(
+          member =>
+            !members.edges?.find(
+              newMember => member?.node?.id === newMember?.node?.id
+            )
         )
-        .map(({ id }) => id);
+        .map(member => member?.node?.id);
 
-      if (
-        membersToUpdate.length &&
-        !isEqual(members, team?.members.teamMembers)
-      ) {
+      if (members.edges?.length && !isEqual(members, team?.members)) {
         // createTeamMembers({
         //   members: membersToUpdate
         // });
@@ -101,42 +77,6 @@ const Team: NextComponentType<
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [JSON.stringify(team)]
-  );
-
-  const updateTeamMemberMovesHandler = useCallback(
-    (
-      member: TeamMemberFragmentFragment,
-      moves: TeamMemberMoveFragmentFragment['move'][]
-    ) => {
-      const movesToDelete = member?.moves?.teamMemberMoves
-        ?.filter(
-          ({ move }) => !moves.find(newMove => move.move.id === newMove.move.id)
-        )
-        .map(({ move }) => move.move.id);
-      const remainingLearnedMoves = member?.moves?.teamMemberMoves
-        ?.filter(({ move }) =>
-          moves.find(newMove => move.move.id === newMove.move.id)
-        )
-        .map(({ move }) => move);
-
-      if (moves.length && !isEqual(moves, remainingLearnedMoves)) {
-        // createTeamMemberMoves({
-        //   moves: moves.map((move, idx) => ({
-        //     move_id: move.id,
-        //     order: idx,
-        //     team_member_id: member.id
-        //   }))
-        // });
-      }
-
-      if (movesToDelete && movesToDelete.length) {
-        // deleteTeamMemberMoves({
-        //   moveIds: movesToDelete,
-        //   memberId: member.id
-        // });
-      }
-    },
-    []
   );
 
   return (
@@ -158,7 +98,6 @@ const Team: NextComponentType<
           updateTeam={updateTeamHandler}
           deleteTeam={deleteTeamHandler}
           updateTeamMembers={updateTeamMembersHandler}
-          updateTeamMemberMoves={updateTeamMemberMovesHandler}
         />
       </FullWidthContainer>
     </Page>
@@ -185,4 +124,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
   };
 };
 
-export default withUrqlClient(createClient(), { ssr: false })(Team);
+export default withUrqlClient(createClient(), {
+  ssr: false,
+  neverSuspend: true
+})(Team);

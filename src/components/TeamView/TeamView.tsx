@@ -24,19 +24,19 @@ import { PokemonCard } from '../PokemonCard';
 import { PokemonLine } from '../PokemonLine';
 import { useTabs } from '../../hooks/useTabs';
 import type {
-  TeamMemberFragmentFragment,
-  PokemonFragmentFragment,
-  TeamMemberMoveFragmentFragment
+  TeamMemberFragment,
+  PokemonFragment,
+  TeamMemberMoveEdge
 } from '~/generated/graphql';
 import { TeamMemberActionType, useTeamMembersReducer } from './reducer';
 import { MovesProvider } from '~/hooks/useMoves';
 
 export type TeamViewProps = {
-  initialTeamMembers?: TeamMemberFragmentFragment[];
-  updateTeamMembers?: (members: TeamMemberFragmentFragment[]) => void;
+  initialTeamMembers?: TeamMemberFragment[];
+  updateTeamMembers?: (members: TeamMemberFragment[]) => void;
   updateTeamMemberMoves?: (
-    member: TeamMemberFragmentFragment,
-    moves: TeamMemberMoveFragmentFragment['move'][]
+    member: TeamMemberFragment,
+    moves: TeamMemberMoveEdge[]
   ) => void;
   isSkeleton?: boolean;
 };
@@ -51,8 +51,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
     const isInitialValue = useRef(true);
     const [teamMembers, dispatch] = useTeamMembersReducer(initialTeamMembers);
     const [currentSearchPokemon, setCurrentSearchPokemon] = useState<
-      | Omit<PokemonFragmentFragment, 'eggGroups' | 'evolvesTo' | 'evolvesFrom'>
-      | undefined
+      PokemonFragment | undefined
     >();
     const { getTabItemProps, getTabContentProps, setSelectedTab } = useTabs(
       initialTeamMembers?.[0]?.id ?? 'add-pokemon'
@@ -107,11 +106,8 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
         teamMember,
         pokemon
       }: {
-        teamMember?: TeamMemberFragmentFragment;
-        pokemon: Omit<
-          PokemonFragmentFragment,
-          'eggGroups' | 'evolvesTo' | 'evolvesFrom'
-        >;
+        teamMember?: TeamMemberFragment;
+        pokemon: PokemonFragment;
       }) => {
         if (teamMember) {
           return () => (
@@ -139,7 +135,6 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
                 type: TeamMemberActionType.AddTeamMember,
                 payload: {
                   id: uuid(),
-                  slot: teamMembers.length,
                   pokemon
                 }
               })
@@ -147,7 +142,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
           >{`Add ${pokemon.name} to team`}</CtaButton>
         );
       },
-      [dispatch, teamMembers]
+      [dispatch]
     );
 
     const addPokemonTabItemProps = getTabItemProps('add-pokemon');
@@ -188,9 +183,8 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
                           {draggableProvided => (
                             <div
                               className={classNames('cursor-pointer', 'group', {
-                                'text-white bg-indigo-900': !tabItemProps[
-                                  'aria-selected'
-                                ],
+                                'text-white bg-indigo-900':
+                                  !tabItemProps['aria-selected'],
                                 'text-initial bg-white':
                                   tabItemProps['aria-selected']
                               })}
@@ -307,9 +301,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
                 />
                 <MoveList
                   teamMember={member}
-                  allMoves={member.pokemon.moves?.pokemonMoves?.map(
-                    ({ move }) => move
-                  )}
+                  allMoves={[]}
                   visibleItems={10}
                   highlightLearnedMoves
                 />

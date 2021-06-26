@@ -2,7 +2,7 @@ import { screen, render } from '@testing-library/react';
 import Link from 'next/link';
 import { CardWrapper, CardLink, CardHeader, CardHeading, CardContent } from '.';
 
-describe(CardWrapper, () => {
+describe('CardWrapper', () => {
   const setup = () =>
     render(
       <CardWrapper className="some-custom-class">Some content</CardWrapper>

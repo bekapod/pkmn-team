@@ -4,7 +4,10 @@ import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { charmander, haunter, pikachu } from '~/mocks/Pokemon';
 import { setupResizeObserverMock } from '~/test-helpers';
-import { TeamView, TeamViewProps } from '.';
+import { composeStory } from '@storybook/testing-react';
+import Meta, { teamView } from './TeamView.stories';
+
+const TeamView = composeStory(teamView, Meta);
 
 describe('TeamView', () => {
   const server = setupServer(
@@ -34,6 +37,7 @@ describe('TeamView', () => {
   );
 
   beforeAll(() => {
+    setupResizeObserverMock([]);
     server.listen({
       onUnhandledRequest: 'warn'
     });
@@ -43,56 +47,8 @@ describe('TeamView', () => {
 
   afterAll(() => server.close());
 
-  const teamMembers = [
-    {
-      id: '1',
-      order: 1,
-      pokemon: charmander,
-      learned_moves: []
-    },
-    {
-      id: '2',
-      order: 2,
-      pokemon: haunter,
-      learned_moves: []
-    },
-    {
-      id: '3',
-      order: 3,
-      pokemon: pikachu,
-      learned_moves: []
-    }
-  ];
-
-  const fullTeamMembers = [
-    ...teamMembers,
-    {
-      id: '4',
-      order: 4,
-      pokemon: charmander,
-      learned_moves: []
-    },
-    {
-      id: '5',
-      order: 5,
-      pokemon: haunter,
-      learned_moves: []
-    },
-    {
-      id: '6',
-      order: 6,
-      pokemon: pikachu,
-      learned_moves: []
-    }
-  ];
-
-  const setup = (props: Partial<TeamViewProps> = {}) => {
-    setupResizeObserverMock([]);
-    return render(<TeamView initialTeamMembers={teamMembers} {...props} />);
-  };
-
   it('applies props from Tabs component correctly', async () => {
-    setup();
+    render(<TeamView />);
 
     expect(screen.getByTestId('tab-item-1')).toHaveAttribute(
       'aria-selected',
@@ -132,20 +88,20 @@ describe('TeamView', () => {
 
   describe('with less than 6 team members', () => {
     it('renders a tab for each pokemon plus a tab for pokemon search', (): void => {
-      setup();
+      render(<TeamView />);
 
       expect(screen.queryAllByTestId(/tab-item-/)).toHaveLength(4);
       expect(screen.queryAllByTestId(/tab-content-/)).toHaveLength(4);
-      expect(screen.queryByTestId('tab-item-add-pokemon')).toBeTruthy();
-      expect(screen.queryByTestId('tab-content-add-pokemon')).toBeTruthy();
+      expect(screen.queryByTestId('tab-item-add-pokemon')).toBeInTheDocument();
+      expect(
+        screen.queryByTestId('tab-content-add-pokemon')
+      ).toBeInTheDocument();
     });
   });
 
   describe('with 6 team members', () => {
     it('renders a tab for each pokemon and no tab for pokemon search', (): void => {
-      setup({
-        initialTeamMembers: fullTeamMembers
-      });
+      render(<TeamView />);
 
       expect(screen.getAllByTestId(/tab-item-/)).toHaveLength(6);
       expect(screen.getAllByTestId(/tab-content-/)).toHaveLength(6);
@@ -160,7 +116,7 @@ describe('TeamView', () => {
 
   describe('with a search pokemon selected', () => {
     it('renders the currently selected pokemon', async () => {
-      setup();
+      render(<TeamView />);
 
       userEvent.click(screen.getByLabelText('Add new pokemon to team'));
       userEvent.click(
@@ -176,7 +132,7 @@ describe('TeamView', () => {
 
     it.only('calls updateTeamMembers when add button is clicked', async () => {
       const updateTeamMembers = jest.fn();
-      setup({ updateTeamMembers });
+      render(<TeamView updateTeamMembers={updateTeamMembers} />);
 
       userEvent.click(screen.getByLabelText('Add new pokemon to team'));
       userEvent.click(
@@ -190,12 +146,10 @@ describe('TeamView', () => {
       );
       expect(updateTeamMembers).toHaveBeenCalledTimes(1);
       expect(updateTeamMembers).toHaveBeenCalledWith([
-        ...teamMembers,
+        ...(Meta.args?.initialTeamMembers ?? []),
         {
           id: expect.any(String),
-          learned_moves: [],
-          order: 3,
-          pokemon: { ...charmander, learnable_moves: undefined }
+          pokemon: charmander
         }
       ]);
     });
@@ -204,7 +158,7 @@ describe('TeamView', () => {
   describe('when a team member selected', () => {
     it('calls updateTeamMembers when delete button is clicked', () => {
       const updateTeamMembers = jest.fn();
-      setup({ updateTeamMembers });
+      render(<TeamView updateTeamMembers={updateTeamMembers} />);
       expect(updateTeamMembers).toHaveBeenCalledTimes(0);
       userEvent.click(
         screen.getByRole('button', {
@@ -212,8 +166,8 @@ describe('TeamView', () => {
         })
       );
       expect(updateTeamMembers).toHaveBeenCalledWith([
-        teamMembers[1],
-        teamMembers[2]
+        Meta.args?.initialTeamMembers?.[1],
+        Meta.args?.initialTeamMembers?.[2]
       ]);
     });
   });

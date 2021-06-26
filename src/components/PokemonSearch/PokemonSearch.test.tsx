@@ -62,13 +62,13 @@ describe(PokemonSearch, () => {
   it('renders all of the pokemon', async () => {
     setup();
     expect(
-      await screen.findByText(`#${charmander.pokedex_id} ${charmander.name}`)
+      await screen.findByText(`#${charmander.pokedexId} ${charmander.name}`)
     ).toBeInTheDocument();
     expect(
-      await screen.findByText(`#${haunter.pokedex_id} ${haunter.name}`)
+      await screen.findByText(`#${haunter.pokedexId} ${haunter.name}`)
     ).toBeInTheDocument();
     expect(
-      await screen.findByText(`#${pikachu.pokedex_id} ${pikachu.name}`)
+      await screen.findByText(`#${pikachu.pokedexId} ${pikachu.name}`)
     ).toBeInTheDocument();
   });
 

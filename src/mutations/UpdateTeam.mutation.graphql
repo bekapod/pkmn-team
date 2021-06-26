@@ -4,6 +4,6 @@ mutation UpdateTeam(
   $members: [UpdateTeamMemberInput!]
 ) {
   updateTeam(input: { id: $id, name: $name, members: $members }) {
-    ...TeamFragment
+    ...team
   }
 }

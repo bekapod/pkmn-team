@@ -29,25 +29,21 @@ import multiply from 'lodash/fp/multiply';
 import size from 'lodash/fp/size';
 import stubTrue from 'lodash/fp/stubTrue';
 import { MoveLine } from '../MoveLine';
-import {
-  PokemonMoveFragmentFragment,
-  TeamMemberFragmentFragment,
-  TeamMemberMoveFragmentFragment
-} from '~/generated/graphql';
+import { MoveFragment, TeamMemberFragment } from '~/generated/graphql';
 import { useContainerQuery } from '~/hooks/useContainerQuery';
 import { CtaButton } from '../Cta';
 import { Action, MoveActionType, useMoves } from '~/hooks/useMoves';
 
 export type MoveListProps = ComponentPropsWithoutRef<'div'> & {
-  allMoves?: PokemonMoveFragmentFragment[];
+  allMoves?: MoveFragment[];
   highlightLearnedMoves?: boolean;
   visibleItems?: number;
-  teamMember?: TeamMemberFragmentFragment;
+  teamMember?: TeamMemberFragment;
 };
 
 type RowProps = ListChildComponentProps<
   {
-    move: PokemonMoveFragmentFragment;
+    move: MoveFragment;
     teamMember?: MoveListProps['teamMember'];
     highlightLearnedMoves: MoveListProps['highlightLearnedMoves'];
     isOpen: boolean;
@@ -59,11 +55,11 @@ type RowProps = ListChildComponentProps<
 >;
 
 const getTeamMemberMove = (
-  teamMember: TeamMemberFragmentFragment,
-  move: PokemonMoveFragmentFragment
-): TeamMemberMoveFragmentFragment | undefined =>
-  teamMember.moves.teamMemberMoves.find(
-    teamMemberMove => teamMemberMove.move.move.id === move.move?.id
+  teamMember: TeamMemberFragment,
+  move: MoveFragment
+) =>
+  teamMember.moves.edges?.find(
+    teamMemberMove => teamMemberMove?.node?.id === move.id
   );
 
 const Row = forwardRef<HTMLDivElement, RowProps>(
@@ -89,7 +85,7 @@ const Row = forwardRef<HTMLDivElement, RowProps>(
                 type="button"
                 size="tiny"
                 variant="destructive"
-                aria-label={`Forget ${move.move.name}`}
+                aria-label={`Forget ${move.name}`}
                 onClick={() =>
                   dispatch({
                     type: MoveActionType.RemoveMove,
@@ -104,7 +100,7 @@ const Row = forwardRef<HTMLDivElement, RowProps>(
                 type="button"
                 size="tiny"
                 variant="primary"
-                aria-label={`Learn ${move.move.name}`}
+                aria-label={`Learn ${move.name}`}
                 onClick={() =>
                   dispatch({
                     type: MoveActionType.AddMove,

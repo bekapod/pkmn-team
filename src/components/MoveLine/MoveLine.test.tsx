@@ -11,7 +11,7 @@ describe('MoveLine', () => {
     expect(screen.getByText(substitute.name)).toBeInTheDocument();
     expect(screen.getByText(substitute.type.name)).toBeInTheDocument();
     expect(
-      screen.getByText(substitute.damage_class?.value ?? 'damage class missing')
+      screen.getByText(substitute.damageClass ?? 'damage class missing')
     ).toBeInTheDocument();
   });
 
@@ -24,7 +24,7 @@ describe('MoveLine', () => {
   });
 
   it('adds type gradient without damage class', () => {
-    const { container } = setup({ damage_class: null });
+    const { container } = setup({ damageClass: undefined });
     expect(container.firstChild).toHaveStyle({
       '--type-gradient':
         'linear-gradient(90deg, var(--colors-normal) 0%, var(--colors-normal) 100%)'

@@ -7,11 +7,8 @@ import map from 'lodash/fp/map';
 import reject from 'lodash/fp/reject';
 import Link from 'next/link';
 import { FunctionComponent } from 'react';
-import {
-  PokemonFragmentFragment,
-  Team,
-  TeamMemberFragmentFragment
-} from '~/generated/graphql';
+import { PokemonFragment, TeamFragment } from '~/generated/graphql';
+import { extractNodesFromEdges } from '~/lib/relay';
 import {
   CardContent,
   CardHeader,
@@ -24,16 +21,14 @@ import { PokemonLine } from '../PokemonLine';
 
 const getAllTypes = compose(flatMap(get('type')), flatMap(get('types')));
 
-export type TeamCardProps = Pick<Team, 'id' | 'name'> & {
-  members: TeamMemberFragmentFragment[];
-};
+export type TeamCardProps = TeamFragment;
 
 export const TeamCard: FunctionComponent<TeamCardProps> = ({
   id,
   name,
   members
 }) => {
-  const pokemon: PokemonFragmentFragment[] = compose([
+  const pokemon: PokemonFragment[] = compose([
     reject(isNil),
     map(get('pokemon'))
   ])(members);
@@ -50,20 +45,18 @@ export const TeamCard: FunctionComponent<TeamCardProps> = ({
             <CardMeta
               id={id}
               items={[
-                { label: 'Pkmn', value: members.length }
+                { label: 'Pkmn', value: members.edges?.length ?? 0 }
                 // { label: 'Created', value: dateFormat(created_at, 'd/m/yy') }
               ]}
             />
 
-            {members.map(
-              ({ id: memberId, pokemon: memberPkmn }): JSX.Element => (
-                <PokemonLine
-                  key={`Team Member: ${memberId}`}
-                  pokemon={memberPkmn}
-                  outdent="var(--spacing-3)"
-                />
-              )
-            )}
+            {extractNodesFromEdges(members.edges).map(member => (
+              <PokemonLine
+                key={`Team Member: ${member.id}`}
+                pokemon={member.pokemon}
+                outdent="var(--spacing-3)"
+              />
+            ))}
           </CardContent>
         </CardWrapper>
       </CardLink>
