@@ -7,7 +7,7 @@ import Meta, { pokemonCard, withActions } from './PokemonCard.stories';
 const PokemonCard = composeStory(pokemonCard, Meta);
 const PokemonCardWithActions = composeStory(withActions, Meta);
 
-describe(PokemonCard, () => {
+describe('PokemonCard', () => {
   beforeAll(() => {
     setupResizeObserverMock([]);
   });
@@ -28,6 +28,6 @@ describe(PokemonCard, () => {
 
   it('renders card actions', () => {
     render(<PokemonCardWithActions />);
-    expect(screen.getByText('Some button')).toBeInTheDocument();
+    expect(screen.getByText('Some action')).toBeInTheDocument();
   });
 });

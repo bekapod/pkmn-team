@@ -87,9 +87,11 @@ export const MoveLine: FunctionComponent<MoveLineProps> = forwardRef(
           <TypeTag as="li" key={type.slug} typeSlug={type.slug}>
             {type.name}
           </TypeTag>
-          <TypeTag as="li" typeSlug={damageClass.toLowerCase()}>
-            {damageClass}
-          </TypeTag>
+          {damageClass ? (
+            <TypeTag as="li" typeSlug={damageClass.toLowerCase()}>
+              {damageClass}
+            </TypeTag>
+          ) : null}
         </InlineList>
 
         {renderLineActions && (

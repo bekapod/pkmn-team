@@ -9,6 +9,7 @@ const pokemon: PokemonFragment[] = [charmander, pikachu, haunter];
 const team: TeamFragment = {
   id: '123',
   name: 'My super team!',
+  createdAt: '2021-06-26T19:17:37Z',
   members: {
     edges: [
       {

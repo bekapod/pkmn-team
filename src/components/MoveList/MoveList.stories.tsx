@@ -1,5 +1,6 @@
 import { Meta, Story } from '@storybook/react/types-6-0';
 import { ComponentProps } from 'react';
+import { MoveLearnMethod } from '~/generated/graphql';
 import { MovesProvider } from '~/hooks/useMoves';
 import { explosion, flash, substitute, rest, slash } from '~/mocks/Moves';
 import { haunter } from '~/mocks/Pokemon';
@@ -9,7 +10,23 @@ export default {
   title: 'Components/Move List',
   component: MoveList,
   args: {
-    allMoves: [substitute, flash, explosion]
+    allMoves: [
+      {
+        levelLearnedAt: 0,
+        learnMethod: MoveLearnMethod.LevelUp,
+        node: substitute
+      },
+      {
+        levelLearnedAt: 0,
+        learnMethod: MoveLearnMethod.LevelUp,
+        node: flash
+      },
+      {
+        levelLearnedAt: 0,
+        learnMethod: MoveLearnMethod.LevelUp,
+        node: explosion
+      }
+    ]
   }
 } as Meta<ComponentProps<typeof MoveList>>;
 
@@ -21,7 +38,33 @@ export const withMoreMoves: Story<ComponentProps<typeof MoveList>> = args => (
   <MoveList {...args} />
 );
 withMoreMoves.args = {
-  allMoves: [substitute, flash, explosion, rest, slash]
+  allMoves: [
+    {
+      levelLearnedAt: 0,
+      learnMethod: MoveLearnMethod.LevelUp,
+      node: substitute
+    },
+    {
+      levelLearnedAt: 0,
+      learnMethod: MoveLearnMethod.LevelUp,
+      node: flash
+    },
+    {
+      levelLearnedAt: 0,
+      learnMethod: MoveLearnMethod.LevelUp,
+      node: explosion
+    },
+    {
+      levelLearnedAt: 0,
+      learnMethod: MoveLearnMethod.LevelUp,
+      node: rest
+    },
+    {
+      levelLearnedAt: 0,
+      learnMethod: MoveLearnMethod.LevelUp,
+      node: slash
+    }
+  ]
 };
 
 export const withTeamMember: Story<

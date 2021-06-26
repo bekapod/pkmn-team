@@ -1,6 +1,7 @@
 fragment team on Team {
   id
   name
+  createdAt
   members {
     edges {
       slot

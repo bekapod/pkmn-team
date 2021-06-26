@@ -26,7 +26,7 @@ import { useTabs } from '../../hooks/useTabs';
 import type {
   TeamMemberFragment,
   PokemonFragment,
-  TeamMemberMoveEdge
+  TeamMemberMoveFragment
 } from '~/generated/graphql';
 import { TeamMemberActionType, useTeamMembersReducer } from './reducer';
 import { MovesProvider } from '~/hooks/useMoves';
@@ -36,7 +36,7 @@ export type TeamViewProps = {
   updateTeamMembers?: (members: TeamMemberFragment[]) => void;
   updateTeamMemberMoves?: (
     member: TeamMemberFragment,
-    moves: TeamMemberMoveEdge[]
+    moves: TeamMemberMoveFragment[]
   ) => void;
   isSkeleton?: boolean;
 };

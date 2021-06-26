@@ -17,6 +17,7 @@ export default {
     team: {
       id: '1',
       name: 'My super team!',
+      createdAt: '2021-06-26T19:17:37Z',
       members: {
         total: 0,
         teamMembers: [

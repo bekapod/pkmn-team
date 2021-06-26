@@ -10,7 +10,11 @@ import {
 } from 'react';
 import isEqual from 'react-fast-compare';
 import useDeepCompareEffect from 'use-deep-compare-effect';
-import { TeamMemberFragment, TeamMemberMoveEdge } from '~/generated/graphql';
+import {
+  PokemonMoveFragment,
+  TeamMemberFragment,
+  TeamMemberMoveFragment
+} from '~/generated/graphql';
 import { reorder } from '~/lib/general';
 
 export enum MoveActionType {
@@ -22,12 +26,12 @@ export enum MoveActionType {
 
 type AddMoveAction = {
   type: MoveActionType.AddMove;
-  payload: TeamMemberMoveEdge;
+  payload: PokemonMoveFragment;
 };
 
 type RemoveMoveAction = {
   type: MoveActionType.RemoveMove;
-  payload: TeamMemberMoveEdge;
+  payload: TeamMemberMoveFragment;
 };
 
 type ReorderMoveAction = {
@@ -40,7 +44,7 @@ type ReorderMoveAction = {
 
 type ResetMovesAction = {
   type: MoveActionType.ResetMoves;
-  payload: TeamMemberMoveEdge[];
+  payload: TeamMemberMoveFragment[];
 };
 
 export type Action =
@@ -49,10 +53,10 @@ export type Action =
   | ReorderMoveAction
   | ResetMovesAction;
 
-const reducer = (state: TeamMemberMoveEdge[], action: Action) => {
+const reducer = (state: TeamMemberMoveFragment[], action: Action) => {
   switch (action.type) {
     case MoveActionType.AddMove:
-      return [...state, action.payload];
+      return [...state, action.payload as TeamMemberMoveFragment];
     case MoveActionType.RemoveMove:
       return state.filter(({ node }) => node?.id !== action.payload.node?.id);
     case MoveActionType.ReorderMove:
@@ -69,18 +73,20 @@ const reducer = (state: TeamMemberMoveEdge[], action: Action) => {
 };
 
 const useMovesReducer = (
-  moves: TeamMemberMoveEdge[]
-): [TeamMemberMoveEdge[], Dispatch<Action>] => {
+  moves: TeamMemberMoveFragment[]
+): [TeamMemberMoveFragment[], Dispatch<Action>] => {
   return useReducer(reducer, moves);
 };
 
-const MovesContext = createContext<[TeamMemberMoveEdge[], Dispatch<Action>]>([
+const MovesContext = createContext<
+  [TeamMemberMoveFragment[], Dispatch<Action>]
+>([
   [],
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   () => {}
 ]);
 
-export const useMoves = (): [TeamMemberMoveEdge[], Dispatch<Action>] => {
+export const useMoves = (): [TeamMemberMoveFragment[], Dispatch<Action>] => {
   const context = useContext(MovesContext);
   if (!context) {
     throw new Error(
@@ -94,16 +100,16 @@ export const MovesProvider: FunctionComponent<{
   teamMember?: TeamMemberFragment;
   updateTeamMemberMoves?: (
     member: TeamMemberFragment,
-    moves: TeamMemberMoveEdge[]
+    moves: TeamMemberMoveFragment[]
   ) => void;
 }> = ({ teamMember, updateTeamMemberMoves, ...props }) => {
   const isInitialValue = useRef(true);
   const [moves, dispatch] = useMovesReducer(
     teamMember?.moves?.edges?.filter(
-      (edge): edge is TeamMemberMoveEdge => !!edge
+      (edge): edge is TeamMemberMoveFragment => !!edge
     ) ?? []
   );
-  const value = useMemo<[TeamMemberMoveEdge[], Dispatch<Action>]>(
+  const value = useMemo<[TeamMemberMoveFragment[], Dispatch<Action>]>(
     () => [moves, dispatch],
     [moves, dispatch]
   );
@@ -121,7 +127,7 @@ export const MovesProvider: FunctionComponent<{
       type: MoveActionType.ResetMoves,
       payload:
         teamMember?.moves?.edges?.filter(
-          (edge): edge is TeamMemberMoveEdge => !!edge
+          (edge): edge is TeamMemberMoveFragment => !!edge
         ) ?? []
     });
   }, [teamMember?.moves?.edges ?? []]);

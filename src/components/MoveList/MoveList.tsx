@@ -29,37 +29,41 @@ import multiply from 'lodash/fp/multiply';
 import size from 'lodash/fp/size';
 import stubTrue from 'lodash/fp/stubTrue';
 import { MoveLine } from '../MoveLine';
-import { MoveFragment, TeamMemberFragment } from '~/generated/graphql';
+import {
+  PokemonMoveFragment,
+  TeamMemberFragment,
+  TeamMemberMoveFragment
+} from '~/generated/graphql';
 import { useContainerQuery } from '~/hooks/useContainerQuery';
 import { CtaButton } from '../Cta';
 import { Action, MoveActionType, useMoves } from '~/hooks/useMoves';
 
 export type MoveListProps = ComponentPropsWithoutRef<'div'> & {
-  allMoves?: MoveFragment[];
+  allMoves?: PokemonMoveFragment[];
   highlightLearnedMoves?: boolean;
   visibleItems?: number;
   teamMember?: TeamMemberFragment;
 };
 
-type RowProps = ListChildComponentProps<
-  {
-    move: MoveFragment;
-    teamMember?: MoveListProps['teamMember'];
-    highlightLearnedMoves: MoveListProps['highlightLearnedMoves'];
-    isOpen: boolean;
-    isCompressed: boolean;
-    isSpacious: boolean;
-    onItemStateChange: (index: number, isOpen: boolean) => void;
-    dispatch: Dispatch<Action>;
-  }[]
->;
+type RowData = {
+  move: PokemonMoveFragment | TeamMemberMoveFragment;
+  teamMember?: MoveListProps['teamMember'];
+  highlightLearnedMoves: MoveListProps['highlightLearnedMoves'];
+  isOpen: boolean;
+  isCompressed: boolean;
+  isSpacious: boolean;
+  onItemStateChange: (index: number, isOpen: boolean) => void;
+  dispatch: Dispatch<Action>;
+};
+
+type RowProps = ListChildComponentProps<RowData[]>;
 
 const getTeamMemberMove = (
   teamMember: TeamMemberFragment,
-  move: MoveFragment
+  move: PokemonMoveFragment
 ) =>
   teamMember.moves.edges?.find(
-    teamMemberMove => teamMemberMove?.node?.id === move.id
+    teamMemberMove => teamMemberMove?.node?.id === move.node?.id
   );
 
 const Row = forwardRef<HTMLDivElement, RowProps>(
@@ -74,7 +78,8 @@ const Row = forwardRef<HTMLDivElement, RowProps>(
       onItemStateChange,
       dispatch
     } = data[index];
-    const teamMemberMove = teamMember && getTeamMemberMove(teamMember, move);
+    const teamMemberMove =
+      teamMember && getTeamMemberMove(teamMember, move as PokemonMoveFragment);
 
     const renderLineActions = useCallback(
       () => (
@@ -85,11 +90,11 @@ const Row = forwardRef<HTMLDivElement, RowProps>(
                 type="button"
                 size="tiny"
                 variant="destructive"
-                aria-label={`Forget ${move.name}`}
+                aria-label={`Forget ${move.node?.name}`}
                 onClick={() =>
                   dispatch({
                     type: MoveActionType.RemoveMove,
-                    payload: move
+                    payload: teamMemberMove
                   })
                 }
               >
@@ -100,11 +105,11 @@ const Row = forwardRef<HTMLDivElement, RowProps>(
                 type="button"
                 size="tiny"
                 variant="primary"
-                aria-label={`Learn ${move.name}`}
+                aria-label={`Learn ${move.node?.name}`}
                 onClick={() =>
                   dispatch({
                     type: MoveActionType.AddMove,
-                    payload: move
+                    payload: move as PokemonMoveFragment
                   })
                 }
               >
@@ -132,9 +137,9 @@ const Row = forwardRef<HTMLDivElement, RowProps>(
       ]
     );
 
-    return (
+    return move.node ? (
       <MoveLine
-        {...move}
+        {...move.node}
         ref={ref}
         isOpen={isOpen}
         isHighlighted={highlightLearnedMoves && !!teamMemberMove}
@@ -148,7 +153,7 @@ const Row = forwardRef<HTMLDivElement, RowProps>(
         data-testid="move-list-item"
         {...rest}
       />
-    );
+    ) : null;
   }
 );
 
@@ -197,7 +202,10 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
     [
       stubTrue,
       constant(
-        moves.reduce((acc, _curr, idx) => add(getItemHeight(idx), acc), 0)
+        (moves as unknown[]).reduce(
+          (acc: number, _curr, idx) => add(getItemHeight(idx), acc),
+          0
+        )
       )
     ]
   ])(moves);
@@ -290,26 +298,28 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
                     'overflow-hidden! pt-1': !hasOverflowingItems(moves)
                   })}
                 >
-                  {itemData.map((data, idx) => (
-                    <Draggable
-                      key={data.move.move.id}
-                      draggableId={data.move.move.id}
-                      index={idx}
-                    >
-                      {draggableProvided => (
-                        <Row
-                          data={itemData}
-                          {...draggableProvided.draggableProps}
-                          {...draggableProvided.dragHandleProps}
-                          ref={draggableProvided.innerRef}
-                          index={idx}
-                          style={{
-                            ...draggableProvided.draggableProps.style
-                          }}
-                        />
-                      )}
-                    </Draggable>
-                  ))}
+                  {itemData
+                    .filter(({ move: { node } }) => !!node)
+                    .map((data, idx) => (
+                      <Draggable
+                        key={data.move.node?.id}
+                        draggableId={data.move.node?.id as string}
+                        index={idx}
+                      >
+                        {draggableProvided => (
+                          <Row
+                            data={itemData}
+                            {...draggableProvided.draggableProps}
+                            {...draggableProvided.dragHandleProps}
+                            ref={draggableProvided.innerRef}
+                            index={idx}
+                            style={{
+                              ...draggableProvided.draggableProps.style
+                            }}
+                          />
+                        )}
+                      </Draggable>
+                    ))}
 
                   {droppableProvided.placeholder}
                 </div>

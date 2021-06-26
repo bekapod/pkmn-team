@@ -5,6 +5,7 @@ import { explosion, flash, substitute } from '~/mocks/Moves';
 import { setupResizeObserverMock } from '~/test-helpers';
 import { haunter } from '~/mocks/Pokemon';
 import { MovesProvider } from '~/hooks/useMoves';
+import { MoveLearnMethod } from '~/generated/graphql';
 
 describe(MoveList, () => {
   const setup = ({
@@ -17,7 +18,26 @@ describe(MoveList, () => {
         teamMember={props.teamMember}
         updateTeamMemberMoves={updateTeamMemberMoves}
       >
-        <MoveList allMoves={[substitute, flash, explosion]} {...props} />
+        <MoveList
+          allMoves={[
+            {
+              levelLearnedAt: 0,
+              learnMethod: MoveLearnMethod.LevelUp,
+              node: substitute
+            },
+            {
+              levelLearnedAt: 0,
+              learnMethod: MoveLearnMethod.LevelUp,
+              node: flash
+            },
+            {
+              levelLearnedAt: 0,
+              learnMethod: MoveLearnMethod.LevelUp,
+              node: explosion
+            }
+          ]}
+          {...props}
+        />
       </MovesProvider>
     );
   };
@@ -50,7 +70,38 @@ describe(MoveList, () => {
   it('detects overflowing items', () => {
     setup({
       visibleItems: 6,
-      allMoves: [substitute, flash, explosion, substitute, flash, explosion]
+      allMoves: [
+        {
+          levelLearnedAt: 0,
+          learnMethod: MoveLearnMethod.LevelUp,
+          node: substitute
+        },
+        {
+          levelLearnedAt: 0,
+          learnMethod: MoveLearnMethod.LevelUp,
+          node: flash
+        },
+        {
+          levelLearnedAt: 0,
+          learnMethod: MoveLearnMethod.LevelUp,
+          node: explosion
+        },
+        {
+          levelLearnedAt: 0,
+          learnMethod: MoveLearnMethod.LevelUp,
+          node: substitute
+        },
+        {
+          levelLearnedAt: 0,
+          learnMethod: MoveLearnMethod.LevelUp,
+          node: flash
+        },
+        {
+          levelLearnedAt: 0,
+          learnMethod: MoveLearnMethod.LevelUp,
+          node: explosion
+        }
+      ]
     });
     expect(screen.getByTestId('move-list').firstChild).not.toHaveClass(
       'overflow-hidden'
@@ -86,7 +137,20 @@ describe(MoveList, () => {
     const teamMember = {
       id: '1',
       pokemon: haunter,
-      moves: { edges: [] }
+      moves: {
+        edges: [
+          {
+            levelLearnedAt: 0,
+            learnMethod: MoveLearnMethod.LevelUp,
+            node: explosion
+          },
+          {
+            levelLearnedAt: 0,
+            learnMethod: MoveLearnMethod.LevelUp,
+            node: flash
+          }
+        ]
+      }
     };
     const setupWithTeamMember = (
       props: Partial<MoveListProps & { updateTeamMemberMoves?: jest.Mock }> = {}
@@ -140,9 +204,21 @@ describe(MoveList, () => {
       );
       expect(updateTeamMemberMoves).toHaveBeenCalledTimes(1);
       expect(updateTeamMemberMoves).toHaveBeenCalledWith(teamMember, [
-        explosion,
-        flash,
-        substitute
+        {
+          levelLearnedAt: 0,
+          learnMethod: MoveLearnMethod.LevelUp,
+          node: explosion
+        },
+        {
+          levelLearnedAt: 0,
+          learnMethod: MoveLearnMethod.LevelUp,
+          node: flash
+        },
+        {
+          levelLearnedAt: 0,
+          learnMethod: MoveLearnMethod.LevelUp,
+          node: substitute
+        }
       ]);
     });
 
@@ -154,7 +230,13 @@ describe(MoveList, () => {
         screen.getByRole('button', { name: `Forget ${explosion.name}` })
       );
       expect(updateTeamMemberMoves).toHaveBeenCalledTimes(1);
-      expect(updateTeamMemberMoves).toHaveBeenCalledWith(teamMember, [flash]);
+      expect(updateTeamMemberMoves).toHaveBeenCalledWith(teamMember, [
+        {
+          levelLearnedAt: 0,
+          learnMethod: MoveLearnMethod.LevelUp,
+          node: flash
+        }
+      ]);
     });
   });
 });

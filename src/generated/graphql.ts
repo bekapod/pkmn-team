@@ -12,6 +12,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  Time: any;
 };
 
 export type Ability = Node & {
@@ -507,6 +508,8 @@ export type Team = Node & {
   __typename?: 'Team';
   id: Scalars['ID'];
   name: Scalars['String'];
+  createdAt: Scalars['Time'];
+  updatedAt: Scalars['Time'];
   members: TeamMemberConnection;
 };
 
@@ -555,6 +558,7 @@ export type TeamMemberMoveEdge = {
   learnMethod?: Maybe<MoveLearnMethod>;
   levelLearnedAt?: Maybe<Scalars['Int']>;
 };
+
 
 export enum TimeOfDay {
   Day = 'DAY',
@@ -620,6 +624,24 @@ export type MoveFragment = (
   ) }
 );
 
+export type PokemonMoveFragment = (
+  { __typename?: 'PokemonMoveEdge' }
+  & Pick<PokemonMoveEdge, 'learnMethod' | 'levelLearnedAt'>
+  & { node?: Maybe<(
+    { __typename?: 'Move' }
+    & MoveFragment
+  )> }
+);
+
+export type TeamMemberMoveFragment = (
+  { __typename?: 'TeamMemberMoveEdge' }
+  & Pick<TeamMemberMoveEdge, 'learnMethod' | 'levelLearnedAt'>
+  & { node?: Maybe<(
+    { __typename?: 'Move' }
+    & MoveFragment
+  )> }
+);
+
 export type PokemonFragment = (
   { __typename?: 'Pokemon' }
   & Pick<Pokemon, 'id' | 'name' | 'slug' | 'pokedexId' | 'sprite' | 'color' | 'shape' | 'habitat' | 'hp' | 'attack' | 'defense' | 'specialAttack' | 'specialDefense' | 'speed' | 'height' | 'weight' | 'isDefaultVariant' | 'isBaby' | 'isLegendary' | 'isMythical' | 'description'>
@@ -674,11 +696,7 @@ export type PokemonFragment = (
     { __typename?: 'PokemonMoveConnection' }
     & { edges?: Maybe<Array<Maybe<(
       { __typename?: 'PokemonMoveEdge' }
-      & Pick<PokemonMoveEdge, 'learnMethod' | 'levelLearnedAt'>
-      & { node?: Maybe<(
-        { __typename?: 'Move' }
-        & MoveFragment
-      )> }
+      & PokemonMoveFragment
     )>>> }
   ) }
 );
@@ -719,7 +737,7 @@ export type PokemonEvolutionFragment = (
 
 export type TeamFragment = (
   { __typename?: 'Team' }
-  & Pick<Team, 'id' | 'name'>
+  & Pick<Team, 'id' | 'name' | 'createdAt'>
   & { members: (
     { __typename?: 'TeamMemberConnection' }
     & { edges?: Maybe<Array<Maybe<(
@@ -743,11 +761,7 @@ export type TeamMemberFragment = (
     { __typename?: 'TeamMemberMoveConnection' }
     & { edges?: Maybe<Array<Maybe<(
       { __typename?: 'TeamMemberMoveEdge' }
-      & Pick<TeamMemberMoveEdge, 'learnMethod' | 'levelLearnedAt'>
-      & { node?: Maybe<(
-        { __typename?: 'Move' }
-        & MoveFragment
-      )> }
+      & TeamMemberMoveFragment
     )>>> }
   ) }
 );
@@ -1050,6 +1064,15 @@ export const MoveFragmentDoc = gql`
   }
 }
     ${MoveTypeFragmentDoc}`;
+export const PokemonMoveFragmentDoc = gql`
+    fragment pokemonMove on PokemonMoveEdge {
+  learnMethod
+  levelLearnedAt
+  node {
+    ...move
+  }
+}
+    ${MoveFragmentDoc}`;
 export const PokemonFragmentDoc = gql`
     fragment pokemon on Pokemon {
   id
@@ -1115,18 +1138,23 @@ export const PokemonFragmentDoc = gql`
   }
   moves {
     edges {
-      learnMethod
-      levelLearnedAt
-      node {
-        ...move
-      }
+      ...pokemonMove
     }
   }
 }
     ${AbilityFragmentDoc}
 ${PokemonEvolutionFragmentDoc}
 ${PokemonTypeFragmentDoc}
-${MoveFragmentDoc}`;
+${PokemonMoveFragmentDoc}`;
+export const TeamMemberMoveFragmentDoc = gql`
+    fragment teamMemberMove on TeamMemberMoveEdge {
+  learnMethod
+  levelLearnedAt
+  node {
+    ...move
+  }
+}
+    ${MoveFragmentDoc}`;
 export const TeamMemberFragmentDoc = gql`
     fragment teamMember on TeamMember {
   id
@@ -1135,20 +1163,17 @@ export const TeamMemberFragmentDoc = gql`
   }
   moves {
     edges {
-      learnMethod
-      levelLearnedAt
-      node {
-        ...move
-      }
+      ...teamMemberMove
     }
   }
 }
     ${PokemonFragmentDoc}
-${MoveFragmentDoc}`;
+${TeamMemberMoveFragmentDoc}`;
 export const TeamFragmentDoc = gql`
     fragment team on Team {
   id
   name
+  createdAt
   members {
     edges {
       slot

@@ -4,7 +4,10 @@ import { CtaButton } from '~/components/Cta';
 import { MovesProvider } from '~/hooks/useMoves';
 import { PokemonCard } from './PokemonCard';
 import { ComponentProps } from 'react';
-import { TeamMemberFragment, TeamMemberMoveEdge } from '~/generated/graphql';
+import {
+  TeamMemberFragment,
+  TeamMemberMoveFragment
+} from '~/generated/graphql';
 
 export default {
   title: 'Components/Pokemon Card',
@@ -22,7 +25,7 @@ export const withTeamMember: Story<
   ComponentProps<typeof PokemonCard> & {
     updateTeamMemberMoves: (
       member: TeamMemberFragment,
-      moves: TeamMemberMoveEdge[]
+      moves: TeamMemberMoveFragment[]
     ) => void;
   }
 > = args => (

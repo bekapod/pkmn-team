@@ -12,6 +12,7 @@ export default {
   args: {
     id: '123',
     name: 'My super team!',
+    createdAt: '2020-12-12T19:17:37Z',
     members: {
       edges: [
         {

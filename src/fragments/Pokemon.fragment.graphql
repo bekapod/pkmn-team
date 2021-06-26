@@ -62,11 +62,7 @@ fragment pokemon on Pokemon {
   }
   moves {
     edges {
-      learnMethod
-      levelLearnedAt
-      node {
-        ...move
-      }
+      ...pokemonMove
     }
   }
 }

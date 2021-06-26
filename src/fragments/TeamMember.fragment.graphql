@@ -5,11 +5,7 @@ fragment teamMember on TeamMember {
   }
   moves {
     edges {
-      learnMethod
-      levelLearnedAt
-      node {
-        ...move
-      }
+      ...teamMemberMove
     }
   }
 }

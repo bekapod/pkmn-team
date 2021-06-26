@@ -13,3 +13,19 @@ fragment move on Move {
     ...moveType
   }
 }
+
+fragment pokemonMove on PokemonMoveEdge {
+  learnMethod
+  levelLearnedAt
+  node {
+    ...move
+  }
+}
+
+fragment teamMemberMove on TeamMemberMoveEdge {
+  learnMethod
+  levelLearnedAt
+  node {
+    ...move
+  }
+}
