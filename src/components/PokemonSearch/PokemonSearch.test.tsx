@@ -15,7 +15,7 @@ describe(PokemonSearch, () => {
               exhaustiveFacetsCount: true,
               exhaustiveNbHits: true,
               facets: {
-                'types.type.name': {
+                'node.types.edges.node.name': {
                   Water: 131,
                   Normal: 109,
                   Flying: 98,
@@ -24,9 +24,9 @@ describe(PokemonSearch, () => {
                 }
               },
               hits: [
-                { ...charmander, objectID: '1' },
-                { ...haunter, objectID: '2' },
-                { ...pikachu, objectID: '3' }
+                { node: charmander, objectID: '1' },
+                { node: haunter, objectID: '2' },
+                { node: pikachu, objectID: '3' }
               ],
               hitsPerPage: 50,
               index: 'pokemon',

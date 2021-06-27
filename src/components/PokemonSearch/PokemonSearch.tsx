@@ -38,7 +38,7 @@ export const PokemonSearch: FunctionComponent<PokemonSearchProps> = ({
           isFullWidth
         />
         <ConnectedTypeRefinementList
-          attribute="types.type.name"
+          attribute="node.types.edges.node.name"
           limit={50}
           operator="and"
         />

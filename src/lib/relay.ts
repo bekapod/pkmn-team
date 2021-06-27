@@ -1,5 +1,8 @@
 import { Maybe } from '~/generated/graphql';
 
+export const extractEdges = <T>(edges: Maybe<Maybe<T>[]> = []): T[] =>
+  edges?.filter((edge): edge is T => !!edge) ?? [];
+
 export const extractNodesFromEdges = <T>(
   edges: Maybe<Maybe<{ node?: Maybe<T> }>[]> = []
 ): T[] =>

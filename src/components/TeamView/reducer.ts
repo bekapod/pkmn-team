@@ -1,6 +1,9 @@
 import { Dispatch, useReducer } from 'react';
 import isEqual from 'react-fast-compare';
-import { PokemonFragment, TeamMemberFragment } from '~/generated/graphql';
+import {
+  TeamMemberFragment,
+  TeamMemberInTeamFragment
+} from '~/generated/graphql';
 import { reorder } from '~/lib/general';
 
 export enum TeamMemberActionType {
@@ -12,17 +15,12 @@ export enum TeamMemberActionType {
 
 type AddTeamMemberAction = {
   type: TeamMemberActionType.AddTeamMember;
-  payload: Omit<TeamMemberFragment, 'pokemon' | 'moves'> & {
-    pokemon: Omit<
-      PokemonFragment,
-      'moves' | 'eggGroups' | 'evolvesTo' | 'evolvesFrom'
-    >;
-  };
+  payload: Omit<TeamMemberFragment, 'id'>;
 };
 
 type RemoveTeamMemberAction = {
   type: TeamMemberActionType.RemoveTeamMember;
-  payload: TeamMemberFragment;
+  payload: TeamMemberInTeamFragment;
 };
 
 type ReorderTeamMemberAction = {
@@ -35,7 +33,7 @@ type ReorderTeamMemberAction = {
 
 type ResetTeamMembersAction = {
   type: TeamMemberActionType.ResetTeamMembers;
-  payload: TeamMemberFragment[];
+  payload: TeamMemberInTeamFragment[];
 };
 
 type Action =
@@ -44,12 +42,20 @@ type Action =
   | ReorderTeamMemberAction
   | ResetTeamMembersAction;
 
-const reducer = (state: TeamMemberFragment[], action: Action) => {
+const reducer = (state: TeamMemberInTeamFragment[], action: Action) => {
   switch (action.type) {
     case TeamMemberActionType.AddTeamMember:
-      return [...state, action.payload as TeamMemberFragment];
+      return [
+        ...state,
+        {
+          node: action.payload,
+          slot: state.length + 1
+        } as TeamMemberInTeamFragment
+      ];
     case TeamMemberActionType.RemoveTeamMember:
-      return state.filter(({ id }) => id !== action.payload.id);
+      return state.filter(
+        member => member.node?.id !== action.payload.node?.id
+      );
     case TeamMemberActionType.ReorderTeamMember:
       return reorder(
         state,
@@ -57,7 +63,7 @@ const reducer = (state: TeamMemberFragment[], action: Action) => {
         action.payload.destinationIndex
       ).map((member, index) => ({
         ...member,
-        order: index + 1
+        slot: index + 1
       }));
     case TeamMemberActionType.ResetTeamMembers:
       return isEqual(state, action.payload) ? state : action.payload;
@@ -67,7 +73,7 @@ const reducer = (state: TeamMemberFragment[], action: Action) => {
 };
 
 export function useTeamMembersReducer(
-  teamMembers: TeamMemberFragment[]
-): [TeamMemberFragment[], Dispatch<Action>] {
+  teamMembers: TeamMemberInTeamFragment[]
+): [TeamMemberInTeamFragment[], Dispatch<Action>] {
   return useReducer(reducer, teamMembers);
 }

@@ -27,6 +27,7 @@ export const MoveLine: FunctionComponent<MoveLineProps> = forwardRef(
       accuracy,
       power,
       effect,
+      effectChance,
       target,
       isOpen,
       isHighlighted,

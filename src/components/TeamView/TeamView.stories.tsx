@@ -16,37 +16,46 @@ export default {
   args: {
     initialTeamMembers: [
       {
-        id: '1',
-        pokemon: {
-          ...pokemon[0],
-          moves: {
-            edges: [{ node: substitute }, { node: slash }, { node: rest }]
-          }
-        },
-        moves: { edges: [] }
-      },
-      {
-        id: '2',
-        pokemon: {
-          ...pokemon[1],
-          moves: {
-            edges: [{ node: substitute }, { node: rest }, { node: flash }]
-          }
-        },
-        moves: {
-          edges: [{ node: substitute }, { node: rest }, { node: flash }]
+        slot: 1,
+        node: {
+          id: '1',
+          pokemon: {
+            ...pokemon[0],
+            moves: {
+              edges: [{ node: substitute }, { node: slash }, { node: rest }]
+            }
+          },
+          moves: {}
         }
       },
       {
-        id: '3',
-        pokemon: {
-          ...pokemon[2],
+        slot: 2,
+        node: {
+          id: '2',
+          pokemon: {
+            ...pokemon[1],
+            moves: {
+              edges: [{ node: substitute }, { node: rest }, { node: flash }]
+            }
+          },
           moves: {
-            edges: [{ node: substitute }, { node: rest }, { node: explosion }]
+            edges: [{ node: substitute }, { node: rest }, { node: flash }]
           }
-        },
-        moves: {
-          edges: [{ node: explosion }]
+        }
+      },
+      {
+        slot: 3,
+        node: {
+          id: '3',
+          pokemon: {
+            ...pokemon[2],
+            moves: {
+              edges: [{ node: substitute }, { node: rest }, { node: explosion }]
+            }
+          },
+          moves: {
+            edges: [{ node: explosion }]
+          }
         }
       }
     ],

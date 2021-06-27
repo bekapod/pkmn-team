@@ -6,7 +6,8 @@ import {
   useUpdateTeamMutation,
   useDeleteTeamMutation,
   TeamByIdDocument,
-  TeamFragment
+  useDeleteTeamMemberMutation,
+  TeamMemberInTeamFragment
 } from '~/generated/graphql';
 import { createClient } from '~/lib/client';
 import { FullWidthContainer } from '~/components/FullWidthContainer';
@@ -33,16 +34,54 @@ const Team: NextPage<Props> = ({ id }) => {
     useUpdateTeamMutation();
   const [{ fetching: deleteTeamFetching }, deleteTeam] =
     useDeleteTeamMutation();
+  const [{ fetching: deleteTeamMemberFetching }, deleteTeamMember] =
+    useDeleteTeamMemberMutation();
 
   const team = teamData?.teamById ?? undefined;
 
   const updateTeamHandler = useCallback(
-    (name: string) => {
-      if (team?.id && team?.name !== name) {
-        updateTeam({ id: team?.id, name });
+    ({
+      name,
+      members
+    }: {
+      name?: string;
+      members?: TeamMemberInTeamFragment[];
+    }) => {
+      const values = {
+        id: team?.id as string,
+        name: name ?? (team?.name as string),
+        members: members?.map(member => ({
+          id: member.node?.id,
+          slot: member.slot,
+          pokemonId: member.node?.pokemon.id
+        }))
+      };
+
+      if (
+        values.id &&
+        (team?.name !== values.name || !isEqual(team?.members.edges, members))
+      ) {
+        console.log(team?.name, values.name, team?.name !== values.name);
+        console.log(
+          team?.members.edges,
+          members,
+          !isEqual(team?.members.edges, members)
+        );
+        updateTeam(values);
       }
+
+      const membersToDelete = team?.members.edges
+        ?.filter(
+          member =>
+            !members?.find(newMember => member?.node?.id === newMember.node?.id)
+        )
+        .map(member => member?.node?.id);
+
+      membersToDelete?.forEach(member => {
+        member && deleteTeamMember({ id: member });
+      });
     },
-    [team?.id, team?.name, updateTeam]
+    [team, updateTeam, deleteTeamMember]
   );
 
   const deleteTeamHandler = useCallback(async () => {
@@ -51,33 +90,6 @@ const Team: NextPage<Props> = ({ id }) => {
       if (data?.deleteTeam?.id) router.push('/');
     }
   }, [team?.id, router, deleteTeam]);
-
-  const updateTeamMembersHandler = useCallback(
-    (members: TeamFragment['members']) => {
-      const membersToDelete = team?.members.edges
-        ?.filter(
-          member =>
-            !members.edges?.find(
-              newMember => member?.node?.id === newMember?.node?.id
-            )
-        )
-        .map(member => member?.node?.id);
-
-      if (members.edges?.length && !isEqual(members, team?.members)) {
-        // createTeamMembers({
-        //   members: membersToUpdate
-        // });
-      }
-
-      if (membersToDelete && membersToDelete.length) {
-        // deleteTeamMembers({
-        //   members: membersToDelete
-        // });
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [JSON.stringify(team)]
-  );
 
   return (
     <Page
@@ -89,15 +101,10 @@ const Team: NextPage<Props> = ({ id }) => {
           team={team}
           isSkeleton={teamFetching}
           isLoading={
-            updateTeamFetching || deleteTeamFetching
-            // createTeamMembersFetching ||
-            // deleteTeamMembersFetching ||
-            // createTeamMemberMovesFetching ||
-            // deleteTeamMemberMovesFetching
+            updateTeamFetching || deleteTeamFetching || deleteTeamMemberFetching
           }
           updateTeam={updateTeamHandler}
           deleteTeam={deleteTeamHandler}
-          updateTeamMembers={updateTeamMembersHandler}
         />
       </FullWidthContainer>
     </Page>

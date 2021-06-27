@@ -42,7 +42,7 @@ describe('TeamBuilder', () => {
     );
     await wait(1500);
     expect(updateTeam).toHaveBeenCalledTimes(1);
-    expect(updateTeam).toHaveBeenCalledWith('My super team!!!!!111');
+    expect(updateTeam).toHaveBeenCalledWith({ name: 'My super team!!!!!111' });
   });
 
   it('renders the team view', () => {

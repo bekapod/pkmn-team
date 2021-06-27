@@ -44,7 +44,6 @@ export const TeamCard: FunctionComponent<TeamCardProps> = ({
 
           <CardContent>
             <CardMeta
-              id={id}
               items={[
                 { label: 'Pkmn', value: members.edges?.length ?? 0 },
                 { label: 'Created', value: dateFormat(createdAt, 'd/m/yy') }

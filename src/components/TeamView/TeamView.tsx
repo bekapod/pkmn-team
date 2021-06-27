@@ -14,7 +14,6 @@ import {
   DropResult
 } from 'react-beautiful-dnd';
 import { BiPlusMedical as Plus } from 'react-icons/bi';
-import { v4 as uuid } from 'uuid';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import classNames from 'classnames';
 import { PokemonSearch } from '../PokemonSearch';
@@ -27,14 +26,18 @@ import type {
   TeamMemberFragment,
   PokemonFragment,
   TeamMemberMoveFragment,
-  PokemonMoveFragment
+  PokemonMoveFragment,
+  TeamMemberInTeamFragment
 } from '~/generated/graphql';
 import { TeamMemberActionType, useTeamMembersReducer } from './reducer';
 import { MovesProvider } from '~/hooks/useMoves';
 
 export type TeamViewProps = {
-  initialTeamMembers?: TeamMemberFragment[];
-  updateTeamMembers?: (members: TeamMemberFragment[]) => void;
+  initialTeamMembers?: TeamMemberInTeamFragment[];
+  updateTeam?: (values: {
+    name?: string;
+    members?: TeamMemberInTeamFragment[];
+  }) => void;
   updateTeamMemberMoves?: (
     member: TeamMemberFragment,
     moves: TeamMemberMoveFragment[]
@@ -44,7 +47,7 @@ export type TeamViewProps = {
 
 export const TeamView: FunctionComponent<TeamViewProps> = memo(
   ({
-    updateTeamMembers,
+    updateTeam,
     updateTeamMemberMoves,
     initialTeamMembers = [],
     isSkeleton
@@ -55,22 +58,22 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
       PokemonFragment | undefined
     >();
     const { getTabItemProps, getTabContentProps, setSelectedTab } = useTabs(
-      initialTeamMembers?.[0]?.id ?? 'add-pokemon'
+      initialTeamMembers?.[0]?.node?.id ?? 'add-pokemon'
     );
 
     useEffect(() => {
       if (!isSkeleton && initialTeamMembers.length > 0)
-        setSelectedTab(initialTeamMembers[0].id);
+        setSelectedTab(initialTeamMembers[0].node?.id);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isSkeleton]);
 
     useEffect(() => {
       if (!isInitialValue.current) {
-        updateTeamMembers?.(teamMembers);
+        updateTeam?.({ members: teamMembers });
       }
 
       isInitialValue.current = false;
-    }, [teamMembers, updateTeamMembers]);
+    }, [teamMembers, updateTeam]);
 
     useDeepCompareEffect(() => {
       dispatch({
@@ -107,7 +110,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
         teamMember,
         pokemon
       }: {
-        teamMember?: TeamMemberFragment;
+        teamMember?: TeamMemberInTeamFragment;
         pokemon: PokemonFragment;
       }) => {
         if (teamMember) {
@@ -135,8 +138,8 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
               dispatch({
                 type: TeamMemberActionType.AddTeamMember,
                 payload: {
-                  id: uuid(),
-                  pokemon
+                  pokemon,
+                  moves: {}
                 }
               })
             }
@@ -177,10 +180,16 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
                       }
                     )}
                   >
-                    {teamMembers.map(({ id, pokemon }, index) => {
-                      const tabItemProps = getTabItemProps(id);
-                      return (
-                        <Draggable key={id} draggableId={id} index={index}>
+                    {teamMembers.map(({ node: member, slot }, index) => {
+                      const tabItemProps = getTabItemProps(
+                        member?.id as string
+                      );
+                      return member ? (
+                        <Draggable
+                          key={member.id ?? slot}
+                          draggableId={`member-${member.id}`}
+                          index={index}
+                        >
                           {draggableProvided => (
                             <div
                               className={classNames('cursor-pointer', 'group', {
@@ -193,13 +202,13 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
                               {...draggableProvided.draggableProps}
                               {...draggableProvided.dragHandleProps}
                               ref={draggableProvided.innerRef}
-                              data-testid={`tab-item-${id}`}
+                              data-testid={`tab-item-${member.id}`}
                               style={{
                                 ...draggableProvided.draggableProps.style
                               }}
                             >
                               <PokemonLine
-                                pokemon={pokemon}
+                                pokemon={member.pokemon}
                                 className={classNames(
                                   'duration-300',
                                   'ease-out',
@@ -212,7 +221,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
                             </div>
                           )}
                         </Draggable>
-                      );
+                      ) : null;
                     })}
 
                     {teamMembers.length < 6 && !isSkeleton && (
@@ -267,9 +276,9 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
           </DragDropContext>
         </div>
 
-        {teamMembers.map(member => {
-          const tabContentProps = getTabContentProps(member.id);
-          return (
+        {teamMembers.map(({ node: member, ...rest }) => {
+          const tabContentProps = getTabContentProps(member?.id as string);
+          return member ? (
             <div
               className={classNames(
                 'py-6',
@@ -285,7 +294,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
                 }
               )}
               {...tabContentProps}
-              key={member.id}
+              key={member.id ?? rest.slot}
               data-testid={`tab-content-${member.id}`}
             >
               <MovesProvider
@@ -296,7 +305,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
                   teamMember={member}
                   pokemon={member.pokemon}
                   renderCardActions={renderCardActions({
-                    teamMember: member,
+                    teamMember: { ...rest, node: member },
                     pokemon: member.pokemon
                   })}
                 />
@@ -312,7 +321,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
                 />
               </MovesProvider>
             </div>
-          );
+          ) : null;
         })}
 
         {teamMembers.length < 6 && (

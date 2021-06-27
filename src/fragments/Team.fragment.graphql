@@ -4,10 +4,14 @@ fragment team on Team {
   createdAt
   members {
     edges {
-      slot
-      node {
-        ...teamMember
-      }
+      ...teamMemberInTeam
     }
+  }
+}
+
+fragment teamMemberInTeam on TeamMemberEdge {
+  slot
+  node {
+    ...teamMember
   }
 }

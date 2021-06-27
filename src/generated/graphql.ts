@@ -49,6 +49,18 @@ export enum Color {
   Yellow = 'YELLOW'
 }
 
+export type CreateOrUpdateTeamMemberInput = {
+  id?: Maybe<Scalars['ID']>;
+  pokemonId?: Maybe<Scalars['ID']>;
+  slot?: Maybe<Scalars['Int']>;
+};
+
+export type CreateOrUpdateTeamMemberMoveInput = {
+  id?: Maybe<Scalars['ID']>;
+  pokemonMoveId?: Maybe<Scalars['ID']>;
+  slot?: Maybe<Scalars['Int']>;
+};
+
 export type CreateTeamInput = {
   name: Scalars['String'];
   members?: Maybe<Array<CreateTeamMemberInput>>;
@@ -248,8 +260,10 @@ export type Mutation = {
   __typename?: 'Mutation';
   createTeam: Team;
   updateTeam: Team;
+  updateTeamMember: TeamMember;
   deleteTeam: Team;
-  removeTeamMember: TeamMember;
+  deleteTeamMember: TeamMember;
+  deleteTeamMemberMove: Move;
 };
 
 
@@ -263,12 +277,22 @@ export type MutationUpdateTeamArgs = {
 };
 
 
+export type MutationUpdateTeamMemberArgs = {
+  input: UpdateTeamMemberInput;
+};
+
+
 export type MutationDeleteTeamArgs = {
   id: Scalars['ID'];
 };
 
 
-export type MutationRemoveTeamMemberArgs = {
+export type MutationDeleteTeamMemberArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteTeamMemberMoveArgs = {
   id: Scalars['ID'];
 };
 
@@ -555,6 +579,7 @@ export type TeamMemberMoveEdge = {
   __typename?: 'TeamMemberMoveEdge';
   cursor: Scalars['String'];
   node?: Maybe<Move>;
+  slot?: Maybe<Scalars['Int']>;
   learnMethod?: Maybe<MoveLearnMethod>;
   levelLearnedAt?: Maybe<Scalars['Int']>;
 };
@@ -596,13 +621,14 @@ export type TypeEdge = {
 export type UpdateTeamInput = {
   id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
-  members?: Maybe<Array<UpdateTeamMemberInput>>;
+  members?: Maybe<Array<CreateOrUpdateTeamMemberInput>>;
 };
 
 export type UpdateTeamMemberInput = {
-  id?: Maybe<Scalars['ID']>;
+  id: Scalars['ID'];
   pokemonId?: Maybe<Scalars['ID']>;
   slot?: Maybe<Scalars['Int']>;
+  moves?: Maybe<Array<CreateOrUpdateTeamMemberMoveInput>>;
 };
 
 export type AbilityFragment = (
@@ -703,7 +729,7 @@ export type PokemonFragment = (
 
 export type PokemonEvolutionFragment = (
   { __typename?: 'PokemonEvolution' }
-  & Pick<PokemonEvolution, 'trigger' | 'gender' | 'minLevel' | 'minHappiness' | 'minBeauty' | 'minAffection' | 'needsOverworldRain' | 'relativePhysicalStats' | 'timeOfDay' | 'turnUpsideDown' | 'spin' | 'takeDamage' | 'criticalHits'>
+  & Pick<PokemonEvolution, 'id' | 'trigger' | 'gender' | 'minLevel' | 'minHappiness' | 'minBeauty' | 'minAffection' | 'needsOverworldRain' | 'relativePhysicalStats' | 'timeOfDay' | 'turnUpsideDown' | 'spin' | 'takeDamage' | 'criticalHits'>
   & { pokemon: (
     { __typename?: 'Pokemon' }
     & Pick<Pokemon, 'id' | 'name'>
@@ -742,13 +768,18 @@ export type TeamFragment = (
     { __typename?: 'TeamMemberConnection' }
     & { edges?: Maybe<Array<Maybe<(
       { __typename?: 'TeamMemberEdge' }
-      & Pick<TeamMemberEdge, 'slot'>
-      & { node?: Maybe<(
-        { __typename?: 'TeamMember' }
-        & TeamMemberFragment
-      )> }
+      & TeamMemberInTeamFragment
     )>>> }
   ) }
+);
+
+export type TeamMemberInTeamFragment = (
+  { __typename?: 'TeamMemberEdge' }
+  & Pick<TeamMemberEdge, 'slot'>
+  & { node?: Maybe<(
+    { __typename?: 'TeamMember' }
+    & TeamMemberFragment
+  )> }
 );
 
 export type TeamMemberFragment = (
@@ -863,14 +894,14 @@ export type DeleteTeamMutation = (
   ) }
 );
 
-export type DeleteTeamMembersMutationVariables = Exact<{
+export type DeleteTeamMemberMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type DeleteTeamMembersMutation = (
+export type DeleteTeamMemberMutation = (
   { __typename?: 'Mutation' }
-  & { removeTeamMember: (
+  & { deleteTeamMember: (
     { __typename?: 'TeamMember' }
     & TeamMemberFragment
   ) }
@@ -879,7 +910,7 @@ export type DeleteTeamMembersMutation = (
 export type UpdateTeamMutationVariables = Exact<{
   id: Scalars['ID'];
   name: Scalars['String'];
-  members?: Maybe<Array<UpdateTeamMemberInput> | UpdateTeamMemberInput>;
+  members?: Maybe<Array<CreateOrUpdateTeamMemberInput> | CreateOrUpdateTeamMemberInput>;
 }>;
 
 
@@ -945,6 +976,7 @@ export const ItemFragmentDoc = gql`
     `;
 export const PokemonEvolutionFragmentDoc = gql`
     fragment pokemonEvolution on PokemonEvolution {
+  id
   pokemon {
     id
     name
@@ -1169,6 +1201,14 @@ export const TeamMemberFragmentDoc = gql`
 }
     ${PokemonFragmentDoc}
 ${TeamMemberMoveFragmentDoc}`;
+export const TeamMemberInTeamFragmentDoc = gql`
+    fragment teamMemberInTeam on TeamMemberEdge {
+  slot
+  node {
+    ...teamMember
+  }
+}
+    ${TeamMemberFragmentDoc}`;
 export const TeamFragmentDoc = gql`
     fragment team on Team {
   id
@@ -1176,14 +1216,11 @@ export const TeamFragmentDoc = gql`
   createdAt
   members {
     edges {
-      slot
-      node {
-        ...teamMember
-      }
+      ...teamMemberInTeam
     }
   }
 }
-    ${TeamMemberFragmentDoc}`;
+    ${TeamMemberInTeamFragmentDoc}`;
 export const CreateTeamDocument = gql`
     mutation CreateTeam($name: String!) {
   createTeam(input: {name: $name}) {
@@ -1206,19 +1243,19 @@ export const DeleteTeamDocument = gql`
 export function useDeleteTeamMutation() {
   return Urql.useMutation<DeleteTeamMutation, DeleteTeamMutationVariables>(DeleteTeamDocument);
 };
-export const DeleteTeamMembersDocument = gql`
-    mutation DeleteTeamMembers($id: ID!) {
-  removeTeamMember(id: $id) {
+export const DeleteTeamMemberDocument = gql`
+    mutation DeleteTeamMember($id: ID!) {
+  deleteTeamMember(id: $id) {
     ...teamMember
   }
 }
     ${TeamMemberFragmentDoc}`;
 
-export function useDeleteTeamMembersMutation() {
-  return Urql.useMutation<DeleteTeamMembersMutation, DeleteTeamMembersMutationVariables>(DeleteTeamMembersDocument);
+export function useDeleteTeamMemberMutation() {
+  return Urql.useMutation<DeleteTeamMemberMutation, DeleteTeamMemberMutationVariables>(DeleteTeamMemberDocument);
 };
 export const UpdateTeamDocument = gql`
-    mutation UpdateTeam($id: ID!, $name: String!, $members: [UpdateTeamMemberInput!]) {
+    mutation UpdateTeam($id: ID!, $name: String!, $members: [CreateOrUpdateTeamMemberInput!]) {
   updateTeam(input: {id: $id, name: $name, members: $members}) {
     ...team
   }

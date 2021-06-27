@@ -5,7 +5,11 @@ import {
   TeamMemberFragment,
   PokemonTypeFragment
 } from '~/generated/graphql';
-import { formatPokemonName, sortBySlug } from '~/lib/general';
+import {
+  formatPokemonName,
+  getPokemonSpriteUrl,
+  sortBySlug
+} from '~/lib/general';
 import { CardContent, CardHeader, CardWrapper, CardHeading } from '../Card';
 import { InlineList } from '../InlineList';
 import { TypeTag } from '../TypeTag';
@@ -61,7 +65,7 @@ export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
       <CardContent className={classNames('py-6', 'items-center')}>
         <img
           className={classNames('h-14')}
-          src={`/sprites/${sprite}`}
+          src={getPokemonSpriteUrl(sprite)}
           alt={`${name} sprite`}
         />
 

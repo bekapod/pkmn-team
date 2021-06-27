@@ -5,7 +5,7 @@ import type { PokemonFragment } from '~/generated/graphql';
 import { PokemonLine, PokemonLineProps } from '../PokemonLine';
 
 export const InfinitePokemon: FunctionComponent<
-  InfiniteHitsProvided<Hit<PokemonFragment>> & {
+  InfiniteHitsProvided<Hit<{ node: PokemonFragment }>> & {
     onClick: (pokemon: PokemonLineProps['pokemon']) => void;
   }
 > = ({ hits, hasMore, refineNext, onClick }) => {
@@ -31,36 +31,8 @@ export const InfinitePokemon: FunctionComponent<
 
   return (
     <ul className="max-h-5-10 overflow-y-auto pt-1">
-      {hits.map(({ objectID, ...rest }) => {
-        const pokemon: PokemonLineProps['pokemon'] = {
-          pokedexId: rest.pokedexId,
-          slug: rest.slug,
-          sprite: rest.sprite,
-          id: rest.id,
-          name: rest.name,
-          types: rest.types,
-          abilities: rest.abilities,
-          attack: rest.attack,
-          defense: rest.defense,
-          description: rest.description,
-          hp: rest.hp,
-          isBaby: rest.isBaby,
-          isLegendary: rest.isLegendary,
-          isMythical: rest.isMythical,
-          specialAttack: rest.specialAttack,
-          specialDefense: rest.specialDefense,
-          speed: rest.speed,
-          color: rest.color,
-          shape: rest.shape,
-          habitat: rest.habitat,
-          height: rest.height,
-          weight: rest.weight,
-          isDefaultVariant: rest.isDefaultVariant,
-          eggGroups: { edges: [] },
-          evolvesTo: { edges: [] },
-          evolvesFrom: { edges: [] },
-          moves: { edges: [] }
-        };
+      {hits.map(({ objectID, node }) => {
+        const pokemon: PokemonLineProps['pokemon'] = node;
         return (
           <li key={objectID} className="ais-InfiniteHits-item">
             <PokemonLine

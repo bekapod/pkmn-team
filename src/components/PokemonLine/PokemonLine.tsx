@@ -1,7 +1,11 @@
 import type { ComponentPropsWithRef, FunctionComponent } from 'react';
 import classNames from 'classnames';
 import type { PokemonFragment, PokemonTypeFragment } from '~/generated/graphql';
-import { formatPokemonName, sortBySlug } from '~/lib/general';
+import {
+  formatPokemonName,
+  getPokemonSpriteUrl,
+  sortBySlug
+} from '~/lib/general';
 import { getTypeGradient } from '~/lib/gradients';
 import { InlineList } from '../InlineList';
 import { TypeTag } from '../TypeTag';
@@ -41,7 +45,7 @@ export const PokemonLine: FunctionComponent<
     >
       <img
         className={classNames('w-8', 'h-8', 'mr-4')}
-        src={`/sprites/${sprite}`}
+        src={getPokemonSpriteUrl(sprite)}
         alt={`${name} sprite`}
       />
       <div>
