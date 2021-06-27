@@ -7,7 +7,11 @@ import {
   useDeleteTeamMutation,
   TeamByIdDocument,
   useDeleteTeamMemberMutation,
-  TeamMemberInTeamFragment
+  TeamMemberInTeamFragment,
+  useUpdateTeamMemberMutation,
+  useDeleteTeamMemberMoveMutation,
+  TeamMemberFragment,
+  TeamMemberMoveFragment
 } from '~/generated/graphql';
 import { createClient } from '~/lib/client';
 import { FullWidthContainer } from '~/components/FullWidthContainer';
@@ -36,6 +40,10 @@ const Team: NextPage<Props> = ({ id }) => {
     useDeleteTeamMutation();
   const [{ fetching: deleteTeamMemberFetching }, deleteTeamMember] =
     useDeleteTeamMemberMutation();
+  const [{ fetching: updateTeamMemberFetching }, updateTeamMember] =
+    useUpdateTeamMemberMutation();
+  const [{ fetching: deleteTeamMemberMoveFetching }, deleteTeamMemberMove] =
+    useDeleteTeamMemberMoveMutation();
 
   const team = teamData?.teamById ?? undefined;
 
@@ -84,6 +92,43 @@ const Team: NextPage<Props> = ({ id }) => {
     [team, updateTeam, deleteTeamMember]
   );
 
+  const updateTeamMemberHandler = useCallback(
+    ({
+      member,
+      moves
+    }: {
+      member: TeamMemberFragment;
+      moves?: TeamMemberMoveFragment[];
+    }) => {
+      const values = {
+        id: member.id,
+        moves: moves?.map((move, idx) => {
+          const isExistingMove = member.moves.edges?.find(
+            existingMove => existingMove?.id === move.id
+          );
+          return {
+            id: isExistingMove ? move.id : undefined,
+            slot: idx + 1,
+            pokemonMoveId: isExistingMove ? undefined : move.id
+          };
+        })
+      };
+
+      if (values.id && !isEqual(member.moves.edges, moves)) {
+        updateTeamMember(values);
+      }
+
+      const movesToDelete = member.moves?.edges
+        ?.filter(move => !moves?.find(newMove => move?.id === newMove?.id))
+        .map(move => move?.id);
+
+      movesToDelete?.forEach(move => {
+        move && deleteTeamMemberMove({ id: move });
+      });
+    },
+    [updateTeamMember, deleteTeamMemberMove]
+  );
+
   const deleteTeamHandler = useCallback(async () => {
     if (team?.id) {
       const { data } = await deleteTeam({ id: team?.id });
@@ -101,10 +146,15 @@ const Team: NextPage<Props> = ({ id }) => {
           team={team}
           isSkeleton={teamFetching}
           isLoading={
-            updateTeamFetching || deleteTeamFetching || deleteTeamMemberFetching
+            updateTeamFetching ||
+            deleteTeamFetching ||
+            deleteTeamMemberFetching ||
+            updateTeamMemberFetching ||
+            deleteTeamMemberMoveFetching
           }
           updateTeam={updateTeamHandler}
           deleteTeam={deleteTeamHandler}
+          updateTeamMemberMoves={updateTeamMemberHandler}
         />
       </FullWidthContainer>
     </Page>

@@ -24,10 +24,10 @@ export const pokemonCard: Story<ComponentProps<typeof PokemonCard>> = args => (
 
 export const withTeamMember: Story<
   ComponentProps<typeof PokemonCard> & {
-    updateTeamMemberMoves: (
-      member: TeamMemberFragment,
-      moves: TeamMemberMoveFragment[]
-    ) => void;
+    updateTeamMemberMoves: (values: {
+      member: TeamMemberFragment;
+      moves: TeamMemberMoveFragment[];
+    }) => void;
   }
 > = args => (
   <MovesProvider
@@ -44,7 +44,12 @@ withTeamMember.args = {
   teamMember: {
     id: '3',
     pokemon: pikachu,
-    moves: { edges: [{ node: substitute }, { node: flash }] }
+    moves: {
+      edges: [
+        { id: '1', node: substitute },
+        { id: '2', node: flash }
+      ]
+    }
   },
   renderCardActions: () => (
     <CtaButton type="button" size="small" variant="destructive">

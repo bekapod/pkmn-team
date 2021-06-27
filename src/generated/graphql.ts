@@ -653,6 +653,7 @@ export type MoveFragment = (
 export type PokemonMoveFragment = (
   { __typename?: 'PokemonMoveEdge' }
   & Pick<PokemonMoveEdge, 'learnMethod' | 'levelLearnedAt'>
+  & { id: PokemonMoveEdge['cursor'] }
   & { node?: Maybe<(
     { __typename?: 'Move' }
     & MoveFragment
@@ -661,7 +662,8 @@ export type PokemonMoveFragment = (
 
 export type TeamMemberMoveFragment = (
   { __typename?: 'TeamMemberMoveEdge' }
-  & Pick<TeamMemberMoveEdge, 'learnMethod' | 'levelLearnedAt'>
+  & Pick<TeamMemberMoveEdge, 'learnMethod' | 'levelLearnedAt' | 'slot'>
+  & { id: TeamMemberMoveEdge['cursor'] }
   & { node?: Maybe<(
     { __typename?: 'Move' }
     & MoveFragment
@@ -907,6 +909,19 @@ export type DeleteTeamMemberMutation = (
   ) }
 );
 
+export type DeleteTeamMemberMoveMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteTeamMemberMoveMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteTeamMemberMove: (
+    { __typename?: 'Move' }
+    & MoveFragment
+  ) }
+);
+
 export type UpdateTeamMutationVariables = Exact<{
   id: Scalars['ID'];
   name: Scalars['String'];
@@ -919,6 +934,21 @@ export type UpdateTeamMutation = (
   & { updateTeam: (
     { __typename?: 'Team' }
     & TeamFragment
+  ) }
+);
+
+export type UpdateTeamMemberMutationVariables = Exact<{
+  id: Scalars['ID'];
+  slot?: Maybe<Scalars['Int']>;
+  moves?: Maybe<Array<CreateOrUpdateTeamMemberMoveInput> | CreateOrUpdateTeamMemberMoveInput>;
+}>;
+
+
+export type UpdateTeamMemberMutation = (
+  { __typename?: 'Mutation' }
+  & { updateTeamMember: (
+    { __typename?: 'TeamMember' }
+    & TeamMemberFragment
   ) }
 );
 
@@ -1098,6 +1128,7 @@ export const MoveFragmentDoc = gql`
     ${MoveTypeFragmentDoc}`;
 export const PokemonMoveFragmentDoc = gql`
     fragment pokemonMove on PokemonMoveEdge {
+  id: cursor
   learnMethod
   levelLearnedAt
   node {
@@ -1180,8 +1211,10 @@ ${PokemonTypeFragmentDoc}
 ${PokemonMoveFragmentDoc}`;
 export const TeamMemberMoveFragmentDoc = gql`
     fragment teamMemberMove on TeamMemberMoveEdge {
+  id: cursor
   learnMethod
   levelLearnedAt
+  slot
   node {
     ...move
   }
@@ -1254,6 +1287,17 @@ export const DeleteTeamMemberDocument = gql`
 export function useDeleteTeamMemberMutation() {
   return Urql.useMutation<DeleteTeamMemberMutation, DeleteTeamMemberMutationVariables>(DeleteTeamMemberDocument);
 };
+export const DeleteTeamMemberMoveDocument = gql`
+    mutation DeleteTeamMemberMove($id: ID!) {
+  deleteTeamMemberMove(id: $id) {
+    ...move
+  }
+}
+    ${MoveFragmentDoc}`;
+
+export function useDeleteTeamMemberMoveMutation() {
+  return Urql.useMutation<DeleteTeamMemberMoveMutation, DeleteTeamMemberMoveMutationVariables>(DeleteTeamMemberMoveDocument);
+};
 export const UpdateTeamDocument = gql`
     mutation UpdateTeam($id: ID!, $name: String!, $members: [CreateOrUpdateTeamMemberInput!]) {
   updateTeam(input: {id: $id, name: $name, members: $members}) {
@@ -1264,6 +1308,17 @@ export const UpdateTeamDocument = gql`
 
 export function useUpdateTeamMutation() {
   return Urql.useMutation<UpdateTeamMutation, UpdateTeamMutationVariables>(UpdateTeamDocument);
+};
+export const UpdateTeamMemberDocument = gql`
+    mutation UpdateTeamMember($id: ID!, $slot: Int, $moves: [CreateOrUpdateTeamMemberMoveInput!]) {
+  updateTeamMember(input: {id: $id, slot: $slot, moves: $moves}) {
+    ...teamMember
+  }
+}
+    ${TeamMemberFragmentDoc}`;
+
+export function useUpdateTeamMemberMutation() {
+  return Urql.useMutation<UpdateTeamMemberMutation, UpdateTeamMemberMutationVariables>(UpdateTeamMemberDocument);
 };
 export const AllTeamsDocument = gql`
     query AllTeams {

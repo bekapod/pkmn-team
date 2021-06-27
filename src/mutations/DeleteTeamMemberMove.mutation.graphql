@@ -1,0 +1,5 @@
+mutation DeleteTeamMemberMove($id: ID!) {
+  deleteTeamMemberMove(id: $id) {
+    ...move
+  }
+}

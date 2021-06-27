@@ -21,16 +21,19 @@ describe(MoveList, () => {
         <MoveList
           allMoves={[
             {
+              id: '1',
               levelLearnedAt: 0,
               learnMethod: MoveLearnMethod.LevelUp,
               node: substitute
             },
             {
+              id: '2',
               levelLearnedAt: 0,
               learnMethod: MoveLearnMethod.LevelUp,
               node: flash
             },
             {
+              id: '3',
               levelLearnedAt: 0,
               learnMethod: MoveLearnMethod.LevelUp,
               node: explosion
@@ -76,31 +79,37 @@ describe(MoveList, () => {
       visibleItems: 6,
       allMoves: [
         {
+          id: '1',
           levelLearnedAt: 0,
           learnMethod: MoveLearnMethod.LevelUp,
           node: substitute
         },
         {
+          id: '2',
           levelLearnedAt: 0,
           learnMethod: MoveLearnMethod.LevelUp,
           node: flash
         },
         {
+          id: '3',
           levelLearnedAt: 0,
           learnMethod: MoveLearnMethod.LevelUp,
           node: explosion
         },
         {
+          id: '4',
           levelLearnedAt: 0,
           learnMethod: MoveLearnMethod.LevelUp,
           node: substitute
         },
         {
+          id: '5',
           levelLearnedAt: 0,
           learnMethod: MoveLearnMethod.LevelUp,
           node: flash
         },
         {
+          id: '6',
           levelLearnedAt: 0,
           learnMethod: MoveLearnMethod.LevelUp,
           node: explosion
@@ -148,11 +157,15 @@ describe(MoveList, () => {
       moves: {
         edges: [
           {
+            id: '1',
+            slot: 1,
             levelLearnedAt: 0,
             learnMethod: MoveLearnMethod.LevelUp,
             node: explosion
           },
           {
+            id: '2',
+            slot: 2,
             levelLearnedAt: 0,
             learnMethod: MoveLearnMethod.LevelUp,
             node: flash
@@ -217,23 +230,31 @@ describe(MoveList, () => {
         screen.getByRole('button', { name: `Learn ${substitute.name}` })
       );
       expect(updateTeamMemberMoves).toHaveBeenCalledTimes(1);
-      expect(updateTeamMemberMoves).toHaveBeenCalledWith(teamMember, [
-        {
-          levelLearnedAt: 0,
-          learnMethod: MoveLearnMethod.LevelUp,
-          node: explosion
-        },
-        {
-          levelLearnedAt: 0,
-          learnMethod: MoveLearnMethod.LevelUp,
-          node: flash
-        },
-        {
-          levelLearnedAt: 0,
-          learnMethod: MoveLearnMethod.LevelUp,
-          node: substitute
-        }
-      ]);
+      expect(updateTeamMemberMoves).toHaveBeenCalledWith({
+        member: teamMember,
+        moves: [
+          {
+            id: '1',
+            slot: 1,
+            levelLearnedAt: 0,
+            learnMethod: MoveLearnMethod.LevelUp,
+            node: explosion
+          },
+          {
+            id: '2',
+            slot: 2,
+            levelLearnedAt: 0,
+            learnMethod: MoveLearnMethod.LevelUp,
+            node: flash
+          },
+          {
+            id: '1',
+            levelLearnedAt: 0,
+            learnMethod: MoveLearnMethod.LevelUp,
+            node: substitute
+          }
+        ]
+      });
     });
 
     it('calls removeMoveFromTeamMember', () => {
@@ -244,13 +265,18 @@ describe(MoveList, () => {
         screen.getByRole('button', { name: `Forget ${explosion.name}` })
       );
       expect(updateTeamMemberMoves).toHaveBeenCalledTimes(1);
-      expect(updateTeamMemberMoves).toHaveBeenCalledWith(teamMember, [
-        {
-          levelLearnedAt: 0,
-          learnMethod: MoveLearnMethod.LevelUp,
-          node: flash
-        }
-      ]);
+      expect(updateTeamMemberMoves).toHaveBeenCalledWith({
+        member: teamMember,
+        moves: [
+          {
+            id: '2',
+            slot: 2,
+            levelLearnedAt: 0,
+            learnMethod: MoveLearnMethod.LevelUp,
+            node: flash
+          }
+        ]
+      });
     });
   });
 });

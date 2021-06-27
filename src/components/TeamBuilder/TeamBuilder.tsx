@@ -9,7 +9,12 @@ import { GiantInput } from '../GiantInput';
 import { LoadingIcon } from '../LoadingIcon';
 import { TeamView } from '../TeamView';
 import { StickyBar } from '../StickyBar';
-import { TeamByIdQuery, TeamMemberInTeamFragment } from '~/generated/graphql';
+import {
+  TeamByIdQuery,
+  TeamMemberFragment,
+  TeamMemberInTeamFragment,
+  TeamMemberMoveFragment
+} from '~/generated/graphql';
 import { extractEdges } from '~/lib/relay';
 
 export type TeamBuilderProps = {
@@ -22,6 +27,10 @@ export type TeamBuilderProps = {
     members?: TeamMemberInTeamFragment[];
   }) => void;
   deleteTeam: () => void;
+  updateTeamMemberMoves: (values: {
+    member: TeamMemberFragment;
+    moves: TeamMemberMoveFragment[];
+  }) => void;
 };
 
 export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
@@ -30,7 +39,8 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
   isSkeleton,
   error,
   updateTeam,
-  deleteTeam
+  deleteTeam,
+  updateTeamMemberMoves
 }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedUpdateTeam = useCallback(
@@ -39,6 +49,15 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
       1000
     ),
     [updateTeam]
+  );
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debouncedUpdateTeamMemberMoves = useCallback(
+    debounce<TeamBuilderProps['updateTeamMemberMoves']>(
+      nextValue => updateTeamMemberMoves(nextValue),
+      1000
+    ),
+    [updateTeamMemberMoves]
   );
 
   return (
@@ -84,6 +103,7 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
         )}
         isSkeleton={isSkeleton}
         updateTeam={debouncedUpdateTeam}
+        updateTeamMemberMoves={debouncedUpdateTeamMemberMoves}
       />
     </>
   );

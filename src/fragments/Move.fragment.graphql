@@ -15,6 +15,7 @@ fragment move on Move {
 }
 
 fragment pokemonMove on PokemonMoveEdge {
+  id: cursor
   learnMethod
   levelLearnedAt
   node {
@@ -23,8 +24,10 @@ fragment pokemonMove on PokemonMoveEdge {
 }
 
 fragment teamMemberMove on TeamMemberMoveEdge {
+  id: cursor
   learnMethod
   levelLearnedAt
+  slot
   node {
     ...move
   }

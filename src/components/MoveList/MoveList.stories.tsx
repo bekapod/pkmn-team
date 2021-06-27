@@ -12,16 +12,19 @@ export default {
   args: {
     allMoves: [
       {
+        id: '1',
         levelLearnedAt: 0,
         learnMethod: MoveLearnMethod.LevelUp,
         node: substitute
       },
       {
+        id: '2',
         levelLearnedAt: 0,
         learnMethod: MoveLearnMethod.LevelUp,
         node: flash
       },
       {
+        id: '3',
         levelLearnedAt: 0,
         learnMethod: MoveLearnMethod.LevelUp,
         node: explosion
@@ -40,26 +43,31 @@ export const withMoreMoves: Story<ComponentProps<typeof MoveList>> = args => (
 withMoreMoves.args = {
   allMoves: [
     {
+      id: '1',
       levelLearnedAt: 0,
       learnMethod: MoveLearnMethod.LevelUp,
       node: substitute
     },
     {
+      id: '2',
       levelLearnedAt: 0,
       learnMethod: MoveLearnMethod.LevelUp,
       node: flash
     },
     {
+      id: '3',
       levelLearnedAt: 0,
       learnMethod: MoveLearnMethod.LevelUp,
       node: explosion
     },
     {
+      id: '4',
       levelLearnedAt: 0,
       learnMethod: MoveLearnMethod.LevelUp,
       node: rest
     },
     {
+      id: '5',
       levelLearnedAt: 0,
       learnMethod: MoveLearnMethod.LevelUp,
       node: slash

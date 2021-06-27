@@ -98,10 +98,10 @@ export const useMoves = (): [TeamMemberMoveFragment[], Dispatch<Action>] => {
 
 export const MovesProvider: FunctionComponent<{
   teamMember?: TeamMemberFragment;
-  updateTeamMemberMoves?: (
-    member: TeamMemberFragment,
-    moves: TeamMemberMoveFragment[]
-  ) => void;
+  updateTeamMemberMoves?: (values: {
+    member: TeamMemberFragment;
+    moves: TeamMemberMoveFragment[];
+  }) => void;
 }> = ({ teamMember, updateTeamMemberMoves, ...props }) => {
   const isInitialValue = useRef(true);
   const [moves, dispatch] = useMovesReducer(
@@ -116,7 +116,7 @@ export const MovesProvider: FunctionComponent<{
 
   useEffect(() => {
     if (!isInitialValue.current && teamMember) {
-      updateTeamMemberMoves?.(teamMember, moves);
+      updateTeamMemberMoves?.({ member: teamMember, moves });
     }
 
     isInitialValue.current = false;

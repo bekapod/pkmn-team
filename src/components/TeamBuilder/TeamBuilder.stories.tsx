@@ -22,49 +22,61 @@ export default {
       members: {
         edges: [
           {
-            order: 1,
+            slot: 1,
             node: {
               id: '1',
               pokemon: {
                 ...pokemon[0],
                 moves: {
-                  edges: [{ node: substitute }, { node: slash }, { node: rest }]
+                  edges: [
+                    { id: '1', node: substitute },
+                    { id: '2', node: slash },
+                    { id: '3', node: rest }
+                  ]
                 }
               },
-              moves: { edges: [] }
+              moves: {}
             }
           },
           {
-            order: 2,
+            slot: 2,
             node: {
               id: '2',
               pokemon: {
                 ...pokemon[1],
                 moves: {
-                  edges: [{ node: substitute }, { node: rest }, { node: flash }]
+                  edges: [
+                    { id: '1', node: substitute },
+                    { id: '2', node: rest },
+                    { id: '3', node: flash }
+                  ]
                 }
               },
               moves: {
-                edges: [{ node: substitute }, { node: rest }, { node: flash }]
+                edges: [
+                  { id: '1', slot: 1, node: substitute },
+                  { id: '2', slot: 2, node: rest },
+                  { id: '3', slot: 3, node: flash }
+                ]
               }
             }
           },
           {
-            order: 3,
+            slot: 3,
             node: {
               id: '3',
               pokemon: {
                 ...pokemon[2],
                 moves: {
                   edges: [
-                    { node: substitute },
-                    { node: rest },
-                    { node: explosion }
+                    { id: '1', node: substitute },
+                    { id: '2', node: rest },
+                    { id: '3', node: explosion }
                   ]
                 }
               },
               moves: {
-                edges: [{ node: explosion }]
+                edges: [{ id: '1', slot: 1, node: explosion }]
               }
             }
           }

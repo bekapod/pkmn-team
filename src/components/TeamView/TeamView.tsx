@@ -38,10 +38,10 @@ export type TeamViewProps = {
     name?: string;
     members?: TeamMemberInTeamFragment[];
   }) => void;
-  updateTeamMemberMoves?: (
-    member: TeamMemberFragment,
-    moves: TeamMemberMoveFragment[]
-  ) => void;
+  updateTeamMemberMoves?: (values: {
+    member: TeamMemberFragment;
+    moves: TeamMemberMoveFragment[];
+  }) => void;
   isSkeleton?: boolean;
 };
 

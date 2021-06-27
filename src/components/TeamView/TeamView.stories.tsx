@@ -22,7 +22,11 @@ export default {
           pokemon: {
             ...pokemon[0],
             moves: {
-              edges: [{ node: substitute }, { node: slash }, { node: rest }]
+              edges: [
+                { id: '1', node: substitute },
+                { id: '2', node: slash },
+                { id: '3', node: rest }
+              ]
             }
           },
           moves: {}
@@ -35,11 +39,19 @@ export default {
           pokemon: {
             ...pokemon[1],
             moves: {
-              edges: [{ node: substitute }, { node: rest }, { node: flash }]
+              edges: [
+                { id: '1', node: substitute },
+                { id: '2', node: rest },
+                { id: '3', node: flash }
+              ]
             }
           },
           moves: {
-            edges: [{ node: substitute }, { node: rest }, { node: flash }]
+            edges: [
+              { id: '1', slot: 1, node: substitute },
+              { id: '2', slot: 2, node: rest },
+              { id: '3', slot: 3, node: flash }
+            ]
           }
         }
       },
@@ -50,11 +62,15 @@ export default {
           pokemon: {
             ...pokemon[2],
             moves: {
-              edges: [{ node: substitute }, { node: rest }, { node: explosion }]
+              edges: [
+                { id: '1', node: substitute },
+                { id: '2', node: rest },
+                { id: '3', node: explosion }
+              ]
             }
           },
           moves: {
-            edges: [{ node: explosion }]
+            edges: [{ id: '1', slot: 1, node: explosion }]
           }
         }
       }
