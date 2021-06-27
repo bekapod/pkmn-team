@@ -1,11 +1,11 @@
-import { Meta } from '@storybook/react/types-6-0';
-import { ErrorMessage, ErrorMessageProps } from './ErrorMessage';
+import { Meta, Story } from '@storybook/react/types-6-0';
+import { ComponentProps } from 'react';
+import { ErrorMessage } from './ErrorMessage';
 
 export default {
-  title: 'Components/ErrorMessage',
+  title: 'Components/Error Message',
   component: ErrorMessage
-} as Meta<ErrorMessageProps>;
+} as Meta<ComponentProps<typeof ErrorMessage>>;
 
-export const Standard = (args: ErrorMessageProps): JSX.Element => (
-  <ErrorMessage {...args}>This is an error message.</ErrorMessage>
-);
+export const errorMessage: Story<ComponentProps<typeof ErrorMessage>> =
+  args => <ErrorMessage {...args}>This is an error message.</ErrorMessage>;

@@ -1,12 +1,14 @@
-import { Meta } from '@storybook/react/types-6-0';
-import { Pokemon } from '~/generated/graphql';
+import { Meta, Story } from '@storybook/react/types-6-0';
+import { ComponentProps } from 'react';
+import { PokemonFragment } from '~/generated/graphql';
+import { explosion, flash, rest, slash, substitute } from '~/mocks/Moves';
 import { charmander, haunter, pikachu } from '~/mocks/Pokemon';
-import { TeamView, TeamViewProps } from './TeamView';
+import { TeamView } from './TeamView';
 
-const pokemon: Pokemon[] = [charmander, pikachu, haunter];
+const pokemon: PokemonFragment[] = [charmander, pikachu, haunter];
 
 export default {
-  title: 'Components/TeamView',
+  title: 'Components/Team View',
   component: TeamView,
   argTypes: {
     updateTeamMembers: { action: 'updateTeamMembers' }
@@ -14,37 +16,77 @@ export default {
   args: {
     initialTeamMembers: [
       {
-        id: '1',
-        order: 1,
-        pokemon: pokemon[0],
-        learned_moves: []
+        slot: 1,
+        node: {
+          id: '1',
+          pokemon: {
+            ...pokemon[0],
+            moves: {
+              edges: [
+                { id: '1', node: substitute },
+                { id: '2', node: slash },
+                { id: '3', node: rest }
+              ]
+            }
+          },
+          moves: {}
+        }
       },
       {
-        id: '2',
-        order: 2,
-        pokemon: pokemon[1],
-        learned_moves: []
+        slot: 2,
+        node: {
+          id: '2',
+          pokemon: {
+            ...pokemon[1],
+            moves: {
+              edges: [
+                { id: '1', node: substitute },
+                { id: '2', node: rest },
+                { id: '3', node: flash }
+              ]
+            }
+          },
+          moves: {
+            edges: [
+              { id: '1', slot: 1, node: substitute },
+              { id: '2', slot: 2, node: rest },
+              { id: '3', slot: 3, node: flash }
+            ]
+          }
+        }
       },
       {
-        id: '3',
-        order: 3,
-        pokemon: pokemon[2],
-        learned_moves: []
+        slot: 3,
+        node: {
+          id: '3',
+          pokemon: {
+            ...pokemon[2],
+            moves: {
+              edges: [
+                { id: '1', node: substitute },
+                { id: '2', node: rest },
+                { id: '3', node: explosion }
+              ]
+            }
+          },
+          moves: {
+            edges: [{ id: '1', slot: 1, node: explosion }]
+          }
+        }
       }
     ],
     allPokemon: pokemon
   }
-} as Meta<TeamViewProps>;
+} as Meta<ComponentProps<typeof TeamView>>;
 
-export const Default = (args: TeamViewProps): JSX.Element => (
+export const teamView: Story<ComponentProps<typeof TeamView>> = args => (
   <TeamView {...args} />
 );
 
-export const Skeleton = (args: TeamViewProps): JSX.Element => (
+export const skeleton: Story<ComponentProps<typeof TeamView>> = args => (
   <TeamView {...args} />
 );
-Skeleton.args = {
+skeleton.args = {
   initialTeamMembers: undefined,
-  allPokemon: undefined,
   isSkeleton: true
 };

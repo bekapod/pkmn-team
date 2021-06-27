@@ -3,8 +3,10 @@ import { useEffect, useRef, useState } from 'react';
 
 type Params = Record<string, { minWidth: number; maxWidth?: number }>;
 
-export function useContainerQuery(params: Params): [typeof ref, string[]] {
-  const ref = useRef<Element>();
+export function useContainerQuery<ElementType extends Element>(
+  params: Params
+): [typeof ref, string[]] {
+  const ref = useRef<ElementType>();
   const [classNames, changeClassNames] = useState<string[]>([]);
 
   useEffect(() => {

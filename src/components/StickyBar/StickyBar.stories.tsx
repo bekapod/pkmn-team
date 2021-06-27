@@ -1,9 +1,9 @@
-import { Meta } from '@storybook/react/types-6-0';
+import { Meta, Story } from '@storybook/react/types-6-0';
 import { StickyBar } from './StickyBar';
 
 export default {
-  title: 'Components/StickyBar',
+  title: 'Components/Sticky Bar',
   component: StickyBar
 } as Meta;
 
-export const Standard = (): JSX.Element => <StickyBar />;
+export const stickyBar: Story = () => <StickyBar />;

@@ -1,0 +1,34 @@
+fragment move on Move {
+  id
+  slug
+  name
+  accuracy
+  pp
+  power
+  damageClass
+  effect
+  effectChance
+  target
+  type {
+    ...moveType
+  }
+}
+
+fragment pokemonMove on PokemonMoveEdge {
+  id: cursor
+  learnMethod
+  levelLearnedAt
+  node {
+    ...move
+  }
+}
+
+fragment teamMemberMove on TeamMemberMoveEdge {
+  id: cursor
+  learnMethod
+  levelLearnedAt
+  slot
+  node {
+    ...move
+  }
+}

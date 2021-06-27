@@ -1,4 +1,4 @@
-import { Meta } from '@storybook/react/types-6-0';
+import { Meta, Story } from '@storybook/react/types-6-0';
 import { Header, HeaderProps } from './Header';
 
 export default {
@@ -9,6 +9,4 @@ export default {
   }
 } as Meta<HeaderProps>;
 
-export const Standard = (args: HeaderProps): JSX.Element => (
-  <Header {...args} />
-);
+export const header: Story<HeaderProps> = args => <Header {...args} />;

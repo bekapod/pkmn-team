@@ -1,5 +1,5 @@
 export const setupResizeObserverMock = (
-  entries: any[],
+  entries: ResizeObserverEntry[],
   unobserve = jest.fn()
 ): { reset: () => void } => {
   const originalResizeObserver = window.ResizeObserver;

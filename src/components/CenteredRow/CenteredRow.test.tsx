@@ -20,6 +20,6 @@ describe(CenteredRow, () => {
 
   it('can render as a different element', () => {
     render(<CenteredRow as="main">hello</CenteredRow>);
-    expect(screen.getByText('hello').tagName).toBe('MAIN');
+    expect(screen.getByRole('main')).toBeInTheDocument();
   });
 });

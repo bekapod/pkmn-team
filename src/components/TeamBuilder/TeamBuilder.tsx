@@ -9,25 +9,28 @@ import { GiantInput } from '../GiantInput';
 import { LoadingIcon } from '../LoadingIcon';
 import { TeamView } from '../TeamView';
 import { StickyBar } from '../StickyBar';
-import type {
-  MoveFragmentFragment,
+import {
   TeamByIdQuery,
-  TeamMemberFragmentFragment,
-  Teams
+  TeamMemberFragment,
+  TeamMemberInTeamFragment,
+  TeamMemberMoveFragment
 } from '~/generated/graphql';
+import { extractEdges } from '~/lib/relay';
 
 export type TeamBuilderProps = {
   team?: TeamByIdQuery['teamById'];
   isLoading?: boolean;
   isSkeleton?: boolean;
   error?: CombinedError;
-  updateTeam?: (name: string) => void;
-  deleteTeam?: () => void;
-  updateTeamMembers?: (members: Teams['team_members']) => void;
-  updateTeamMemberMoves?: (
-    member: TeamMemberFragmentFragment,
-    moves: MoveFragmentFragment[]
-  ) => void;
+  updateTeam: (values: {
+    name?: string;
+    members?: TeamMemberInTeamFragment[];
+  }) => void;
+  deleteTeam: () => void;
+  updateTeamMemberMoves: (values: {
+    member: TeamMemberFragment;
+    moves: TeamMemberMoveFragment[];
+  }) => void;
 };
 
 export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
@@ -37,19 +40,24 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
   error,
   updateTeam,
   deleteTeam,
-  updateTeamMembers,
   updateTeamMemberMoves
 }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedUpdateTeam = useCallback(
-    debounce(nextValue => updateTeam?.(nextValue), 1000),
+    debounce<TeamBuilderProps['updateTeam']>(
+      nextValue => updateTeam(nextValue),
+      1000
+    ),
     [updateTeam]
   );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedUpdateTeamMembers = useCallback(
-    debounce(nextValue => updateTeamMembers?.(nextValue), 1000),
-    [updateTeamMembers]
+  const debouncedUpdateTeamMemberMoves = useCallback(
+    debounce<TeamBuilderProps['updateTeamMemberMoves']>(
+      nextValue => updateTeamMemberMoves(nextValue),
+      1000
+    ),
+    [updateTeamMemberMoves]
   );
 
   return (
@@ -84,16 +92,18 @@ export const TeamBuilder: FunctionComponent<TeamBuilderProps> = ({
           aria-label="Choose a team name"
           placeholder="Choose a team name"
           defaultValue={team?.name}
-          onChange={e => debouncedUpdateTeam(e.currentTarget.value)}
+          onChange={e => debouncedUpdateTeam({ name: e.currentTarget.value })}
           disabled={isSkeleton}
         />
       </CenteredRow>
 
       <TeamView
-        initialTeamMembers={team?.team_members}
+        initialTeamMembers={extractEdges<TeamMemberInTeamFragment>(
+          team?.members.edges
+        )}
         isSkeleton={isSkeleton}
-        updateTeamMembers={debouncedUpdateTeamMembers}
-        updateTeamMemberMoves={updateTeamMemberMoves}
+        updateTeam={debouncedUpdateTeam}
+        updateTeamMemberMoves={debouncedUpdateTeamMemberMoves}
       />
     </>
   );

@@ -1,8 +1,17 @@
-fragment TeamFragment on teams {
+fragment team on Team {
   id
   name
-  created_at
-  team_members {
-    ...TeamMemberFragment
+  createdAt
+  members {
+    edges {
+      ...teamMemberInTeam
+    }
+  }
+}
+
+fragment teamMemberInTeam on TeamMemberEdge {
+  slot
+  node {
+    ...teamMember
   }
 }

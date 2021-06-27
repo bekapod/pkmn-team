@@ -48,14 +48,14 @@ describe(TeamCreator, () => {
   describe('when loading', () => {
     it('renders a loading spinner', () => {
       setup({ isLoading: true });
-      expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
+      expect(
+        screen.getByRole('alert', { name: 'Loading' })
+      ).toBeInTheDocument();
     });
 
     it('marks create button as busy', () => {
       setup({ isLoading: true });
-      expect(
-        screen.getByTestId('loading-spinner').parentElement
-      ).toHaveAttribute('aria-busy', 'true');
+      expect(screen.getByRole('button')).toHaveAttribute('aria-busy', 'true');
     });
   });
 

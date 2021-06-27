@@ -28,6 +28,7 @@ describe(Page, () => {
         Some page content
       </Page>
     );
+    // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByRole('main').parentElement).toHaveClass(
       'some-custom-class'
     );

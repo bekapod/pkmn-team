@@ -1,4 +1,4 @@
-import { Meta } from '@storybook/react/types-6-0';
+import { Meta, Story } from '@storybook/react/types-6-0';
 import {
   CardLink,
   CardWrapper,
@@ -8,10 +8,11 @@ import {
 } from './Card';
 
 export default {
-  title: 'Components/Card'
+  title: 'Components/Card',
+  subcomponents: { CardLink, CardWrapper, CardHeader, CardHeading, CardContent }
 } as Meta;
 
-export const WithLink = (): JSX.Element => (
+export const card: Story = () => (
   <CardLink href="/">
     <CardWrapper>
       <CardHeader

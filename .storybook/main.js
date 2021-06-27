@@ -4,10 +4,18 @@ module.exports = {
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/addon-a11y',
-    'storybook-css-modules-preset'
+    'storybook-css-modules-preset',
+    {
+      name: '@storybook/addon-postcss',
+      options: {
+        postcssLoaderOptions: {
+          implementation: require('postcss')
+        }
+      }
+    }
   ],
-  reactOptions: {
-    fastRefresh: true
+  core: {
+    builder: 'webpack5'
   },
   babel: config => {
     try {
@@ -21,7 +29,6 @@ module.exports = {
         ...config,
         plugins: [
           ...config.plugins,
-          ['@babel/plugin-transform-react-jsx', {}, 'react-jsx'],
           [
             'babel-plugin-module-resolver',
             {
@@ -42,20 +49,5 @@ module.exports = {
     } catch (err) {
       console.error(err);
     }
-  },
-  webpackFinal: async config => {
-    config.module.rules.forEach(rule => {
-      const path = require('path');
-
-      if (rule.test.toString() === '/\\.css$/') {
-        rule.use[2].options = {
-          config: {
-            path: path.resolve(__dirname, './postcss.config.js')
-          }
-        };
-      }
-    });
-
-    return config;
   }
 };

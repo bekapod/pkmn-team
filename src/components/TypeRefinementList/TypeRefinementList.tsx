@@ -28,6 +28,5 @@ export const TypeRefinementList: FunctionComponent<
 );
 
 // 2. Connect the component using the connector
-export const ConnectedTypeRefinementList = connectRefinementList(
-  TypeRefinementList
-);
+export const ConnectedTypeRefinementList =
+  connectRefinementList(TypeRefinementList);

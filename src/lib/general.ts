@@ -27,8 +27,16 @@ export const capitalizePokemonName = (pokemon: Pick<Pokemon, 'name'>): string =>
   capitalize(pokemon.name);
 
 export const formatPokemonName = (
-  pokemon: Pick<Pokemon, 'pokedex_id' | 'name'>
-): string => `#${pokemon.pokedex_id} ${capitalizePokemonName(pokemon)}`;
+  pokemon: Pick<Pokemon, 'pokedexId' | 'name'>
+): string => `#${pokemon.pokedexId} ${capitalizePokemonName(pokemon)}`;
+
+export const getPokemonSpriteUrl = (sprite?: string): string | undefined =>
+  sprite
+    ? `/sprites/${sprite.replace(
+        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/',
+        ''
+      )}`
+    : undefined;
 
 export const reorder = <T>(
   list: T[],

@@ -1,40 +1,41 @@
 import { ComponentPropsWithRef, forwardRef, FunctionComponent } from 'react';
 import classNames from 'classnames';
-import { Types } from '~/generated/graphql';
+import { Type } from '~/generated/graphql';
 import { getTypeGradient } from '~/lib/gradients';
 
-export const CardLink: FunctionComponent<
-  ComponentPropsWithRef<'a'>
-> = forwardRef(({ className, ...props }, ref) => (
-  <a
-    ref={ref}
-    className={classNames(
-      'block',
-      'transition-transform',
-      'duration-300',
-      'ease-out',
-      'text-initial',
-      'no-underline',
-      'scale-100',
-      'transform-gpu',
-      'motion-safe:hover:scale-105 motion-safe:focus:scale-105',
-      className
-    )}
-    {...props}
-  />
-));
+export const CardLink: FunctionComponent<ComponentPropsWithRef<'a'>> =
+  // eslint-disable-next-line react/display-name
+  forwardRef(({ className, ...props }, ref) => (
+    <a
+      ref={ref}
+      className={classNames(
+        'block',
+        'transition-transform',
+        'duration-300',
+        'ease-out',
+        'text-initial',
+        'no-underline',
+        'scale-100',
+        'transform-gpu',
+        'motion-safe:hover:scale-105 motion-safe:focus:scale-105',
+        className
+      )}
+      {...props}
+    />
+  ));
 
-export const CardWrapper: FunctionComponent<
-  ComponentPropsWithRef<'article'>
-> = ({ className, ...props }) => (
-  <article
-    className={classNames('flex', 'flex-col', 'h-full', className)}
-    {...props}
-  />
-);
+export const CardWrapper: FunctionComponent<ComponentPropsWithRef<'article'>> =
+  // eslint-disable-next-line react/display-name
+  forwardRef(({ className, ...props }, ref) => (
+    <article
+      ref={ref}
+      className={classNames('flex', 'flex-col', 'h-full', className)}
+      {...props}
+    />
+  ));
 
 export type CardHeaderProps = ComponentPropsWithRef<'header'> & {
-  types?: Pick<Types, 'name' | 'slug'>[];
+  types?: Pick<Type, 'name' | 'slug'>[];
 };
 export const CardHeader: FunctionComponent<CardHeaderProps> = ({
   types = [],

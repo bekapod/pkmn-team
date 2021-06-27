@@ -1,5 +1,0 @@
-fragment TypeFragment on types {
-  id
-  name
-  slug
-}

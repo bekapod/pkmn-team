@@ -1,12 +1,12 @@
 import { FunctionComponent, useEffect, useRef } from 'react';
 import { connectInfiniteHits } from 'react-instantsearch-dom';
 import type { InfiniteHitsProvided, Hit } from 'react-instantsearch-core';
-import type { PokemonFragmentFragment } from '~/generated/graphql';
-import { PokemonLine } from '../PokemonLine';
+import type { PokemonFragment } from '~/generated/graphql';
+import { PokemonLine, PokemonLineProps } from '../PokemonLine';
 
 export const InfinitePokemon: FunctionComponent<
-  InfiniteHitsProvided<Hit<PokemonFragmentFragment>> & {
-    onClick: (pokemon: PokemonFragmentFragment) => void;
+  InfiniteHitsProvided<Hit<{ node: PokemonFragment }>> & {
+    onClick: (pokemon: PokemonLineProps['pokemon']) => void;
   }
 > = ({ hits, hasMore, refineNext, onClick }) => {
   const sentinel = useRef<HTMLLIElement>(null);
@@ -31,30 +31,12 @@ export const InfinitePokemon: FunctionComponent<
 
   return (
     <ul className="max-h-5-10 overflow-y-auto pt-1">
-      {hits.map(({ objectID, ...rest }) => {
-        const pokemon: PokemonFragmentFragment = {
-          pokedex_id: rest.pokedex_id,
-          slug: rest.slug,
-          sprite: rest.sprite,
-          id: rest.id,
-          name: rest.name,
-          types: rest.types,
-          abilities: rest.abilities,
-          attack: rest.attack,
-          defense: rest.defense,
-          description: rest.description,
-          hp: rest.hp,
-          is_baby: rest.is_baby,
-          is_legendary: rest.is_legendary,
-          is_mythical: rest.is_mythical,
-          special_attack: rest.special_attack,
-          special_defense: rest.special_defense,
-          speed: rest.speed
-        };
+      {hits.map(({ objectID, node }) => {
+        const pokemon: PokemonLineProps['pokemon'] = node;
         return (
           <li key={objectID} className="ais-InfiniteHits-item">
             <PokemonLine
-              data-testid={`autocomplete-result-${pokemon.pokedex_id}`}
+              data-testid={`autocomplete-result-${pokemon.pokedexId}`}
               pokemon={pokemon}
               onClick={() => onClick(pokemon)}
             />

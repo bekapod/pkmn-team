@@ -1,25 +1,35 @@
-import { Meta } from '@storybook/react/types-6-0';
+import { Meta, Story } from '@storybook/react/types-6-0';
 import { pikachu } from '~/mocks/Pokemon';
 import { CtaButton } from '~/components/Cta';
 import { MovesProvider } from '~/hooks/useMoves';
-import { PokemonCard, PokemonCardProps } from './PokemonCard';
-import { flash, substitute } from '~/mocks/Pokemon_Move';
+import { PokemonCard } from './PokemonCard';
+import { ComponentProps } from 'react';
+import {
+  TeamMemberFragment,
+  TeamMemberMoveFragment
+} from '~/generated/graphql';
+import { flash, substitute } from '~/mocks/Moves';
 
 export default {
-  title: 'Components/PokemonCard',
+  title: 'Components/Pokemon Card',
   component: PokemonCard,
   args: {
     pokemon: pikachu
   }
-} as Meta<PokemonCardProps>;
+} as Meta<ComponentProps<typeof PokemonCard>>;
 
-export const Standard = (args: PokemonCardProps): JSX.Element => (
+export const pokemonCard: Story<ComponentProps<typeof PokemonCard>> = args => (
   <PokemonCard {...args} />
 );
 
-export const WithTeamMember = (
-  args: PokemonCardProps & { updateTeamMemberMoves: never }
-): JSX.Element => (
+export const withTeamMember: Story<
+  ComponentProps<typeof PokemonCard> & {
+    updateTeamMemberMoves: (values: {
+      member: TeamMemberFragment;
+      moves: TeamMemberMoveFragment[];
+    }) => void;
+  }
+> = args => (
   <MovesProvider
     teamMember={args.teamMember}
     updateTeamMemberMoves={args.updateTeamMemberMoves}
@@ -27,16 +37,21 @@ export const WithTeamMember = (
     <PokemonCard {...args} />
   </MovesProvider>
 );
-WithTeamMember.argTypes = {
+withTeamMember.argTypes = {
   updateTeamMemberMoves: { action: 'updateTeamMemberMoves' }
 };
-WithTeamMember.args = {
+withTeamMember.args = {
   teamMember: {
     id: '3',
-    order: 3,
     pokemon: pikachu,
-    learned_moves: [flash, substitute]
+    moves: {
+      edges: [
+        { id: '1', node: substitute },
+        { id: '2', node: flash }
+      ]
+    }
   },
+  // eslint-disable-next-line react/display-name
   renderCardActions: () => (
     <CtaButton type="button" size="small" variant="destructive">
       Some action
@@ -44,10 +59,11 @@ WithTeamMember.args = {
   )
 };
 
-export const WithActions = (args: PokemonCardProps): JSX.Element => (
+export const withActions: Story<ComponentProps<typeof PokemonCard>> = args => (
   <PokemonCard {...args} />
 );
-WithActions.args = {
+withActions.args = {
+  // eslint-disable-next-line react/display-name
   renderCardActions: () => (
     <CtaButton type="button" size="small" variant="destructive">
       Some action

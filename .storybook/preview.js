@@ -17,7 +17,7 @@ const worker = setupWorker(
             exhaustiveFacetsCount: true,
             exhaustiveNbHits: true,
             facets: {
-              'types.type.name': {
+              'node.types.edges.node.name': {
                 Water: 131,
                 Normal: 109,
                 Flying: 98,
@@ -39,9 +39,9 @@ const worker = setupWorker(
               }
             },
             hits: [
-              { ...charmander, objectID: '1' },
-              { ...haunter, objectID: '2' },
-              { ...pikachu, objectID: '3' }
+              { node: charmander, objectID: '1' },
+              { node: haunter, objectID: '2' },
+              { node: pikachu, objectID: '3' }
             ],
             hitsPerPage: 50,
             index: 'pokemon',
@@ -115,7 +115,9 @@ const withNextRouter = makeDecorator({
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
-  grid: { cellSize: 12 }
+  backgrounds: {
+    grid: { cellSize: 12 }
+  }
 };
 
 export const decorators = [withNextRouter];
