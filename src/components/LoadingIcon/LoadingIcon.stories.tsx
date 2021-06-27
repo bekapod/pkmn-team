@@ -1,11 +1,12 @@
-import { Meta } from '@storybook/react/types-6-0';
-import { LoadingIcon, LoadingIconProps } from './LoadingIcon';
+import { Meta, Story } from '@storybook/react/types-6-0';
+import { ComponentProps } from 'react';
+import { LoadingIcon } from './LoadingIcon';
 
 export default {
-  title: 'Components/LoadingIcon',
+  title: 'Components/Loading Icon',
   component: LoadingIcon
-} as Meta<LoadingIconProps>;
+} as Meta<ComponentProps<typeof LoadingIcon>>;
 
-export const Standard = (args: LoadingIconProps): JSX.Element => (
+export const loadingIcon: Story<ComponentProps<typeof LoadingIcon>> = args => (
   <LoadingIcon {...args} />
 );

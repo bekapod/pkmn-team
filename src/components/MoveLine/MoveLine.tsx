@@ -4,10 +4,10 @@ import { TypeTag } from '../TypeTag';
 import { Label } from '../Label';
 import { InlineList } from '../InlineList';
 import { getTypeGradient } from '~/lib/gradients';
-import { Moves } from '~/generated/graphql';
+import { MoveFragment } from '~/generated/graphql';
 
 export type MoveLineProps = ComponentPropsWithRef<'div'> &
-  Moves & {
+  MoveFragment & {
     isOpen?: boolean;
     isHighlighted?: boolean;
     isCompressed?: boolean;
@@ -17,18 +17,18 @@ export type MoveLineProps = ComponentPropsWithRef<'div'> &
 
 const printStat = (stat?: string | number | null) => `${stat ?? '-'}`;
 
+// eslint-disable-next-line react/display-name
 export const MoveLine: FunctionComponent<MoveLineProps> = forwardRef(
   (
     {
-      __typename,
       name,
-      slug,
       type,
-      damage_class,
+      damageClass,
       pp,
       accuracy,
       power,
       effect,
+      effectChance,
       target,
       isOpen,
       isHighlighted,
@@ -51,7 +51,8 @@ export const MoveLine: FunctionComponent<MoveLineProps> = forwardRef(
           'p-4',
           {
             'move-line-template-compressed': isCompressed,
-            'bg-yellow-vivid-100': isHighlighted
+            'bg-yellow-vivid-100': isHighlighted,
+            'bg-white': !isHighlighted
           }
         )}
         style={{
@@ -59,10 +60,13 @@ export const MoveLine: FunctionComponent<MoveLineProps> = forwardRef(
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           '--type-gradient': getTypeGradient(
-            damage_class
-              ? [{ name: damage_class.value, slug: damage_class.value }].concat(
-                  type
-                )
+            damageClass
+              ? [
+                  {
+                    name: damageClass.toLowerCase(),
+                    slug: damageClass.toLowerCase()
+                  }
+                ].concat([type])
               : [type]
           )
         }}
@@ -85,11 +89,11 @@ export const MoveLine: FunctionComponent<MoveLineProps> = forwardRef(
           <TypeTag as="li" key={type.slug} typeSlug={type.slug}>
             {type.name}
           </TypeTag>
-          {!!damage_class && (
-            <TypeTag as="li" typeSlug={damage_class.value}>
-              {damage_class.value}
+          {damageClass ? (
+            <TypeTag as="li" typeSlug={damageClass.toLowerCase()}>
+              {damageClass}
             </TypeTag>
-          )}
+          ) : null}
         </InlineList>
 
         {renderLineActions && (

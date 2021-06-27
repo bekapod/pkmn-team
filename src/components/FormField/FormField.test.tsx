@@ -22,6 +22,7 @@ describe(FormField, () => {
 
   it('adds additional class names', () => {
     setup({ className: 'some-custom-class' });
+    // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByText('Some input').parentElement).toHaveClass(
       'some-custom-class'
     );

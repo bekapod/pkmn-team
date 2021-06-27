@@ -1,6 +1,0 @@
-fragment TeamMemberMoveFragment on team_member_move {
-  order
-  move {
-    ...MoveFragment
-  }
-}

@@ -1,14 +1,14 @@
 import { FunctionComponent, useCallback } from 'react';
 import algoliasearch from 'algoliasearch/lite';
 import { InstantSearch } from 'react-instantsearch-dom';
-import { PokemonFragmentFragment } from '~/generated/graphql';
 import { Autocomplete, AutocompleteDropdown } from '../Autocomplete';
 import { ConnectedTypeRefinementList } from '../TypeRefinementList';
 import { ConnectedSearchBox } from '../SearchBox';
 import { ConnectedInfinitePokemon } from '../InfinitePokemon';
+import { PokemonLineProps } from '../PokemonLine';
 
 export type PokemonSearchProps = {
-  setCurrentSearchPokemon: (pokemon: PokemonFragmentFragment) => void;
+  setCurrentSearchPokemon: (pokemon: PokemonLineProps['pokemon']) => void;
 };
 
 const searchClient = algoliasearch(
@@ -20,7 +20,7 @@ export const PokemonSearch: FunctionComponent<PokemonSearchProps> = ({
   setCurrentSearchPokemon
 }) => {
   const onResultClick = useCallback(
-    (pkmn: PokemonFragmentFragment) => {
+    (pkmn: PokemonLineProps['pokemon']) => {
       setCurrentSearchPokemon(pkmn);
     },
     [setCurrentSearchPokemon]
@@ -38,7 +38,7 @@ export const PokemonSearch: FunctionComponent<PokemonSearchProps> = ({
           isFullWidth
         />
         <ConnectedTypeRefinementList
-          attribute="types.type.name"
+          attribute="node.types.edges.node.name"
           limit={50}
           operator="and"
         />
@@ -46,7 +46,10 @@ export const PokemonSearch: FunctionComponent<PokemonSearchProps> = ({
           <ConnectedInfinitePokemon onClick={onResultClick} />
         </AutocompleteDropdown>
         <div className="flex justify-end mt-3">
-          <img src="/search-by-algolia-light-background.svg" />
+          <img
+            src="/search-by-algolia-light-background.svg"
+            alt="search by algolia"
+          />
         </div>
       </Autocomplete>
     </InstantSearch>

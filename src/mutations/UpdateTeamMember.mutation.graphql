@@ -1,0 +1,9 @@
+mutation UpdateTeamMember(
+  $id: ID!
+  $slot: Int
+  $moves: [CreateOrUpdateTeamMemberMoveInput!]
+) {
+  updateTeamMember(input: { id: $id, slot: $slot, moves: $moves }) {
+    ...teamMember
+  }
+}

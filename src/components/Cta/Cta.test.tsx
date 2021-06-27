@@ -6,8 +6,7 @@ import { CtaButton, CtaLink } from '.';
 describe('CtaButton', () => {
   it('renders a button element', () => {
     render(<CtaButton>hello</CtaButton>);
-    expect(screen.getByText('hello')).toBeInTheDocument();
-    expect(screen.getByText('hello').tagName).toBe('BUTTON');
+    expect(screen.getByRole('button', { name: 'hello' })).toBeInTheDocument();
   });
 
   it('renders an icon', () => {
@@ -24,7 +23,7 @@ describe('CtaButton', () => {
 
   it('renders a loading icon', () => {
     render(<CtaButton aria-busy={true}>hello</CtaButton>);
-    expect(screen.getByLabelText('Loading')).toBeInTheDocument();
+    expect(screen.getByRole('alert', { name: 'Loading' })).toBeInTheDocument();
   });
 
   it('adds additional class names', () => {
@@ -36,8 +35,7 @@ describe('CtaButton', () => {
 describe('CtaLink', () => {
   it('renders a link element', () => {
     render(<CtaLink href="/hello">hello</CtaLink>);
-    expect(screen.getByText('hello')).toBeInTheDocument();
-    expect(screen.getByText('hello').tagName).toBe('A');
+    expect(screen.getByRole('link', { name: 'hello' })).toBeInTheDocument();
   });
 
   it('renders href attribute', () => {

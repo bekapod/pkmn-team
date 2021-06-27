@@ -1,20 +1,24 @@
 import type { ComponentPropsWithRef, FunctionComponent } from 'react';
 import classNames from 'classnames';
-import type { PokemonFragmentFragment } from '~/generated/graphql';
-import { formatPokemonName, sortBySlug } from '~/lib/general';
+import type { PokemonFragment, PokemonTypeFragment } from '~/generated/graphql';
+import {
+  formatPokemonName,
+  getPokemonSpriteUrl,
+  sortBySlug
+} from '~/lib/general';
 import { getTypeGradient } from '~/lib/gradients';
 import { InlineList } from '../InlineList';
 import { TypeTag } from '../TypeTag';
 
 export type PokemonLineProps = {
-  pokemon: PokemonFragmentFragment;
+  pokemon: PokemonFragment;
   outdent?: string;
 };
 
 export const PokemonLine: FunctionComponent<
   ComponentPropsWithRef<'div'> & PokemonLineProps
 > = ({ pokemon, outdent, style, className, ...props }) => {
-  const { pokedex_id, name, types, sprite } = pokemon;
+  const { pokedexId, name, types, sprite } = pokemon;
 
   return (
     <div
@@ -31,13 +35,17 @@ export const PokemonLine: FunctionComponent<
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         '--outdent': outdent,
-        '--type-gradient': getTypeGradient(types.map(({ type }) => type))
+        '--type-gradient': getTypeGradient(
+          types.edges
+            ?.map(edge => edge?.node)
+            ?.filter((node): node is PokemonTypeFragment => !!node) ?? []
+        )
       }}
       {...props}
     >
       <img
         className={classNames('w-8', 'h-8', 'mr-4')}
-        src={`/sprites/${sprite}`}
+        src={getPokemonSpriteUrl(sprite)}
         alt={`${name} sprite`}
       />
       <div>
@@ -45,9 +53,13 @@ export const PokemonLine: FunctionComponent<
           {formatPokemonName(pokemon)}
         </div>
         <InlineList>
-          {sortBySlug(types.map(({ type }) => type)).map(type => (
-            <li key={`Pokemon: ${pokedex_id}, Type: ${type.slug}`}>
-              <TypeTag typeSlug={type.slug}>{type.name}</TypeTag>
+          {sortBySlug(
+            types.edges
+              ?.map(edge => edge?.node)
+              ?.filter((node): node is PokemonTypeFragment => !!node) ?? []
+          ).map(type => (
+            <li key={`Pokemon: ${pokedexId}, Type: ${type.slug}`}>
+              <TypeTag typeSlug={type.slug}>{type?.name}</TypeTag>
             </li>
           ))}
         </InlineList>

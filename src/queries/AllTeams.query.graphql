@@ -1,13 +1,8 @@
 query AllTeams {
-  teams(order_by: { created_at: desc_nulls_last }) {
-    id
-    name
-    created_at
-    team_members {
-      id
-      order
-      pokemon {
-        ...PokemonFragment
+  teams {
+    edges {
+      node {
+        ...team
       }
     }
   }

@@ -1,16 +1,18 @@
-import { Meta } from '@storybook/react/types-6-0';
+import { Meta, Story } from '@storybook/react/types-6-0';
+import { ComponentProps } from 'react';
 import { substitute } from '~/mocks/Moves';
-import { MoveLine, MoveLineProps } from './MoveLine';
+import { MoveLine } from './MoveLine';
 
 export default {
-  title: 'Components/MoveLine',
+  title: 'Components/Move Line',
   component: MoveLine,
   args: {
     ...substitute,
+    // eslint-disable-next-line react/display-name
     renderLineActions: () => <div>Some interactivity would be placed here</div>
   }
-} as Meta<MoveLineProps>;
+} as Meta<ComponentProps<typeof MoveLine>>;
 
-export const Standard = (args: MoveLineProps): JSX.Element => (
+export const moveLine: Story<ComponentProps<typeof MoveLine>> = args => (
   <MoveLine {...args} />
 );

@@ -1,76 +1,161 @@
-import { Pokemon } from '~/generated/graphql';
+import { Color, Habitat, PokemonFragment, Shape } from '~/generated/graphql';
 import {
   blaze,
   lightningRod,
   solarPower,
   staticc,
   levitate
-} from './Pokemon_Ability';
-import { explosion, flash, rest, slash, substitute } from './Pokemon_Move';
-import { electric, fire, ghost, poison } from './Pokemon_Type';
+} from './Abilities';
+import { electric, fire, ghost, poison } from './Types';
 
-export const charmander: Pokemon = {
+export const charmander: PokemonFragment = {
   id: '4',
   name: 'Charmander',
   slug: 'charmander',
-  pokedex_id: 4,
+  pokedexId: 4,
   sprite: '4.png',
-  types: [fire],
-  learnable_moves: [substitute, slash, rest],
+  types: {
+    edges: [
+      {
+        node: {
+          ...fire,
+          noDamageFrom: { edges: [] },
+          halfDamageFrom: { edges: [] },
+          doubleDamageFrom: { edges: [] }
+        }
+      }
+    ]
+  },
   hp: 39,
   attack: 52,
   defense: 43,
-  special_attack: 60,
-  special_defense: 50,
+  specialAttack: 60,
+  specialDefense: 50,
   speed: 65,
-  is_baby: false,
-  is_legendary: false,
-  is_mythical: false,
+  isBaby: false,
+  isLegendary: false,
+  isMythical: false,
   description:
     'The flame at the tip of its tail makes a sound as\nit burns. You can only hear it in quiet places.',
-  abilities: [blaze, solarPower]
+  abilities: {
+    edges: [
+      { slot: 1, isHidden: false, node: blaze },
+      { slot: 2, isHidden: false, node: solarPower }
+    ]
+  },
+  color: Color.Red,
+  shape: Shape.Arms,
+  habitat: Habitat.Grassland,
+  height: 0,
+  weight: 0,
+  isDefaultVariant: true,
+  eggGroups: {
+    edges: []
+  },
+  evolvesTo: { edges: [] },
+  evolvesFrom: { edges: [] },
+  moves: { edges: [] }
 };
 
-export const pikachu: Pokemon = {
+export const pikachu: PokemonFragment = {
   id: '25',
   name: 'Pikachu',
   slug: 'pikachu',
-  pokedex_id: 25,
+  pokedexId: 25,
   sprite: '25.png',
   hp: 35,
   attack: 55,
   defense: 40,
-  special_attack: 50,
-  special_defense: 50,
+  specialAttack: 50,
+  specialDefense: 50,
   speed: 90,
-  is_baby: false,
-  is_legendary: false,
-  is_mythical: false,
+  isBaby: false,
+  isLegendary: false,
+  isMythical: false,
   description:
     'While sleeping, it generates electricity in the\nsacs in its cheeks. If it’s not getting enough\nsleep, it will be able to use only weak electricity.',
-  types: [electric],
-  learnable_moves: [substitute, rest, flash],
-  abilities: [staticc, lightningRod]
+  types: {
+    edges: [
+      {
+        node: {
+          ...electric,
+          noDamageFrom: { edges: [] },
+          halfDamageFrom: { edges: [] },
+          doubleDamageFrom: { edges: [] }
+        }
+      }
+    ]
+  },
+  abilities: {
+    edges: [
+      { slot: 1, isHidden: false, node: staticc },
+      { slot: 2, isHidden: false, node: lightningRod }
+    ]
+  },
+  color: Color.Red,
+  shape: Shape.Arms,
+  habitat: Habitat.Grassland,
+  height: 0,
+  weight: 0,
+  isDefaultVariant: true,
+  eggGroups: {
+    edges: []
+  },
+  evolvesTo: { edges: [] },
+  evolvesFrom: { edges: [] },
+  moves: { edges: [] }
 };
 
-export const haunter: Pokemon = {
+export const haunter: PokemonFragment = {
   id: '93',
   name: 'Haunter',
   slug: 'haunter',
-  pokedex_id: 93,
+  pokedexId: 93,
   sprite: '93.png',
   hp: 45,
   attack: 50,
   defense: 45,
-  special_attack: 115,
-  special_defense: 55,
+  specialAttack: 115,
+  specialDefense: 55,
   speed: 95,
-  is_baby: false,
-  is_legendary: false,
-  is_mythical: false,
+  isBaby: false,
+  isLegendary: false,
+  isMythical: false,
   description:
     'It’s dangerous to go outside alone on nights\nwhen you’re feeling sad. Haunter will catch you,\nand you won’t be able to go back home.',
-  types: [ghost, poison],
-  learnable_moves: [substitute, rest, explosion],
-  abilities: [levitate]
+  types: {
+    edges: [
+      {
+        node: {
+          ...ghost,
+          noDamageFrom: { edges: [] },
+          halfDamageFrom: { edges: [] },
+          doubleDamageFrom: { edges: [] }
+        }
+      },
+      {
+        node: {
+          ...poison,
+          noDamageFrom: { edges: [] },
+          halfDamageFrom: { edges: [] },
+          doubleDamageFrom: { edges: [] }
+        }
+      }
+    ]
+  },
+  abilities: {
+    edges: [{ slot: 1, isHidden: false, node: levitate }]
+  },
+  color: Color.Red,
+  shape: Shape.Arms,
+  habitat: Habitat.Grassland,
+  height: 0,
+  weight: 0,
+  isDefaultVariant: true,
+  eggGroups: {
+    edges: []
+  },
+  evolvesTo: { edges: [] },
+  evolvesFrom: { edges: [] },
+  moves: { edges: [] }
 };

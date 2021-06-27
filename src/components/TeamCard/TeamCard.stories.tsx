@@ -1,37 +1,46 @@
-import { Meta } from '@storybook/react/types-6-0';
-import { Pokemon } from '~/generated/graphql';
+import { Meta, Story } from '@storybook/react/types-6-0';
+import { ComponentProps } from 'react';
+import { PokemonFragment } from '~/generated/graphql';
 import { charmander, haunter, pikachu } from '~/mocks/Pokemon';
-import { TeamCard, TeamCardProps } from './TeamCard';
+import { TeamCard } from './TeamCard';
 
-const pokemon: Pokemon[] = [charmander, pikachu, haunter];
+const pokemon: PokemonFragment[] = [charmander, pikachu, haunter];
 
 export default {
-  title: 'Components/TeamCard',
+  title: 'Components/Team Card',
   component: TeamCard,
   args: {
     id: '123',
-    created_at: '2020-12-12T22:50:59.766899+00:00',
     name: 'My super team!',
-    team_members: [
-      {
-        id: '1',
-        order: 1,
-        pokemon: pokemon[0]
-      },
-      {
-        id: '2',
-        order: 2,
-        pokemon: pokemon[1]
-      },
-      {
-        id: '3',
-        order: 3,
-        pokemon: pokemon[2]
-      }
-    ]
+    createdAt: '2020-12-12T19:17:37Z',
+    members: {
+      edges: [
+        {
+          slot: 1,
+          node: {
+            id: '1',
+            pokemon: pokemon[0]
+          }
+        },
+        {
+          slot: 2,
+          node: {
+            id: '1',
+            pokemon: pokemon[1]
+          }
+        },
+        {
+          slot: 3,
+          node: {
+            id: '2',
+            pokemon: pokemon[2]
+          }
+        }
+      ]
+    }
   }
-} as Meta<TeamCardProps>;
+} as Meta<ComponentProps<typeof TeamCard>>;
 
-export const Standard = (args: TeamCardProps): JSX.Element => (
+export const teamCard: Story<ComponentProps<typeof TeamCard>> = args => (
   <TeamCard {...args} />
 );

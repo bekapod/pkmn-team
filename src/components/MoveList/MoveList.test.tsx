@@ -5,6 +5,7 @@ import { explosion, flash, substitute } from '~/mocks/Moves';
 import { setupResizeObserverMock } from '~/test-helpers';
 import { haunter } from '~/mocks/Pokemon';
 import { MovesProvider } from '~/hooks/useMoves';
+import { MoveLearnMethod } from '~/generated/graphql';
 
 describe(MoveList, () => {
   const setup = ({
@@ -17,7 +18,29 @@ describe(MoveList, () => {
         teamMember={props.teamMember}
         updateTeamMemberMoves={updateTeamMemberMoves}
       >
-        <MoveList allMoves={[substitute, flash, explosion]} {...props} />
+        <MoveList
+          allMoves={[
+            {
+              id: '1',
+              levelLearnedAt: 0,
+              learnMethod: MoveLearnMethod.LevelUp,
+              node: substitute
+            },
+            {
+              id: '2',
+              levelLearnedAt: 0,
+              learnMethod: MoveLearnMethod.LevelUp,
+              node: flash
+            },
+            {
+              id: '3',
+              levelLearnedAt: 0,
+              learnMethod: MoveLearnMethod.LevelUp,
+              node: explosion
+            }
+          ]}
+          {...props}
+        />
       </MovesProvider>
     );
   };
@@ -27,6 +50,7 @@ describe(MoveList, () => {
     expect(screen.getByText(substitute.name)).toBeInTheDocument();
     expect(screen.getByText(flash.name)).toBeInTheDocument();
     expect(screen.getByText(explosion.name)).toBeInTheDocument();
+    // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByTestId('move-list').firstChild).toHaveClass(
       'overflow-hidden!'
     );
@@ -37,12 +61,15 @@ describe(MoveList, () => {
     expect(
       screen
         .getByText(substitute.name)
+        // eslint-disable-next-line testing-library/no-node-access
         .closest('[data-testid="move-list-item"]')
     ).toHaveAttribute('aria-selected', 'false');
     expect(
+      // eslint-disable-next-line testing-library/no-node-access
       screen.getByText(flash.name).closest('[data-testid="move-list-item"]')
     ).toHaveAttribute('aria-selected', 'false');
     expect(
+      // eslint-disable-next-line testing-library/no-node-access
       screen.getByText(explosion.name).closest('[data-testid="move-list-item"]')
     ).toHaveAttribute('aria-selected', 'false');
   });
@@ -50,8 +77,46 @@ describe(MoveList, () => {
   it('detects overflowing items', () => {
     setup({
       visibleItems: 6,
-      allMoves: [substitute, flash, explosion, substitute, flash, explosion]
+      allMoves: [
+        {
+          id: '1',
+          levelLearnedAt: 0,
+          learnMethod: MoveLearnMethod.LevelUp,
+          node: substitute
+        },
+        {
+          id: '2',
+          levelLearnedAt: 0,
+          learnMethod: MoveLearnMethod.LevelUp,
+          node: flash
+        },
+        {
+          id: '3',
+          levelLearnedAt: 0,
+          learnMethod: MoveLearnMethod.LevelUp,
+          node: explosion
+        },
+        {
+          id: '4',
+          levelLearnedAt: 0,
+          learnMethod: MoveLearnMethod.LevelUp,
+          node: substitute
+        },
+        {
+          id: '5',
+          levelLearnedAt: 0,
+          learnMethod: MoveLearnMethod.LevelUp,
+          node: flash
+        },
+        {
+          id: '6',
+          levelLearnedAt: 0,
+          learnMethod: MoveLearnMethod.LevelUp,
+          node: explosion
+        }
+      ]
     });
+    // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByTestId('move-list').firstChild).not.toHaveClass(
       'overflow-hidden'
     );
@@ -67,16 +132,19 @@ describe(MoveList, () => {
       setup();
       userEvent.click(screen.getAllByText('Details')[1]);
       expect(
+        // eslint-disable-next-line testing-library/no-node-access
         screen.getByText(flash.name).closest('[data-testid="move-list-item"]')
       ).toHaveAttribute('aria-expanded', 'true');
       expect(
         screen
           .getByText(substitute.name)
+          // eslint-disable-next-line testing-library/no-node-access
           .closest('[data-testid="move-list-item"]')
       ).toHaveAttribute('aria-expanded', 'false');
       expect(
         screen
           .getByText(explosion.name)
+          // eslint-disable-next-line testing-library/no-node-access
           .closest('[data-testid="move-list-item"]')
       ).toHaveAttribute('aria-expanded', 'false');
     });
@@ -85,18 +153,25 @@ describe(MoveList, () => {
   describe('with team member context', () => {
     const teamMember = {
       id: '1',
-      order: 0,
       pokemon: haunter,
-      learned_moves: [
-        {
-          order: 1,
-          move: explosion
-        },
-        {
-          order: 2,
-          move: flash
-        }
-      ]
+      moves: {
+        edges: [
+          {
+            id: '1',
+            slot: 1,
+            levelLearnedAt: 0,
+            learnMethod: MoveLearnMethod.LevelUp,
+            node: explosion
+          },
+          {
+            id: '2',
+            slot: 2,
+            levelLearnedAt: 0,
+            learnMethod: MoveLearnMethod.LevelUp,
+            node: flash
+          }
+        ]
+      }
     };
     const setupWithTeamMember = (
       props: Partial<MoveListProps & { updateTeamMemberMoves?: jest.Mock }> = {}
@@ -110,16 +185,19 @@ describe(MoveList, () => {
     it('can highlight learned moves', () => {
       setupWithTeamMember({ highlightLearnedMoves: true });
       expect(
+        // eslint-disable-next-line testing-library/no-node-access
         screen.getByText(flash.name).closest('[data-testid="move-list-item"]')
       ).toHaveAttribute('aria-selected', 'true');
       expect(
         screen
           .getByText(explosion.name)
+          // eslint-disable-next-line testing-library/no-node-access
           .closest('[data-testid="move-list-item"]')
       ).toHaveAttribute('aria-selected', 'true');
       expect(
         screen
           .getByText(substitute.name)
+          // eslint-disable-next-line testing-library/no-node-access
           .closest('[data-testid="move-list-item"]')
       ).not.toHaveAttribute('aria-selected', 'true');
     });
@@ -127,16 +205,19 @@ describe(MoveList, () => {
     it("doesn't highlight learned moves when option is off", () => {
       setupWithTeamMember({ highlightLearnedMoves: false });
       expect(
+        // eslint-disable-next-line testing-library/no-node-access
         screen.getByText(flash.name).closest('[data-testid="move-list-item"]')
       ).not.toHaveAttribute('aria-selected', 'true');
       expect(
         screen
           .getByText(explosion.name)
+          // eslint-disable-next-line testing-library/no-node-access
           .closest('[data-testid="move-list-item"]')
       ).not.toHaveAttribute('aria-selected', 'true');
       expect(
         screen
           .getByText(substitute.name)
+          // eslint-disable-next-line testing-library/no-node-access
           .closest('[data-testid="move-list-item"]')
       ).not.toHaveAttribute('aria-selected', 'true');
     });
@@ -149,11 +230,31 @@ describe(MoveList, () => {
         screen.getByRole('button', { name: `Learn ${substitute.name}` })
       );
       expect(updateTeamMemberMoves).toHaveBeenCalledTimes(1);
-      expect(updateTeamMemberMoves).toHaveBeenCalledWith(teamMember, [
-        explosion,
-        flash,
-        substitute
-      ]);
+      expect(updateTeamMemberMoves).toHaveBeenCalledWith({
+        member: teamMember,
+        moves: [
+          {
+            id: '1',
+            slot: 1,
+            levelLearnedAt: 0,
+            learnMethod: MoveLearnMethod.LevelUp,
+            node: explosion
+          },
+          {
+            id: '2',
+            slot: 2,
+            levelLearnedAt: 0,
+            learnMethod: MoveLearnMethod.LevelUp,
+            node: flash
+          },
+          {
+            id: '1',
+            levelLearnedAt: 0,
+            learnMethod: MoveLearnMethod.LevelUp,
+            node: substitute
+          }
+        ]
+      });
     });
 
     it('calls removeMoveFromTeamMember', () => {
@@ -164,7 +265,18 @@ describe(MoveList, () => {
         screen.getByRole('button', { name: `Forget ${explosion.name}` })
       );
       expect(updateTeamMemberMoves).toHaveBeenCalledTimes(1);
-      expect(updateTeamMemberMoves).toHaveBeenCalledWith(teamMember, [flash]);
+      expect(updateTeamMemberMoves).toHaveBeenCalledWith({
+        member: teamMember,
+        moves: [
+          {
+            id: '2',
+            slot: 2,
+            levelLearnedAt: 0,
+            learnMethod: MoveLearnMethod.LevelUp,
+            node: flash
+          }
+        ]
+      });
     });
   });
 });

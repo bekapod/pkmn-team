@@ -1,32 +1,68 @@
-fragment PokemonFragment on pokemon {
+fragment pokemon on Pokemon {
   id
   name
   slug
-  pokedex_id
+  pokedexId
   sprite
+  color
+  shape
+  habitat
   hp
   attack
   defense
-  special_attack
-  special_defense
+  specialAttack
+  specialDefense
   speed
-  is_baby
-  is_legendary
-  is_mythical
+  height
+  weight
+  isDefaultVariant
+  isBaby
+  isLegendary
+  isMythical
   description
-  types {
-    type {
-      name
-      slug
+  abilities {
+    edges {
+      slot
+      isHidden
+      node {
+        ...ability
+      }
     }
   }
-  abilities {
-    ability_id
-    ability {
-      id
-      name
-      slug
-      effect
+  eggGroups {
+    edges {
+      node {
+        id
+        name
+        slug
+      }
+    }
+  }
+  evolvesTo {
+    edges {
+      node {
+        ...pokemonEvolution
+      }
+    }
+  }
+  evolvesFrom {
+    edges {
+      node {
+        ...pokemonEvolution
+      }
+    }
+  }
+  types {
+    edges {
+      slot
+      node {
+        ...pokemonType
+      }
+    }
+  }
+  moves {
+    edges {
+      ...pokemonMove
     }
   }
 }

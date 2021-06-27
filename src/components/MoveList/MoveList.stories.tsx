@@ -1,32 +1,83 @@
-import { Meta } from '@storybook/react/types-6-0';
+import { Meta, Story } from '@storybook/react/types-6-0';
+import { ComponentProps } from 'react';
+import { MoveLearnMethod } from '~/generated/graphql';
 import { MovesProvider } from '~/hooks/useMoves';
 import { explosion, flash, substitute, rest, slash } from '~/mocks/Moves';
 import { haunter } from '~/mocks/Pokemon';
-import { MoveList, MoveListProps } from './MoveList';
+import { MoveList } from './MoveList';
 
 export default {
-  title: 'Components/MoveList',
+  title: 'Components/Move List',
   component: MoveList,
   args: {
-    allMoves: [substitute, flash, explosion]
+    allMoves: [
+      {
+        id: '1',
+        levelLearnedAt: 0,
+        learnMethod: MoveLearnMethod.LevelUp,
+        node: substitute
+      },
+      {
+        id: '2',
+        levelLearnedAt: 0,
+        learnMethod: MoveLearnMethod.LevelUp,
+        node: flash
+      },
+      {
+        id: '3',
+        levelLearnedAt: 0,
+        learnMethod: MoveLearnMethod.LevelUp,
+        node: explosion
+      }
+    ]
   }
-} as Meta<MoveListProps>;
+} as Meta<ComponentProps<typeof MoveList>>;
 
-export const WithFewMoves = (args: MoveListProps): JSX.Element => (
+export const moveList: Story<ComponentProps<typeof MoveList>> = args => (
   <MoveList {...args} />
 );
 
-export const WithMoreMoves = (args: MoveListProps): JSX.Element => (
+export const withMoreMoves: Story<ComponentProps<typeof MoveList>> = args => (
   <MoveList {...args} />
 );
-WithMoreMoves.args = {
-  allMoves: [substitute, flash, explosion, rest, slash]
+withMoreMoves.args = {
+  allMoves: [
+    {
+      id: '1',
+      levelLearnedAt: 0,
+      learnMethod: MoveLearnMethod.LevelUp,
+      node: substitute
+    },
+    {
+      id: '2',
+      levelLearnedAt: 0,
+      learnMethod: MoveLearnMethod.LevelUp,
+      node: flash
+    },
+    {
+      id: '3',
+      levelLearnedAt: 0,
+      learnMethod: MoveLearnMethod.LevelUp,
+      node: explosion
+    },
+    {
+      id: '4',
+      levelLearnedAt: 0,
+      learnMethod: MoveLearnMethod.LevelUp,
+      node: rest
+    },
+    {
+      id: '5',
+      levelLearnedAt: 0,
+      learnMethod: MoveLearnMethod.LevelUp,
+      node: slash
+    }
+  ]
 };
 
-export const WithTeamMember = ({
-  updateTeamMemberMoves,
-  ...args
-}: MoveListProps & { updateTeamMemberMoves: never }): JSX.Element => (
+export const withTeamMember: Story<
+  ComponentProps<typeof MoveList> & { updateTeamMemberMoves: never }
+> = ({ updateTeamMemberMoves, ...args }) => (
   <MovesProvider
     teamMember={args.teamMember}
     updateTeamMemberMoves={updateTeamMemberMoves}
@@ -34,23 +85,13 @@ export const WithTeamMember = ({
     <MoveList {...args} />
   </MovesProvider>
 );
-WithTeamMember.argTypes = {
+withTeamMember.argTypes = {
   updateTeamMemberMoves: { action: 'updateTeamMemberMove' }
 };
-WithTeamMember.args = {
+withTeamMember.args = {
   teamMember: {
     id: '1',
-    order: 0,
     pokemon: haunter,
-    learned_moves: [
-      {
-        order: 1,
-        move: explosion
-      },
-      {
-        order: 2,
-        move: flash
-      }
-    ]
+    moves: { edges: [] }
   }
 };

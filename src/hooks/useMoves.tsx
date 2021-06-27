@@ -11,8 +11,9 @@ import {
 import isEqual from 'react-fast-compare';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import {
-  MoveFragmentFragment,
-  TeamMemberFragmentFragment
+  PokemonMoveFragment,
+  TeamMemberFragment,
+  TeamMemberMoveFragment
 } from '~/generated/graphql';
 import { reorder } from '~/lib/general';
 
@@ -25,12 +26,12 @@ export enum MoveActionType {
 
 type AddMoveAction = {
   type: MoveActionType.AddMove;
-  payload: MoveFragmentFragment;
+  payload: PokemonMoveFragment;
 };
 
 type RemoveMoveAction = {
   type: MoveActionType.RemoveMove;
-  payload: MoveFragmentFragment;
+  payload: TeamMemberMoveFragment;
 };
 
 type ReorderMoveAction = {
@@ -43,7 +44,7 @@ type ReorderMoveAction = {
 
 type ResetMovesAction = {
   type: MoveActionType.ResetMoves;
-  payload: MoveFragmentFragment[];
+  payload: TeamMemberMoveFragment[];
 };
 
 export type Action =
@@ -52,12 +53,12 @@ export type Action =
   | ReorderMoveAction
   | ResetMovesAction;
 
-const reducer = (state: MoveFragmentFragment[], action: Action) => {
+const reducer = (state: TeamMemberMoveFragment[], action: Action) => {
   switch (action.type) {
     case MoveActionType.AddMove:
-      return [...state, action.payload];
+      return [...state, action.payload as TeamMemberMoveFragment];
     case MoveActionType.RemoveMove:
-      return state.filter(({ id }) => id !== action.payload.id);
+      return state.filter(({ node }) => node?.id !== action.payload.node?.id);
     case MoveActionType.ReorderMove:
       return reorder(
         state,
@@ -72,18 +73,20 @@ const reducer = (state: MoveFragmentFragment[], action: Action) => {
 };
 
 const useMovesReducer = (
-  moves: MoveFragmentFragment[]
-): [MoveFragmentFragment[], Dispatch<Action>] => {
+  moves: TeamMemberMoveFragment[]
+): [TeamMemberMoveFragment[], Dispatch<Action>] => {
   return useReducer(reducer, moves);
 };
 
-const MovesContext = createContext<[MoveFragmentFragment[], Dispatch<Action>]>([
+const MovesContext = createContext<
+  [TeamMemberMoveFragment[], Dispatch<Action>]
+>([
   [],
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   () => {}
 ]);
 
-export const useMoves = (): [MoveFragmentFragment[], Dispatch<Action>] => {
+export const useMoves = (): [TeamMemberMoveFragment[], Dispatch<Action>] => {
   const context = useContext(MovesContext);
   if (!context) {
     throw new Error(
@@ -94,24 +97,26 @@ export const useMoves = (): [MoveFragmentFragment[], Dispatch<Action>] => {
 };
 
 export const MovesProvider: FunctionComponent<{
-  teamMember?: TeamMemberFragmentFragment;
-  updateTeamMemberMoves?: (
-    member: TeamMemberFragmentFragment,
-    moves: MoveFragmentFragment[]
-  ) => void;
+  teamMember?: TeamMemberFragment;
+  updateTeamMemberMoves?: (values: {
+    member: TeamMemberFragment;
+    moves: TeamMemberMoveFragment[];
+  }) => void;
 }> = ({ teamMember, updateTeamMemberMoves, ...props }) => {
   const isInitialValue = useRef(true);
   const [moves, dispatch] = useMovesReducer(
-    teamMember?.learned_moves?.map(({ move }) => move) ?? []
+    teamMember?.moves?.edges?.filter(
+      (edge): edge is TeamMemberMoveFragment => !!edge
+    ) ?? []
   );
-  const value = useMemo<[MoveFragmentFragment[], Dispatch<Action>]>(
+  const value = useMemo<[TeamMemberMoveFragment[], Dispatch<Action>]>(
     () => [moves, dispatch],
     [moves, dispatch]
   );
 
   useEffect(() => {
     if (!isInitialValue.current && teamMember) {
-      updateTeamMemberMoves?.(teamMember, moves);
+      updateTeamMemberMoves?.({ member: teamMember, moves });
     }
 
     isInitialValue.current = false;
@@ -120,9 +125,12 @@ export const MovesProvider: FunctionComponent<{
   useDeepCompareEffect(() => {
     dispatch({
       type: MoveActionType.ResetMoves,
-      payload: teamMember?.learned_moves.map(({ move }) => move) ?? []
+      payload:
+        teamMember?.moves?.edges?.filter(
+          (edge): edge is TeamMemberMoveFragment => !!edge
+        ) ?? []
     });
-  }, [teamMember?.learned_moves ?? []]);
+  }, [teamMember?.moves?.edges ?? []]);
 
   return <MovesContext.Provider value={value} {...props} />;
 };

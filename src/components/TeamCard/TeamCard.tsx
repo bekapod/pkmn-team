@@ -1,17 +1,12 @@
 import dateFormat from 'dateformat';
-import compose from 'lodash/fp/compose';
-import flatMap from 'lodash/fp/flatMap';
-import get from 'lodash/fp/get';
-import isNil from 'lodash/fp/isNil';
-import map from 'lodash/fp/map';
-import reject from 'lodash/fp/reject';
 import Link from 'next/link';
 import { FunctionComponent } from 'react';
 import {
-  PokemonFragmentFragment,
-  Teams,
-  Team_Member
+  PokemonFragment,
+  PokemonTypeFragment,
+  TeamFragment
 } from '~/generated/graphql';
+import { extractNodesFromEdges } from '~/lib/relay';
 import {
   CardContent,
   CardHeader,
@@ -22,25 +17,22 @@ import {
 import { CardMeta } from '../CardMeta';
 import { PokemonLine } from '../PokemonLine';
 
-const getAllTypes = compose(flatMap(get('type')), flatMap(get('types')));
+const getAllTypes = (pokemon?: PokemonFragment[]) =>
+  pokemon
+    ?.flatMap(p => p.types.edges?.flatMap(t => t?.node))
+    .filter((t): t is PokemonTypeFragment => !!t);
 
-type TeamMember = Pick<Team_Member, 'id' | 'order'> & {
-  pokemon: PokemonFragmentFragment;
-};
-export type TeamCardProps = Pick<Teams, 'id' | 'name' | 'created_at'> & {
-  team_members: TeamMember[];
-};
+export type TeamCardProps = TeamFragment;
 
 export const TeamCard: FunctionComponent<TeamCardProps> = ({
   id,
   name,
-  team_members,
-  created_at
+  createdAt,
+  members
 }) => {
-  const pokemon: PokemonFragmentFragment[] = compose([
-    reject(isNil),
-    map(get('pokemon'))
-  ])(team_members);
+  const pokemon = members.edges
+    ?.map(member => member?.node?.pokemon)
+    .filter((p): p is PokemonFragment => !!p);
 
   return (
     <Link href={`/team/${id}/`} passHref>
@@ -52,22 +44,19 @@ export const TeamCard: FunctionComponent<TeamCardProps> = ({
 
           <CardContent>
             <CardMeta
-              id={id}
               items={[
-                { label: 'Pkmn', value: team_members.length },
-                { label: 'Created', value: dateFormat(created_at, 'd/m/yy') }
+                { label: 'Pkmn', value: members.edges?.length ?? 0 },
+                { label: 'Created', value: dateFormat(createdAt, 'd/m/yy') }
               ]}
             />
 
-            {team_members.map(
-              ({ id: memberId, pokemon: memberPkmn }): JSX.Element => (
-                <PokemonLine
-                  key={`Team Member: ${memberId}`}
-                  pokemon={memberPkmn}
-                  outdent="var(--spacing-3)"
-                />
-              )
-            )}
+            {extractNodesFromEdges(members.edges).map(member => (
+              <PokemonLine
+                key={`Team Member: ${member.id} ${member.pokemon.id}`}
+                pokemon={member.pokemon}
+                outdent="var(--spacing-3)"
+              />
+            ))}
           </CardContent>
         </CardWrapper>
       </CardLink>

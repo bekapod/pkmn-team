@@ -11,12 +11,13 @@ describe('MoveLine', () => {
     expect(screen.getByText(substitute.name)).toBeInTheDocument();
     expect(screen.getByText(substitute.type.name)).toBeInTheDocument();
     expect(
-      screen.getByText(substitute.damage_class?.value ?? 'damage class missing')
+      screen.getByText(substitute.damageClass ?? 'damage class missing')
     ).toBeInTheDocument();
   });
 
   it('adds type gradient', () => {
     const { container } = setup();
+    // eslint-disable-next-line testing-library/no-node-access
     expect(container.firstChild).toHaveStyle({
       '--type-gradient':
         'linear-gradient(90deg, var(--colors-normal) 0%, var(--colors-normal) 50%, var(--colors-status) 50%, var(--colors-status) 100%)'
@@ -24,7 +25,8 @@ describe('MoveLine', () => {
   });
 
   it('adds type gradient without damage class', () => {
-    const { container } = setup({ damage_class: null });
+    const { container } = setup({ damageClass: undefined });
+    // eslint-disable-next-line testing-library/no-node-access
     expect(container.firstChild).toHaveStyle({
       '--type-gradient':
         'linear-gradient(90deg, var(--colors-normal) 0%, var(--colors-normal) 100%)'
@@ -33,11 +35,13 @@ describe('MoveLine', () => {
 
   it("doesn't use aria-selected attribute when not highlighted", () => {
     const { container } = setup();
+    // eslint-disable-next-line testing-library/no-node-access
     expect(container.firstChild).not.toHaveAttribute('aria-selected');
   });
 
   it("doesn't use aria-expanded attribute when not open", () => {
     const { container } = setup();
+    // eslint-disable-next-line testing-library/no-node-access
     expect(container.firstChild).not.toHaveAttribute('aria-expanded');
   });
 
@@ -51,6 +55,7 @@ describe('MoveLine', () => {
 
   it('renders actions', () => {
     setup({
+      // eslint-disable-next-line react/display-name
       renderLineActions: () => <button>Some button</button>
     });
     expect(screen.getByText('Some button')).toBeInTheDocument();
@@ -59,6 +64,7 @@ describe('MoveLine', () => {
   describe('when highlighted', () => {
     it('uses aria-selected attribute when highlighted', () => {
       const { container } = setup({ isHighlighted: true });
+      // eslint-disable-next-line testing-library/no-node-access
       expect(container.firstChild).toHaveAttribute('aria-selected', 'true');
     });
   });
@@ -66,6 +72,7 @@ describe('MoveLine', () => {
   describe('when open', () => {
     it('uses aria-expanded attribute when open', () => {
       const { container } = setup({ isOpen: true });
+      // eslint-disable-next-line testing-library/no-node-access
       expect(container.firstChild).toHaveAttribute('aria-expanded', 'true');
     });
 

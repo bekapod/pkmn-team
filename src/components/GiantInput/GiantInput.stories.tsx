@@ -1,14 +1,14 @@
-import { Meta } from '@storybook/react/types-6-0';
-import { GiantInput, GiantInputProps } from './GiantInput';
+import { Meta, Story } from '@storybook/react/types-6-0';
+import { ComponentProps } from 'react';
+import { GiantInput } from './GiantInput';
 
 export default {
-  title: 'Components/GiantInput',
+  title: 'Components/Giant Input',
   component: GiantInput
-} as Meta<GiantInputProps>;
+} as Meta<ComponentProps<typeof GiantInput>>;
 
-export const Standard = (args: GiantInputProps): JSX.Element => (
+export const giantInput: Story<ComponentProps<typeof GiantInput>> = args => (
   <GiantInput {...args} />
 );
-export const WithPlaceholder = (args: GiantInputProps): JSX.Element => (
-  <GiantInput placeholder="Some placeholder text" {...args} />
-);
+export const withPlaceholder: Story<ComponentProps<typeof GiantInput>> =
+  args => <GiantInput placeholder="Some placeholder text" {...args} />;

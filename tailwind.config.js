@@ -18,9 +18,8 @@ const createCustomProperties = (theme, propertyName) => {
         (subProperties, subPropertyName) => {
           return {
             ...subProperties,
-            [`--${propertyName}-${name}-${subPropertyName}`]: property[name][
-              subPropertyName
-            ]
+            [`--${propertyName}-${name}-${subPropertyName}`]:
+              property[name][subPropertyName]
           };
         },
         {}
@@ -30,6 +29,7 @@ const createCustomProperties = (theme, propertyName) => {
 };
 
 module.exports = {
+  jit: true,
   purge: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}'

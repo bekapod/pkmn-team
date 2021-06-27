@@ -1,0 +1,6 @@
+fragment ability on Ability {
+  id
+  slug
+  name
+  effect
+}

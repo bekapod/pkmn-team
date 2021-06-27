@@ -1,19 +1,33 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, RefObject } from 'react';
 import classNames from 'classnames';
 import {
-  PokemonFragmentFragment,
-  TeamMemberFragmentFragment
+  PokemonFragment,
+  TeamMemberFragment,
+  PokemonTypeFragment
 } from '~/generated/graphql';
-import { formatPokemonName, sortBySlug } from '~/lib/general';
+import {
+  formatPokemonName,
+  getPokemonSpriteUrl,
+  sortBySlug
+} from '~/lib/general';
 import { CardContent, CardHeader, CardWrapper, CardHeading } from '../Card';
 import { InlineList } from '../InlineList';
 import { TypeTag } from '../TypeTag';
+import { Label } from '../Label';
 import { MoveList } from '../MoveList';
+import { useContainerQuery } from '~/hooks/useContainerQuery';
 
 export type PokemonCardProps = {
-  teamMember?: TeamMemberFragmentFragment;
-  pokemon: PokemonFragmentFragment;
+  teamMember?: TeamMemberFragment;
+  pokemon: PokemonFragment;
   renderCardActions?: () => JSX.Element;
+};
+
+const query = {
+  'is-compressed': {
+    minWidth: 0,
+    maxWidth: 500
+  }
 };
 
 export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
@@ -21,11 +35,29 @@ export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
   pokemon,
   renderCardActions
 }) => {
-  const { pokedex_id, types, name, sprite } = pokemon;
-  const actualTypes = types.map(({ type }) => type);
+  const [ref, className] = useContainerQuery<HTMLElement>(query);
+  const { pokedexId, types, name, sprite } = pokemon;
+  const actualTypes =
+    types.edges
+      ?.map(edge => edge?.node)
+      ?.filter((node): node is PokemonTypeFragment => !!node) ?? [];
+  const stats = [
+    pokemon.hp,
+    pokemon.attack,
+    pokemon.defense,
+    pokemon.specialAttack,
+    pokemon.specialDefense,
+    pokemon.speed
+  ];
+  const highestStat = Math.max(...stats);
+  const lowestStat = Math.min(...stats);
 
   return (
-    <CardWrapper data-testid={`pokemon-${pokemon.pokedex_id}`}>
+    <CardWrapper
+      data-testid={`pokemon-${pokemon.pokedexId}`}
+      ref={ref as RefObject<HTMLElement>}
+      className={classNames(className)}
+    >
       <CardHeader types={actualTypes}>
         <CardHeading>{formatPokemonName(pokemon)}</CardHeading>
       </CardHeader>
@@ -33,7 +65,7 @@ export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
       <CardContent className={classNames('py-6', 'items-center')}>
         <img
           className={classNames('h-14')}
-          src={`/sprites/${sprite}`}
+          src={getPokemonSpriteUrl(sprite)}
           alt={`${name} sprite`}
         />
 
@@ -42,7 +74,7 @@ export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
             <li
               key={`${
                 teamMember ? `Member: ${teamMember.id}` : ''
-              } Pokemon: ${pokedex_id}, Type: ${type.slug}`}
+              } Pokemon: ${pokedexId}, Type: ${type.slug}`}
             >
               <TypeTag typeSlug={type.slug}>{type.name}</TypeTag>
             </li>
@@ -51,12 +83,157 @@ export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
 
         <p>{pokemon.description}</p>
 
-        {(teamMember?.learned_moves?.length ?? 0) > 0 && (
-          <MoveList className="mt-3 w-full" teamMember={teamMember} />
+        <dl
+          className={classNames(
+            'grid gap-y-1 gap-x-2',
+            { 'grid-cols-2 grid-rows-3': className.includes('is-compressed') },
+            { 'grid-cols-3 grid-rows-2': !className.includes('is-compressed') }
+          )}
+        >
+          <div
+            className={classNames('flex items-center py-2 px-3', {
+              'bg-green-vivid-200':
+                highestStat === pokemon.hp && highestStat !== lowestStat,
+              'bg-red-vivid-100':
+                lowestStat === pokemon.hp && highestStat !== lowestStat
+            })}
+          >
+            <Label as="dt" className="mr-3">
+              HP
+            </Label>
+            <dd
+              className={classNames(
+                'ml-auto',
+                'text-indigo-800',
+                'text-lg',
+                'font-black'
+              )}
+            >
+              {pokemon.hp}
+            </dd>
+          </div>
+          <div
+            className={classNames('flex items-center py-2 px-3', {
+              'bg-green-vivid-200':
+                highestStat === pokemon.attack && highestStat !== lowestStat,
+              'bg-red-vivid-100':
+                lowestStat === pokemon.attack && highestStat !== lowestStat
+            })}
+          >
+            <Label as="dt" className="mr-3">
+              Attack
+            </Label>
+            <dd
+              className={classNames(
+                'ml-auto',
+                'text-indigo-800',
+                'text-lg',
+                'font-black'
+              )}
+            >
+              {pokemon.attack}
+            </dd>
+          </div>
+          <div
+            className={classNames('flex items-center py-2 px-3', {
+              'bg-green-vivid-200':
+                highestStat === pokemon.defense && highestStat !== lowestStat,
+              'bg-red-vivid-100':
+                lowestStat === pokemon.defense && highestStat !== lowestStat
+            })}
+          >
+            <Label as="dt" className="mr-3">
+              Defense
+            </Label>
+            <dd
+              className={classNames(
+                'ml-auto',
+                'text-indigo-800',
+                'text-lg',
+                'font-black'
+              )}
+            >
+              {pokemon.defense}
+            </dd>
+          </div>
+          <div
+            className={classNames('flex items-center py-2 px-3', {
+              'bg-green-vivid-200':
+                highestStat === pokemon.specialAttack &&
+                highestStat !== lowestStat,
+              'bg-red-vivid-100':
+                lowestStat === pokemon.specialAttack &&
+                highestStat !== lowestStat
+            })}
+          >
+            <Label as="dt" className="mr-3">
+              Sp. Atk
+            </Label>
+            <dd
+              className={classNames(
+                'ml-auto',
+                'text-indigo-800',
+                'text-lg',
+                'font-black'
+              )}
+            >
+              {pokemon.specialAttack}
+            </dd>
+          </div>
+          <div
+            className={classNames('flex items-center py-2 px-3', {
+              'bg-green-vivid-200':
+                highestStat === pokemon.specialDefense &&
+                highestStat !== lowestStat,
+              'bg-red-vivid-100':
+                lowestStat === pokemon.specialDefense &&
+                highestStat !== lowestStat
+            })}
+          >
+            <Label as="dt" className="mr-3">
+              Sp. Def
+            </Label>
+            <dd
+              className={classNames(
+                'ml-auto',
+                'text-indigo-800',
+                'text-lg',
+                'font-black'
+              )}
+            >
+              {pokemon.specialDefense}
+            </dd>
+          </div>
+          <div
+            className={classNames('flex items-center py-2 px-3', {
+              'bg-green-vivid-200':
+                highestStat === pokemon.speed && highestStat !== lowestStat,
+              'bg-red-vivid-100':
+                lowestStat === pokemon.speed && highestStat !== lowestStat
+            })}
+          >
+            <Label as="dt" className="mr-3">
+              Speed
+            </Label>
+            <dd
+              className={classNames(
+                'ml-auto',
+                'text-indigo-800',
+                'text-lg',
+                'font-black'
+              )}
+            >
+              {pokemon.speed}
+            </dd>
+          </div>
+        </dl>
+
+        {(teamMember?.moves?.edges?.length ?? 0) > 0 && (
+          <MoveList className="mt-5 w-full" teamMember={teamMember} />
         )}
 
         {renderCardActions ? (
-          <div className={classNames('mt-3')}>{renderCardActions()}</div>
+          <div className={classNames('mt-5')}>{renderCardActions()}</div>
         ) : null}
       </CardContent>
     </CardWrapper>

@@ -1,14 +1,14 @@
-import { Meta } from '@storybook/react/types-6-0';
+import { Meta, Story } from '@storybook/react/types-6-0';
 import { charmander, haunter, pikachu } from '~/mocks/Pokemon';
 import { PokemonCard } from '../PokemonCard';
 import { PokemonGrid } from './PokemonGrid';
 
 export default {
-  title: 'Components/PokemonGrid',
+  title: 'Components/Pokemon Grid',
   component: PokemonGrid
 } as Meta;
 
-export const Standard = (): JSX.Element => (
+export const pokemonGrid: Story = () => (
   <PokemonGrid>
     <PokemonCard pokemon={pikachu} />
     <PokemonCard pokemon={haunter} />
