@@ -11,6 +11,7 @@ export default class MyDocument extends Document {
     try {
       ctx.renderPage = () =>
         originalRenderPage({
+          // eslint-disable-next-line react/display-name
           enhanceApp: App => props => {
             resetServerContext();
             return <App {...props} />;

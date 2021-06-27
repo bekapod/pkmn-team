@@ -8,6 +8,7 @@ export default {
   component: MoveLine,
   args: {
     ...substitute,
+    // eslint-disable-next-line react/display-name
     renderLineActions: () => <div>Some interactivity would be placed here</div>
   }
 } as Meta<ComponentProps<typeof MoveLine>>;

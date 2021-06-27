@@ -18,6 +18,7 @@ export type CtaProps = {
 const CtaBase: FunctionComponent<
   ComponentPropsWithRef<ElementType> &
     CtaProps & { as?: ComponentType | ElementType }
+  // eslint-disable-next-line react/display-name
 > = forwardRef(
   (
     {
@@ -119,8 +120,10 @@ const CtaBase: FunctionComponent<
 );
 
 export const CtaLink: FunctionComponent<ComponentPropsWithRef<'a'> & CtaProps> =
+  // eslint-disable-next-line react/display-name
   forwardRef((props, ref) => <CtaBase ref={ref} as="a" {...props} />);
 
 export const CtaButton: FunctionComponent<
   ComponentPropsWithRef<'button'> & CtaProps
+  // eslint-disable-next-line react/display-name
 > = forwardRef((props, ref) => <CtaBase ref={ref} {...props} />);

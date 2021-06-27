@@ -55,6 +55,7 @@ describe('MoveLine', () => {
 
   it('renders actions', () => {
     setup({
+      // eslint-disable-next-line react/display-name
       renderLineActions: () => <button>Some button</button>
     });
     expect(screen.getByText('Some button')).toBeInTheDocument();

@@ -17,6 +17,7 @@ export type MoveLineProps = ComponentPropsWithRef<'div'> &
 
 const printStat = (stat?: string | number | null) => `${stat ?? '-'}`;
 
+// eslint-disable-next-line react/display-name
 export const MoveLine: FunctionComponent<MoveLineProps> = forwardRef(
   (
     {

@@ -4,6 +4,7 @@ import { Type } from '~/generated/graphql';
 import { getTypeGradient } from '~/lib/gradients';
 
 export const CardLink: FunctionComponent<ComponentPropsWithRef<'a'>> =
+  // eslint-disable-next-line react/display-name
   forwardRef(({ className, ...props }, ref) => (
     <a
       ref={ref}
@@ -24,6 +25,7 @@ export const CardLink: FunctionComponent<ComponentPropsWithRef<'a'>> =
   ));
 
 export const CardWrapper: FunctionComponent<ComponentPropsWithRef<'article'>> =
+  // eslint-disable-next-line react/display-name
   forwardRef(({ className, ...props }, ref) => (
     <article
       ref={ref}

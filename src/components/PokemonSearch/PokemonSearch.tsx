@@ -46,7 +46,10 @@ export const PokemonSearch: FunctionComponent<PokemonSearchProps> = ({
           <ConnectedInfinitePokemon onClick={onResultClick} />
         </AutocompleteDropdown>
         <div className="flex justify-end mt-3">
-          <img src="/search-by-algolia-light-background.svg" />
+          <img
+            src="/search-by-algolia-light-background.svg"
+            alt="search by algolia"
+          />
         </div>
       </Autocomplete>
     </InstantSearch>
