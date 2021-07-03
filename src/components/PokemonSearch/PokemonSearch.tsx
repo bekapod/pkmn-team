@@ -1,6 +1,7 @@
 import { FunctionComponent, useCallback } from 'react';
 import algoliasearch from 'algoliasearch/lite';
 import { InstantSearch } from 'react-instantsearch-dom';
+import Image from 'next/image';
 import { Autocomplete, AutocompleteDropdown } from '../Autocomplete';
 import { ConnectedTypeRefinementList } from '../TypeRefinementList';
 import { ConnectedSearchBox } from '../SearchBox';
@@ -46,9 +47,11 @@ export const PokemonSearch: FunctionComponent<PokemonSearchProps> = ({
           <ConnectedInfinitePokemon onClick={onResultClick} />
         </AutocompleteDropdown>
         <div className="flex justify-end mt-3">
-          <img
+          <Image
             src="/search-by-algolia-light-background.svg"
             alt="search by algolia"
+            width={168}
+            height={24}
           />
         </div>
       </Autocomplete>
