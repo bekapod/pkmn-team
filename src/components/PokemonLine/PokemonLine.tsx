@@ -1,5 +1,6 @@
 import type { ComponentPropsWithRef, FunctionComponent } from 'react';
 import classNames from 'classnames';
+import Image from 'next/image';
 import type { PokemonFragment, PokemonTypeFragment } from '~/generated/graphql';
 import {
   formatPokemonName,
@@ -18,7 +19,8 @@ export type PokemonLineProps = {
 export const PokemonLine: FunctionComponent<
   ComponentPropsWithRef<'div'> & PokemonLineProps
 > = ({ pokemon, outdent, style, className, ...props }) => {
-  const { pokedexId, name, types, sprite } = pokemon;
+  const { pokedexId, name, types } = pokemon;
+  const sprite = getPokemonSpriteUrl(pokemon.sprite);
 
   return (
     <div
@@ -43,12 +45,10 @@ export const PokemonLine: FunctionComponent<
       }}
       {...props}
     >
-      <img
-        className={classNames('w-8', 'h-8', 'mr-4')}
-        src={getPokemonSpriteUrl(sprite)}
-        alt={`${name} sprite`}
-      />
-      <div>
+      {sprite && (
+        <Image src={sprite} alt={`${name} sprite`} width={72} height={72} />
+      )}
+      <div className="ml-4">
         <div className={classNames('mb-2', 'font-bold', 'leading-none')}>
           {formatPokemonName(pokemon)}
         </div>

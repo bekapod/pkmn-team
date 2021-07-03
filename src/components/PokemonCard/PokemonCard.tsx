@@ -1,5 +1,6 @@
 import { FunctionComponent, RefObject } from 'react';
 import classNames from 'classnames';
+import Image from 'next/image';
 import {
   PokemonFragment,
   TeamMemberFragment,
@@ -36,7 +37,7 @@ export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
   renderCardActions
 }) => {
   const [ref, className] = useContainerQuery<HTMLElement>(query);
-  const { pokedexId, types, name, sprite } = pokemon;
+  const { pokedexId, types, name } = pokemon;
   const actualTypes =
     types.edges
       ?.map(edge => edge?.node)
@@ -51,6 +52,7 @@ export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
   ];
   const highestStat = Math.max(...stats);
   const lowestStat = Math.min(...stats);
+  const sprite = getPokemonSpriteUrl(pokemon.sprite);
 
   return (
     <CardWrapper
@@ -63,11 +65,9 @@ export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
       </CardHeader>
 
       <CardContent className={classNames('py-6', 'items-center')}>
-        <img
-          className={classNames('h-14')}
-          src={getPokemonSpriteUrl(sprite)}
-          alt={`${name} sprite`}
-        />
+        {sprite && (
+          <Image src={sprite} alt={`${name} sprite`} width={144} height={144} />
+        )}
 
         <InlineList>
           {sortBySlug(actualTypes).map(type => (
