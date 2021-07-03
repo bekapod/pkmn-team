@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom';
+import * as nextImage from 'next/image';
 
 const observe = jest.fn();
 const unobserve = jest.fn();
@@ -11,6 +12,12 @@ window.IntersectionObserver = jest.fn(() => ({
   unobserve,
   disconnect
 }));
+
+Object.defineProperty(nextImage, 'default', {
+  configurable: true,
+  // eslint-disable-next-line
+  value: (props: any) => <img {...props} />
+});
 
 process.env.NEXT_PUBLIC_ALGOLIA_POKEMON_INDEX = 'pokemon';
 process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID = 'app-id';
