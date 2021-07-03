@@ -10,7 +10,7 @@ export const config = {
 const proxy = createProxyMiddleware({
   target: process.env.INTERNAL_GRAPHQL_ENDPOINT,
   pathRewrite: {
-    '^/api': ''
+    '^/api/graphql': ''
   },
   changeOrigin: true,
   logLevel: process.env.NODE_ENV === 'development' ? 'debug' : 'info'
