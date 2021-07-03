@@ -3,9 +3,15 @@ import { setupWorker, rest } from 'msw';
 import { makeDecorator } from '@storybook/addons';
 import { action } from '@storybook/addon-actions';
 import Router from 'next/router';
+import * as nextImage from 'next/image';
 import { RouterContext } from 'next/dist/next-server/lib/router-context';
 import { charmander, haunter, pikachu } from '../src/mocks/Pokemon';
 import '../src/styles/globals.css';
+
+Object.defineProperty(nextImage, 'default', {
+  configurable: true,
+  value: props => <img {...props} />
+});
 
 const worker = setupWorker(
   rest.post(/.*algolia.*/, (_req, res, ctx) =>
