@@ -164,7 +164,7 @@ const Team: NextPage<Props> = ({ id }) => {
 export const getServerSideProps: GetServerSideProps = async context => {
   const ssrCache = ssrExchange({ isClient: false });
   const client = initUrqlClient(
-    createClient(`${process.env.INTERNAL_GRAPHQL_ENDPOINT}/graphql`)(ssrCache),
+    createClient(process.env.INTERNAL_GRAPHQL_ENDPOINT)(ssrCache),
     false
   );
   const id = context.params?.id?.toString();

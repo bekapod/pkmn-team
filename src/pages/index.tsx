@@ -37,7 +37,7 @@ function Home(): JSX.Element {
 export const getStaticProps: GetStaticProps = async () => {
   const ssrCache = ssrExchange({ isClient: false });
   const client = initUrqlClient(
-    createClient(`${process.env.INTERNAL_GRAPHQL_ENDPOINT}/graphql`)(ssrCache),
+    createClient(process.env.INTERNAL_GRAPHQL_ENDPOINT)(ssrCache),
     false
   );
 
