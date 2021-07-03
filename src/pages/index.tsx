@@ -49,8 +49,11 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       urqlState: ssrCache.extractData()
     },
-    revalidate: 60
+    revalidate: 10
   };
 };
 
-export default withUrqlClient(createClient(), { ssr: false })(Home);
+export default withUrqlClient(createClient(), {
+  ssr: false,
+  neverSuspend: true
+})(Home);
