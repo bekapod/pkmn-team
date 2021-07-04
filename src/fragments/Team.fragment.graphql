@@ -4,6 +4,7 @@ fragment team on Team {
   createdAt
   members {
     edges {
+      cursor
       ...teamMemberInTeam
     }
   }
