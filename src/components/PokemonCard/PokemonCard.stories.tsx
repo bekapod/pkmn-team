@@ -51,7 +51,6 @@ withTeamMember.args = {
       ]
     }
   },
-  // eslint-disable-next-line react/display-name
   renderCardActions: () => (
     <CtaButton type="button" size="small" variant="destructive">
       Some action
@@ -63,7 +62,6 @@ export const withActions: Story<ComponentProps<typeof PokemonCard>> = args => (
   <PokemonCard {...args} />
 );
 withActions.args = {
-  // eslint-disable-next-line react/display-name
   renderCardActions: () => (
     <CtaButton type="button" size="small" variant="destructive">
       Some action

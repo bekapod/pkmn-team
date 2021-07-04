@@ -114,7 +114,6 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
         pokemon: PokemonFragment;
       }) => {
         if (teamMember) {
-          // eslint-disable-next-line react/display-name
           return () => (
             <CtaButton
               type="button"
@@ -130,7 +129,6 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
           );
         }
 
-        // eslint-disable-next-line react/display-name
         return () => (
           <CtaButton
             type="button"

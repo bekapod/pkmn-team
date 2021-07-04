@@ -11,7 +11,6 @@ export type CenteredRowProps = ComponentPropsWithRef<ElementType> & {
   as?: ElementType;
 };
 
-// eslint-disable-next-line react/display-name
 export const CenteredRow: FunctionComponent<CenteredRowProps> = forwardRef(
   ({ className, stackVertically, as: As = 'div', ...props }, ref) => (
     <As

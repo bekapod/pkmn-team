@@ -66,7 +66,6 @@ const getTeamMemberMove = (
     teamMemberMove => teamMemberMove?.node?.id === move.node?.id
   );
 
-// eslint-disable-next-line react/display-name
 const Row = forwardRef<HTMLDivElement, RowProps>(
   ({ data, index, style, isScrolling, ...rest }, ref) => {
     const {

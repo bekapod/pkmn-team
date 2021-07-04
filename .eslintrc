@@ -8,7 +8,7 @@
     "plugin:prettier/recommended",
     "plugin:testing-library/react",
     "plugin:jest-dom/recommended",
-    "next"
+    "plugin:@next/next/recommended"
   ],
   "plugins": ["@typescript-eslint", "react", "react-hooks", "import", "jsx-a11y", "testing-library", "jest-dom"],
   "rules": {

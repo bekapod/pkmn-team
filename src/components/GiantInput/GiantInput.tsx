@@ -6,7 +6,6 @@ export type GiantInputProps = TextInputProps & {
   isFullWidth?: boolean;
 };
 
-// eslint-disable-next-line react/display-name
 export const GiantInput: FunctionComponent<GiantInputProps> = forwardRef(
   ({ isFullWidth, className, ...props }, ref) => (
     <TextInput
