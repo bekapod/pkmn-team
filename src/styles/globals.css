@@ -25,7 +25,7 @@
   }
 
   p {
-    @apply my-4 text-base;
+    @apply my-4 text-md font-light;
   }
 }
 

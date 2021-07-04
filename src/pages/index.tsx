@@ -1,26 +1,48 @@
 import { withUrqlClient, initUrqlClient } from 'next-urql';
-import Link from 'next/link';
-import { AllTeamsDocument, useAllTeamsQuery } from '~/generated/graphql';
+import {
+  AllTeamsDocument,
+  useAllTeamsQuery,
+  useCreateTeamMutation
+} from '~/generated/graphql';
 import { createClient } from '~/lib/client';
 import { FullWidthContainer } from '~/components/FullWidthContainer';
 import { Page } from '~/components/Page';
 import { TeamGrid } from '~/components/TeamGrid';
 import { TeamCard } from '~/components/TeamCard';
 import { CenteredRow } from '~/components/CenteredRow';
-import { CtaLink } from '~/components/Cta';
+import { TeamCreator, TeamCreatorFormValues } from '~/components/TeamCreator';
 import { ssrExchange } from 'urql';
 import { GetStaticProps } from 'next';
 import { extractNodesFromEdges } from '~/lib/relay';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 function Home(): JSX.Element {
   const [{ data }] = useAllTeamsQuery();
+  const router = useRouter();
+  const [{ data: createdTeamData, fetching }, createTeam] =
+    useCreateTeamMutation();
+
+  useEffect(() => {
+    const id = createdTeamData?.createTeam?.id;
+    if (id) {
+      router.push(`/team/${id}`);
+    }
+  }, [createdTeamData?.createTeam?.id, router]);
+
+  const createTeamHandler = (values: TeamCreatorFormValues) => {
+    createTeam({ name: values['team-name'] });
+  };
+
   return (
     <Page title="Dashboard" metaTitle="Pkmn Team">
       <FullWidthContainer>
         <CenteredRow>
-          <Link href="/team/create" passHref>
-            <CtaLink>Create your own team</CtaLink>
-          </Link>
+          <TeamCreator
+            createTeam={createTeamHandler}
+            isLoading={fetching}
+            className="w-full lg:w-4/5 xl:w-3/5"
+          />
         </CenteredRow>
         <TeamGrid as="ul" role="list" className="u-unstyled-list">
           {extractNodesFromEdges(data?.teams.edges).map(team => (
@@ -34,7 +56,7 @@ function Home(): JSX.Element {
   );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetStaticProps = async () => {
   const ssrCache = ssrExchange({ isClient: false });
   const client = initUrqlClient(
     createClient(process.env.INTERNAL_GRAPHQL_ENDPOINT)(ssrCache),
@@ -48,8 +70,7 @@ export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
       urqlState: ssrCache.extractData()
-    },
-    revalidate: 10
+    }
   };
 };
 

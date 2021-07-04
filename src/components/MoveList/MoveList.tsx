@@ -66,7 +66,6 @@ const getTeamMemberMove = (
     teamMemberMove => teamMemberMove?.node?.id === move.node?.id
   );
 
-// eslint-disable-next-line react/display-name
 const Row = forwardRef<HTMLDivElement, RowProps>(
   ({ data, index, style, isScrolling, ...rest }, ref) => {
     const {
@@ -192,7 +191,7 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
   const getItemHeight = useCallback(
     (index: number) => {
       const itemIsOpen = itemStates[index];
-      if (itemIsOpen) return itemHeight * 2.2;
+      if (itemIsOpen) return itemHeight * 2;
       return itemHeight;
     },
     [itemHeight, itemStates]

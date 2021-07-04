@@ -5,6 +5,7 @@ import { Label } from '../Label';
 import { InlineList } from '../InlineList';
 import { getTypeGradient } from '~/lib/gradients';
 import { MoveFragment } from '~/generated/graphql';
+import { translateMoveTarget } from '~/lib/general';
 
 export type MoveLineProps = ComponentPropsWithRef<'div'> &
   MoveFragment & {
@@ -17,7 +18,6 @@ export type MoveLineProps = ComponentPropsWithRef<'div'> &
 
 const printStat = (stat?: string | number | null) => `${stat ?? '-'}`;
 
-// eslint-disable-next-line react/display-name
 export const MoveLine: FunctionComponent<MoveLineProps> = forwardRef(
   (
     {
@@ -176,7 +176,7 @@ export const MoveLine: FunctionComponent<MoveLineProps> = forwardRef(
                   'ml-2'
                 )}
               >
-                {printStat(target)}
+                {printStat(translateMoveTarget(target))}
               </span>
             </div>
 

@@ -69,12 +69,6 @@ const Team: NextPage<Props> = ({ id }) => {
         values.id &&
         (team?.name !== values.name || !isEqual(team?.members.edges, members))
       ) {
-        console.log(team?.name, values.name, team?.name !== values.name);
-        console.log(
-          team?.members.edges,
-          members,
-          !isEqual(team?.members.edges, members)
-        );
         updateTeam(values);
       }
 

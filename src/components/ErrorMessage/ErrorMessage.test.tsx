@@ -19,9 +19,4 @@ describe(ErrorMessage, () => {
     );
     expect(screen.getByText('Some error')).toHaveClass('some-custom-class');
   });
-
-  it('adds isBig modifier classes', () => {
-    render(<ErrorMessage isBig>Some error</ErrorMessage>);
-    expect(screen.getByText('Some error')).toHaveClass('text-lg');
-  });
 });

@@ -13,6 +13,7 @@ const team: TeamFragment = {
   members: {
     edges: [
       {
+        cursor: '1',
         slot: 1,
         node: {
           id: '1',
@@ -21,17 +22,19 @@ const team: TeamFragment = {
         }
       },
       {
+        cursor: '2',
         slot: 2,
         node: {
-          id: '1',
+          id: '2',
           pokemon: pokemon[1],
           moves: { edges: [] }
         }
       },
       {
+        cursor: '3',
         slot: 3,
         node: {
-          id: '2',
+          id: '3',
           pokemon: pokemon[2],
           moves: { edges: [] }
         }

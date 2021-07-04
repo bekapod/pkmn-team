@@ -6,6 +6,7 @@ import {
   PokemonTypeFragment,
   TeamFragment
 } from '~/generated/graphql';
+import { sortBySlug } from '~/lib/general';
 import { extractNodesFromEdges } from '~/lib/relay';
 import {
   CardContent,
@@ -18,9 +19,11 @@ import { CardMeta } from '../CardMeta';
 import { PokemonLine } from '../PokemonLine';
 
 const getAllTypes = (pokemon?: PokemonFragment[]) =>
-  pokemon
-    ?.flatMap(p => p.types.edges?.flatMap(t => t?.node))
-    .filter((t): t is PokemonTypeFragment => !!t);
+  sortBySlug(
+    pokemon
+      ?.flatMap(p => p.types.edges?.flatMap(t => t?.node))
+      .filter((t): t is PokemonTypeFragment => !!t) ?? []
+  );
 
 export type TeamCardProps = TeamFragment;
 
@@ -54,7 +57,7 @@ export const TeamCard: FunctionComponent<TeamCardProps> = ({
               <PokemonLine
                 key={`Team Member: ${member.id} ${member.pokemon.id}`}
                 pokemon={member.pokemon}
-                outdent="var(--spacing-3)"
+                outdent="var(--spacing-4)"
               />
             ))}
           </CardContent>

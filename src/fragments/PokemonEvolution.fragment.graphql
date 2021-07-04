@@ -13,8 +13,10 @@ fragment pokemonEvolution on PokemonEvolution {
     ...item
   }
   knownMove {
+    id
     name
     type {
+      id
       name
     }
   }

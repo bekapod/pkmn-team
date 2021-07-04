@@ -743,10 +743,10 @@ export type PokemonEvolutionFragment = (
     & ItemFragment
   )>, knownMove?: Maybe<(
     { __typename?: 'Move' }
-    & Pick<Move, 'name'>
+    & Pick<Move, 'id' | 'name'>
     & { type: (
       { __typename?: 'Type' }
-      & Pick<Type, 'name'>
+      & Pick<Type, 'id' | 'name'>
     ) }
   )>, knownMoveType?: Maybe<(
     { __typename?: 'Type' }
@@ -770,6 +770,7 @@ export type TeamFragment = (
     { __typename?: 'TeamMemberConnection' }
     & { edges?: Maybe<Array<Maybe<(
       { __typename?: 'TeamMemberEdge' }
+      & Pick<TeamMemberEdge, 'cursor'>
       & TeamMemberInTeamFragment
     )>>> }
   ) }
@@ -1020,8 +1021,10 @@ export const PokemonEvolutionFragmentDoc = gql`
     ...item
   }
   knownMove {
+    id
     name
     type {
+      id
       name
     }
   }
@@ -1249,6 +1252,7 @@ export const TeamFragmentDoc = gql`
   createdAt
   members {
     edges {
+      cursor
       ...teamMemberInTeam
     }
   }

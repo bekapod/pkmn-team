@@ -5,7 +5,6 @@ export type TextInputProps = ComponentPropsWithRef<'input'> & {
   isInvalid?: boolean;
 };
 
-// eslint-disable-next-line react/display-name
 export const TextInput: FunctionComponent<TextInputProps> = forwardRef(
   ({ isInvalid, className, ...props }, ref) => (
     <input

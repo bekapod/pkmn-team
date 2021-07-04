@@ -22,6 +22,7 @@ export default {
       members: {
         edges: [
           {
+            cursor: '1',
             slot: 1,
             node: {
               id: '1',
@@ -39,6 +40,7 @@ export default {
             }
           },
           {
+            cursor: '2',
             slot: 2,
             node: {
               id: '2',
@@ -62,6 +64,7 @@ export default {
             }
           },
           {
+            cursor: '3',
             slot: 3,
             node: {
               id: '3',

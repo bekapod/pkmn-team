@@ -1,6 +1,6 @@
 import equals from 'lodash/fp/equals';
 import toUpper from 'lodash/fp/toUpper';
-import { Pokemon } from '~/generated/graphql';
+import { MoveTarget, Pokemon } from '~/generated/graphql';
 
 export const percentage = (val: number): number => (val > 100 ? 100 : val);
 
@@ -20,6 +20,22 @@ export const sortBySlug = <T extends { slug: string }>(types: T[]): T[] =>
     if (xSlug > ySlug) {
       return 1;
     }
+    return -1;
+  });
+
+export const sortBySlot = <T extends { slot: number }>(items: T[]): T[] =>
+  items.sort((x: T, y: T): -1 | 0 | 1 => {
+    const xSlot = x.slot;
+    const ySlot = y.slot;
+
+    if (xSlot === ySlot) {
+      return 0;
+    }
+
+    if (xSlot > ySlot) {
+      return 1;
+    }
+
     return -1;
   });
 
@@ -48,4 +64,38 @@ export const reorder = <T>(
   result.splice(endIndex, 0, removed);
 
   return result;
+};
+
+export const translateMoveTarget = (str?: MoveTarget): string | undefined => {
+  switch (str) {
+    case MoveTarget.AllAllies:
+      return 'All allies';
+    case MoveTarget.AllOpponents:
+      return 'All opponents';
+    case MoveTarget.AllOtherPokemon:
+      return 'All other Pokemon';
+    case MoveTarget.AllPokemon:
+      return 'All Pokemon';
+    case MoveTarget.EntireField:
+      return 'Entire field';
+    case MoveTarget.OpponentsField:
+      return 'Opponents field';
+    case MoveTarget.RandomOpponent:
+      return 'Random opponent';
+    case MoveTarget.SelectedPokemon:
+    case MoveTarget.SelectedPokemonMeFirst:
+      return 'Selected Pokemon';
+    case MoveTarget.SpecificMove:
+      return 'Specific move';
+    case MoveTarget.UserAndAllies:
+      return 'User & allies';
+    case MoveTarget.UserOrAlly:
+      return 'User or ally';
+    case MoveTarget.UsersField:
+      return "User's field";
+    default:
+      return str
+        ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
+        : str;
+  }
 };

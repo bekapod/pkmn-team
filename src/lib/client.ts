@@ -22,7 +22,8 @@ export const createClient =
       cacheExchange({
         keys: {
           damageClass: data => `${data.value}`,
-          pokemonType: () => null
+          pokemonType: () => null,
+          teamMemberEdge: data => data.cursor as string
         },
         updates: {
           Mutation: {
@@ -31,9 +32,13 @@ export const createClient =
                 { query: AllTeamsDocument },
                 (data: AllTeamsQuery | null) => {
                   if (data?.teams?.edges && result.createTeam) {
-                    data.teams.edges.unshift({
-                      node: result.createTeam as TeamFragment
-                    });
+                    data.teams.edges = [
+                      {
+                        __typename: 'TeamEdge',
+                        node: result.createTeam as TeamFragment
+                      },
+                      ...data.teams.edges
+                    ];
                   }
 
                   return data;
@@ -54,6 +59,16 @@ export const createClient =
                   return data;
                 }
               );
+            },
+            deleteTeamMember: (_result, args, cache) => {
+              cache.invalidate({
+                __typename: 'TeamMemberEdge',
+                id: args.id as string
+              });
+              cache.invalidate({
+                __typename: 'TeamMember',
+                id: args.id as string
+              });
             }
           }
         }
