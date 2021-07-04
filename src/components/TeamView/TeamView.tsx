@@ -157,8 +157,9 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
     return (
       <>
         <div
-          className={classNames('-mt-2', 'children:overflow-x-auto', {
-            'animate-pulse mt-10 bg-indigo-200': isSkeleton
+          className={classNames('children:overflow-x-auto', {
+            '-mt-2': !isSkeleton,
+            'animate-pulse mt-6 bg-indigo-200': isSkeleton
           })}
           aria-busy={isSkeleton}
         >
@@ -173,11 +174,11 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
                     className={classNames(
                       'inline-flex',
                       'min-w-full',
-                      'pt-10',
                       'children:flex-grow',
                       'children:flex-shrink-0',
                       'children:min-w-250px',
                       {
+                        'pt-4': !isSkeleton,
                         'pt-0 h-10 animate-pulse': isSkeleton
                       }
                     )}
@@ -346,15 +347,21 @@ export const TeamView: FunctionComponent<TeamViewProps> = memo(
             data-testid="tab-content-add-pokemon"
             aria-busy={isSkeleton}
           >
-            <PokemonSearch setCurrentSearchPokemon={setCurrentSearchPokemon} />
-            {currentSearchPokemon ? (
-              <PokemonCard
-                pokemon={currentSearchPokemon}
-                renderCardActions={renderCardActions({
-                  pokemon: currentSearchPokemon
-                })}
-              />
-            ) : null}
+            {!isSkeleton && (
+              <>
+                <PokemonSearch
+                  setCurrentSearchPokemon={setCurrentSearchPokemon}
+                />
+                {currentSearchPokemon ? (
+                  <PokemonCard
+                    pokemon={currentSearchPokemon}
+                    renderCardActions={renderCardActions({
+                      pokemon: currentSearchPokemon
+                    })}
+                  />
+                ) : null}
+              </>
+            )}
           </div>
         )}
       </>

@@ -9,7 +9,7 @@ import {
 import {
   formatPokemonName,
   getPokemonSpriteUrl,
-  sortBySlug
+  sortBySlot
 } from '~/lib/general';
 import { CardContent, CardHeader, CardWrapper, CardHeading } from '../Card';
 import { InlineList } from '../InlineList';
@@ -38,10 +38,12 @@ export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
 }) => {
   const [ref, className] = useContainerQuery<HTMLElement>(query);
   const { pokedexId, types, name } = pokemon;
-  const actualTypes =
-    types.edges
-      ?.map(edge => edge?.node)
-      ?.filter((node): node is PokemonTypeFragment => !!node) ?? [];
+  const sortedTypes = sortBySlot(
+    types.edges?.map(edge => ({ ...edge, slot: edge?.slot ?? 0 })) ?? []
+  );
+  const actualTypes = sortedTypes
+    .map(edge => edge?.node)
+    .filter((node): node is PokemonTypeFragment => !!node);
   const stats = [
     pokemon.hp,
     pokemon.attack,
@@ -70,13 +72,11 @@ export const PokemonCard: FunctionComponent<PokemonCardProps> = ({
         )}
 
         <InlineList>
-          {sortBySlug(actualTypes).map(type => (
-            <li
-              key={`${
-                teamMember ? `Member: ${teamMember.id}` : ''
-              } Pokemon: ${pokedexId}, Type: ${type.slug}`}
-            >
-              <TypeTag typeSlug={type.slug}>{type.name}</TypeTag>
+          {sortBySlot(
+            types.edges?.map(edge => ({ ...edge, slot: edge?.slot ?? 0 })) ?? []
+          ).map(({ node: type }) => (
+            <li key={`Pokemon: ${pokedexId}, Type: ${type?.slug}`}>
+              <TypeTag typeSlug={type?.slug}>{type?.name}</TypeTag>
             </li>
           ))}
         </InlineList>

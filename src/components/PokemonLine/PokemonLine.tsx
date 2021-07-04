@@ -5,7 +5,7 @@ import type { PokemonFragment, PokemonTypeFragment } from '~/generated/graphql';
 import {
   formatPokemonName,
   getPokemonSpriteUrl,
-  sortBySlug
+  sortBySlot
 } from '~/lib/general';
 import { getTypeGradient } from '~/lib/gradients';
 import { InlineList } from '../InlineList';
@@ -21,6 +21,9 @@ export const PokemonLine: FunctionComponent<
 > = ({ pokemon, outdent, style, className, ...props }) => {
   const { pokedexId, name, types } = pokemon;
   const sprite = getPokemonSpriteUrl(pokemon.sprite);
+  const sortedTypes = sortBySlot(
+    types.edges?.map(edge => ({ ...edge, slot: edge?.slot ?? 0 })) ?? []
+  );
 
   return (
     <div
@@ -38,9 +41,9 @@ export const PokemonLine: FunctionComponent<
         // @ts-ignore
         '--outdent': outdent,
         '--type-gradient': getTypeGradient(
-          types.edges
-            ?.map(edge => edge?.node)
-            ?.filter((node): node is PokemonTypeFragment => !!node) ?? []
+          sortedTypes
+            .map(edge => edge?.node)
+            .filter((node): node is PokemonTypeFragment => !!node)
         )
       }}
       {...props}
@@ -49,17 +52,15 @@ export const PokemonLine: FunctionComponent<
         <Image src={sprite} alt={`${name} sprite`} width={72} height={72} />
       )}
       <div className="ml-4">
-        <div className={classNames('mb-2', 'font-bold', 'leading-none')}>
+        <div
+          className={classNames('mb-2', 'font-bold text-md', 'leading-none')}
+        >
           {formatPokemonName(pokemon)}
         </div>
         <InlineList>
-          {sortBySlug(
-            types.edges
-              ?.map(edge => edge?.node)
-              ?.filter((node): node is PokemonTypeFragment => !!node) ?? []
-          ).map(type => (
-            <li key={`Pokemon: ${pokedexId}, Type: ${type.slug}`}>
-              <TypeTag typeSlug={type.slug}>{type?.name}</TypeTag>
+          {sortedTypes.map(({ node: type }) => (
+            <li key={`Pokemon: ${pokedexId}, Type: ${type?.slug}`}>
+              <TypeTag typeSlug={type?.slug}>{type?.name}</TypeTag>
             </li>
           ))}
         </InlineList>

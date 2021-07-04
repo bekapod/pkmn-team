@@ -91,7 +91,7 @@ export const CardContent: FunctionComponent<ComponentPropsWithRef<'div'>> = ({
       'flex-shrink',
       'mx-3',
       'mt-3',
-      'px-3',
+      'px-4',
       'bg-white',
       'rounded-br-xl',
       'zig-zag-top-white',

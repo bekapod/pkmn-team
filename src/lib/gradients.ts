@@ -5,7 +5,7 @@ import flatMap from 'lodash/fp/flatMap';
 import join from 'lodash/fp/join';
 import multiply from 'lodash/fp/multiply';
 import { Type } from '~/generated/graphql';
-import { getTypeColor, percentage, sortBySlug } from './general';
+import { getTypeColor, percentage } from './general';
 
 const getColourStopCss = (
   type: Pick<Type, 'name' | 'slug'>,
@@ -21,16 +21,14 @@ export const getTypeGradient = (
 
   const gradientString = compose(
     join(', '),
-    flatMap(type => {
+    flatMap((type: Pick<Type, 'name' | 'slug'>) => {
       const colourStops = [
         getColourStopCss(type, getColourStop(index)),
         getColourStopCss(type, getColourStop(add(1, index)))
       ];
       index = add(1, index);
       return colourStops;
-    }),
-    (t: Pick<Type, 'name' | 'slug'>[]) =>
-      sortBySlug<Pick<Type, 'name' | 'slug'>>(t)
+    })
   )(types);
 
   return `linear-gradient(90deg, ${gradientString})`;

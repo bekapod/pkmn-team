@@ -22,11 +22,8 @@ export const FormField: FunctionComponent<FormFieldProps> = ({
   children,
   ...props
 }) => (
-  <div
-    className={classNames('flex', 'flex-col', 'w-full', className)}
-    {...props}
-  >
-    <Label as="label" htmlFor={id} className="mb-1">
+  <div className={classNames('flex', 'flex-col', className)} {...props}>
+    <Label as="label" htmlFor={id}>
       {label}
     </Label>
     {children}

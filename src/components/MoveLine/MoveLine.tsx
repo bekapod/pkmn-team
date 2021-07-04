@@ -5,6 +5,7 @@ import { Label } from '../Label';
 import { InlineList } from '../InlineList';
 import { getTypeGradient } from '~/lib/gradients';
 import { MoveFragment } from '~/generated/graphql';
+import { translateMoveTarget } from '~/lib/general';
 
 export type MoveLineProps = ComponentPropsWithRef<'div'> &
   MoveFragment & {
@@ -176,7 +177,7 @@ export const MoveLine: FunctionComponent<MoveLineProps> = forwardRef(
                   'ml-2'
                 )}
               >
-                {printStat(target)}
+                {printStat(translateMoveTarget(target))}
               </span>
             </div>
 

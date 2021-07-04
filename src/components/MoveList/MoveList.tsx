@@ -192,7 +192,7 @@ export const MoveList: FunctionComponent<MoveListProps> = ({
   const getItemHeight = useCallback(
     (index: number) => {
       const itemIsOpen = itemStates[index];
-      if (itemIsOpen) return itemHeight * 2.2;
+      if (itemIsOpen) return itemHeight * 2;
       return itemHeight;
     },
     [itemHeight, itemStates]
