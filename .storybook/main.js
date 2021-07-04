@@ -14,9 +14,6 @@ module.exports = {
       }
     }
   ],
-  core: {
-    builder: 'webpack5'
-  },
   babel: config => {
     try {
       const path = require('path');
