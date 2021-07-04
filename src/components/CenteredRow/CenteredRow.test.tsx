@@ -1,7 +1,7 @@
 import { screen, render } from '@testing-library/react';
 import { CenteredRow } from '.';
 
-describe(CenteredRow, () => {
+describe('CenteredRow', () => {
   it("renders it's children in a div", () => {
     render(<CenteredRow>hello</CenteredRow>);
     expect(screen.getByText('hello')).toBeInTheDocument();

@@ -20,7 +20,7 @@ describe('MoveLine', () => {
     // eslint-disable-next-line testing-library/no-node-access
     expect(container.firstChild).toHaveStyle({
       '--type-gradient':
-        'linear-gradient(90deg, var(--colors-normal) 0%, var(--colors-normal) 50%, var(--colors-status) 50%, var(--colors-status) 100%)'
+        'linear-gradient(90deg, var(--colors-status) 0%, var(--colors-status) 50%, var(--colors-normal) 50%, var(--colors-normal) 100%)'
     });
   });
 
@@ -85,8 +85,7 @@ describe('MoveLine', () => {
         expect(screen.getByText(substitute.accuracy)).toBeInTheDocument();
       substitute.power &&
         expect(screen.getByText(substitute.power)).toBeInTheDocument();
-      substitute.target &&
-        expect(screen.getByText(substitute.target)).toBeInTheDocument();
+      substitute.target && expect(screen.getByText('User')).toBeInTheDocument();
       substitute.effect &&
         expect(screen.getByText(substitute.effect)).toBeInTheDocument();
     });
